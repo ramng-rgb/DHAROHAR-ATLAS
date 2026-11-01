@@ -83,6 +83,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   const urlState = searchParams.get("state");
   const urlDynasty = searchParams.get("dynasty");
   const urlConfidence = searchParams.get("confidence");
+  const urlHas3d = searchParams.get("has_3d") === "true";
   const urlQ = searchParams.get("q") || "";
   const urlYearFrom = searchParams.get("from") ? parseInt(searchParams.get("from")!, 10) : -3000;
   const urlYearTo = searchParams.get("to") ? parseInt(searchParams.get("to")!, 10) : 1900;
@@ -94,6 +95,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   const [selectedStates, setSelectedStates] = useState<string[]>(urlState ? urlState.split(",") : []);
   const [selectedDynasties, setSelectedDynasties] = useState<string[]>(urlDynasty ? urlDynasty.split(",") : []);
   const [selectedConfidences, setSelectedConfidences] = useState<string[]>(urlConfidence ? urlConfidence.split(",") : []);
+  const [has3dOnly, setHas3dOnly] = useState<boolean>(urlHas3d);
   const [yearFrom, setYearFrom] = useState<number>(urlYearFrom);
   const [yearTo, setYearTo] = useState<number>(urlYearTo);
 
@@ -137,6 +139,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
         state: selectedStates.length ? selectedStates : undefined,
         dynasty: selectedDynasties.length ? selectedDynasties : undefined,
         data_confidence: selectedConfidences.length ? selectedConfidences : undefined,
+        has_3d_model: has3dOnly ? true : undefined,
         year_from: yearFrom,
         year_to: yearTo,
       });
@@ -144,7 +147,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     } catch (err: any) {
       console.warn("Facet refresh error:", err);
     }
-  }, [searchQuery, selectedTypes, selectedStates, selectedDynasties, selectedConfidences, yearFrom, yearTo]);
+  }, [searchQuery, selectedTypes, selectedStates, selectedDynasties, selectedConfidences, has3dOnly, yearFrom, yearTo]);
 
   // Fetch GeoJSON for current viewport and filters
   const fetchViewportGeoJson = useCallback(async () => {
@@ -173,6 +176,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
           state: selectedStates.length ? selectedStates : undefined,
           dynasty: selectedDynasties.length ? selectedDynasties : undefined,
           data_confidence: selectedConfidences.length ? selectedConfidences : undefined,
+          has_3d_model: has3dOnly ? true : undefined,
           year_from: yearFrom,
           year_to: yearTo,
         },
@@ -187,7 +191,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery, selectedTypes, selectedStates, selectedDynasties, selectedConfidences, yearFrom, yearTo]);
+  }, [searchQuery, selectedTypes, selectedStates, selectedDynasties, selectedConfidences, has3dOnly, yearFrom, yearTo]);
 
   // Initial load & URL state restoration
   useEffect(() => {
@@ -386,6 +390,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     setSelectedStates([]);
     setSelectedDynasties([]);
     setSelectedConfidences([]);
+    setHas3dOnly(false);
     setSearchQuery("");
     setYearFrom(-3000);
     setYearTo(1900);
@@ -394,6 +399,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
       state: undefined,
       dynasty: undefined,
       confidence: undefined,
+      has_3d: undefined,
       q: undefined,
       from: undefined,
       to: undefined,
@@ -405,6 +411,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     selectedStates.length > 0 ||
     selectedDynasties.length > 0 ||
     selectedConfidences.length > 0 ||
+    has3dOnly ||
     searchQuery.length > 0 ||
     yearFrom > -3000 ||
     yearTo < 1900;
@@ -412,6 +419,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   // Filtered sites for accessible list view
   const siteListItems = useMemo(() => {
     return initialSites.filter((site) => {
+      if (has3dOnly && !site.has_3d_model) return false;
       if (selectedTypes.length > 0 && !selectedTypes.includes(site.site_type)) return false;
       if (selectedStates.length > 0 && !selectedStates.includes(site.state)) return false;
       if (selectedConfidences.length > 0 && !selectedConfidences.includes(site.data_confidence)) return false;
@@ -628,6 +636,24 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
               </div>
             </div>
 
+            {/* 3D Digital Twin Facet */}
+            <div className="mb-4">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2 flex items-center gap-1.5">
+                <Box className="w-3.5 h-3.5 text-goldLeaf" />
+                <span>Spatial Preservation</span>
+              </h4>
+              <Chip
+                label="Has 3D Model"
+                count={facets?.has_3d_model?.["true"] ?? 1}
+                selected={has3dOnly}
+                onToggle={() => {
+                  const next = !has3dOnly;
+                  setHas3dOnly(next);
+                  syncParamsToUrl({ has_3d: next ? "true" : undefined });
+                }}
+              />
+            </div>
+
             {/* Monument count summary */}
             <div className="mt-auto pt-3 border-t border-sandstone/15 text-xs text-sandstone text-center">
               <span className="font-bold text-goldLeaf">{geoJsonData?.total || 0}</span> {t.sitesFound}
@@ -691,9 +717,17 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                     >
                       <div>
                         <div className="flex items-start justify-between gap-2 mb-2">
-                          <Badge variant="type">
-                            {t.types[site.site_type as keyof typeof t.types] || site.site_type}
-                          </Badge>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <Badge variant="type">
+                              {t.types[site.site_type as keyof typeof t.types] || site.site_type}
+                            </Badge>
+                            {site.has_3d_model && (
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-goldLeaf text-parchment-950 font-serif font-bold uppercase flex items-center gap-1 shadow-sm">
+                                <Box className="w-3 h-3" />
+                                3D Model
+                              </span>
+                            )}
+                          </div>
                           <Badge variant={site.data_confidence === "verified" ? "verified" : "likely"}>
                             {site.data_confidence}
                           </Badge>
@@ -795,7 +829,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
               </div>
             )}
 
-            {/* Confidence & Period Badges */}
+            {/* Confidence, Period & 3D Badges */}
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant={selectedSite.data_confidence === "verified" ? "verified" : "likely"}>
                 <ShieldCheck className="w-3 h-3 mr-1 inline" />
@@ -806,6 +840,12 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
               <Badge variant="era">
                 {selectedSite.era_label || selectedSite.era || "Solanki Era"}
               </Badge>
+              {selectedSite.has_3d_model && (
+                <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-goldLeaf text-parchment-950 font-serif font-bold uppercase flex items-center gap-1 shadow-md">
+                  <Box className="w-3.5 h-3.5" />
+                  3D Digital Twin
+                </span>
+              )}
             </div>
 
             {/* Summary */}
@@ -880,11 +920,32 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                   {copyFeedback ? t.previewDrawer.linkCopied : t.previewDrawer.copyLink}
                 </Button>
 
-                <Link href={`/sites/${selectedSite.slug}`}>
-                  <Button variant="outline" size="sm" className="w-full" icon={<ExternalLink className="w-3.5 h-3.5" />}>
-                    {t.previewDrawer.openSitePage}
-                  </Button>
-                </Link>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  icon={<ExternalLink className="w-3.5 h-3.5" />}
+                  onClick={() => {
+                    const prefersReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                    if (!prefersReduced && mapInstance.current && selectedSite.longitude && selectedSite.latitude) {
+                      mapInstance.current.flyTo({
+                        center: [selectedSite.longitude, selectedSite.latitude],
+                        zoom: 14,
+                        pitch: 45,
+                        bearing: 25,
+                        duration: 800,
+                        essential: true,
+                      });
+                      setTimeout(() => {
+                        router.push(`/sites/${selectedSite.slug}`);
+                      }, 600);
+                    } else {
+                      router.push(`/sites/${selectedSite.slug}`);
+                    }
+                  }}
+                >
+                  {t.previewDrawer.openSitePage}
+                </Button>
               </div>
             </div>
           </div>

@@ -32,14 +32,34 @@ class Model3DResponse(BaseModel):
     class Config:
         from_attributes = True
 
+# Tag & Dynasty
+class TagBrief(BaseModel):
+    id: str
+    name: str
+    slug: str
+
+    class Config:
+        from_attributes = True
+
+class DynastyBrief(BaseModel):
+    id: str
+    name: str
+    era_label: Optional[str] = None
+    slug: str
+
+    class Config:
+        from_attributes = True
+
 # Media
 class SiteMediaResponse(BaseModel):
     id: str
-    media_type: str
+    media_type: str = "image"
     url: str
     thumbnail_url: Optional[str] = None
     caption: Optional[str] = None
-    license: str
+    license: str = "CC-BY-4.0"
+    attribution: Optional[str] = None
+    source_url: Optional[str] = None
     provenance: Optional[str] = None
 
     class Config:
@@ -59,7 +79,7 @@ class FolkloreResponse(BaseModel):
 
 class ObservationResponse(BaseModel):
     id: str
-    title: str
+    title: Optional[str] = None
     element_type: str
     description: str
     masonry_detail: Optional[str] = None
@@ -70,29 +90,61 @@ class ObservationResponse(BaseModel):
         from_attributes = True
 
 # Site schemas
+class SiteLight(BaseModel):
+    id: str
+    name: str
+    slug: str
+    name_hi: Optional[str] = None
+    name_gu: Optional[str] = None
+    site_type: str
+    state: str
+    district: Optional[str] = None
+    latitude: float
+    longitude: float
+    period_start_year: Optional[int] = None
+    period_end_year: Optional[int] = None
+    era_label: Optional[str] = None
+    data_confidence: str
+    hero_image: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
 class SiteBrief(BaseModel):
     id: str
     name: str
     slug: str
+    name_hi: Optional[str] = None
+    name_gu: Optional[str] = None
+    summary: Optional[str] = None
     site_type: str
-    era: str
+    era: Optional[str] = None
+    era_label: Optional[str] = None
     era_start_year: Optional[int] = None
     era_end_year: Optional[int] = None
+    period_start_year: Optional[int] = None
+    period_end_year: Optional[int] = None
     dynasty: Optional[str] = None
     state: str
     district: Optional[str] = None
     latitude: float
     longitude: float
     hero_image: Optional[str] = None
+    hero_image_attribution: Optional[str] = None
+    hero_image_license: Optional[str] = "CC-BY-4.0"
     architectural_style: Optional[str] = None
     data_confidence: str
-    source: str
+    source_text: Optional[str] = None
+    source_url: Optional[str] = None
+    source: Optional[str] = None
+    tags: List[str] = []
+    dynasties: List[str] = []
 
     class Config:
         from_attributes = True
 
 class SiteDetail(SiteBrief):
-    description: str
+    description: Optional[str] = None
     significance: Optional[str] = None
     alternative_names: List[str] = []
     media: List[SiteMediaResponse] = []
@@ -102,6 +154,40 @@ class SiteDetail(SiteBrief):
 
     class Config:
         from_attributes = True
+
+class PaginatedSites(BaseModel):
+    items: List[SiteBrief]
+    total: int
+    limit: int
+    offset: int
+    next_cursor: Optional[str] = None
+
+class GeoJSONFeature(BaseModel):
+    type: str = "Feature"
+    geometry: Dict[str, Any]
+    properties: Dict[str, Any]
+
+class GeoJSONFeatureCollection(BaseModel):
+    type: str = "FeatureCollection"
+    features: List[GeoJSONFeature]
+    total: int
+    clustered: bool = False
+
+class HistogramBucket(BaseModel):
+    year_start: int
+    year_end: int
+    count: int
+    era_label: Optional[str] = None
+
+class FacetResponse(BaseModel):
+    site_type: Dict[str, int]
+    state: Dict[str, int]
+    dynasty: Dict[str, int]
+    era: Dict[str, int]
+    tag: Dict[str, int]
+    data_confidence: Dict[str, int]
+    timeline_histogram: List[HistogramBucket]
+    total_sites: int
 
 # Document schemas
 class OCRLineResponse(BaseModel):
@@ -164,8 +250,9 @@ class DocumentResponse(BaseModel):
 class RouteStopResponse(BaseModel):
     id: str
     stop_order: int
-    narrative: str
-    transit_mode: str
+    arrival_note: Optional[str] = None
+    narrative: Optional[str] = None
+    transit_mode: str = "caravan_trail"
     travel_note: Optional[str] = None
     site: SiteBrief
 
@@ -176,10 +263,12 @@ class RouteResponse(BaseModel):
     id: str
     title: str
     slug: str
-    description: str
+    summary: Optional[str] = None
+    description: Optional[str] = None
     total_distance_km: float
     estimated_duration_days: int
     era_theme: str
+    geometry: Optional[Dict[str, Any]] = None
     stops: List[RouteStopResponse] = []
 
     class Config:

@@ -1,384 +1,895 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import maplibregl from "maplibre-gl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Filter, Calendar, MapPin, Eye, Box, SlidersHorizontal, 
-  Layers, List, Map as MapIcon, ChevronRight, X, Sparkles
+  Layers, List, Map as MapIcon, ChevronRight, X, Sparkles,
+  Search, ShieldCheck, Check, Copy, ExternalLink, RefreshCw,
+  Globe, Compass, ChevronDown, ChevronUp
 } from "lucide-react";
-import { SiteBrief } from "@/lib/api";
+import { 
+  api, SiteBrief, SiteDetail, GeoJSONFeatureCollection, 
+  FacetResponse, HistogramBucket 
+} from "@/lib/api-client";
+import { TimelineSlider, formatYearLabel } from "@/components/ui/Slider";
+import { Badge } from "@/components/ui/Badge";
+import { Chip } from "@/components/ui/Chip";
+import { Button } from "@/components/ui/Button";
+import { Drawer } from "@/components/ui/Drawer";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { ErrorState } from "@/components/ui/ErrorState";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { translations, SupportedLocale } from "@/lib/i18n";
 
 interface MapExplorerProps {
   initialSites: SiteBrief[];
+}
+
+// Marker icon generator per site_type
+function getMarkerSvg(siteType: string, isSelected: boolean = false): string {
+  const color = isSelected ? "#F3C649" : "#D4AF37";
+  const bgColor = isSelected ? "#C85A32" : "#1A1510";
+
+  let iconPath = "";
+  if (siteType === "stepwell") {
+    // Stepped subterranean tiers
+    iconPath = `<path d="M7 6h10M8 9h8M9 12h6M10 15h4M11 18h2" stroke="${color}" stroke-width="1.8" stroke-linecap="round"/>`;
+  } else if (siteType === "fort") {
+    // Castle battlement
+    iconPath = `<path d="M5 20V9l3 2 4-4 4 4 3-2v11M5 9h14M8 6V4h2v2h4V4h2v2" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>`;
+  } else if (siteType === "temple") {
+    // Shikhara spire
+    iconPath = `<path d="M12 3l5 17H7L12 3zM12 3v17M9 12h6" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>`;
+  } else if (siteType === "mosque") {
+    // Dome & Crescent arch
+    iconPath = `<path d="M12 4c-4 2-5 6-5 9h10c0-3-1-7-5-9zM5 20h14M8 13v7M16 13v7" stroke="${color}" stroke-width="1.5" stroke-linecap="round"/>`;
+  } else if (siteType === "archaeological_site") {
+    // Grid / excavation trench
+    iconPath = `<path d="M4 6h16M4 12h16M4 18h16M7 4v16M12 4v16M17 4v16" stroke="${color}" stroke-width="1.2" stroke-linecap="round"/>`;
+  } else {
+    // Landmark diamond
+    iconPath = `<polygon points="12,4 19,12 12,20 5,12" stroke="${color}" stroke-width="1.5" fill="none"/>`;
+  }
+
+  return `
+    <div style="cursor: pointer; transform: scale(${isSelected ? 1.25 : 1}); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);">
+      <svg width="34" height="42" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 8.5 12 18 12 18s12-9.5 12-18c0-6.63-5.37-12-12-12z" fill="${bgColor}" stroke="${color}" stroke-width="1.5"/>
+        ${iconPath}
+      </svg>
+    </div>
+  `;
 }
 
 export function MapExplorer({ initialSites }: MapExplorerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // Localized strings
+  const [locale, setLocale] = useState<SupportedLocale>("en");
+  const t = translations[locale];
+
+  // Map DOM refs
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<{ [id: string]: maplibregl.Marker }>({});
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Filter state
-  const [selectedType, setSelectedType] = useState<string>(searchParams.get("type") || "ALL");
-  const [selectedState, setSelectedState] = useState<string>(searchParams.get("state") || "ALL");
-  const [selectedDynasty, setSelectedDynasty] = useState<string>(searchParams.get("dynasty") || "ALL");
-  const [timelineYear, setTimelineYear] = useState<number>(1800);
-  const [activeSite, setActiveSite] = useState<SiteBrief | null>(null);
+  // URL Query Parameters as Single Source of Truth
+  const urlType = searchParams.get("type");
+  const urlState = searchParams.get("state");
+  const urlDynasty = searchParams.get("dynasty");
+  const urlConfidence = searchParams.get("confidence");
+  const urlQ = searchParams.get("q") || "";
+  const urlYearFrom = searchParams.get("from") ? parseInt(searchParams.get("from")!, 10) : -3000;
+  const urlYearTo = searchParams.get("to") ? parseInt(searchParams.get("to")!, 10) : 1900;
+  const urlSelectedSlug = searchParams.get("site");
+
+  // Filter States initialized from URL
+  const [searchQuery, setSearchQuery] = useState<string>(urlQ);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(urlType ? urlType.split(",") : []);
+  const [selectedStates, setSelectedStates] = useState<string[]>(urlState ? urlState.split(",") : []);
+  const [selectedDynasties, setSelectedDynasties] = useState<string[]>(urlDynasty ? urlDynasty.split(",") : []);
+  const [selectedConfidences, setSelectedConfidences] = useState<string[]>(urlConfidence ? urlConfidence.split(",") : []);
+  const [yearFrom, setYearFrom] = useState<number>(urlYearFrom);
+  const [yearTo, setYearTo] = useState<number>(urlYearTo);
+
+  // View & UI States
   const [viewMode, setViewMode] = useState<"map" | "list">("map");
+  const [filterPanelOpen, setFilterPanelOpen] = useState<boolean>(true);
+  const [selectedSite, setSelectedSite] = useState<SiteDetail | SiteBrief | null>(null);
+  const [previewDrawerOpen, setPreviewDrawerOpen] = useState<boolean>(false);
+  const [copyFeedback, setCopyFeedback] = useState<boolean>(false);
 
-  // Extract unique options
-  const siteTypes = useMemo(() => {
-    const types = new Set<string>();
-    initialSites.forEach((s) => types.add(s.site_type));
-    return ["ALL", ...Array.from(types).sort()];
-  }, [initialSites]);
+  // Live GeoJSON & Facet Data from API
+  const [geoJsonData, setGeoJsonData] = useState<GeoJSONFeatureCollection | null>(null);
+  const [facets, setFacets] = useState<FacetResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const states = useMemo(() => {
-    const sList = new Set<string>();
-    initialSites.forEach((s) => sList.add(s.state));
-    return ["ALL", ...Array.from(sList).sort()];
-  }, [initialSites]);
+  // Sync state to URL params cleanly using window.location.search
+  const syncParamsToUrl = useCallback(
+    (updates: Record<string, string | number | undefined | null>) => {
+      if (typeof window === "undefined") return;
+      const sp = new URLSearchParams(window.location.search);
+      Object.entries(updates).forEach(([key, val]) => {
+        if (val === undefined || val === null || val === "" || (Array.isArray(val) && val.length === 0)) {
+          sp.delete(key);
+        } else {
+          sp.set(key, String(val));
+        }
+      });
+      const newUrl = `/explore?${sp.toString()}`;
+      window.history.replaceState(null, "", newUrl);
+    },
+    []
+  );
 
-  const dynasties = useMemo(() => {
-    const dList = new Set<string>();
-    initialSites.forEach((s) => {
-      if (s.dynasty) dList.add(s.dynasty.split(" ")[0]);
-    });
-    return ["ALL", ...Array.from(dList).sort()];
-  }, [initialSites]);
+  // Fetch Facets from Backend
+  const refreshFacets = useCallback(async () => {
+    try {
+      const data = await api.getFacets({
+        q: searchQuery || undefined,
+        site_type: selectedTypes.length ? selectedTypes : undefined,
+        state: selectedStates.length ? selectedStates : undefined,
+        dynasty: selectedDynasties.length ? selectedDynasties : undefined,
+        data_confidence: selectedConfidences.length ? selectedConfidences : undefined,
+        year_from: yearFrom,
+        year_to: yearTo,
+      });
+      setFacets(data);
+    } catch (err: any) {
+      console.warn("Facet refresh error:", err);
+    }
+  }, [searchQuery, selectedTypes, selectedStates, selectedDynasties, selectedConfidences, yearFrom, yearTo]);
 
-  // Filtered sites
-  const filteredSites = useMemo(() => {
-    return initialSites.filter((site) => {
-      if (selectedType !== "ALL" && site.site_type !== selectedType) return false;
-      if (selectedState !== "ALL" && site.state !== selectedState) return false;
-      if (selectedDynasty !== "ALL" && (!site.dynasty || !site.dynasty.includes(selectedDynasty))) return false;
-      if (site.era_start_year && site.era_start_year > timelineYear) return false;
-      return true;
-    });
-  }, [initialSites, selectedType, selectedState, selectedDynasty, timelineYear]);
+  // Fetch GeoJSON for current viewport and filters
+  const fetchViewportGeoJson = useCallback(async () => {
+    if (!mapInstance.current) return;
 
-  // Update deep-linkable URL
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const bounds = mapInstance.current.getBounds();
+      const zoom = mapInstance.current.getZoom();
+      const bbox = `${bounds.getWest().toFixed(4)},${bounds.getSouth().toFixed(4)},${bounds.getEast().toFixed(4)},${bounds.getNorth().toFixed(4)}`;
+
+      const data = await api.getSitesGeoJSON(
+        {
+          bbox,
+          zoom: Math.round(zoom * 10) / 10,
+          q: searchQuery || undefined,
+          site_type: selectedTypes.length ? selectedTypes : undefined,
+          state: selectedStates.length ? selectedStates : undefined,
+          dynasty: selectedDynasties.length ? selectedDynasties : undefined,
+          data_confidence: selectedConfidences.length ? selectedConfidences : undefined,
+          year_from: yearFrom,
+          year_to: yearTo,
+        },
+        controller.signal
+      );
+
+      setGeoJsonData(data);
+    } catch (err: any) {
+      if (err.name !== "AbortError") {
+        setError(err.message || "Failed to load spatial features");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [searchQuery, selectedTypes, selectedStates, selectedDynasties, selectedConfidences, yearFrom, yearTo]);
+
+  // Initial load & URL state restoration
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (selectedType !== "ALL") params.set("type", selectedType);
-    if (selectedState !== "ALL") params.set("state", selectedState);
-    if (selectedDynasty !== "ALL") params.set("dynasty", selectedDynasty);
-    if (timelineYear < 1800) params.set("year", String(timelineYear));
-    const qs = params.toString();
-    router.replace(`/explorer${qs ? `?${qs}` : ""}`, { scroll: false });
-  }, [selectedType, selectedState, selectedDynasty, timelineYear, router]);
+    refreshFacets();
+    fetchViewportGeoJson();
+  }, [refreshFacets, fetchViewportGeoJson]);
 
-  // Initialize MapLibre
+  // Handle URL site selection on load
+  useEffect(() => {
+    if (urlSelectedSlug) {
+      api.getSite(urlSelectedSlug).then((site) => {
+        if (site) {
+          setSelectedSite(site);
+          setPreviewDrawerOpen(true);
+        }
+      }).catch(() => {});
+    }
+  }, [urlSelectedSlug]);
+
+  // Initialize MapLibre GL Map
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
+
+    const initialLat = searchParams.get("lat") ? parseFloat(searchParams.get("lat")!) : 23.5;
+    const initialLng = searchParams.get("lng") ? parseFloat(searchParams.get("lng")!) : 72.8;
+    const initialZoom = searchParams.get("zoom") ? parseFloat(searchParams.get("zoom")!) : 6.8;
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: {
         version: 8,
         sources: {
-          osm: {
+          carto_dark: {
             type: "raster",
             tiles: [
               "https://a.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
               "https://b.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-              "https://c.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png"
+              "https://c.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
             ],
             tileSize: 256,
-            attribution: "© OpenStreetMap contributors, © CARTO"
-          }
+            attribution: "© OpenStreetMap contributors, © CARTO",
+          },
         },
         layers: [
           {
-            id: "osm-tiles",
+            id: "carto-dark-tiles",
             type: "raster",
-            source: "osm",
+            source: "carto_dark",
             minzoom: 0,
-            maxzoom: 19
-          }
-        ]
+            maxzoom: 19,
+          },
+        ],
       },
-      center: [72.5, 24.2], // Western India (Gujarat / Rajasthan center)
-      zoom: 6.2,
-      pitch: 35,
-      bearing: -5
+      center: [initialLng, initialLat],
+      zoom: initialZoom,
+      maxBounds: [
+        [60.0, 6.0],  // SW India/Indian Ocean
+        [98.0, 38.0], // NE Himalayas
+      ],
     });
 
-    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
+    map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "top-right");
+    map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+
+    // Debounced move listener
+    let debounceTimer: NodeJS.Timeout;
+    map.on("moveend", () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        fetchViewportGeoJson();
+        const center = map.getCenter();
+        syncParamsToUrl({
+          lat: center.lat.toFixed(4),
+          lng: center.lng.toFixed(4),
+          zoom: map.getZoom().toFixed(1),
+        });
+      }, 250);
+    });
+
     mapInstance.current = map;
 
     return () => {
+      clearTimeout(debounceTimer);
       map.remove();
       mapInstance.current = null;
     };
-  }, []);
+  }, [fetchViewportGeoJson, searchParams, syncParamsToUrl]);
 
-  // Sync Markers
+  // Update Map Markers on GeoJSON data changes
   useEffect(() => {
-    const map = mapInstance.current;
-    if (!map) return;
+    if (!mapInstance.current || !geoJsonData) return;
 
-    // Clear old markers
-    Object.values(markersRef.current).forEach((m) => m.remove());
+    // Clear previous markers
+    Object.values(markersRef.current).forEach((marker) => marker.remove());
     markersRef.current = {};
 
-    filteredSites.forEach((site) => {
+    const map = mapInstance.current;
+
+    geoJsonData.features.forEach((feature) => {
+      const coords = feature.geometry.coordinates as [number, number];
+      const props = feature.properties as Record<string, any>;
+      const isCluster = props.cluster === true;
+
       const el = document.createElement("div");
-      el.className = "heritage-marker cursor-pointer group";
 
-      const has3D = site.slug.includes("vav") || site.slug.includes("stepwell") || site.slug.includes("modhera");
-      el.innerHTML = `
-        <div class="relative flex items-center justify-center">
-          <div class="w-8 h-8 rounded-full ${
-            has3D 
-              ? "bg-gradient-to-br from-[#D4AF37] to-[#C85A32] shadow-lg shadow-[#D4AF37]/50 ring-2 ring-[#D4AF37]" 
-              : "bg-[#1E293B] border border-[#D4AF37]/80 text-[#D8C3A5]"
-          } flex items-center justify-center transition-transform hover:scale-125">
-            <svg class="w-4 h-4 text-[#090D16]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/>
-            </svg>
-          </div>
-          <span class="absolute -bottom-5 whitespace-nowrap text-[11px] font-serif font-bold text-[#F6F1E9] bg-black/80 px-2 py-0.5 rounded border border-[#D4AF37]/40 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-            ${site.name}
-          </span>
-        </div>
-      `;
+      if (isCluster) {
+        // Clustered circular marker with gold illumination
+        const count = Number(props.point_count || 2);
+        const size = Math.min(54, 34 + count * 2);
+        el.className = "flex items-center justify-center rounded-full select-none cursor-pointer";
+        el.style.width = `${size}px`;
+        el.style.height = `${size}px`;
+        el.style.background = "radial-gradient(circle, rgba(212,175,55,0.95) 0%, rgba(200,90,50,0.85) 100%)";
+        el.style.border = "2px solid #F6F1E9";
+        el.style.boxShadow = "0 0 16px rgba(212,175,55,0.6)";
+        el.style.color = "#090D16";
+        el.style.fontWeight = "bold";
+        el.style.fontSize = "13px";
+        el.innerText = String(count);
 
-      el.addEventListener("click", () => {
-        setActiveSite(site);
-        map.flyTo({
-          center: [site.longitude, site.latitude],
-          zoom: 10,
-          speed: 1.2,
-          curve: 1.4
+        el.addEventListener("click", () => {
+          map.flyTo({
+            center: coords,
+            zoom: Math.min(map.getZoom() + 2, 14),
+            duration: 800,
+          });
         });
-      });
+      } else {
+        // Individual Site Marker
+        const isSelected = selectedSite?.id === props.id;
+        el.innerHTML = getMarkerSvg(String(props.site_type || "other"), isSelected);
+
+        // Tooltip popup on hover
+        const popup = new maplibregl.Popup({
+          offset: 25,
+          closeButton: false,
+          closeOnClick: false,
+        }).setHTML(`
+          <div style="font-family: inherit; font-size: 12px; line-height: 1.4;">
+            <div style="font-weight: bold; color: #D4AF37; margin-bottom: 2px;">${props.name}</div>
+            <div style="color: #D8C3A5; font-size: 11px;">${props.site_type} • ${props.era_label || ""}</div>
+            <div style="color: #8E8D8A; font-size: 10px;">${props.state}</div>
+          </div>
+        `);
+
+        el.addEventListener("mouseenter", () => popup.setLngLat(coords).addTo(map));
+        el.addEventListener("mouseleave", () => popup.remove());
+
+        el.addEventListener("click", () => {
+          const siteSlug = String(props.slug);
+          syncParamsToUrl({ site: siteSlug });
+          api.getSite(siteSlug).then((detail) => {
+            setSelectedSite(detail || (props as any));
+            setPreviewDrawerOpen(true);
+          });
+        });
+      }
 
       const marker = new maplibregl.Marker({ element: el })
-        .setLngLat([site.longitude, site.latitude])
+        .setLngLat(coords)
         .addTo(map);
 
-      markersRef.current[site.id] = marker;
+      const markerId = String(isCluster ? `cluster-${coords.join(",")}` : props.id);
+      markersRef.current[markerId] = marker;
     });
-  }, [filteredSites]);
+  }, [geoJsonData, selectedSite, syncParamsToUrl]);
+
+  // Timeline Scrubbing handler
+  const handleTimelineChange = (from: number, to: number) => {
+    setYearFrom(from);
+    setYearTo(to);
+    syncParamsToUrl({ from, to });
+  };
+
+  // Toggle Type Filter
+  const toggleType = (typeKey: string) => {
+    const next = selectedTypes.includes(typeKey)
+      ? selectedTypes.filter((t) => t !== typeKey)
+      : [...selectedTypes, typeKey];
+    setSelectedTypes(next);
+    syncParamsToUrl({ type: next.join(",") });
+  };
+
+  // Toggle State Filter
+  const toggleState = (st: string) => {
+    const next = selectedStates.includes(st)
+      ? selectedStates.filter((s) => s !== st)
+      : [...selectedStates, st];
+    setSelectedStates(next);
+    syncParamsToUrl({ state: next.join(",") });
+  };
+
+  // Clear All Filters
+  const clearAllFilters = () => {
+    setSelectedTypes([]);
+    setSelectedStates([]);
+    setSelectedDynasties([]);
+    setSelectedConfidences([]);
+    setSearchQuery("");
+    setYearFrom(-3000);
+    setYearTo(1900);
+    syncParamsToUrl({
+      type: undefined,
+      state: undefined,
+      dynasty: undefined,
+      confidence: undefined,
+      q: undefined,
+      from: undefined,
+      to: undefined,
+    });
+  };
+
+  const hasActiveFilters =
+    selectedTypes.length > 0 ||
+    selectedStates.length > 0 ||
+    selectedDynasties.length > 0 ||
+    selectedConfidences.length > 0 ||
+    searchQuery.length > 0 ||
+    yearFrom > -3000 ||
+    yearTo < 1900;
+
+  // Filtered sites for accessible list view
+  const siteListItems = useMemo(() => {
+    return initialSites.filter((site) => {
+      if (selectedTypes.length > 0 && !selectedTypes.includes(site.site_type)) return false;
+      if (selectedStates.length > 0 && !selectedStates.includes(site.state)) return false;
+      if (selectedConfidences.length > 0 && !selectedConfidences.includes(site.data_confidence)) return false;
+      if (yearFrom !== undefined && site.period_end_year != null && site.period_end_year < yearFrom) return false;
+      if (yearTo !== undefined && site.period_start_year != null && site.period_start_year > yearTo) return false;
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        const matchesName = site.name.toLowerCase().includes(q) || (site.name_hi && site.name_hi.includes(q)) || (site.name_gu && site.name_gu.includes(q));
+        const matchesLoc = site.state.toLowerCase().includes(q) || (site.district && site.district.toLowerCase().includes(q));
+        if (!matchesName && !matchesLoc) return false;
+      }
+      return true;
+    });
+  }, [initialSites, selectedTypes, selectedStates, selectedConfidences, yearFrom, yearTo, searchQuery]);
 
   return (
-    <div className="relative w-full h-[calc(100vh-4rem)] flex flex-col overflow-hidden bg-[#090D16]">
-      {/* Top Filter & Control Ribbon */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-        {/* Filter Bar */}
-        <div className="glass-panel-gold rounded-lg p-2.5 flex flex-wrap items-center gap-2 pointer-events-auto border border-[#D4AF37]/40 shadow-xl max-w-4xl">
-          <div className="flex items-center gap-1.5 px-2 text-xs font-serif font-bold text-[#D4AF37] border-r border-[#D4AF37]/30">
-            <Filter className="w-3.5 h-3.5" />
-            <span>ARCHIVE FILTERS:</span>
-          </div>
-
-          {/* Type Filter */}
-          <select
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            className="bg-[#1A1510] border border-[#D4AF37]/40 text-xs text-[#F6F1E9] rounded px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
+    <div className="relative w-full h-full flex flex-col overflow-hidden bg-[#090D16]">
+      {/* Top Floating Control Bar */}
+      <div className="absolute top-3 left-3 right-3 z-30 pointer-events-none flex items-center justify-between gap-3">
+        {/* Left: Filter Toggle Button */}
+        <div className="pointer-events-auto flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setFilterPanelOpen(!filterPanelOpen)}
+            className={`px-3.5 py-2 rounded-xl glass-panel-gold flex items-center gap-2 text-xs font-serif font-bold transition-all shadow-xl ${
+              filterPanelOpen ? "border-goldLeaf text-goldLeaf" : "border-sandstone/30 text-sandstone hover:text-goldLeaf"
+            }`}
+            aria-expanded={filterPanelOpen}
+            aria-label="Toggle archive filters panel"
           >
-            {siteTypes.map((t) => (
-              <option key={t} value={t}>Type: {t}</option>
-            ))}
-          </select>
+            <Filter className="w-3.5 h-3.5 text-goldLeaf" />
+            <span>{t.filterTitle}</span>
+            {hasActiveFilters && (
+              <span className="w-2 h-2 rounded-full bg-terracotta" />
+            )}
+            {filterPanelOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+          </button>
 
-          {/* State Filter */}
-          <select
-            value={selectedState}
-            onChange={(e) => setSelectedState(e.target.value)}
-            className="bg-[#1A1510] border border-[#D4AF37]/40 text-xs text-[#F6F1E9] rounded px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
-          >
-            {states.map((s) => (
-              <option key={s} value={s}>State: {s}</option>
-            ))}
-          </select>
-
-          {/* Dynasty Filter */}
-          <select
-            value={selectedDynasty}
-            onChange={(e) => setSelectedDynasty(e.target.value)}
-            className="bg-[#1A1510] border border-[#D4AF37]/40 text-xs text-[#F6F1E9] rounded px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]"
-          >
-            {dynasties.map((d) => (
-              <option key={d} value={d}>Dynasty: {d}</option>
-            ))}
-          </select>
-
-          {/* Clear Filters */}
-          {(selectedType !== "ALL" || selectedState !== "ALL" || selectedDynasty !== "ALL" || timelineYear < 1800) && (
+          {/* Map vs List View Switcher */}
+          <div className="glass-panel-gold rounded-xl p-1 flex items-center gap-1 shadow-xl">
             <button
-              onClick={() => {
-                setSelectedType("ALL");
-                setSelectedState("ALL");
-                setSelectedDynasty("ALL");
-                setTimelineYear(1800);
-              }}
-              className="px-2 py-1 text-xs text-[#C85A32] hover:text-[#E07A5F] flex items-center gap-1 font-semibold"
+              type="button"
+              onClick={() => setViewMode("map")}
+              aria-label={t.mapView}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
+                viewMode === "map"
+                  ? "bg-goldLeaf text-parchment-950 font-bold shadow-sm"
+                  : "text-sandstone hover:text-goldLeaf"
+              }`}
             >
-              <X className="w-3 h-3" /> Reset
+              <MapIcon className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">{t.mapView}</span>
             </button>
-          )}
-
-          {/* Count Badge */}
-          <span className="text-xs text-[#D8C3A5] font-serif ml-auto pl-3 border-l border-[#D4AF37]/30">
-            Showing <strong className="text-[#D4AF37]">{filteredSites.length}</strong> Sites
-          </span>
+            <button
+              type="button"
+              onClick={() => setViewMode("list")}
+              aria-label={t.listView}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
+                viewMode === "list"
+                  ? "bg-goldLeaf text-parchment-950 font-bold shadow-sm"
+                  : "text-sandstone hover:text-goldLeaf"
+              }`}
+            >
+              <List className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">{t.listView}</span>
+            </button>
+          </div>
         </div>
 
-        {/* View Switcher (Map / List A11y) */}
-        <div className="glass-panel rounded-lg p-1 flex items-center pointer-events-auto border border-[#D4AF37]/40">
-          <button
-            onClick={() => setViewMode("map")}
-            className={`px-3 py-1.5 text-xs font-semibold rounded flex items-center gap-1.5 transition-colors ${
-              viewMode === "map"
-                ? "bg-[#D4AF37] text-indigoInk"
-                : "text-[#D8C3A5] hover:text-white"
-            }`}
-          >
-            <MapIcon className="w-3.5 h-3.5" /> Map View
-          </button>
-          <button
-            onClick={() => setViewMode("list")}
-            className={`px-3 py-1.5 text-xs font-semibold rounded flex items-center gap-1.5 transition-colors ${
-              viewMode === "list"
-                ? "bg-[#D4AF37] text-indigoInk"
-                : "text-[#D8C3A5] hover:text-white"
-            }`}
-          >
-            <List className="w-3.5 h-3.5" /> Screen-Reader List
-          </button>
+        {/* Right: Language Selector & Status */}
+        <div className="pointer-events-auto flex items-center gap-2">
+          {/* Language Switcher */}
+          <div className="glass-panel-gold rounded-xl p-1 flex items-center text-xs">
+            {(["en", "hi", "gu"] as SupportedLocale[]).map((loc) => (
+              <button
+                key={loc}
+                type="button"
+                onClick={() => setLocale(loc)}
+                className={`px-2 py-1 rounded text-xs font-bold transition-colors ${
+                  locale === loc
+                    ? "bg-goldLeaf text-parchment-950"
+                    : "text-sandstone hover:text-goldLeaf"
+                }`}
+              >
+                {loc.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
+          {loading && (
+            <div className="glass-panel rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-goldLeaf">
+              <RefreshCw className="w-3 h-3 animate-spin" />
+              <span className="hidden sm:inline">Syncing...</span>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Map Canvas / Accessible List Alternative */}
-      {viewMode === "map" ? (
-        <div ref={mapContainer} className="w-full h-full" />
-      ) : (
-        <div className="w-full h-full overflow-y-auto p-8 pt-24 max-w-5xl mx-auto space-y-4">
-          <h2 className="text-xl font-serif font-bold text-[#F6F1E9] mb-4">
-            Accessible Heritage Registry ({filteredSites.length} Records)
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredSites.map((site) => (
-              <div key={site.id} className="glass-panel p-4 rounded-lg border border-[#D4AF37]/30 space-y-2">
-                <div className="flex items-start justify-between">
-                  <h3 className="font-serif font-bold text-[#D4AF37] text-base">{site.name}</h3>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37]">{site.site_type}</span>
+      {/* Main Content Area */}
+      <div className="relative w-full flex-1 flex overflow-hidden">
+        {/* Left Filter Panel (Collapsible desktop sidebar / mobile bottom sheet) */}
+        {filterPanelOpen && (
+          <aside
+            aria-label="Filter Options"
+            className="absolute md:relative z-20 w-full md:w-[320px] lg:w-[350px] max-h-[60vh] md:max-h-full h-auto md:h-full bottom-0 md:bottom-auto bg-[#120E0A]/95 md:bg-[#120E0A]/90 backdrop-blur-md border-t md:border-t-0 md:border-r border-goldLeaf/30 shadow-2xl flex flex-col p-4 overflow-y-auto scrollbar-thin transition-all"
+          >
+            {/* Filter Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-sandstone/15 mb-3">
+              <div className="flex items-center gap-2">
+                <SlidersHorizontal className="w-4 h-4 text-goldLeaf" />
+                <h3 className="font-serif text-sm font-bold text-parchment-100">{t.filterTitle}</h3>
+              </div>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="text-xs text-terracotta-light hover:underline font-semibold"
+                >
+                  {t.clearFilters}
+                </button>
+              )}
+            </div>
+
+            {/* Live Search */}
+            <div className="relative mb-4">
+              <Search className="w-3.5 h-3.5 text-sandstone absolute left-3 top-3 pointer-events-none" />
+              <input
+                type="text"
+                placeholder={t.searchPlaceholder}
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  syncParamsToUrl({ q: e.target.value });
+                }}
+                className="w-full pl-9 pr-3 py-2 bg-parchment-950/80 border border-sandstone/25 rounded-lg text-xs text-parchment-100 placeholder-sandstone/50 focus:outline-none focus:border-goldLeaf"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery("");
+                    syncParamsToUrl({ q: undefined });
+                  }}
+                  className="absolute right-2.5 top-2.5 text-sandstone hover:text-goldLeaf"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            {/* Monument Type Facets */}
+            <div className="mb-4">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2">
+                {t.siteType}
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {facets &&
+                  Object.entries(facets.site_type || {}).map(([typeKey, count]) => (
+                    <Chip
+                      key={typeKey}
+                      label={t.types[typeKey as keyof typeof t.types] || typeKey}
+                      count={count}
+                      selected={selectedTypes.includes(typeKey)}
+                      onToggle={() => toggleType(typeKey)}
+                    />
+                  ))}
+              </div>
+            </div>
+
+            {/* State / Region Facets */}
+            <div className="mb-4">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2">
+                {t.state}
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {facets &&
+                  Object.entries(facets.state || {}).map(([stateName, count]) => (
+                    <Chip
+                      key={stateName}
+                      label={stateName}
+                      count={count}
+                      selected={selectedStates.includes(stateName)}
+                      onToggle={() => toggleState(stateName)}
+                    />
+                  ))}
+              </div>
+            </div>
+
+            {/* Academic Confidence Facets */}
+            <div className="mb-4">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2">
+                {t.dataConfidence}
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {facets &&
+                  Object.entries(facets.data_confidence || {}).map(([confKey, count]) => {
+                    const isSelected = selectedConfidences.includes(confKey);
+                    return (
+                      <Chip
+                        key={confKey}
+                        label={confKey === "verified" ? "ASI / UNESCO" : confKey.toUpperCase()}
+                        count={count}
+                        selected={isSelected}
+                        onToggle={() => {
+                          const next = isSelected
+                            ? selectedConfidences.filter((c) => c !== confKey)
+                            : [...selectedConfidences, confKey];
+                          setSelectedConfidences(next);
+                          syncParamsToUrl({ confidence: next.join(",") });
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* Monument count summary */}
+            <div className="mt-auto pt-3 border-t border-sandstone/15 text-xs text-sandstone text-center">
+              <span className="font-bold text-goldLeaf">{geoJsonData?.total || 0}</span> {t.sitesFound}
+            </div>
+          </aside>
+        )}
+
+        {/* View Container: Map View or Screen-reader Accessible List View */}
+        {viewMode === "map" ? (
+          <div className="relative flex-1 w-full h-full">
+            <div ref={mapContainer} className="w-full h-full" />
+
+            {/* Floating Bottom Timeline Scrubber */}
+            <div className="absolute bottom-4 left-4 right-4 md:left-[360px] md:right-8 z-20 pointer-events-none">
+              <div className="glass-panel-gold rounded-2xl p-4 shadow-2xl pointer-events-auto border border-goldLeaf/30 max-w-3xl mx-auto backdrop-blur-md">
+                <TimelineSlider
+                  yearFrom={yearFrom}
+                  yearTo={yearTo}
+                  onChange={handleTimelineChange}
+                  histogram={facets?.timeline_histogram || []}
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 w-full h-full overflow-y-auto p-6 md:p-8">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="font-serif text-2xl font-bold text-parchment-100">{t.listView}</h2>
+                  <p className="text-xs text-sandstone mt-1">
+                    {siteListItems.length} {t.sitesFound}
+                  </p>
                 </div>
-                <p className="text-xs text-[#D8C3A5]">{site.era} • {site.dynasty || "Classical Period"}</p>
-                <p className="text-xs text-white/70">{site.state}, {site.district}</p>
-                <div className="pt-2 flex items-center gap-2">
-                  <Link
-                    href={`/sites/${site.slug}`}
-                    className="text-xs px-3 py-1.5 rounded bg-[#D4AF37] text-indigoInk font-bold hover:bg-[#F3C649]"
-                  >
-                    Open Site Page
-                  </Link>
+                {hasActiveFilters && (
+                  <Button variant="secondary" size="sm" onClick={clearAllFilters}>
+                    {t.clearFilters}
+                  </Button>
+                )}
+              </div>
+
+              {siteListItems.length === 0 ? (
+                <EmptyState
+                  title={t.noSitesFound}
+                  description={t.clearFiltersSuggestion}
+                  onClearFilters={clearAllFilters}
+                />
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {siteListItems.map((site: any) => (
+                    <article
+                      key={site.id}
+                      onClick={() => {
+                        syncParamsToUrl({ site: site.slug });
+                        api.getSite(site.slug).then((detail) => {
+                          setSelectedSite(detail || site);
+                          setPreviewDrawerOpen(true);
+                        });
+                      }}
+                      className="p-4 rounded-xl bg-parchment-950/80 border border-sandstone/20 hover:border-goldLeaf/50 transition-all flex flex-col justify-between cursor-pointer"
+                    >
+                      <div>
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <Badge variant="type">
+                            {t.types[site.site_type as keyof typeof t.types] || site.site_type}
+                          </Badge>
+                          <Badge variant={site.data_confidence === "verified" ? "verified" : "likely"}>
+                            {site.data_confidence}
+                          </Badge>
+                        </div>
+
+                        <h3 className="font-serif text-base font-bold text-parchment-100 mb-1">
+                          {site.name}
+                        </h3>
+
+                        {/* Multilingual sub-titles */}
+                        {(site.name_hi || site.name_gu) && (
+                          <div className="text-xs text-goldLeaf/80 mb-2 font-serif">
+                            {site.name_hi} {site.name_gu && `• ${site.name_gu}`}
+                          </div>
+                        )}
+
+                        <p className="text-xs text-sandstone line-clamp-3 mb-3">
+                          {site.summary || "Subterranean architectural monument in western India."}
+                        </p>
+                      </div>
+
+                      <div className="pt-3 border-t border-sandstone/15 flex items-center justify-between text-xs">
+                        <span className="text-sandstone-warm font-mono">
+                          {formatYearLabel(site.period_start_year || 1000)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            syncParamsToUrl({ site: site.slug });
+                            api.getSite(site.slug).then((detail) => {
+                              setSelectedSite(detail || site);
+                              setPreviewDrawerOpen(true);
+                            });
+                          }}
+                          className="text-goldLeaf hover:underline font-semibold flex items-center gap-1"
+                        >
+                          <span>Preview</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Right-Hand Site Preview Drawer */}
+      <Drawer
+        isOpen={previewDrawerOpen}
+        onClose={() => {
+          setPreviewDrawerOpen(false);
+          syncParamsToUrl({ site: undefined });
+        }}
+        title={selectedSite?.name}
+        subtitle={`${selectedSite?.site_type || ""} • ${selectedSite?.state || ""}`}
+      >
+        {selectedSite && (
+          <div className="flex flex-col gap-4">
+            {/* Trilingual Names display */}
+            {(selectedSite.name_hi || selectedSite.name_gu) && (
+              <div className="p-3 rounded-lg bg-parchment-950/70 border border-goldLeaf/25 flex flex-col gap-1">
+                {selectedSite.name_hi && (
+                  <div className="text-sm font-serif text-parchment-100 font-bold">
+                    हिन्दी: <span className="text-goldLeaf">{selectedSite.name_hi}</span>
+                  </div>
+                )}
+                {selectedSite.name_gu && (
+                  <div className="text-sm font-serif text-parchment-100 font-bold">
+                    ગુજરાતી: <span className="text-goldLeaf">{selectedSite.name_gu}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Hero Image with Attribution */}
+            {selectedSite.hero_image && (
+              <div className="relative rounded-xl overflow-hidden border border-goldLeaf/30 bg-black/40">
+                <img
+                  src={selectedSite.hero_image}
+                  alt={selectedSite.name}
+                  className="w-full h-52 object-cover object-center"
+                />
+                <div className="p-2.5 bg-parchment-950/90 border-t border-sandstone/20 text-[11px] text-sandstone flex flex-col gap-0.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-parchment-200">
+                      {t.previewDrawer.imageAttribution}:
+                    </span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-black/40 text-goldLeaf border border-goldLeaf/30">
+                      {selectedSite.hero_image_license || "CC-BY-4.0"}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-sandstone-deep italic">
+                    {selectedSite.hero_image_attribution || "Archaeological Survey of India Digital Archives"}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+            )}
 
-      {/* Bottom Historical Timeline Slider */}
-      <div className="absolute bottom-6 left-6 right-6 md:left-24 md:right-24 z-20 pointer-events-none">
-        <div className="glass-panel-gold rounded-xl p-4 pointer-events-auto border border-[#D4AF37]/50 shadow-2xl">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 text-xs font-serif font-bold text-[#D4AF37]">
-              <Calendar className="w-4 h-4 text-[#D4AF37]" />
-              <span>CHRONOLOGICAL ERA SLIDER:</span>
-              <span className="text-white text-sm">
-                {timelineYear < 0 ? `${Math.abs(timelineYear)} BCE` : `${timelineYear} CE`}
-              </span>
+            {/* Confidence & Period Badges */}
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant={selectedSite.data_confidence === "verified" ? "verified" : "likely"}>
+                <ShieldCheck className="w-3 h-3 mr-1 inline" />
+                {selectedSite.data_confidence === "verified"
+                  ? t.previewDrawer.confidenceVerified
+                  : t.previewDrawer.confidenceLikely}
+              </Badge>
+              <Badge variant="era">
+                {selectedSite.era_label || selectedSite.era || "Solanki Era"}
+              </Badge>
             </div>
-            <div className="flex items-center gap-4 text-[11px] text-[#D8C3A5]/80 font-serif">
-              <span>Bronze Age (-2600)</span>
-              <span>• Solanki (1050)</span>
-              <span>• Sultanate (1450)</span>
-              <span>• Rajput (1600)</span>
+
+            {/* Summary */}
+            <div className="text-xs text-parchment-200 leading-relaxed bg-parchment-950/60 p-3.5 rounded-xl border border-sandstone/15">
+              <h4 className="font-serif font-bold text-sandstone-warm uppercase text-[11px] tracking-wider mb-1.5">
+                Archival Summary
+              </h4>
+              <p>{selectedSite.summary || (selectedSite as any).description}</p>
+            </div>
+
+            {/* Location & Dynasty metadata */}
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="p-2.5 rounded-lg bg-parchment-950/40 border border-sandstone/10">
+                <span className="block text-[10px] uppercase text-sandstone font-semibold mb-0.5">
+                  {t.previewDrawer.period}
+                </span>
+                <span className="font-mono text-goldLeaf">
+                  {formatYearLabel(selectedSite.period_start_year || 1000)} – {formatYearLabel(selectedSite.period_end_year || 1100)}
+                </span>
+              </div>
+
+              <div className="p-2.5 rounded-lg bg-parchment-950/40 border border-sandstone/10">
+                <span className="block text-[10px] uppercase text-sandstone font-semibold mb-0.5">
+                  {t.previewDrawer.dynasty}
+                </span>
+                <span className="font-serif text-parchment-100">
+                  {selectedSite.dynasty || "Chaulukya / Solanki"}
+                </span>
+              </div>
+            </div>
+
+            {/* Source Citations */}
+            {selectedSite.source_text && (
+              <div className="text-[11px] text-sandstone bg-black/30 p-2.5 rounded-lg border border-sandstone/10">
+                <span className="font-semibold text-sandstone-warm block mb-1">
+                  {t.previewDrawer.source}:
+                </span>
+                <p className="italic">{selectedSite.source_text}</p>
+              </div>
+            )}
+
+            {/* Drawer Actions */}
+            <div className="flex flex-col gap-2 pt-2 border-t border-sandstone/15">
+              <Button
+                variant="primary"
+                onClick={() => {
+                  if (mapInstance.current && selectedSite.longitude && selectedSite.latitude) {
+                    mapInstance.current.flyTo({
+                      center: [selectedSite.longitude, selectedSite.latitude],
+                      zoom: 12,
+                      duration: 1200,
+                    });
+                  }
+                }}
+                icon={<Compass className="w-4 h-4" />}
+              >
+                {t.previewDrawer.flyTo}
+              </Button>
+
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    const url = window.location.href;
+                    navigator.clipboard.writeText(url);
+                    setCopyFeedback(true);
+                    setTimeout(() => setCopyFeedback(false), 2000);
+                  }}
+                  icon={copyFeedback ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                >
+                  {copyFeedback ? t.previewDrawer.linkCopied : t.previewDrawer.copyLink}
+                </Button>
+
+                <Link href={`/sites/${selectedSite.slug}`}>
+                  <Button variant="outline" size="sm" className="w-full" icon={<ExternalLink className="w-3.5 h-3.5" />}>
+                    {t.previewDrawer.openSitePage}
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
-          <input
-            type="range"
-            min={-2600}
-            max={1800}
-            step={50}
-            value={timelineYear}
-            onChange={(e) => setTimelineYear(Number(e.target.value))}
-            className="w-full h-2 bg-[#090D16] rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
-          />
-        </div>
-      </div>
-
-      {/* Selected Site Preview Card Overlay */}
-      {activeSite && (
-        <div className="absolute top-20 right-6 z-30 w-80 md:w-96 glass-panel-gold rounded-xl p-5 border border-[#D4AF37]/70 shadow-2xl animate-in fade-in slide-in-from-right duration-300">
-          <button
-            onClick={() => setActiveSite(null)}
-            className="absolute top-3 right-3 text-[#D8C3A5] hover:text-[#D4AF37]"
-          >
-            <X className="w-4 h-4" />
-          </button>
-
-          {activeSite.hero_image && (
-            <div className="w-full h-40 rounded-lg overflow-hidden mb-3 border border-[#D4AF37]/30">
-              <img
-                src={activeSite.hero_image}
-                alt={activeSite.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          )}
-
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C85A32]/30 text-[#E07A5F] border border-[#C85A32]/40">
-              {activeSite.site_type}
-            </span>
-            <span className="text-[10px] text-[#D8C3A5]/70 font-serif">
-              {activeSite.state}
-            </span>
-          </div>
-
-          <h3 className="font-serif text-lg font-bold text-[#F6F1E9] leading-snug mb-1">
-            {activeSite.name}
-          </h3>
-
-          <p className="text-xs text-[#D4AF37] font-serif mb-2">
-            {activeSite.era} • {activeSite.dynasty || "Classical Era"}
-          </p>
-
-          <p className="text-xs text-[#EFE6D8]/80 line-clamp-3 mb-4 leading-relaxed">
-            {activeSite.architectural_style ? `Architectural Style: ${activeSite.architectural_style}. ` : ""}
-            Verified record under Archaeological Survey of India documentation.
-          </p>
-
-          <div className="flex items-center gap-2">
-            <Link
-              href={`/sites/${activeSite.slug}`}
-              className="flex-1 px-3 py-2 text-xs font-bold rounded bg-[#D4AF37] text-indigoInk hover:bg-[#F3C649] text-center flex items-center justify-center gap-1.5 shadow-md shadow-[#D4AF37]/20 transition-all"
-            >
-              <Eye className="w-3.5 h-3.5" />
-              <span>Full Dossier & 3D</span>
-            </Link>
-
-            <Link
-              href={`/sites/${activeSite.slug}#viewer3d`}
-              className="px-3 py-2 text-xs font-semibold rounded bg-[#1E293B] hover:bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40 flex items-center gap-1"
-            >
-              <Box className="w-3.5 h-3.5" />
-              <span>3D Twin</span>
-            </Link>
-          </div>
-        </div>
-      )}
+        )}
+      </Drawer>
     </div>
   );
 }

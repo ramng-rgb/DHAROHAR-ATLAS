@@ -63,15 +63,15 @@ export function Navbar() {
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
             <Link
-              href="/explorer"
+              href="/explore"
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
-                pathname === "/explorer"
+                pathname === "/explore" || pathname === "/explorer"
                   ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
                   : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
               }`}
             >
               <Compass className="w-4 h-4 text-[#D4AF37]" />
-              Explorer Map
+              Explorer
             </Link>
 
             <Link
@@ -83,7 +83,7 @@ export function Navbar() {
               }`}
             >
               <MapPin className="w-4 h-4 text-[#C85A32]" />
-              Journey Mode
+              Fellowship Trail
             </Link>
 
             <Link
@@ -95,7 +95,7 @@ export function Navbar() {
               }`}
             >
               <BookOpen className="w-4 h-4 text-[#D4AF37]" />
-              Archive OCR
+              Archive Folios
             </Link>
 
             <Link
@@ -111,7 +111,7 @@ export function Navbar() {
             </Link>
           </nav>
 
-          {/* Quick Actions */}
+          {/* Quick Actions & Language */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => { setTourOpen(true); setTourStep(0); }}
@@ -123,7 +123,7 @@ export function Navbar() {
             </button>
 
             <Link
-              href="/explorer?demo=true"
+              href="/explore?demo=true"
               className="px-3 py-1.5 text-xs font-semibold rounded-md bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk hover:opacity-95 shadow-md shadow-[#D4AF37]/20 flex items-center gap-1.5 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-indigoInk fill-indigoInk" />

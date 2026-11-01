@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     )
     SYNC_DATABASE_URL: str = os.getenv(
         "SYNC_DATABASE_URL", 
-        "postgresql://ramnarayangupta@localhost:5432/dharohar_atlas"
+        "postgresql+psycopg2://ramnarayangupta@localhost:5432/dharohar_atlas"
     )
     
     # Redis

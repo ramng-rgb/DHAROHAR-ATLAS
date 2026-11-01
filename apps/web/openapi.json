@@ -192,6 +192,24 @@
             "description": "Filter by data confidence ('verified', 'likely', 'unverified')"
           },
           {
+            "name": "has_3d_model",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by presence of 3D digital twin",
+              "title": "Has 3D Model"
+            },
+            "description": "Filter by presence of 3D digital twin"
+          },
+          {
             "name": "fields",
             "in": "query",
             "required": false,
@@ -454,6 +472,24 @@
               ],
               "title": "Data Confidence"
             }
+          },
+          {
+            "name": "has_3d_model",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by presence of 3D digital twin",
+              "title": "Has 3D Model"
+            },
+            "description": "Filter by presence of 3D digital twin"
           }
         ],
         "responses": {
@@ -463,6 +499,185 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GeoJSONFeatureCollection"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sites/{slug}/full": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "summary": "Get Site Full",
+        "operationId": "get_site_full_api_v1_sites__slug__full_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteFullDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sites/{slug}/model": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "summary": "Get Site Model",
+        "operationId": "get_site_model_api_v1_sites__slug__model_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Model3DDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sites/{slug}/cite": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "summary": "Get Site Citation",
+        "operationId": "get_site_citation_api_v1_sites__slug__cite_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(bibtex|apa|ris|csl-json)$",
+              "description": "Citation format: bibtex, apa, ris, csl-json",
+              "default": "bibtex",
+              "title": "Format"
+            },
+            "description": "Citation format: bibtex, apa, ris, csl-json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sites/{slug}/og": {
+      "get": {
+        "tags": [
+          "Sites"
+        ],
+        "summary": "Get Site Og",
+        "operationId": "get_site_og_api_v1_sites__slug__og_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteOGMetadata"
                 }
               }
             }
@@ -1124,6 +1339,24 @@
               ],
               "title": "Data Confidence"
             }
+          },
+          {
+            "name": "has_3d_model",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by presence of 3D model",
+              "title": "Has 3D Model"
+            },
+            "description": "Filter by presence of 3D model"
           }
         ],
         "responses": {
@@ -1543,6 +1776,14 @@
             "type": "object",
             "title": "Data Confidence"
           },
+          "has_3d_model": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Has 3D Model",
+            "default": {}
+          },
           "timeline_histogram": {
             "items": {
               "$ref": "#/components/schemas/HistogramBucket"
@@ -1567,6 +1808,88 @@
           "total_sites"
         ],
         "title": "FacetResponse"
+      },
+      "FolkloreDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "site_id": {
+            "type": "string",
+            "title": "Site Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "body_md": {
+            "type": "string",
+            "title": "Body Md"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "default": "en"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "default": "oral_history"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "data_confidence": {
+            "type": "string",
+            "title": "Data Confidence",
+            "default": "likely"
+          },
+          "is_illustrative": {
+            "type": "boolean",
+            "title": "Is Illustrative",
+            "default": false
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "site_id",
+          "title",
+          "body_md"
+        ],
+        "title": "FolkloreDetail"
       },
       "FolkloreResponse": {
         "properties": {
@@ -1709,6 +2032,122 @@
         ],
         "title": "HistogramBucket"
       },
+      "HotspotDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "model_id": {
+            "type": "string",
+            "title": "Model Id"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "label_hi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label Hi"
+          },
+          "label_gu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label Gu"
+          },
+          "body_md": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body Md"
+          },
+          "position": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Position",
+            "default": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "camera_position": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Camera Position",
+            "default": [
+              0.0,
+              2.0,
+              4.0
+            ]
+          },
+          "camera_target": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Camera Target",
+            "default": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "media_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Media Ids",
+            "default": []
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order",
+            "default": 0
+          },
+          "media_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "model_id",
+          "label"
+        ],
+        "title": "HotspotDetail"
+      },
       "HotspotResponse": {
         "properties": {
           "id": {
@@ -1824,6 +2263,126 @@
         ],
         "title": "JobResponse"
       },
+      "Model3DDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "site_id": {
+            "type": "string",
+            "title": "Site Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "format": {
+            "type": "string",
+            "title": "Format",
+            "default": "glb"
+          },
+          "storage_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Key"
+          },
+          "file_size_bytes": {
+            "type": "integer",
+            "title": "File Size Bytes",
+            "default": 0
+          },
+          "poly_count": {
+            "type": "integer",
+            "title": "Poly Count",
+            "default": 0
+          },
+          "draco_compressed": {
+            "type": "boolean",
+            "title": "Draco Compressed",
+            "default": false
+          },
+          "lod_levels": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Lod Levels",
+            "default": {}
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": "artist_made"
+          },
+          "licence": {
+            "type": "string",
+            "title": "Licence",
+            "default": "CC-BY-4.0"
+          },
+          "attribution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attribution"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "scale_calibrated": {
+            "type": "boolean",
+            "title": "Scale Calibrated",
+            "default": false
+          },
+          "scale_factor": {
+            "type": "number",
+            "title": "Scale Factor",
+            "default": 1.0
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "ready"
+          },
+          "model_url": {
+            "type": "string",
+            "title": "Model Url"
+          },
+          "hotspots": {
+            "items": {
+              "$ref": "#/components/schemas/HotspotDetail"
+            },
+            "type": "array",
+            "title": "Hotspots",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "site_id",
+          "title",
+          "model_url"
+        ],
+        "title": "Model3DDetail"
+      },
       "Model3DResponse": {
         "properties": {
           "id": {
@@ -1891,6 +2450,194 @@
           "license"
         ],
         "title": "Model3DResponse"
+      },
+      "ModelSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "format": {
+            "type": "string",
+            "title": "Format",
+            "default": "glb"
+          },
+          "file_size_bytes": {
+            "type": "integer",
+            "title": "File Size Bytes",
+            "default": 0
+          },
+          "poly_count": {
+            "type": "integer",
+            "title": "Poly Count",
+            "default": 0
+          },
+          "draco_compressed": {
+            "type": "boolean",
+            "title": "Draco Compressed",
+            "default": false
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": "artist_made"
+          },
+          "licence": {
+            "type": "string",
+            "title": "Licence",
+            "default": "CC-BY-4.0"
+          },
+          "attribution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attribution"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "scale_calibrated": {
+            "type": "boolean",
+            "title": "Scale Calibrated",
+            "default": false
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "ready"
+          },
+          "model_url": {
+            "type": "string",
+            "title": "Model Url"
+          },
+          "hotspots_count": {
+            "type": "integer",
+            "title": "Hotspots Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "model_url"
+        ],
+        "title": "ModelSummary"
+      },
+      "NearbySiteItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name_hi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Hi"
+          },
+          "name_gu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Gu"
+          },
+          "site_type": {
+            "type": "string",
+            "title": "Site Type"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "era_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Era Label"
+          },
+          "hero_image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hero Image"
+          },
+          "distance_km": {
+            "type": "number",
+            "title": "Distance Km"
+          },
+          "has_3d_model": {
+            "type": "boolean",
+            "title": "Has 3D Model",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "site_type",
+          "state",
+          "distance_km"
+        ],
+        "title": "NearbySiteItem"
       },
       "OCRLineResponse": {
         "properties": {
@@ -1994,6 +2741,94 @@
         "type": "object",
         "title": "OCRLineUpdate"
       },
+      "ObservationDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "site_id": {
+            "type": "string",
+            "title": "Site Id"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "body_md": {
+            "type": "string",
+            "title": "Body Md"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "default": "en"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "default": "architectural_feature"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "data_confidence": {
+            "type": "string",
+            "title": "Data Confidence",
+            "default": "likely"
+          },
+          "is_illustrative": {
+            "type": "boolean",
+            "title": "Is Illustrative",
+            "default": false
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "site_id",
+          "body_md"
+        ],
+        "title": "ObservationDetail"
+      },
       "ObservationResponse": {
         "properties": {
           "id": {
@@ -2048,6 +2883,66 @@
           "recorded_by"
         ],
         "title": "ObservationResponse"
+      },
+      "RelatedRouteItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "total_distance_km": {
+            "type": "number",
+            "title": "Total Distance Km",
+            "default": 0.0
+          },
+          "estimated_duration_days": {
+            "type": "integer",
+            "title": "Estimated Duration Days",
+            "default": 1
+          },
+          "stop_order": {
+            "type": "integer",
+            "title": "Stop Order"
+          },
+          "arrival_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arrival Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "stop_order"
+        ],
+        "title": "RelatedRouteItem"
       },
       "RouteResponse": {
         "properties": {
@@ -2580,6 +3475,11 @@
             "type": "array",
             "title": "Dynasties",
             "default": []
+          },
+          "has_3d_model": {
+            "type": "boolean",
+            "title": "Has 3D Model",
+            "default": false
           }
         },
         "type": "object",
@@ -2844,6 +3744,11 @@
             "title": "Dynasties",
             "default": []
           },
+          "has_3d_model": {
+            "type": "boolean",
+            "title": "Has 3D Model",
+            "default": false
+          },
           "description": {
             "anyOf": [
               {
@@ -2919,6 +3824,378 @@
           "data_confidence"
         ],
         "title": "SiteDetail"
+      },
+      "SiteFullDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "name_hi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Hi"
+          },
+          "name_gu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Gu"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "site_type": {
+            "type": "string",
+            "title": "Site Type"
+          },
+          "era": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Era"
+          },
+          "era_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Era Label"
+          },
+          "era_start_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Era Start Year"
+          },
+          "era_end_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Era End Year"
+          },
+          "period_start_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Period Start Year"
+          },
+          "period_end_year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Period End Year"
+          },
+          "dynasty": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dynasty"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "latitude": {
+            "type": "number",
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "title": "Longitude"
+          },
+          "hero_image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hero Image"
+          },
+          "hero_image_attribution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hero Image Attribution"
+          },
+          "hero_image_license": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hero Image License",
+            "default": "CC-BY-4.0"
+          },
+          "architectural_style": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Architectural Style"
+          },
+          "data_confidence": {
+            "type": "string",
+            "title": "Data Confidence"
+          },
+          "source_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Text"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "default": []
+          },
+          "dynasties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dynasties",
+            "default": []
+          },
+          "has_3d_model": {
+            "type": "boolean",
+            "title": "Has 3D Model",
+            "default": false
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "significance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Significance"
+          },
+          "alternative_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Alternative Names",
+            "default": []
+          },
+          "media": {
+            "items": {
+              "$ref": "#/components/schemas/SiteMediaResponse"
+            },
+            "type": "array",
+            "title": "Media",
+            "default": []
+          },
+          "models_3d": {
+            "items": {
+              "$ref": "#/components/schemas/Model3DResponse"
+            },
+            "type": "array",
+            "title": "Models 3D",
+            "default": []
+          },
+          "folklore": {
+            "items": {
+              "$ref": "#/components/schemas/FolkloreResponse"
+            },
+            "type": "array",
+            "title": "Folklore",
+            "default": []
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/ObservationResponse"
+            },
+            "type": "array",
+            "title": "Observations",
+            "default": []
+          },
+          "model_summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ModelSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "folklore_items": {
+            "items": {
+              "$ref": "#/components/schemas/FolkloreDetail"
+            },
+            "type": "array",
+            "title": "Folklore Items",
+            "default": []
+          },
+          "observation_items": {
+            "items": {
+              "$ref": "#/components/schemas/ObservationDetail"
+            },
+            "type": "array",
+            "title": "Observation Items",
+            "default": []
+          },
+          "nearby_sites": {
+            "items": {
+              "$ref": "#/components/schemas/NearbySiteItem"
+            },
+            "type": "array",
+            "title": "Nearby Sites",
+            "default": []
+          },
+          "related_routes": {
+            "items": {
+              "$ref": "#/components/schemas/RelatedRouteItem"
+            },
+            "type": "array",
+            "title": "Related Routes",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "site_type",
+          "state",
+          "latitude",
+          "longitude",
+          "data_confidence"
+        ],
+        "title": "SiteFullDetail"
       },
       "SiteLight": {
         "properties": {
@@ -3030,6 +4307,11 @@
               }
             ],
             "title": "Hero Image"
+          },
+          "has_3d_model": {
+            "type": "boolean",
+            "title": "Has 3D Model",
+            "default": false
           }
         },
         "type": "object",
@@ -3127,6 +4409,82 @@
           "url"
         ],
         "title": "SiteMediaResponse"
+      },
+      "SiteOGMetadata": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "site_name": {
+            "type": "string",
+            "title": "Site Name",
+            "default": "Dharohar Atlas"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "default": "article"
+          },
+          "locale": {
+            "type": "string",
+            "title": "Locale",
+            "default": "en_IN"
+          },
+          "era": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Era"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          },
+          "has_3d_model": {
+            "type": "boolean",
+            "title": "Has 3D Model",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "url"
+        ],
+        "title": "SiteOGMetadata"
       },
       "ValidationError": {
         "properties": {

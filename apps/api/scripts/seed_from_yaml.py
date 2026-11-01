@@ -5,13 +5,14 @@ import yaml
 import asyncio
 from datetime import datetime
 from geoalchemy2.elements import WKTElement
+from sqlalchemy import delete
 from sqlalchemy.future import select
 
 from app.core.database import AsyncSessionLocal
 from app.models.models import (
     Site, SiteMedia, Tag, SiteTag, Dynasty, SiteDynasty,
     Route, RouteStop, Document, DocumentPage, OCRLine, DocumentEntity,
-    FolkloreItem, ArchitecturalObservation, Embedding,
+    FolkloreItem, Observation, ArchitecturalObservation, Embedding,
     Model3D, Hotspot,
     SiteType, DataConfidence
 )
@@ -175,6 +176,90 @@ async def seed():
                     embedding=vector
                 ))
 
+            # Seed folklore items
+            if sdata.get("folklore_items"):
+                await session.execute(delete(FolkloreItem).where(FolkloreItem.site_id == site_obj.id))
+                for fitem in sdata["folklore_items"]:
+                    session.add(FolkloreItem(
+                        id=str(uuid.uuid4()),
+                        site_id=site_obj.id,
+                        title=fitem["title"],
+                        body_md=fitem.get("body_md") or fitem.get("narrative"),
+                        narrative=fitem.get("body_md") or fitem.get("narrative"),
+                        language=fitem.get("language", "en"),
+                        kind=fitem.get("kind", "oral_history"),
+                        source=fitem.get("source"),
+                        source_url=fitem.get("source_url"),
+                        data_confidence=fitem.get("data_confidence", "likely"),
+                        is_illustrative=fitem.get("is_illustrative", False)
+                    ))
+
+            # Seed observations
+            if sdata.get("observations"):
+                await session.execute(delete(Observation).where(Observation.site_id == site_obj.id))
+                for obs in sdata["observations"]:
+                    session.add(Observation(
+                        id=str(uuid.uuid4()),
+                        site_id=site_obj.id,
+                        title=obs.get("title"),
+                        body_md=obs.get("body_md") or obs.get("description", ""),
+                        language=obs.get("language", "en"),
+                        kind=obs.get("kind", "architectural_feature"),
+                        source=obs.get("source"),
+                        source_url=obs.get("source_url"),
+                        data_confidence=obs.get("data_confidence", "likely"),
+                        is_illustrative=obs.get("is_illustrative", False)
+                    ))
+
+            # Seed 3D model & hotspots
+            if sdata.get("model_3d"):
+                m3d = sdata["model_3d"]
+                await session.execute(delete(Model3D).where(Model3D.site_id == site_obj.id))
+                model_obj = Model3D(
+                    id=str(uuid.uuid4()),
+                    site_id=site_obj.id,
+                    title=m3d.get("title", f"{site_obj.name} 3D Digital Twin"),
+                    model_url=m3d.get("model_url", "/models/stepwell_pavilion.opt.glb"),
+                    storage_key=m3d.get("storage_key"),
+                    format=m3d.get("format", "glb"),
+                    file_size_bytes=m3d.get("file_size_bytes", 0),
+                    poly_count=m3d.get("poly_count", 0),
+                    draco_compressed=m3d.get("draco_compressed", False),
+                    lod_levels=m3d.get("lod_levels", {}),
+                    source=m3d.get("source", "artist_made"),
+                    licence=m3d.get("licence", "CC-BY-4.0"),
+                    license=m3d.get("licence", "CC-BY-4.0"),
+                    attribution=m3d.get("attribution"),
+                    source_url=m3d.get("source_url"),
+                    scale_calibrated=m3d.get("scale_calibrated", False),
+                    status=m3d.get("status", "ready"),
+                    scale_factor=m3d.get("scale_factor", 1.0)
+                )
+                session.add(model_obj)
+                await session.flush()
+
+                for hs in m3d.get("hotspots", []):
+                    pos = hs.get("position", [0.0, 0.0, 0.0])
+                    session.add(Hotspot(
+                        id=str(uuid.uuid4()),
+                        model_id=model_obj.id,
+                        label=hs.get("label"),
+                        title=hs.get("label"),
+                        label_hi=hs.get("label_hi"),
+                        label_gu=hs.get("label_gu"),
+                        body_md=hs.get("body_md"),
+                        description=hs.get("body_md"),
+                        position=pos,
+                        camera_position=hs.get("camera_position", [0.0, 2.0, 4.0]),
+                        camera_target=hs.get("camera_target", [0.0, 0.0, 0.0]),
+                        media_ids=hs.get("media_ids", []),
+                        sort_order=hs.get("sort_order", 0),
+                        position_x=pos[0] if len(pos) > 0 else 0.0,
+                        position_y=pos[1] if len(pos) > 1 else 0.0,
+                        position_z=pos[2] if len(pos) > 2 else 0.0,
+                        media_url=hs.get("media_url")
+                    ))
+
         # Seed Demo Route
         if demo_route_data:
             route_slug = demo_route_data["slug"]
@@ -211,60 +296,6 @@ async def seed():
                             travel_note="Regional highway and stone-paved historical trail connection.",
                             transit_mode="heritage_vehicle"
                         ))
-
-        # Seed 3D Digital Twin and Hotspots for Rani ki Vav
-        rani_site = site_map.get("rani-ki-vav")
-        if rani_site:
-            existing_model = (await session.execute(
-                select(Model3D).where(Model3D.site_id == rani_site.id)
-            )).scalar_one_or_none()
-            if not existing_model:
-                model_3d = Model3D(
-                    id=str(uuid.uuid4()),
-                    site_id=rani_site.id,
-                    title="Rani ki Vav Octagonal Subterranean Pavilion (3D Digital Twin)",
-                    model_url="/models/stepwell_pavilion.glb",
-                    format="glb",
-                    poly_count=48500,
-                    scale_factor=1.0,
-                    license="CC-BY-4.0",
-                    attribution="Dharohar Atlas Photogrammetric Capture Team"
-                )
-                session.add(model_3d)
-                await session.flush()
-
-                session.add_all([
-                    Hotspot(
-                        id=str(uuid.uuid4()),
-                        model_id=model_3d.id,
-                        title="Octagonal Well Shaft & Sump",
-                        description="The deepest tier where sacred groundwater pooled, ringed with Vishnu Anantasayana reliefs.",
-                        position_x=0.0,
-                        position_y=-1.5,
-                        position_z=0.0,
-                        media_url="https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=600&q=80"
-                    ),
-                    Hotspot(
-                        id=str(uuid.uuid4()),
-                        model_id=model_3d.id,
-                        title="Tiered Stepped Pavilion (Kunda)",
-                        description="Intricately carved Solanki pillars displaying celestial Apsaras and guardian deities.",
-                        position_x=1.2,
-                        position_y=0.5,
-                        position_z=0.8,
-                        media_url="https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=600&q=80"
-                    ),
-                    Hotspot(
-                        id=str(uuid.uuid4()),
-                        model_id=model_3d.id,
-                        title="Torana Entrance Gateway",
-                        description="Upper ceremonial archway framing the subterranean descent from ground level.",
-                        position_x=-1.2,
-                        position_y=1.8,
-                        position_z=-0.5,
-                        media_url="https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=600&q=80"
-                    )
-                ])
 
         # Seed M0 Document and Folio for continuity
         doc_slug = "patana-vav-charter"

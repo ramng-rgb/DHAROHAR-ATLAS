@@ -106,6 +106,7 @@ class SiteLight(BaseModel):
     era_label: Optional[str] = None
     data_confidence: str
     hero_image: Optional[str] = None
+    has_3d_model: bool = False
 
     class Config:
         from_attributes = True
@@ -139,6 +140,7 @@ class SiteBrief(BaseModel):
     source: Optional[str] = None
     tags: List[str] = []
     dynasties: List[str] = []
+    has_3d_model: bool = False
 
     class Config:
         from_attributes = True
@@ -154,6 +156,151 @@ class SiteDetail(SiteBrief):
 
     class Config:
         from_attributes = True
+
+# M2 3D Model, Hotspot & Digital Twin Schemas
+class HotspotDetail(BaseModel):
+    id: str
+    model_id: str
+    label: str
+    label_hi: Optional[str] = None
+    label_gu: Optional[str] = None
+    body_md: Optional[str] = None
+    position: List[float] = [0.0, 0.0, 0.0]
+    camera_position: List[float] = [0.0, 2.0, 4.0]
+    camera_target: List[float] = [0.0, 0.0, 0.0]
+    media_ids: List[str] = []
+    sort_order: int = 0
+    media_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+class Model3DDetail(BaseModel):
+    id: str
+    site_id: str
+    title: str
+    format: str = "glb"
+    storage_key: Optional[str] = None
+    file_size_bytes: int = 0
+    poly_count: int = 0
+    draco_compressed: bool = False
+    lod_levels: Dict[str, Any] = {}
+    source: str = "artist_made"
+    licence: str = "CC-BY-4.0"
+    attribution: Optional[str] = None
+    source_url: Optional[str] = None
+    scale_calibrated: bool = False
+    scale_factor: float = 1.0
+    status: str = "ready"
+    model_url: str
+    hotspots: List[HotspotDetail] = []
+
+    class Config:
+        from_attributes = True
+
+class ModelSummary(BaseModel):
+    id: str
+    title: str
+    format: str = "glb"
+    file_size_bytes: int = 0
+    poly_count: int = 0
+    draco_compressed: bool = False
+    source: str = "artist_made"
+    licence: str = "CC-BY-4.0"
+    attribution: Optional[str] = None
+    source_url: Optional[str] = None
+    scale_calibrated: bool = False
+    status: str = "ready"
+    model_url: str
+    hotspots_count: int = 0
+
+    class Config:
+        from_attributes = True
+
+class FolkloreDetail(BaseModel):
+    id: str
+    site_id: str
+    title: str
+    body_md: str
+    language: str = "en"
+    kind: str = "oral_history"
+    source: Optional[str] = None
+    source_url: Optional[str] = None
+    data_confidence: str = "likely"
+    is_illustrative: bool = False
+    created_at: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+class ObservationDetail(BaseModel):
+    id: str
+    site_id: str
+    title: Optional[str] = None
+    body_md: str
+    language: str = "en"
+    kind: str = "architectural_feature"
+    source: Optional[str] = None
+    source_url: Optional[str] = None
+    data_confidence: str = "likely"
+    is_illustrative: bool = False
+    created_at: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+class NearbySiteItem(BaseModel):
+    id: str
+    name: str
+    slug: str
+    name_hi: Optional[str] = None
+    name_gu: Optional[str] = None
+    site_type: str
+    state: str
+    district: Optional[str] = None
+    era_label: Optional[str] = None
+    hero_image: Optional[str] = None
+    distance_km: float
+    has_3d_model: bool = False
+
+    class Config:
+        from_attributes = True
+
+class RelatedRouteItem(BaseModel):
+    id: str
+    slug: str
+    title: str
+    summary: Optional[str] = None
+    total_distance_km: float = 0.0
+    estimated_duration_days: int = 1
+    stop_order: int
+    arrival_note: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+class SiteFullDetail(SiteDetail):
+    has_3d_model: bool = False
+    model_summary: Optional[ModelSummary] = None
+    folklore_items: List[FolkloreDetail] = []
+    observation_items: List[ObservationDetail] = []
+    nearby_sites: List[NearbySiteItem] = []
+    related_routes: List[RelatedRouteItem] = []
+
+    class Config:
+        from_attributes = True
+
+class SiteOGMetadata(BaseModel):
+    title: str
+    description: str
+    image: Optional[str] = None
+    url: str
+    site_name: str = "Dharohar Atlas"
+    type: str = "article"
+    locale: str = "en_IN"
+    era: Optional[str] = None
+    state: Optional[str] = None
+    has_3d_model: bool = False
 
 class PaginatedSites(BaseModel):
     items: List[SiteBrief]
@@ -186,6 +333,7 @@ class FacetResponse(BaseModel):
     era: Dict[str, int]
     tag: Dict[str, int]
     data_confidence: Dict[str, int]
+    has_3d_model: Dict[str, int] = {}
     timeline_histogram: List[HistogramBucket]
     total_sites: int
 

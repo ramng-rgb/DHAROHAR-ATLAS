@@ -18,6 +18,7 @@ async def get_facets(
     year_to: Optional[int] = Query(None),
     bbox: Optional[str] = Query(None),
     data_confidence: Optional[List[str]] = Query(None),
+    has_3d_model: Optional[bool] = Query(None, description="Filter by presence of 3D model"),
     db: AsyncSession = Depends(get_db)
 ):
     service = SiteService(db)
@@ -30,5 +31,6 @@ async def get_facets(
         year_from=year_from,
         year_to=year_to,
         bbox=bbox,
-        data_confidence=data_confidence
+        data_confidence=data_confidence,
+        has_3d_model=has_3d_model
     )

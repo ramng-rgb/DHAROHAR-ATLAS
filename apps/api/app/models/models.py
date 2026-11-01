@@ -3,7 +3,7 @@ import enum
 from datetime import datetime
 from typing import List, Optional
 from sqlalchemy import (
-    Column, String, Text, Float, Integer, Boolean, DateTime, ForeignKey, Index, JSON, Enum, CheckConstraint
+    Column, String, Text, Float, Integer, Boolean, DateTime, ForeignKey, Index, JSON, Enum, CheckConstraint, BigInteger
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TSVECTOR
@@ -119,7 +119,7 @@ class Site(Base):
     media = relationship("SiteMedia", back_populates="site", cascade="all, delete-orphan")
     models_3d = relationship("Model3D", back_populates="site", cascade="all, delete-orphan")
     folklore = relationship("FolkloreItem", back_populates="site", cascade="all, delete-orphan")
-    observations = relationship("ArchitecturalObservation", back_populates="site", cascade="all, delete-orphan")
+    observations = relationship("Observation", back_populates="site", cascade="all, delete-orphan")
     route_stops = relationship("RouteStop", back_populates="site")
     site_tags = relationship("SiteTag", back_populates="site", cascade="all, delete-orphan")
     site_dynasties = relationship("SiteDynasty", back_populates="site", cascade="all, delete-orphan")
@@ -146,28 +146,46 @@ class Model3D(Base):
 
     id = Column(String, primary_key=True, default=generate_uuid)
     site_id = Column(String, ForeignKey("sites.id", ondelete="CASCADE"), nullable=False, index=True)
-    title = Column(String(255), nullable=False)
-    model_url = Column(String(500), nullable=False)
-    format = Column(String(50), default="glb")
-    poly_count = Column(Integer, nullable=True)
-    scale_factor = Column(Float, default=1.0)
-    license = Column(String(100), default="CC-BY-4.0")
+    title = Column(String(255), nullable=True)
+    model_url = Column(String(500), nullable=True)
+    storage_key = Column(String(500), nullable=True)
+    format = Column(String(50), default="glb") # glb | splat | ply
+    file_size_bytes = Column(BigInteger, default=0)
+    poly_count = Column(Integer, default=0)
+    draco_compressed = Column(Boolean, default=False)
+    lod_levels = Column(JSON, default=dict)
+    source = Column(String(50), default="artist_made") # photogrammetry | scan | artist_made | stock
+    licence = Column(String(100), default="CC-BY-4.0")
+    license = Column(String(100), default="CC-BY-4.0") # synonym
     attribution = Column(String(255), nullable=True)
+    source_url = Column(String(500), nullable=True)
+    scale_calibrated = Column(Boolean, default=False)
+    status = Column(String(50), default="ready") # pending | ready | failed
+    scale_factor = Column(Float, default=1.0)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     site = relationship("Site", back_populates="models_3d")
-    hotspots = relationship("Hotspot", back_populates="model", cascade="all, delete-orphan")
+    hotspots = relationship("Hotspot", back_populates="model", cascade="all, delete-orphan", order_by="Hotspot.sort_order")
 
 class Hotspot(Base):
     __tablename__ = "hotspots"
 
     id = Column(String, primary_key=True, default=generate_uuid)
     model_id = Column(String, ForeignKey("models_3d.id", ondelete="CASCADE"), nullable=False, index=True)
-    title = Column(String(255), nullable=False)
-    description = Column(Text, nullable=False)
-    position_x = Column(Float, nullable=False)
-    position_y = Column(Float, nullable=False)
-    position_z = Column(Float, nullable=False)
+    label = Column(String(255), nullable=True)
+    title = Column(String(255), nullable=True) # synonym
+    label_hi = Column(String(255), nullable=True)
+    label_gu = Column(String(255), nullable=True)
+    body_md = Column(Text, nullable=True)
+    description = Column(Text, nullable=True) # synonym
+    position = Column(JSON, default=list) # [x, y, z]
+    camera_position = Column(JSON, default=list) # [x, y, z]
+    camera_target = Column(JSON, default=list) # [x, y, z]
+    media_ids = Column(JSON, default=list)
+    sort_order = Column(Integer, default=0)
+    position_x = Column(Float, default=0.0)
+    position_y = Column(Float, default=0.0)
+    position_z = Column(Float, default=0.0)
     normal_x = Column(Float, default=0.0)
     normal_y = Column(Float, default=1.0)
     normal_z = Column(Float, default=0.0)
@@ -243,13 +261,36 @@ class FolkloreItem(Base):
     id = Column(String, primary_key=True, default=generate_uuid)
     site_id = Column(String, ForeignKey("sites.id", ondelete="CASCADE"), nullable=False, index=True)
     title = Column(String(255), nullable=False)
-    narrative = Column(Text, nullable=False)
-    language = Column(String(50), default="English")
-    source_tradition = Column(String(255), nullable=False)
-    authenticity_status = Column(String(100), default="verified_oral_history")
+    body_md = Column(Text, nullable=True)
+    narrative = Column(Text, nullable=True) # synonym
+    language = Column(String(50), default="en")
+    kind = Column(String(100), default="legend")
+    source = Column(String(500), nullable=True)
+    source_url = Column(String(500), nullable=True)
+    source_tradition = Column(String(255), nullable=True) # legacy
+    data_confidence = Column(String(50), default="likely")
+    authenticity_status = Column(String(100), default="verified_oral_history") # legacy
+    is_illustrative = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     site = relationship("Site", back_populates="folklore")
+
+class Observation(Base):
+    __tablename__ = "observations"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    site_id = Column(String, ForeignKey("sites.id", ondelete="CASCADE"), nullable=False, index=True)
+    title = Column(String(255), nullable=True)
+    body_md = Column(Text, nullable=False)
+    language = Column(String(50), default="en")
+    kind = Column(String(100), default="architectural_feature")
+    source = Column(String(500), nullable=True)
+    source_url = Column(String(500), nullable=True)
+    data_confidence = Column(String(50), default="likely")
+    is_illustrative = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    site = relationship("Site", back_populates="observations")
 
 class ArchitecturalObservation(Base):
     __tablename__ = "architectural_observations"
@@ -263,8 +304,6 @@ class ArchitecturalObservation(Base):
     preservation_status = Column(String(100), default="Stable")
     recorded_by = Column(String(255), default="Dharohar Field Expedition")
     created_at = Column(DateTime, default=datetime.utcnow)
-
-    site = relationship("Site", back_populates="observations")
 
 class Route(Base):
     __tablename__ = "routes"

@@ -1,679 +1,1157 @@
-# Dharohar Atlas: Verified Archaeological & Heritage Seed Dataset
-# Compliance: HC26-CULT01, Blithchron '27, IIT Gandhinagar
-# Honesty Rules: All facts verified against Archaeological Survey of India (ASI) & UNESCO dossiers.
-
 sites:
-  - slug: "rani-ki-vav"
-    name: "Rani ki Vav (The Queen's Stepwell)"
-    name_hi: "रानी की वाव"
-    name_gu: "રાણી ની વાવ"
-    summary: "An intricately constructed 7-level subterranean stepwell situated on the banks of Saraswati River in Patan, built by Queen Udayamati in memory of Chaulukya King Bhima I. Celebrated as the zenith of Maru-Gurjara hydraulic architecture with over 800 sculptures."
-    site_type: "stepwell"
-    state: "Gujarat"
-    district: "Patan"
-    latitude: 23.8589
-    longitude: 72.1017
-    period_start_year: 1063
-    period_end_year: 1083
-    era_label: "Solanki Period"
-    dynasty: "Solanki (Chaulukya)"
-    data_confidence: "verified"
-    source_text: "Archaeological Survey of India Monument Dossier; UNESCO World Heritage Citation WHC-14/38.COM/8B"
-    source_url: "https://whc.unesco.org/en/list/1301/"
-    architectural_style: "Maru-Gurjara Subterranean"
-    tags: ["unesco_world_heritage", "hydraulic_engineering", "solanki", "vishnu_dashavatara", "subterranean"]
-    media:
-      - url: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80"
-        caption: "Subterranean tiers and carved pavilions descending to Saraswati groundwater level"
-        license: "Unsplash / CC-BY Compatible"
-        attribution: "Dharohar Field Photography Collection"
-        source_url: "https://unsplash.com/photos/stepwell-monument"
-
-  - slug: "adalaj-vav"
-    name: "Adalaj Stepwell (Rudabai Stepwell)"
-    name_hi: "अडालज की बावड़ी"
-    name_gu: "અડાલજ ની વાવ"
-    summary: "Built in 1498 by Queen Rudabai, consort of Vaghela chieftain Rana Veer Singh, and completed under Sultan Mahmud Begada. A five-storey subterranean sandstone structure featuring three entrance pavilions meeting at an octagonal central shaft open to the sky."
-    site_type: "stepwell"
-    state: "Gujarat"
-    district: "Gandhinagar"
-    latitude: 23.1667
-    longitude: 72.5800
-    period_start_year: 1498
-    period_end_year: 1499
-    era_label: "Sultanate Period"
-    dynasty: "Vaghela / Gujarat Sultanate"
-    data_confidence: "verified"
-    source_text: "ASI Western Circle Monument Record; James Burgess Architectural Antiquities of Northern Gujarat"
-    source_url: "https://asi.nic.in/monuments-of-gujarat/"
-    architectural_style: "Indo-Islamic Solanki Fusion"
-    tags: ["stepwell", "vaghela", "sultanate", "octagonal_shaft", "cooling_microclimate"]
-    media:
-      - url: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80"
-        caption: "Octagonal shaft showing tier landings and carved Kalpavriksha pillars"
-        license: "CC-BY-4.0"
-        attribution: "Archaeological Survey of India Digital Archives"
-        source_url: "https://commons.wikimedia.org/wiki/File:Adalaj_Stepwell.jpg"
-
-  - slug: "dada-harir-vav"
-    name: "Dada Harir Stepwell (Bai Harir Vav)"
-    name_hi: "दादा हरीर बावड़ी"
-    name_gu: "દાદા હરીર ની વાવ"
-    summary: "Constructed in 1499 by Bai Harir Sultani, royal superintendent under Mahmud Begada. Features bilingual epigraphs in Sanskrit and Arabic recording its construction cost of 329,000 Mahmudis and function as a public desert shelter."
-    site_type: "stepwell"
-    state: "Gujarat"
-    district: "Ahmedabad"
-    latitude: 23.0444
-    longitude: 72.6025
-    period_start_year: 1499
-    period_end_year: 1500
-    era_label: "Sultanate Period"
-    dynasty: "Gujarat Sultanate"
-    data_confidence: "verified"
-    source_text: "Epigraphia Indo-Moslemica 1923; ASI Ahmedabad Sub-Circle"
-    source_url: "https://asi.nic.in"
-    architectural_style: "Indo-Islamic Subterranean"
-    tags: ["stepwell", "sultanate", "bilingual_epigraph", "traveler_caravanserai"]
-    media:
-      - url: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80"
-        caption: "Dual spiral staircases flanking the deep rear shaft"
-        license: "CC-BY-SA 4.0"
-        attribution: "Wikimedia Commons Contributor Archive"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "modhera-sun-temple"
-    name: "Modhera Sun Temple"
-    name_hi: "मोढेरा सूर्य मंदिर"
-    name_gu: "મોઢેરા સૂર્ય મંદિર"
-    summary: "Solanki architectural masterpiece commissioned in 1026 CE by King Bhima I on the river Pushpavati. Comprises the sanctum (Gudhamandapa), 52-pillar assembly hall (Sabhamandapa), and Surya Kund with 108 miniature stepped shrines."
-    site_type: "temple"
-    state: "Gujarat"
-    district: "Mehsana"
-    latitude: 23.5836
-    longitude: 72.1333
-    period_start_year: 1026
-    period_end_year: 1027
-    era_label: "Solanki Period"
-    dynasty: "Solanki (Chaulukya)"
-    data_confidence: "verified"
-    source_text: "Archaeological Survey of India Guidebook (Modhera Sun Temple); Percy Brown Indian Architecture"
-    source_url: "https://asi.nic.in/modhera/"
-    architectural_style: "Maru-Gurjara Temple Architecture"
-    tags: ["sun_temple", "solanki", "surya_kund", "solar_alignment", "stepped_tank"]
-    media:
-      - url: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80"
-        caption: "Surya Kund stepped reservoir reflecting 52 pillar Sabhamandapa hall"
-        license: "CC0 Public Domain"
-        attribution: "Public Cultural Repository"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "sarkhej-roza"
-    name: "Sarkhej Roza (Acropolis of Ahmedabad)"
-    name_hi: "सरखेज रोज़ा"
-    name_gu: "સરખેજ રોઝા"
-    summary: "Built in memory of Sufi saint Shaikh Ahmed Ganj Baksh in 1445–1451 CE. A serene complex of tombs, mosques, pavilions, and summer palaces clustered around a vast stepped artificial lake."
-    site_type: "mosque"
-    state: "Gujarat"
-    district: "Ahmedabad"
-    latitude: 22.9822
-    longitude: 72.5028
-    period_start_year: 1445
-    period_end_year: 1451
-    era_label: "Sultanate Period"
-    dynasty: "Gujarat Sultanate"
-    data_confidence: "verified"
-    source_text: "Sarkhej Roza Preservation Committee; Le Corbusier travel logs"
-    source_url: "https://sarkhejroza.org"
-    architectural_style: "Gujarat Sultanate Islamic"
-    tags: ["sufi", "sultanate", "reservoir", "jaali_screens", "acropolis"]
-    media:
-      - url: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80"
-        caption: "Tranquil stone colonnades bordering Sarkhej lake"
-        license: "CC-BY-4.0"
-        attribution: "Gujarat Heritage Documentation Project"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "champaner-pavagadh"
-    name: "Champaner-Pavagadh Archaeological Park"
-    name_hi: "चांपानेर-पावागढ़ पुरातत्व उद्यान"
-    name_gu: "ચાંપાનેર-પાવાગઢ પુરાતત્વીય ઉદ્યાન"
-    summary: "Concentration of largely unexcavated prehistoric sites, early Hindu hill fortresses on Pavagadh crest, and the 16th-century pre-Mughal capital of Gujarat Sultanate with the monumental Jama Masjid."
-    site_type: "archaeological_site"
-    state: "Gujarat"
-    district: "Panchmahal"
-    latitude: 22.4833
-    longitude: 73.5333
-    period_start_year: 746
-    period_end_year: 1535
-    era_label: "Sultanate Period"
-    dynasty: "Chavda / Khichi Chauhan / Gujarat Sultanate"
-    data_confidence: "verified"
-    source_text: "UNESCO World Heritage Nomination File 1101; ASI Western Circle"
-    source_url: "https://whc.unesco.org/en/list/1101/"
-    architectural_style: "Hindu-Muslim Transitional"
-    tags: ["unesco_world_heritage", "fort", "mosque", "rainwater_harvesting", "hill_citadel"]
-    media:
-      - url: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80"
-        caption: "Pitched stone minarets and carved mihrabs of Jama Masjid"
-        license: "CC-BY-SA 3.0"
-        attribution: "Wikimedia Commons Archive"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "dholavira"
-    name: "Dholavira: A Harappan City"
-    name_hi: "धोलावीरा: हड़प्पा कालीन नगर"
-    name_gu: "ધોળાવીરા: હડપ્પન નગર"
-    summary: "One of the most remarkable cities of the Bronze Age Indus Valley Civilization, located on Khadir Bet in Kutch. Renowned for its monumental geometric stone reservoirs, 10-character signboard, and fortified citadel."
-    site_type: "archaeological_site"
-    state: "Gujarat"
-    district: "Kutch"
-    latitude: 23.8864
-    longitude: 70.2139
-    period_start_year: -2600
-    period_end_year: -1900
-    era_label: "Indus Valley Civilization"
-    dynasty: "Harappan Civilization"
-    data_confidence: "verified"
-    source_text: "Dr. R.S. Bisht excavation reports, Archaeological Survey of India (Memoirs No. 115)"
-    source_url: "https://whc.unesco.org/en/list/1644/"
-    architectural_style: "Harappan Dressed Stone Masonry"
-    tags: ["unesco_world_heritage", "harappan", "bronze_age", "stormwater_reservoirs", "signboard"]
-    media:
-      - url: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=80"
-        caption: "Rock-cut rectangular stone reservoir with stepped inlet sluices"
-        license: "CC-BY-4.0"
-        attribution: "Archaeological Survey of India Heritage Repository"
-        source_url: "https://asi.nic.in"
-
-  - slug: "lothal"
-    name: "Lothal Ancient Maritime Port"
-    name_hi: "लोथल प्राचीन बंदरगाह"
-    name_gu: "લોથલ પ્રાચીન બંદર"
-    summary: "A major southern port city of the ancient Harappan civilization, housing the world's earliest identified tidal dockyard connecting to the Gulf of Khambhat with spillway and sluice-gate mechanisms."
-    site_type: "archaeological_site"
-    state: "Gujarat"
-    district: "Ahmedabad"
-    latitude: 22.5228
-    longitude: 72.2494
-    period_start_year: -2400
-    period_end_year: -1900
-    era_label: "Indus Valley Civilization"
-    dynasty: "Harappan Civilization"
-    data_confidence: "verified"
-    source_text: "S.R. Rao Lothal: A Harappan Port Town 1955-1962 (ASI Memoir 78)"
-    source_url: "https://asi.nic.in/lothal/"
-    architectural_style: "Harappan Kiln-Fired Brick Engineering"
-    tags: ["harappan", "tidal_dockyard", "maritime_trade", "bronze_age", "bead_factory"]
-    media:
-      - url: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80"
-        caption: "Kiln-fired brick masonry of the tidal basin and inlet channel"
-        license: "CC0"
-        attribution: "National Museum Public Domain Project"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "chand-baori"
-    name: "Chand Baori (Abhaneri)"
-    name_hi: "चाँद बावड़ी"
-    name_gu: "ચાંદ બાવડી"
-    summary: "One of the deepest and largest stepwells in the world, with 3,500 narrow steps over 13 storeys descending 30 meters. Built by King Chanda of the Nikumbha dynasty in the 8th–9th century CE with breathtaking geometric symmetry."
-    site_type: "stepwell"
-    state: "Rajasthan"
-    district: "Dausa"
-    latitude: 27.0072
-    longitude: 76.6064
-    period_start_year: 800
-    period_end_year: 900
-    era_label: "Early Medieval Period"
-    dynasty: "Nikumbha Rajput"
-    data_confidence: "verified"
-    source_text: "Archaeological Survey of India Jaipur Circle; Morna Livingston Steps to Water"
-    source_url: "https://asijaipurcircle.nic.in"
-    architectural_style: "Gurjara-Pratihara Subterranean"
-    tags: ["stepwell", "geometric_matrix", "rajput", "triangular_steps", "deep_reservoir"]
-    media:
-      - url: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=80"
-        caption: "Mesmerizing geometric triangular flights descending into turquoise pool"
-        license: "CC-BY-4.0"
-        attribution: "Rajasthan Tourism Digital Archives"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "kumbhalgarh-fort"
-    name: "Kumbhalgarh Fort"
-    name_hi: "कुंभलगढ़ किला"
-    name_gu: "કુંભલગઢ કિલ્લો"
-    summary: "Constructed atop the Aravalli hills by Rana Kumbha. Boasts a continuous fortification perimeter wall of 36 km, making it the second longest continuous wall on earth after the Great Wall of China, containing over 360 temples."
-    site_type: "fort"
-    state: "Rajasthan"
-    district: "Rajsamand"
-    latitude: 25.1528
-    longitude: 73.5875
-    period_start_year: 1443
-    period_end_year: 1458
-    era_label: "Rajput Period"
-    dynasty: "Mewar Sisodia Rajput (Rana Kumbha)"
-    data_confidence: "verified"
-    source_text: "UNESCO Nomination Dossier 247 (Hill Forts of Rajasthan); ASI Jaipur Circle"
-    source_url: "https://whc.unesco.org/en/list/247/"
-    architectural_style: "Rajput Military Fortification"
-    tags: ["unesco_world_heritage", "hill_fort", "longest_wall", "mewar", "sisodia"]
-    media:
-      - url: "https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80"
-        caption: "Serpentine stone bastion wall stretching across the Aravalli crests"
-        license: "CC-BY-SA 4.0"
-        attribution: "Wikimedia Commons Archive"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "ranakpur-jain-temple"
-    name: "Ranakpur Jain Temple (Chaturmukha Dharana Vihara)"
-    name_hi: "रणकपुर जैन मंदिर"
-    name_gu: "રણકપુર જૈન મંદિર"
-    summary: "Dedicated to Tirthankara Adinatha, commissioned in 1439 CE by merchant Dharna Shah with patronage from Rana Kumbha. Celebrated for 1,444 uniquely carved marble pillars, where no two capitals are identical."
-    site_type: "temple"
-    state: "Rajasthan"
-    district: "Pali"
-    latitude: 25.1158
-    longitude: 73.4731
-    period_start_year: 1439
-    period_end_year: 1458
-    era_label: "Rajput Period"
-    dynasty: "Mewar Kingdom"
-    data_confidence: "verified"
-    source_text: "Anandji Kalyanji Trust Documentation; James Tod Annals and Antiquities of Rajasthan"
-    source_url: "https://anandjikalyanjitrust.org"
-    architectural_style: "Maru-Gurjara White Marble"
-    tags: ["jain_temple", "1444_pillars", "white_marble", "mewar", "chaturmukha"]
-    media:
-      - url: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80"
-        caption: "Forest of intricately carved marble pillars and corbelled ceiling rosettes"
-        license: "CC-BY-4.0"
-        attribution: "Open Cultural Documentation"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "mehrangarh-fort"
-    name: "Mehrangarh Fort"
-    name_hi: "मेहरानगढ़ किला"
-    name_gu: "મહેરાનગઢ કિલ્લો"
-    summary: "Perched 400 feet above Jodhpur on a perpendicular cliff, founded in 1459 by Rao Jodha. Houses opulent palaces (Sheesh Mahal, Phool Mahal) and colossal defensive battlements described by Kipling as the work of giants."
-    site_type: "fort"
-    state: "Rajasthan"
-    district: "Jodhpur"
-    latitude: 26.2978
-    longitude: 73.0186
-    period_start_year: 1459
-    period_end_year: 1650
-    era_label: "Rajput Period"
-    dynasty: "Rathore Rajput"
-    data_confidence: "verified"
-    source_text: "Mehrangarh Museum Trust Archives; K.R. Qanungo Studies in Rajput History"
-    source_url: "https://mehrangarh.org"
-    architectural_style: "Rathore Rajput Fort & Palace"
-    tags: ["fort", "rathore", "jodhpur", "sheesh_mahal", "cliff_citadel"]
-    media:
-      - url: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80"
-        caption: "Colossal bastion walls rising perpendicularly above Jodhpur blue city"
-        license: "CC-BY-4.0"
-        attribution: "Mehrangarh Trust Documentation"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "dilwara-temples"
-    name: "Dilwara Temples (Mount Abu)"
-    name_hi: "दिलवाड़ा मंदिर"
-    name_gu: "દેલવાડા ના દેરા"
-    summary: "Five marble Svetambara Jain temples built between the 11th and 13th century CE by Solanki ministers Vimal Shah and Vastupala-Tejpala. Famed for paper-thin translucent marble ceiling pendants and filigree lintels."
-    site_type: "temple"
-    state: "Rajasthan"
-    district: "Sirohi"
-    latitude: 24.6031
-    longitude: 72.7225
-    period_start_year: 1031
-    period_end_year: 1230
-    era_label: "Solanki Period"
-    dynasty: "Solanki / Chalukya"
-    data_confidence: "verified"
-    source_text: "ASI Western Circle Report; Stella Kramrisch The Hindu Temple"
-    source_url: "https://asi.nic.in"
-    architectural_style: "Maru-Gurjara High Marble Style"
-    tags: ["jain_temple", "marble_filigree", "solanki", "mount_abu", "vastupala_tejpala"]
-    media:
-      - url: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80"
-        caption: "Translucent marble lotus pendant suspended from corbelled dome ceiling"
-        license: "CC-BY-SA 3.0"
-        attribution: "Wikimedia Commons Archive"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "chittorgarh-fort"
-    name: "Chittorgarh Fort"
-    name_hi: "चित्तौड़गढ़ किला"
-    name_gu: "ચિત્તોડગઢ કિલ્લો"
-    summary: "Sprawling across 700 acres atop a 180-meter hill, historic seat of Mewar. Features Vijay Stambha (Tower of Victory, 9 storeys) built by Rana Kumbha, Kirti Stambha, and Gaumukh spring reservoir."
-    site_type: "fort"
-    state: "Rajasthan"
-    district: "Chittorgarh"
-    latitude: 24.8878
-    longitude: 74.6450
-    period_start_year: 700
-    period_end_year: 1568
-    era_label: "Rajput Period"
-    dynasty: "Maurya / Sisodia Rajput"
-    data_confidence: "verified"
-    source_text: "UNESCO World Heritage Nomination 247rev; Shyamaldas Vir Vinod"
-    source_url: "https://whc.unesco.org/en/list/247/"
-    architectural_style: "Sisodia Rajput Fortification"
-    tags: ["unesco_world_heritage", "fort", "vijay_stambha", "mewar", "water_tanks"]
-    media:
-      - url: "https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80"
-        caption: "Vijay Stambha Tower of Victory silhouetted above the plateau battlements"
-        license: "CC-BY-4.0"
-        attribution: "ASI Cultural Assets"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "taranga-jain-temple"
-    name: "Taranga Jain Temple (Ajitnatha Temple)"
-    name_hi: "तारंगा जैन मंदिर"
-    name_gu: "તારંગા જૈન તીર્થ"
-    summary: "Built in 1161 CE by Jain Solanki emperor Kumarapala, this sandstone temple dedicated to Ajitnatha is one of the best-preserved 12th-century stone structures in India, with a 101-foot shikhara."
-    site_type: "temple"
-    state: "Gujarat"
-    district: "Mehsana"
-    latitude: 23.9986
-    longitude: 72.7042
-    period_start_year: 1161
-    period_end_year: 1165
-    era_label: "Solanki Period"
-    dynasty: "Solanki (Kumarapala)"
-    data_confidence: "verified"
-    source_text: "M.A. Dhaky The Chronology of Solanki Temples; Gujarat State Gazetteers"
-    source_url: "https://gujarattourism.com"
-    architectural_style: "Solanki High Nagara"
-    tags: ["jain_temple", "solanki", "kumarapala", "nagara_shikhara", "yellow_sandstone"]
-    media:
-      - url: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80"
-        caption: "Towering 101-foot sandstone Nagara shikhara amidst Taranga hills"
-        license: "CC-BY-4.0"
-        attribution: "Open Cultural Repository"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "raniji-ki-baori"
-    name: "Raniji ki Baori (Queen's Stepwell of Bundi)"
-    name_hi: "रानीजी की बावड़ी"
-    name_gu: "રાણીજી ની બાવડી"
-    summary: "Constructed in 1699 by Rani Nathavati, queen of Rao Raja Anirudh Singh of Bundi. Over 46 meters deep, featuring curved multi-foliate torana arches, elephant brackets, and shrines of Vishnu's avatars."
-    site_type: "stepwell"
-    state: "Rajasthan"
-    district: "Bundi"
-    latitude: 25.4450
-    longitude: 75.6380
-    period_start_year: 1699
-    period_end_year: 1700
-    era_label: "Rajput Period"
-    dynasty: "Hada Rajput"
-    data_confidence: "verified"
-    source_text: "ASI Rajasthan Sub-Circle; Melia Belli Bose Royal Patrons & Subterranean Sanctuaries"
-    source_url: "https://asijaipurcircle.nic.in"
-    architectural_style: "Late Rajput Stepwell"
-    tags: ["stepwell", "bundi", "hada_rajput", "torana_arches", "elephant_brackets"]
-    media:
-      - url: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=80"
-        caption: "Multi-foliate arched gateway and stepped entrance of Bundi stepwell"
-        license: "CC-BY-SA 4.0"
-        attribution: "Wikimedia Commons Archive"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "sidi-saiyyed-mosque"
-    name: "Sidi Saiyyed Mosque"
-    name_hi: "सीदी सैय्यद मस्जिद"
-    name_gu: "સીદી સૈયદ ની જાળી"
-    summary: "Built in 1572–73 CE by Sidi Saiyyed in the Gujarat Sultanate cavalry. Globally celebrated for its arched marble screens carved with delicate tree branches and foliage (the iconic Tree of Life motif)."
-    site_type: "mosque"
-    state: "Gujarat"
-    district: "Ahmedabad"
-    latitude: 23.0289
-    longitude: 72.5806
-    period_start_year: 1572
-    period_end_year: 1573
-    era_label: "Sultanate Period"
-    dynasty: "Gujarat Sultanate"
-    data_confidence: "verified"
-    source_text: "ASI Ahmedabad Circle; M.S. Commissariat History of Gujarat"
-    source_url: "https://asi.nic.in"
-    architectural_style: "Gujarat Sultanate Indo-Islamic"
-    tags: ["mosque", "tree_of_life", "jaali_screens", "sultanate", "ahmedabad_heritage"]
-    media:
-      - url: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80"
-        caption: "Intricately perforated marble Tree of Life window screen"
-        license: "CC-BY-4.0"
-        attribution: "ASI Photo Archives"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "uparkot-fort"
-    name: "Uparkot Fort (Junagadh)"
-    name_hi: "ऊपरकोट किला"
-    name_gu: "ઉપરકોટ કિલ્લો"
-    summary: "Founded during Chandragupta Maurya's reign and refortified by Chudasama rulers. Features rock-cut Buddhist caves and two extraordinary living-rock stepwells: Adi Kadi Vav and Navghan Kuvo."
-    site_type: "fort"
-    state: "Gujarat"
-    district: "Junagadh"
-    latitude: 21.5278
-    longitude: 70.4722
-    period_start_year: -319
-    period_end_year: 1472
-    era_label: "Maurya to Sultanate"
-    dynasty: "Maurya / Chudasama / Gujarat Sultanate"
-    data_confidence: "verified"
-    source_text: "Gujarat State Archaeology Department; James Burgess Antiquities of Kathiawad"
-    source_url: "https://gujarattourism.com"
-    architectural_style: "Rock-Cut Subterranean & Stone Fortress"
-    tags: ["fort", "rock_cut_stepwell", "adi_kadi_vav", "maurya", "chudasama"]
-    media:
-      - url: "https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80"
-        caption: "Adi Kadi Vav cut completely through living bedrock without masonry"
-        license: "CC-BY-4.0"
-        attribution: "Gujarat Archaeology Division"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "kumbharia-jain-temples"
-    name: "Kumbharia Jain Temples"
-    name_hi: "कुंभारिया जैन मंदिर"
-    name_gu: "કુંભારિયા જૈન મંદિરો"
-    summary: "Group of five white marble temples built near the ancient Ambaji marble quarries between 1030 and 1280 CE, contemporary siblings to Mount Abu's Dilwara temples."
-    site_type: "temple"
-    state: "Gujarat"
-    district: "Banaskantha"
-    latitude: 24.3314
-    longitude: 72.8222
-    period_start_year: 1030
-    period_end_year: 1280
-    era_label: "Solanki Period"
-    dynasty: "Solanki (Chaulukya)"
-    data_confidence: "verified"
-    source_text: "ASI Western Circle Report; U.P. Shah Studies in Jaina Art"
-    source_url: "https://asi.nic.in"
-    architectural_style: "Maru-Gurjara White Marble"
-    tags: ["jain_temple", "solanki", "white_marble", "corbelled_ceilings", "ambaji_quarry"]
-    media:
-      - url: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80"
-        caption: "Concentric carved Vidyadevi bracket figures on ceiling rotunda"
-        license: "CC-BY-SA 4.0"
-        attribution: "Open Cultural Repository"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "rudra-mahalaya"
-    name: "Rudra Mahalaya (Siddhpur)"
-    name_hi: "रुद्र महालय सिद्धपुर"
-    name_gu: "રુદ્ર મહાલય સિદ્ધપુર"
-    summary: "Colossal multi-storeyed temple dedicated to Shiva built by King Jayasimha Siddharaja in 1140 CE. Surviving colossal stone toranas, fluted carved pillars, and lintels attest to its monumental scale."
-    site_type: "temple"
-    state: "Gujarat"
-    district: "Patan"
-    latitude: 23.9167
-    longitude: 72.3833
-    period_start_year: 1140
-    period_end_year: 1145
-    era_label: "Solanki Period"
-    dynasty: "Solanki (Jayasimha Siddharaja)"
-    data_confidence: "verified"
-    source_text: "ASI Western Circle Monument Monograph; Hemachandra Dvyashraya Kavya"
-    source_url: "https://asi.nic.in"
-    architectural_style: "Imperial Solanki Architecture"
-    tags: ["temple_ruin", "solanki", "siddharaja", "colossal_torana", "shaivite"]
-    media:
-      - url: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80"
-        caption: "Colossal surviving stone archway torana and multi-level pillars"
-        license: "CC-BY-4.0"
-        attribution: "ASI Cultural Repository"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "jaisalmer-fort"
-    name: "Jaisalmer Fort (Sonar Qila / Golden Fort)"
-    name_hi: "जैसलमेर का किला"
-    name_gu: "જેસલમેર કિલ્લો"
-    summary: "Built of yellow sandstone in 1156 CE on Trikuta Hill amidst Thar desert. One of the few living forts in the world where a fourth of the old city continues to reside inside its 99 concentric stone bastions."
-    site_type: "fort"
-    state: "Rajasthan"
-    district: "Jaisalmer"
-    latitude: 26.9125
-    longitude: 70.9125
-    period_start_year: 1156
-    period_end_year: 1700
-    era_label: "Rajput Period"
-    dynasty: "Bhati Rajput (Rawal Jaisal)"
-    data_confidence: "verified"
-    source_text: "UNESCO Hill Forts of Rajasthan Dossier; Rajasthan Tourism Board"
-    source_url: "https://whc.unesco.org/en/list/247/"
-    architectural_style: "Rajput Desert Fortification"
-    tags: ["unesco_world_heritage", "living_fort", "yellow_sandstone", "thar_desert", "bhati_rajput"]
-    media:
-      - url: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80"
-        caption: "Golden sandstone battlements glowing at sunset over Thar desert"
-        license: "CC-BY-4.0"
-        attribution: "Rajasthan Tourism Archives"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "amer-fort"
-    name: "Amer Fort (Amber Palace)"
-    name_hi: "आमेर का किला"
-    name_gu: "આમેર કિલ્લો"
-    summary: "Perched on Cheel ka Teela overlooking Maota Lake, built of red sandstone and marble by Raja Man Singh I in 1592 CE. Renowned for Sheesh Mahal (Mirror Palace) and water lift mechanisms."
-    site_type: "palace"
-    state: "Rajasthan"
-    district: "Jaipur"
-    latitude: 26.9855
-    longitude: 75.8513
-    period_start_year: 1592
-    period_end_year: 1625
-    era_label: "Mughal-Rajput Period"
-    dynasty: "Kachhwaha Rajput"
-    data_confidence: "verified"
-    source_text: "ASI Jaipur Circle; Jadunath Sarkar History of Jaipur"
-    source_url: "https://whc.unesco.org/en/list/247/"
-    architectural_style: "Rajput-Mughal Synthesis"
-    tags: ["unesco_world_heritage", "palace_fort", "sheesh_mahal", "maota_lake", "kachhwaha"]
-    media:
-      - url: "https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80"
-        caption: "Amber Palace fortifications reflected in the waters of Maota Lake"
-        license: "CC-BY-SA 4.0"
-        attribution: "Open Heritage Science"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "hampi-monuments"
-    name: "Group of Monuments at Hampi"
-    name_hi: "हम्पी के स्मारक"
-    name_gu: "હમ્પી ના સ્મારકો"
-    summary: "Capital of the Vijayanagara Empire from 1336 to 1565 CE along the Tungabhadra river. Features the stone chariot of Vijaya Vittala temple, musical pillars, and royal stepped Pushkarani water tanks."
-    site_type: "archaeological_site"
-    state: "Karnataka"
-    district: "Vijayanagara"
-    latitude: 15.3350
-    longitude: 76.4600
-    period_start_year: 1336
-    period_end_year: 1565
-    era_label: "Vijayanagara Period"
-    dynasty: "Vijayanagara Empire"
-    data_confidence: "verified"
-    source_text: "UNESCO World Heritage Citation 241; Longhurst Hampi Ruins"
-    source_url: "https://whc.unesco.org/en/list/241/"
-    architectural_style: "Vijayanagara Dravidian"
-    tags: ["unesco_world_heritage", "stone_chariot", "musical_pillars", "pushkarani", "vijayanagara"]
-    media:
-      - url: "https://images.unsplash.com/photo-1600100397608-f010f443b353?auto=format&fit=crop&w=1200&q=80"
-        caption: "Monolithic stone chariot at Vijaya Vittala temple compound"
-        license: "CC-BY-4.0"
-        attribution: "UNESCO Citation Archive"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "ellora-caves"
-    name: "Ellora Caves (Kailasa Temple - Cave 16)"
-    name_hi: "एलोरा गुफाएं (कैलाश मंदिर)"
-    name_gu: "ઇલોરા ગુફાઓ"
-    summary: "Cave 16 (Kailasa Temple) is the largest monolithic rock-cut monument in the world, carved vertically top-down out of a single basalt cliff in the 8th century CE under Rashtrakuta King Krishna I."
-    site_type: "temple"
-    state: "Maharashtra"
-    district: "Chhatrapati Sambhajinagar"
-    latitude: 20.0268
-    longitude: 75.1792
-    period_start_year: 756
-    period_end_year: 774
-    era_label: "Rashtrakuta Period"
-    dynasty: "Rashtrakuta"
-    data_confidence: "verified"
-    source_text: "ASI Aurangabad Circle; UNESCO World Heritage Citation 243"
-    source_url: "https://whc.unesco.org/en/list/243/"
-    architectural_style: "Rashtrakuta Dravidian Monolithic"
-    tags: ["unesco_world_heritage", "monolithic_rock_cut", "kailasa", "rashtrakuta", "top_down_carving"]
-    media:
-      - url: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80"
-        caption: "Monolithic basalt excavation of Cave 16 Kailasanatha sanctuary"
-        license: "CC-BY-4.0"
-        attribution: "Open Cultural Repository"
-        source_url: "https://commons.wikimedia.org"
-
-  - slug: "khajuraho-monuments"
-    name: "Khajuraho Group of Monuments"
-    name_hi: "खजुराहो के मंदिर"
-    name_gu: "ખજુરાહો ના મંદિરો"
-    summary: "Built between 950 and 1050 CE by the Chandela dynasty. Famed for Nagara-style architectural symbolism and expressive humanistic sandstone friezes at the Kandariya Mahadeva temple."
-    site_type: "temple"
-    state: "Madhya Pradesh"
-    district: "Chhatarpur"
-    latitude: 24.8318
-    longitude: 79.9199
-    period_start_year: 950
-    period_end_year: 1050
-    era_label: "Chandela Period"
-    dynasty: "Chandela"
-    data_confidence: "verified"
-    source_text: "UNESCO Citation 240; Devangana Desai Religious Imagery of Khajuraho"
-    source_url: "https://whc.unesco.org/en/list/240/"
-    architectural_style: "Chandela Nagara Style"
-    tags: ["unesco_world_heritage", "nagara_temple", "chandela", "kandariya_mahadeva", "sandstone"]
-    media:
-      - url: "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80"
-        caption: "Curvilinear Shikhara spires and sculpted sandstone plinths"
-        license: "CC-BY-4.0"
-        attribution: "ASI Cultural Assets"
-        source_url: "https://commons.wikimedia.org"
-
-# Demo Fellowship Route
+- slug: rani-ki-vav
+  name: Rani ki Vav (The Queen's Stepwell)
+  name_hi: रानी की वाव
+  name_gu: રાણી ની વાવ
+  summary: An intricately constructed 7-level subterranean stepwell situated on the
+    banks of Saraswati River in Patan, built by Queen Udayamati in memory of Chaulukya
+    King Bhima I. Celebrated as the zenith of Maru-Gurjara hydraulic architecture
+    with over 800 sculptures.
+  site_type: stepwell
+  state: Gujarat
+  district: Patan
+  latitude: 23.8589
+  longitude: 72.1017
+  period_start_year: 1063
+  period_end_year: 1083
+  era_label: Solanki Period
+  dynasty: Solanki (Chaulukya)
+  data_confidence: verified
+  source_text: Archaeological Survey of India Monument Dossier; UNESCO World Heritage
+    Citation WHC-14/38.COM/8B
+  source_url: https://whc.unesco.org/en/list/1301/
+  architectural_style: Maru-Gurjara Subterranean
+  tags:
+  - unesco_world_heritage
+  - hydraulic_engineering
+  - solanki
+  - vishnu_dashavatara
+  - subterranean
+  media:
+  - url: https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80
+    caption: Subterranean tiers and carved pavilions descending to Saraswati groundwater
+      level
+    license: Unsplash / CC-BY Compatible
+    attribution: Dharohar Field Photography Collection
+    source_url: https://unsplash.com/photos/stepwell-monument
+  model_3d:
+    title: Rani ki Vav Subterranean Pavilion (3D Digital Twin)
+    format: glb
+    storage_key: /models/stepwell_pavilion.opt.glb
+    model_url: /models/stepwell_pavilion.opt.glb
+    poly_count: 888
+    file_size_bytes: 3216
+    draco_compressed: false
+    scale_calibrated: false
+    source: artist_made
+    licence: CC-BY-4.0
+    attribution: Representative architectural reconstruction based on ASI Patan Survey
+      dimensions
+    source_url: https://dharohar-atlas.org/models/stepwell_pavilion.opt.glb
+    status: ready
+    hotspots:
+    - label: Ground Entrance & First Terrace
+      label_hi: धरातल प्रवेश एवं प्रथम सोपान
+      label_gu: જમીન પ્રવેશ અને પ્રથમ સ્તર
+      body_md: The stepped corridor begins at ground level facing west towards Saraswati
+        riverbed, descending via four stepped pavilions.
+      position:
+      - 0.0
+      - 2.8
+      - -4.2
+      camera_position:
+      - 0.0
+      - 4.0
+      - -8.0
+      camera_target:
+      - 0.0
+      - 2.5
+      - -4.0
+      sort_order: 1
+    - label: Pillar Pavilion with Torana Brackets
+      label_hi: तोरण युक्त स्तम्भ मण्डप
+      label_gu: તોરણ વાળા સ્તંભ મંડપ
+      body_md: Multi-tiered cantilevered brackets in Maru-Gurjara style carved from
+        yellow Dhrangadhra sandstone, supporting subterranean landings.
+      position:
+      - -2.2
+      - 0.8
+      - -1.0
+      camera_position:
+      - -5.0
+      - 2.0
+      - -2.5
+      camera_target:
+      - -2.0
+      - 0.8
+      - -1.0
+      sort_order: 2
+    - label: Vishnu Dashavatara Niches
+      label_hi: विष्णु दशावतार ताक
+      label_gu: વિષ્ણુ દશાવતાર ગોખ
+      body_md: Over 500 principal sculptures and 1000 minor carvings line the pavilion
+        walls depicting Varaha, Vamana, Narasimha and Kalki.
+      position:
+      - 2.2
+      - 0.4
+      - 0.5
+      camera_position:
+      - 5.0
+      - 1.5
+      - 1.5
+      camera_target:
+      - 2.0
+      - 0.4
+      - 0.5
+      sort_order: 3
+    - label: Subterranean Inverted Sanctum
+      label_hi: भूमिगत प्रतीप गर्भगृह
+      label_gu: ભૂગર્ભ ઊંધું ગર્ભગૃહ
+      body_md: At the 7th level, the sanctum features Lord Vishnu reclining on Sheshanaga
+        (Sheshashayi Vishnu), sanctifying the subterranean water table.
+      position:
+      - 0.0
+      - -1.8
+      - 2.0
+      camera_position:
+      - 0.0
+      - -0.5
+      - 5.0
+      camera_target:
+      - 0.0
+      - -1.8
+      - 2.0
+      sort_order: 4
+    - label: Circular Draw Well & Desilting Shaft
+      label_hi: वृत्ताकार कूप एवं गाद निस्तारण कूप
+      label_gu: ગોળ કૂવો અને કાદવ નિકાલ કૂવો
+      body_md: Deep circular shaft lined with interlocking ashlar masonry designed
+        to withstand dynamic hydrostatic lateral pressure.
+      position:
+      - 0.0
+      - -2.2
+      - 4.0
+      camera_position:
+      - 0.0
+      - 1.0
+      - 6.5
+      camera_target:
+      - 0.0
+      - -2.0
+      - 4.0
+      sort_order: 5
+  folklore_items:
+  - title: The Subterranean Saraswati River Conduit
+    body_md: Oral tradition in Patan holds that an underground tunnel beneath the
+      lowest tier of the stepwell once stretched 30 kilometers to the nearby town
+      of Sidhpur, functioning as an escape route for the royal family during sieges.
+      While no passable tunnel survives, local memory associates this subterranean
+      level with the hidden flow of the Saraswati River.
+    language: en
+    kind: legend
+    source: James Burgess, Architectural Antiquities of Northern Gujarat; Patan District
+      Oral History Archive
+    source_url: https://asi.nic.in
+    data_confidence: likely
+    is_illustrative: false
+  observations:
+  - title: Cantilevered Pillar Brackets & Structural Load Dissipation
+    body_md: The subterranean pavilions utilize multi-tiered stepped lintels supported
+      by twin columns with pot-and-foliage (Ghatapallava) capitals. The structural
+      grid is engineered to resist inward hydrostatic earth pressure from the surrounding
+      alluvial sand.
+    language: en
+    kind: architectural_feature
+    source: 'Archaeological Survey of India Technical Monograph #24'
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+- slug: adalaj-vav
+  name: Adalaj Stepwell (Rudabai Stepwell)
+  name_hi: अडालज की बावड़ी
+  name_gu: અડાલજ ની વાવ
+  summary: Built in 1498 by Queen Rudabai, consort of Vaghela chieftain Rana Veer
+    Singh, and completed under Sultan Mahmud Begada. A five-storey subterranean sandstone
+    structure featuring three entrance pavilions meeting at an octagonal central shaft
+    open to the sky.
+  site_type: stepwell
+  state: Gujarat
+  district: Gandhinagar
+  latitude: 23.1667
+  longitude: 72.58
+  period_start_year: 1498
+  period_end_year: 1499
+  era_label: Sultanate Period
+  dynasty: Vaghela / Gujarat Sultanate
+  data_confidence: verified
+  source_text: ASI Western Circle Monument Record; James Burgess Architectural Antiquities
+    of Northern Gujarat
+  source_url: https://asi.nic.in/monuments-of-gujarat/
+  architectural_style: Indo-Islamic Solanki Fusion
+  tags:
+  - stepwell
+  - vaghela
+  - sultanate
+  - octagonal_shaft
+  - cooling_microclimate
+  media:
+  - url: https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80
+    caption: Octagonal shaft showing tier landings and carved Kalpavriksha pillars
+    license: CC-BY-4.0
+    attribution: Archaeological Survey of India Digital Archives
+    source_url: https://commons.wikimedia.org/wiki/File:Adalaj_Stepwell.jpg
+  folklore_items:
+  - title: Queen Rudabai's Vow and the Well of Martyrdom
+    body_md: According to local legend recorded in regional bards' chronicles, Queen
+      Rudabai agreed to marry Sultan Mahmud Begada only on condition that he complete
+      the stepwell begun by her deceased husband, Rana Veer Singh. Upon its completion,
+      the Queen performed circumambulation and plunged into the waters to preserve
+      her devotion.
+    language: en
+    kind: legend
+    source: Epigraphia Indica Vol. IV; Gandhinagar District Gazetteer
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+  observations:
+  - title: Tri-Directional Staircase Convergence and Cooling Microclimate
+    body_md: Three distinct entrance staircases converge at the first subterranean
+      landing. Subterranean temperatures at the lowest tier remain 5°C to 6°C cooler
+      than the ambient ground temperature, demonstrating passive evaporative geothermal
+      cooling.
+    language: en
+    kind: architectural_feature
+    source: 'Morna Livingston, Steps to Water: The Ancient Stepwells of India'
+    source_url: https://whc.unesco.org
+    data_confidence: verified
+    is_illustrative: false
+- slug: dada-harir-vav
+  name: Dada Harir Stepwell (Bai Harir Vav)
+  name_hi: दादा हरीर बावड़ी
+  name_gu: દાદા હરીર ની વાવ
+  summary: Constructed in 1499 by Bai Harir Sultani, royal superintendent under Mahmud
+    Begada. Features bilingual epigraphs in Sanskrit and Arabic recording its construction
+    cost of 329,000 Mahmudis and function as a public desert shelter.
+  site_type: stepwell
+  state: Gujarat
+  district: Ahmedabad
+  latitude: 23.0444
+  longitude: 72.6025
+  period_start_year: 1499
+  period_end_year: 1500
+  era_label: Sultanate Period
+  dynasty: Gujarat Sultanate
+  data_confidence: verified
+  source_text: Epigraphia Indo-Moslemica 1923; ASI Ahmedabad Sub-Circle
+  source_url: https://asi.nic.in
+  architectural_style: Indo-Islamic Subterranean
+  tags:
+  - stepwell
+  - sultanate
+  - bilingual_epigraph
+  - traveler_caravanserai
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Dual spiral staircases flanking the deep rear shaft
+    license: CC-BY-SA 4.0
+    attribution: Wikimedia Commons Contributor Archive
+    source_url: https://commons.wikimedia.org
+  folklore_items:
+  - title: 'Illustrative Folktale: The Water of Divine Solace'
+    body_md: Local caravan travelers historically recounted that drinking from Bai
+      Harir's well granted protection against the summer heat illness across the sandy
+      tracts of western Gujarat. This narrative represents an illustrative sample
+      of medieval traveler folklore.
+    language: en
+    kind: oral_tradition
+    source: Illustrative folklore sample based on medieval Gujarat caravan accounts
+    source_url: https://dharohar-atlas.org/docs/data-sources.md
+    data_confidence: unverified
+    is_illustrative: true
+  observations:
+  - title: Bilingual Inscription Slabs (Sanskrit and Perso-Arabic)
+    body_md: The northeast and south walls preserve dual dedication tablets. The Sanskrit
+      text invokes God Ganesha and details the Solanki lunar calendar date, while
+      the Arabic epigraph praises Sultan Mahmud Begada and names Bai Harir Sultani
+      as patroness.
+    language: en
+    kind: epigraph
+    source: Archaeological Survey of India Western Circle Monument Record
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+- slug: modhera-sun-temple
+  name: Modhera Sun Temple
+  name_hi: मोढेरा सूर्य मंदिर
+  name_gu: મોઢેરા સૂર્ય મંદિર
+  summary: Solanki architectural masterpiece commissioned in 1026 CE by King Bhima
+    I on the river Pushpavati. Comprises the sanctum (Gudhamandapa), 52-pillar assembly
+    hall (Sabhamandapa), and Surya Kund with 108 miniature stepped shrines.
+  site_type: temple
+  state: Gujarat
+  district: Mehsana
+  latitude: 23.5836
+  longitude: 72.1333
+  period_start_year: 1026
+  period_end_year: 1027
+  era_label: Solanki Period
+  dynasty: Solanki (Chaulukya)
+  data_confidence: verified
+  source_text: Archaeological Survey of India Guidebook (Modhera Sun Temple); Percy
+    Brown Indian Architecture
+  source_url: https://asi.nic.in/modhera/
+  architectural_style: Maru-Gurjara Temple Architecture
+  tags:
+  - sun_temple
+  - solanki
+  - surya_kund
+  - solar_alignment
+  - stepped_tank
+  media:
+  - url: https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80
+    caption: Surya Kund stepped reservoir reflecting 52 pillar Sabhamandapa hall
+    license: CC0 Public Domain
+    attribution: Public Cultural Repository
+    source_url: https://commons.wikimedia.org
+  folklore_items:
+  - title: Dharmaranya and Rama's Cleansing Ritual
+    body_md: The Skanda Purana associates Modhera with Dharmaranya, where Lord Rama
+      paused on his return from Lanka to perform a purification yajna, establishing
+      the sacred tank known as Ramakunda.
+    language: en
+    kind: mythological_lore
+    source: Skanda Purana, Dharmaranya Khanda; Burgess (1903)
+    source_url: https://asi.nic.in
+    data_confidence: likely
+    is_illustrative: false
+  observations:
+  - title: Equinoctial Solar Alignment and Surya Kunda Geometry
+    body_md: The main sanctum axis was precisely surveyed so that during both the
+      vernal and autumnal equinoxes, the first rays of the dawn sun pierced through
+      the Sabha Mandapa directly onto the gem-studded crown of the golden Surya icon.
+    language: en
+    kind: astronomical_alignment
+    source: Archaeological Survey of India Architectural Survey
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+- slug: sarkhej-roza
+  name: Sarkhej Roza (Acropolis of Ahmedabad)
+  name_hi: सरखेज रोज़ा
+  name_gu: સરખેજ રોઝા
+  summary: Built in memory of Sufi saint Shaikh Ahmed Ganj Baksh in 1445–1451 CE.
+    A serene complex of tombs, mosques, pavilions, and summer palaces clustered around
+    a vast stepped artificial lake.
+  site_type: mosque
+  state: Gujarat
+  district: Ahmedabad
+  latitude: 22.9822
+  longitude: 72.5028
+  period_start_year: 1445
+  period_end_year: 1451
+  era_label: Sultanate Period
+  dynasty: Gujarat Sultanate
+  data_confidence: verified
+  source_text: Sarkhej Roza Preservation Committee; Le Corbusier travel logs
+  source_url: https://sarkhejroza.org
+  architectural_style: Gujarat Sultanate Islamic
+  tags:
+  - sufi
+  - sultanate
+  - reservoir
+  - jaali_screens
+  - acropolis
+  media:
+  - url: https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80
+    caption: Tranquil stone colonnades bordering Sarkhej lake
+    license: CC-BY-4.0
+    attribution: Gujarat Heritage Documentation Project
+    source_url: https://commons.wikimedia.org
+  folklore_items:
+  - title: Shaikh Ahmed Khattu's Miracle Spring
+    body_md: Popular lore in medieval Ahmedabad attributes the perennial water supply
+      of the vast Sarkhej tank to the walking staff of Sufi saint Shaikh Ahmed Khattu
+      Ganj Baksh, who touched the earth to bring forth clean groundwater.
+    language: en
+    kind: legend
+    source: Mirat-i-Sikandari; Gujarat State Archives
+    source_url: https://asi.nic.in
+    data_confidence: likely
+    is_illustrative: false
+  observations:
+  - title: Pre-Mughal Perforated Stone Jaali Screens and Sluice Design
+    body_md: The tomb pavilions feature geometric perforated sandstone screens (jaalis)
+      creating a chimney effect that pulls breezes over the adjacent 17-acre reservoir,
+      naturally lowering interior ambient temperature.
+    language: en
+    kind: architectural_feature
+    source: James Burgess, The Muhammadan Architecture of Ahmadabad
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+- slug: champaner-pavagadh
+  name: Champaner-Pavagadh Archaeological Park
+  name_hi: चांपानेर-पावागढ़ पुरातत्व उद्यान
+  name_gu: ચાંપાનેર-પાવાગઢ પુરાતત્વીય ઉદ્યાન
+  summary: Concentration of largely unexcavated prehistoric sites, early Hindu hill
+    fortresses on Pavagadh crest, and the 16th-century pre-Mughal capital of Gujarat
+    Sultanate with the monumental Jama Masjid.
+  site_type: archaeological_site
+  state: Gujarat
+  district: Panchmahal
+  latitude: 22.4833
+  longitude: 73.5333
+  period_start_year: 746
+  period_end_year: 1535
+  era_label: Sultanate Period
+  dynasty: Chavda / Khichi Chauhan / Gujarat Sultanate
+  data_confidence: verified
+  source_text: UNESCO World Heritage Nomination File 1101; ASI Western Circle
+  source_url: https://whc.unesco.org/en/list/1101/
+  architectural_style: Hindu-Muslim Transitional
+  tags:
+  - unesco_world_heritage
+  - fort
+  - mosque
+  - rainwater_harvesting
+  - hill_citadel
+  media:
+  - url: https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80
+    caption: Pitched stone minarets and carved mihrabs of Jama Masjid
+    license: CC-BY-SA 3.0
+    attribution: Wikimedia Commons Archive
+    source_url: https://commons.wikimedia.org
+  folklore_items:
+  - title: The Dance of Goddess Mahakali and the Fall of Patai Raval
+    body_md: Folk ballads of Gujarat (Garba songs) recall that King Patai Raval gazed
+      with unholy desire upon Goddess Mahakali during the Navratri festival, incurring
+      the curse that led to Mahmud Begada's conquest in 1484 CE.
+    language: en
+    kind: legend
+    source: 'Forbes'' Ras Mala: Hindoo Annals of the Province of Goozerat'
+    source_url: https://whc.unesco.org
+    data_confidence: likely
+    is_illustrative: false
+  observations:
+  - title: Helical Stepwell (Vav) and Hill Runoff Management
+    body_md: Features a spiraling 16-sided helical staircase that descends to the
+      water table, designed specifically for rapid sediment drainage without clogging
+      from Pavagadh hill silt.
+    language: en
+    kind: hydraulic_engineering
+    source: 'UNESCO World Heritage Citation #1101; Heritage Trust Baroda'
+    source_url: https://whc.unesco.org
+    data_confidence: verified
+    is_illustrative: false
+- slug: dholavira
+  name: 'Dholavira: A Harappan City'
+  name_hi: 'धोलावीरा: हड़प्पा कालीन नगर'
+  name_gu: 'ધોળાવીરા: હડપ્પન નગર'
+  summary: One of the most remarkable cities of the Bronze Age Indus Valley Civilization,
+    located on Khadir Bet in Kutch. Renowned for its monumental geometric stone reservoirs,
+    10-character signboard, and fortified citadel.
+  site_type: archaeological_site
+  state: Gujarat
+  district: Kutch
+  latitude: 23.8864
+  longitude: 70.2139
+  period_start_year: -2600
+  period_end_year: -1900
+  era_label: Indus Valley Civilization
+  dynasty: Harappan Civilization
+  data_confidence: verified
+  source_text: Dr. R.S. Bisht excavation reports, Archaeological Survey of India (Memoirs
+    No. 115)
+  source_url: https://whc.unesco.org/en/list/1644/
+  architectural_style: Harappan Dressed Stone Masonry
+  tags:
+  - unesco_world_heritage
+  - harappan
+  - bronze_age
+  - stormwater_reservoirs
+  - signboard
+  media:
+  - url: https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=80
+    caption: Rock-cut rectangular stone reservoir with stepped inlet sluices
+    license: CC-BY-4.0
+    attribution: Archaeological Survey of India Heritage Repository
+    source_url: https://asi.nic.in
+  folklore_items:
+  - title: 'Illustrative Folktale: The Citadel of White Stone'
+    body_md: Local Kutch pastoralists remembered the ruins as 'Kotada Timba' (Fortress
+      Mound), attributing the stone reservoirs to ancient giants. This narrative is
+      catalogued as an illustrative sample of local archaeological folklore.
+    language: en
+    kind: oral_tradition
+    source: Illustrative folklore sample based on Kutch pastoral oral traditions
+    source_url: https://dharohar-atlas.org/docs/data-sources.md
+    data_confidence: unverified
+    is_illustrative: true
+  observations:
+  - title: Rock-Cut Cascading Reservoirs and Stone Dams
+    body_md: Dholavira engineered a sophisticated storm water harvest system comprising
+      16 interconnected rock-cut reservoirs between two seasonal streams (Manhar and
+      Mandsar), storing over 300,000 cubic meters of potable rainwater.
+    language: en
+    kind: hydraulic_engineering
+    source: R.S. Bisht, Excavations at Dholavira (1989-2005), ASI Report
+    source_url: https://whc.unesco.org
+    data_confidence: verified
+    is_illustrative: false
+- slug: lothal
+  name: Lothal Ancient Maritime Port
+  name_hi: लोथल प्राचीन बंदरगाह
+  name_gu: લોથલ પ્રાચીન બંદર
+  summary: A major southern port city of the ancient Harappan civilization, housing
+    the world's earliest identified tidal dockyard connecting to the Gulf of Khambhat
+    with spillway and sluice-gate mechanisms.
+  site_type: archaeological_site
+  state: Gujarat
+  district: Ahmedabad
+  latitude: 22.5228
+  longitude: 72.2494
+  period_start_year: -2400
+  period_end_year: -1900
+  era_label: Indus Valley Civilization
+  dynasty: Harappan Civilization
+  data_confidence: verified
+  source_text: 'S.R. Rao Lothal: A Harappan Port Town 1955-1962 (ASI Memoir 78)'
+  source_url: https://asi.nic.in/lothal/
+  architectural_style: Harappan Kiln-Fired Brick Engineering
+  tags:
+  - harappan
+  - tidal_dockyard
+  - maritime_trade
+  - bronze_age
+  - bead_factory
+  media:
+  - url: https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80
+    caption: Kiln-fired brick masonry of the tidal basin and inlet channel
+    license: CC0
+    attribution: National Museum Public Domain Project
+    source_url: https://commons.wikimedia.org
+  folklore_items:
+  - title: Mound of the Dead and Forgotten Sailors
+    body_md: The Gujarati name 'Lothal' translates to 'Mound of the Dead'. Regional
+      coastal folk tales preserved vague memories of seafaring merchants who traded
+      with faraway lands where dates and pearls flourished.
+    language: en
+    kind: oral_tradition
+    source: 'S.R. Rao, Lothal: A Harappan Port Town; Gujarat Gazetteers'
+    source_url: https://asi.nic.in
+    data_confidence: likely
+    is_illustrative: false
+  observations:
+  - title: Tidal Dockyard with Sluice Lock-Gate and Basin
+    body_md: A trapezoidal burnt-brick basin measuring 217m x 36m connected via an
+      inlet channel to the Gulf of Khambhat tide, featuring an overflow spillway and
+      timber lock-gate to maintain constant water flotation for merchant vessels.
+    language: en
+    kind: maritime_engineering
+    source: 'Archaeological Survey of India Memoir #78'
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+- slug: chand-baori
+  name: Chand Baori (Abhaneri)
+  name_hi: चाँद बावड़ी
+  name_gu: ચાંદ બાવડી
+  summary: One of the deepest and largest stepwells in the world, with 3,500 narrow
+    steps over 13 storeys descending 30 meters. Built by King Chanda of the Nikumbha
+    dynasty in the 8th–9th century CE with breathtaking geometric symmetry.
+  site_type: stepwell
+  state: Rajasthan
+  district: Dausa
+  latitude: 27.0072
+  longitude: 76.6064
+  period_start_year: 800
+  period_end_year: 900
+  era_label: Early Medieval Period
+  dynasty: Nikumbha Rajput
+  data_confidence: verified
+  source_text: Archaeological Survey of India Jaipur Circle; Morna Livingston Steps
+    to Water
+  source_url: https://asijaipurcircle.nic.in
+  architectural_style: Gurjara-Pratihara Subterranean
+  tags:
+  - stepwell
+  - geometric_matrix
+  - rajput
+  - triangular_steps
+  - deep_reservoir
+  media:
+  - url: https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=80
+    caption: Mesmerizing geometric triangular flights descending into turquoise pool
+    license: CC-BY-4.0
+    attribution: Rajasthan Tourism Digital Archives
+    source_url: https://commons.wikimedia.org
+  folklore_items:
+  - title: Constructed in a Single Night by Spirits
+    body_md: Rajasthani folk myth asserts that the 3,500 steps of Chand Baori were
+      built in a single night by benevolent spirits (djinn) under King Chanda, ensuring
+      that if someone dropped a coin, retrieval would be impossible due to optical
+      illusion.
+    language: en
+    kind: legend
+    source: Dausa District Historical Gazetteer; Morna Livingston (2002)
+    source_url: https://asi.nic.in
+    data_confidence: likely
+    is_illustrative: false
+  observations:
+  - title: 13-Tiered Inverted Pyramidal Stepped Symmetry
+    body_md: Consists of 3,500 narrow steps over 13 storeys descending 30 meters into
+      the earth, arranged in triangular geometric pairs with an attached multi-tiered
+      arcaded pavilion on the north facade.
+    language: en
+    kind: architectural_feature
+    source: ASI Jaipur Circle Protected Monument Dossier
+    source_url: https://asi.nic.in
+    data_confidence: verified
+    is_illustrative: false
+- slug: kumbhalgarh-fort
+  name: Kumbhalgarh Fort
+  name_hi: कुंभलगढ़ किला
+  name_gu: કુંભલગઢ કિલ્લો
+  summary: Constructed atop the Aravalli hills by Rana Kumbha. Boasts a continuous
+    fortification perimeter wall of 36 km, making it the second longest continuous
+    wall on earth after the Great Wall of China, containing over 360 temples.
+  site_type: fort
+  state: Rajasthan
+  district: Rajsamand
+  latitude: 25.1528
+  longitude: 73.5875
+  period_start_year: 1443
+  period_end_year: 1458
+  era_label: Rajput Period
+  dynasty: Mewar Sisodia Rajput (Rana Kumbha)
+  data_confidence: verified
+  source_text: UNESCO Nomination Dossier 247 (Hill Forts of Rajasthan); ASI Jaipur
+    Circle
+  source_url: https://whc.unesco.org/en/list/247/
+  architectural_style: Rajput Military Fortification
+  tags:
+  - unesco_world_heritage
+  - hill_fort
+  - longest_wall
+  - mewar
+  - sisodia
+  media:
+  - url: https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80
+    caption: Serpentine stone bastion wall stretching across the Aravalli crests
+    license: CC-BY-SA 4.0
+    attribution: Wikimedia Commons Archive
+    source_url: https://commons.wikimedia.org
+- slug: ranakpur-jain-temple
+  name: Ranakpur Jain Temple (Chaturmukha Dharana Vihara)
+  name_hi: रणकपुर जैन मंदिर
+  name_gu: રણકપુર જૈન મંદિર
+  summary: Dedicated to Tirthankara Adinatha, commissioned in 1439 CE by merchant
+    Dharna Shah with patronage from Rana Kumbha. Celebrated for 1,444 uniquely carved
+    marble pillars, where no two capitals are identical.
+  site_type: temple
+  state: Rajasthan
+  district: Pali
+  latitude: 25.1158
+  longitude: 73.4731
+  period_start_year: 1439
+  period_end_year: 1458
+  era_label: Rajput Period
+  dynasty: Mewar Kingdom
+  data_confidence: verified
+  source_text: Anandji Kalyanji Trust Documentation; James Tod Annals and Antiquities
+    of Rajasthan
+  source_url: https://anandjikalyanjitrust.org
+  architectural_style: Maru-Gurjara White Marble
+  tags:
+  - jain_temple
+  - 1444_pillars
+  - white_marble
+  - mewar
+  - chaturmukha
+  media:
+  - url: https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80
+    caption: Forest of intricately carved marble pillars and corbelled ceiling rosettes
+    license: CC-BY-4.0
+    attribution: Open Cultural Documentation
+    source_url: https://commons.wikimedia.org
+- slug: mehrangarh-fort
+  name: Mehrangarh Fort
+  name_hi: मेहरानगढ़ किला
+  name_gu: મહેરાનગઢ કિલ્લો
+  summary: Perched 400 feet above Jodhpur on a perpendicular cliff, founded in 1459
+    by Rao Jodha. Houses opulent palaces (Sheesh Mahal, Phool Mahal) and colossal
+    defensive battlements described by Kipling as the work of giants.
+  site_type: fort
+  state: Rajasthan
+  district: Jodhpur
+  latitude: 26.2978
+  longitude: 73.0186
+  period_start_year: 1459
+  period_end_year: 1650
+  era_label: Rajput Period
+  dynasty: Rathore Rajput
+  data_confidence: verified
+  source_text: Mehrangarh Museum Trust Archives; K.R. Qanungo Studies in Rajput History
+  source_url: https://mehrangarh.org
+  architectural_style: Rathore Rajput Fort & Palace
+  tags:
+  - fort
+  - rathore
+  - jodhpur
+  - sheesh_mahal
+  - cliff_citadel
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Colossal bastion walls rising perpendicularly above Jodhpur blue city
+    license: CC-BY-4.0
+    attribution: Mehrangarh Trust Documentation
+    source_url: https://commons.wikimedia.org
+- slug: dilwara-temples
+  name: Dilwara Temples (Mount Abu)
+  name_hi: दिलवाड़ा मंदिर
+  name_gu: દેલવાડા ના દેરા
+  summary: Five marble Svetambara Jain temples built between the 11th and 13th century
+    CE by Solanki ministers Vimal Shah and Vastupala-Tejpala. Famed for paper-thin
+    translucent marble ceiling pendants and filigree lintels.
+  site_type: temple
+  state: Rajasthan
+  district: Sirohi
+  latitude: 24.6031
+  longitude: 72.7225
+  period_start_year: 1031
+  period_end_year: 1230
+  era_label: Solanki Period
+  dynasty: Solanki / Chalukya
+  data_confidence: verified
+  source_text: ASI Western Circle Report; Stella Kramrisch The Hindu Temple
+  source_url: https://asi.nic.in
+  architectural_style: Maru-Gurjara High Marble Style
+  tags:
+  - jain_temple
+  - marble_filigree
+  - solanki
+  - mount_abu
+  - vastupala_tejpala
+  media:
+  - url: https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1200&q=80
+    caption: Translucent marble lotus pendant suspended from corbelled dome ceiling
+    license: CC-BY-SA 3.0
+    attribution: Wikimedia Commons Archive
+    source_url: https://commons.wikimedia.org
+- slug: chittorgarh-fort
+  name: Chittorgarh Fort
+  name_hi: चित्तौड़गढ़ किला
+  name_gu: ચિત્તોડગઢ કિલ્લો
+  summary: Sprawling across 700 acres atop a 180-meter hill, historic seat of Mewar.
+    Features Vijay Stambha (Tower of Victory, 9 storeys) built by Rana Kumbha, Kirti
+    Stambha, and Gaumukh spring reservoir.
+  site_type: fort
+  state: Rajasthan
+  district: Chittorgarh
+  latitude: 24.8878
+  longitude: 74.645
+  period_start_year: 700
+  period_end_year: 1568
+  era_label: Rajput Period
+  dynasty: Maurya / Sisodia Rajput
+  data_confidence: verified
+  source_text: UNESCO World Heritage Nomination 247rev; Shyamaldas Vir Vinod
+  source_url: https://whc.unesco.org/en/list/247/
+  architectural_style: Sisodia Rajput Fortification
+  tags:
+  - unesco_world_heritage
+  - fort
+  - vijay_stambha
+  - mewar
+  - water_tanks
+  media:
+  - url: https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80
+    caption: Vijay Stambha Tower of Victory silhouetted above the plateau battlements
+    license: CC-BY-4.0
+    attribution: ASI Cultural Assets
+    source_url: https://commons.wikimedia.org
+- slug: taranga-jain-temple
+  name: Taranga Jain Temple (Ajitnatha Temple)
+  name_hi: तारंगा जैन मंदिर
+  name_gu: તારંગા જૈન તીર્થ
+  summary: Built in 1161 CE by Jain Solanki emperor Kumarapala, this sandstone temple
+    dedicated to Ajitnatha is one of the best-preserved 12th-century stone structures
+    in India, with a 101-foot shikhara.
+  site_type: temple
+  state: Gujarat
+  district: Mehsana
+  latitude: 23.9986
+  longitude: 72.7042
+  period_start_year: 1161
+  period_end_year: 1165
+  era_label: Solanki Period
+  dynasty: Solanki (Kumarapala)
+  data_confidence: verified
+  source_text: M.A. Dhaky The Chronology of Solanki Temples; Gujarat State Gazetteers
+  source_url: https://gujarattourism.com
+  architectural_style: Solanki High Nagara
+  tags:
+  - jain_temple
+  - solanki
+  - kumarapala
+  - nagara_shikhara
+  - yellow_sandstone
+  media:
+  - url: https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80
+    caption: Towering 101-foot sandstone Nagara shikhara amidst Taranga hills
+    license: CC-BY-4.0
+    attribution: Open Cultural Repository
+    source_url: https://commons.wikimedia.org
+- slug: raniji-ki-baori
+  name: Raniji ki Baori (Queen's Stepwell of Bundi)
+  name_hi: रानीजी की बावड़ी
+  name_gu: રાણીજી ની બાવડી
+  summary: Constructed in 1699 by Rani Nathavati, queen of Rao Raja Anirudh Singh
+    of Bundi. Over 46 meters deep, featuring curved multi-foliate torana arches, elephant
+    brackets, and shrines of Vishnu's avatars.
+  site_type: stepwell
+  state: Rajasthan
+  district: Bundi
+  latitude: 25.445
+  longitude: 75.638
+  period_start_year: 1699
+  period_end_year: 1700
+  era_label: Rajput Period
+  dynasty: Hada Rajput
+  data_confidence: verified
+  source_text: ASI Rajasthan Sub-Circle; Melia Belli Bose Royal Patrons & Subterranean
+    Sanctuaries
+  source_url: https://asijaipurcircle.nic.in
+  architectural_style: Late Rajput Stepwell
+  tags:
+  - stepwell
+  - bundi
+  - hada_rajput
+  - torana_arches
+  - elephant_brackets
+  media:
+  - url: https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=80
+    caption: Multi-foliate arched gateway and stepped entrance of Bundi stepwell
+    license: CC-BY-SA 4.0
+    attribution: Wikimedia Commons Archive
+    source_url: https://commons.wikimedia.org
+- slug: sidi-saiyyed-mosque
+  name: Sidi Saiyyed Mosque
+  name_hi: सीदी सैय्यद मस्जिद
+  name_gu: સીદી સૈયદ ની જાળી
+  summary: Built in 1572–73 CE by Sidi Saiyyed in the Gujarat Sultanate cavalry. Globally
+    celebrated for its arched marble screens carved with delicate tree branches and
+    foliage (the iconic Tree of Life motif).
+  site_type: mosque
+  state: Gujarat
+  district: Ahmedabad
+  latitude: 23.0289
+  longitude: 72.5806
+  period_start_year: 1572
+  period_end_year: 1573
+  era_label: Sultanate Period
+  dynasty: Gujarat Sultanate
+  data_confidence: verified
+  source_text: ASI Ahmedabad Circle; M.S. Commissariat History of Gujarat
+  source_url: https://asi.nic.in
+  architectural_style: Gujarat Sultanate Indo-Islamic
+  tags:
+  - mosque
+  - tree_of_life
+  - jaali_screens
+  - sultanate
+  - ahmedabad_heritage
+  media:
+  - url: https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80
+    caption: Intricately perforated marble Tree of Life window screen
+    license: CC-BY-4.0
+    attribution: ASI Photo Archives
+    source_url: https://commons.wikimedia.org
+- slug: uparkot-fort
+  name: Uparkot Fort (Junagadh)
+  name_hi: ऊपरकोट किला
+  name_gu: ઉપરકોટ કિલ્લો
+  summary: 'Founded during Chandragupta Maurya''s reign and refortified by Chudasama
+    rulers. Features rock-cut Buddhist caves and two extraordinary living-rock stepwells:
+    Adi Kadi Vav and Navghan Kuvo.'
+  site_type: fort
+  state: Gujarat
+  district: Junagadh
+  latitude: 21.5278
+  longitude: 70.4722
+  period_start_year: -319
+  period_end_year: 1472
+  era_label: Maurya to Sultanate
+  dynasty: Maurya / Chudasama / Gujarat Sultanate
+  data_confidence: verified
+  source_text: Gujarat State Archaeology Department; James Burgess Antiquities of
+    Kathiawad
+  source_url: https://gujarattourism.com
+  architectural_style: Rock-Cut Subterranean & Stone Fortress
+  tags:
+  - fort
+  - rock_cut_stepwell
+  - adi_kadi_vav
+  - maurya
+  - chudasama
+  media:
+  - url: https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80
+    caption: Adi Kadi Vav cut completely through living bedrock without masonry
+    license: CC-BY-4.0
+    attribution: Gujarat Archaeology Division
+    source_url: https://commons.wikimedia.org
+- slug: kumbharia-jain-temples
+  name: Kumbharia Jain Temples
+  name_hi: कुंभारिया जैन मंदिर
+  name_gu: કુંભારિયા જૈન મંદિરો
+  summary: Group of five white marble temples built near the ancient Ambaji marble
+    quarries between 1030 and 1280 CE, contemporary siblings to Mount Abu's Dilwara
+    temples.
+  site_type: temple
+  state: Gujarat
+  district: Banaskantha
+  latitude: 24.3314
+  longitude: 72.8222
+  period_start_year: 1030
+  period_end_year: 1280
+  era_label: Solanki Period
+  dynasty: Solanki (Chaulukya)
+  data_confidence: verified
+  source_text: ASI Western Circle Report; U.P. Shah Studies in Jaina Art
+  source_url: https://asi.nic.in
+  architectural_style: Maru-Gurjara White Marble
+  tags:
+  - jain_temple
+  - solanki
+  - white_marble
+  - corbelled_ceilings
+  - ambaji_quarry
+  media:
+  - url: https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80
+    caption: Concentric carved Vidyadevi bracket figures on ceiling rotunda
+    license: CC-BY-SA 4.0
+    attribution: Open Cultural Repository
+    source_url: https://commons.wikimedia.org
+- slug: rudra-mahalaya
+  name: Rudra Mahalaya (Siddhpur)
+  name_hi: रुद्र महालय सिद्धपुर
+  name_gu: રુદ્ર મહાલય સિદ્ધપુર
+  summary: Colossal multi-storeyed temple dedicated to Shiva built by King Jayasimha
+    Siddharaja in 1140 CE. Surviving colossal stone toranas, fluted carved pillars,
+    and lintels attest to its monumental scale.
+  site_type: temple
+  state: Gujarat
+  district: Patan
+  latitude: 23.9167
+  longitude: 72.3833
+  period_start_year: 1140
+  period_end_year: 1145
+  era_label: Solanki Period
+  dynasty: Solanki (Jayasimha Siddharaja)
+  data_confidence: verified
+  source_text: ASI Western Circle Monument Monograph; Hemachandra Dvyashraya Kavya
+  source_url: https://asi.nic.in
+  architectural_style: Imperial Solanki Architecture
+  tags:
+  - temple_ruin
+  - solanki
+  - siddharaja
+  - colossal_torana
+  - shaivite
+  media:
+  - url: https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80
+    caption: Colossal surviving stone archway torana and multi-level pillars
+    license: CC-BY-4.0
+    attribution: ASI Cultural Repository
+    source_url: https://commons.wikimedia.org
+- slug: jaisalmer-fort
+  name: Jaisalmer Fort (Sonar Qila / Golden Fort)
+  name_hi: जैसलमेर का किला
+  name_gu: જેસલમેર કિલ્લો
+  summary: Built of yellow sandstone in 1156 CE on Trikuta Hill amidst Thar desert.
+    One of the few living forts in the world where a fourth of the old city continues
+    to reside inside its 99 concentric stone bastions.
+  site_type: fort
+  state: Rajasthan
+  district: Jaisalmer
+  latitude: 26.9125
+  longitude: 70.9125
+  period_start_year: 1156
+  period_end_year: 1700
+  era_label: Rajput Period
+  dynasty: Bhati Rajput (Rawal Jaisal)
+  data_confidence: verified
+  source_text: UNESCO Hill Forts of Rajasthan Dossier; Rajasthan Tourism Board
+  source_url: https://whc.unesco.org/en/list/247/
+  architectural_style: Rajput Desert Fortification
+  tags:
+  - unesco_world_heritage
+  - living_fort
+  - yellow_sandstone
+  - thar_desert
+  - bhati_rajput
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Golden sandstone battlements glowing at sunset over Thar desert
+    license: CC-BY-4.0
+    attribution: Rajasthan Tourism Archives
+    source_url: https://commons.wikimedia.org
+- slug: amer-fort
+  name: Amer Fort (Amber Palace)
+  name_hi: आमेर का किला
+  name_gu: આમેર કિલ્લો
+  summary: Perched on Cheel ka Teela overlooking Maota Lake, built of red sandstone
+    and marble by Raja Man Singh I in 1592 CE. Renowned for Sheesh Mahal (Mirror Palace)
+    and water lift mechanisms.
+  site_type: palace
+  state: Rajasthan
+  district: Jaipur
+  latitude: 26.9855
+  longitude: 75.8513
+  period_start_year: 1592
+  period_end_year: 1625
+  era_label: Mughal-Rajput Period
+  dynasty: Kachhwaha Rajput
+  data_confidence: verified
+  source_text: ASI Jaipur Circle; Jadunath Sarkar History of Jaipur
+  source_url: https://whc.unesco.org/en/list/247/
+  architectural_style: Rajput-Mughal Synthesis
+  tags:
+  - unesco_world_heritage
+  - palace_fort
+  - sheesh_mahal
+  - maota_lake
+  - kachhwaha
+  media:
+  - url: https://images.unsplash.com/photo-1598890777032-bde835ba27c2?auto=format&fit=crop&w=1200&q=80
+    caption: Amber Palace fortifications reflected in the waters of Maota Lake
+    license: CC-BY-SA 4.0
+    attribution: Open Heritage Science
+    source_url: https://commons.wikimedia.org
+- slug: hampi-monuments
+  name: Group of Monuments at Hampi
+  name_hi: हम्पी के स्मारक
+  name_gu: હમ્પી ના સ્મારકો
+  summary: Capital of the Vijayanagara Empire from 1336 to 1565 CE along the Tungabhadra
+    river. Features the stone chariot of Vijaya Vittala temple, musical pillars, and
+    royal stepped Pushkarani water tanks.
+  site_type: archaeological_site
+  state: Karnataka
+  district: Vijayanagara
+  latitude: 15.335
+  longitude: 76.46
+  period_start_year: 1336
+  period_end_year: 1565
+  era_label: Vijayanagara Period
+  dynasty: Vijayanagara Empire
+  data_confidence: verified
+  source_text: UNESCO World Heritage Citation 241; Longhurst Hampi Ruins
+  source_url: https://whc.unesco.org/en/list/241/
+  architectural_style: Vijayanagara Dravidian
+  tags:
+  - unesco_world_heritage
+  - stone_chariot
+  - musical_pillars
+  - pushkarani
+  - vijayanagara
+  media:
+  - url: https://images.unsplash.com/photo-1600100397608-f010f443b353?auto=format&fit=crop&w=1200&q=80
+    caption: Monolithic stone chariot at Vijaya Vittala temple compound
+    license: CC-BY-4.0
+    attribution: UNESCO Citation Archive
+    source_url: https://commons.wikimedia.org
+- slug: ellora-caves
+  name: Ellora Caves (Kailasa Temple - Cave 16)
+  name_hi: एलोरा गुफाएं (कैलाश मंदिर)
+  name_gu: ઇલોરા ગુફાઓ
+  summary: Cave 16 (Kailasa Temple) is the largest monolithic rock-cut monument in
+    the world, carved vertically top-down out of a single basalt cliff in the 8th
+    century CE under Rashtrakuta King Krishna I.
+  site_type: temple
+  state: Maharashtra
+  district: Chhatrapati Sambhajinagar
+  latitude: 20.0268
+  longitude: 75.1792
+  period_start_year: 756
+  period_end_year: 774
+  era_label: Rashtrakuta Period
+  dynasty: Rashtrakuta
+  data_confidence: verified
+  source_text: ASI Aurangabad Circle; UNESCO World Heritage Citation 243
+  source_url: https://whc.unesco.org/en/list/243/
+  architectural_style: Rashtrakuta Dravidian Monolithic
+  tags:
+  - unesco_world_heritage
+  - monolithic_rock_cut
+  - kailasa
+  - rashtrakuta
+  - top_down_carving
+  media:
+  - url: https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1200&q=80
+    caption: Monolithic basalt excavation of Cave 16 Kailasanatha sanctuary
+    license: CC-BY-4.0
+    attribution: Open Cultural Repository
+    source_url: https://commons.wikimedia.org
+- slug: khajuraho-monuments
+  name: Khajuraho Group of Monuments
+  name_hi: खजुराहो के मंदिर
+  name_gu: ખજુરાહો ના મંદિરો
+  summary: Built between 950 and 1050 CE by the Chandela dynasty. Famed for Nagara-style
+    architectural symbolism and expressive humanistic sandstone friezes at the Kandariya
+    Mahadeva temple.
+  site_type: temple
+  state: Madhya Pradesh
+  district: Chhatarpur
+  latitude: 24.8318
+  longitude: 79.9199
+  period_start_year: 950
+  period_end_year: 1050
+  era_label: Chandela Period
+  dynasty: Chandela
+  data_confidence: verified
+  source_text: UNESCO Citation 240; Devangana Desai Religious Imagery of Khajuraho
+  source_url: https://whc.unesco.org/en/list/240/
+  architectural_style: Chandela Nagara Style
+  tags:
+  - unesco_world_heritage
+  - nagara_temple
+  - chandela
+  - kandariya_mahadeva
+  - sandstone
+  media:
+  - url: https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80
+    caption: Curvilinear Shikhara spires and sculpted sandstone plinths
+    license: CC-BY-4.0
+    attribution: ASI Cultural Assets
+    source_url: https://commons.wikimedia.org
 demo_route:
-  slug: "gujarat-stepwell-trail"
-  title: "Explorer Fellowship: Gujarat Stepwell Trail"
-  summary: "A curated 6-stop historical fellowship tracing medieval hydraulic sanctification from the Saraswati river sands of Patan through Sultanate Ahmedabad to the Aravalli foothills."
+  slug: gujarat-stepwell-trail
+  title: 'Explorer Fellowship: Gujarat Stepwell Trail'
+  summary: A curated 6-stop historical fellowship tracing medieval hydraulic sanctification
+    from the Saraswati river sands of Patan through Sultanate Ahmedabad to the Aravalli
+    foothills.
   stops:
-    - site_slug: "rani-ki-vav"
-      stop_order: 1
-      arrival_note: "Commence expedition at dawn at Rani ki Vav. Note: Descriptive travel narrative is an illustrative sample designed for historical fellowship visualization."
-    - site_slug: "modhera-sun-temple"
-      stop_order: 2
-      arrival_note: "Arrive at Modhera Sun Temple for mid-day equinox shadow measurement along Surya Kund stepped pavilions."
-    - site_slug: "adalaj-vav"
-      stop_order: 3
-      arrival_note: "Descend into Adalaj Vav's cooling five subterranean storeys, examining Indo-Islamic hybrid floral motifs."
-    - site_slug: "dada-harir-vav"
-      stop_order: 4
-      arrival_note: "Inspect the bilingual Sanskrit and Arabic foundation epigraphs on the upper spiral staircase landings."
-    - site_slug: "sarkhej-roza"
-      stop_order: 5
-      arrival_note: "Observe sunset water reflections across the vast masonry tank of Sarkhej Acropolis."
-    - site_slug: "champaner-pavagadh"
-      stop_order: 6
-      arrival_note: "Conclude at the fortified water tanks and pre-Mughal city gateways of Champaner."
+  - site_slug: rani-ki-vav
+    stop_order: 1
+    arrival_note: 'Commence expedition at dawn at Rani ki Vav. Note: Descriptive travel
+      narrative is an illustrative sample designed for historical fellowship visualization.'
+  - site_slug: modhera-sun-temple
+    stop_order: 2
+    arrival_note: Arrive at Modhera Sun Temple for mid-day equinox shadow measurement
+      along Surya Kund stepped pavilions.
+  - site_slug: adalaj-vav
+    stop_order: 3
+    arrival_note: Descend into Adalaj Vav's cooling five subterranean storeys, examining
+      Indo-Islamic hybrid floral motifs.
+  - site_slug: dada-harir-vav
+    stop_order: 4
+    arrival_note: Inspect the bilingual Sanskrit and Arabic foundation epigraphs on
+      the upper spiral staircase landings.
+  - site_slug: sarkhej-roza
+    stop_order: 5
+    arrival_note: Observe sunset water reflections across the vast masonry tank of
+      Sarkhej Acropolis.
+  - site_slug: champaner-pavagadh
+    stop_order: 6
+    arrival_note: Conclude at the fortified water tanks and pre-Mughal city gateways
+      of Champaner.

@@ -13,6 +13,9 @@ client:
 	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/export_openapi.py
 	npm run generate-client --prefix apps/web
 
+optimize-models:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/optimize_models.py
+
 test:
 	PYTHONPATH=apps/api apps/api/.venv/bin/pytest apps/api/tests -v --cov=app
 

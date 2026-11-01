@@ -1,9 +1,14 @@
+import hashlib
+import json
 from typing import List, Optional, Union
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.services.site_service import SiteService
-from app.schemas.schemas import SiteBrief, SiteLight, SiteDetail, GeoJSONFeatureCollection
+from app.schemas.schemas import (
+    SiteBrief, SiteLight, SiteDetail, GeoJSONFeatureCollection,
+    SiteFullDetail, Model3DDetail, SiteOGMetadata
+)
 
 router = APIRouter(prefix="/sites", tags=["Sites"])
 
@@ -18,6 +23,7 @@ async def list_sites(
     year_to: Optional[int] = Query(None, description="Filter sites dating at or before year (negative = BCE)"),
     bbox: Optional[str] = Query(None, description="Bounding box 'min_lng,min_lat,max_lng,max_lat'"),
     data_confidence: Optional[List[str]] = Query(None, description="Filter by data confidence ('verified', 'likely', 'unverified')"),
+    has_3d_model: Optional[bool] = Query(None, description="Filter by presence of 3D digital twin"),
     fields: Optional[str] = Query(None, description="Field selection, e.g. 'light' for map markers"),
     limit: int = Query(100, ge=1, le=500),
     offset: int = Query(0, ge=0),
@@ -34,6 +40,7 @@ async def list_sites(
         year_to=year_to,
         bbox=bbox,
         data_confidence=data_confidence,
+        has_3d_model=has_3d_model,
         limit=limit,
         offset=offset
     )
@@ -54,6 +61,7 @@ async def get_sites_geojson(
     year_from: Optional[int] = Query(None),
     year_to: Optional[int] = Query(None),
     data_confidence: Optional[List[str]] = Query(None),
+    has_3d_model: Optional[bool] = Query(None, description="Filter by presence of 3D digital twin"),
     db: AsyncSession = Depends(get_db)
 ):
     service = SiteService(db)
@@ -67,7 +75,8 @@ async def get_sites_geojson(
         tags=tag,
         year_from=year_from,
         year_to=year_to,
-        data_confidence=data_confidence
+        data_confidence=data_confidence,
+        has_3d_model=has_3d_model
     )
     response.headers["ETag"] = etag
     response.headers["Cache-Control"] = "public, max-age=60"
@@ -75,6 +84,50 @@ async def get_sites_geojson(
 
 def geoJSON_result(data: dict) -> GeoJSONFeatureCollection:
     return GeoJSONFeatureCollection(**data)
+
+@router.get("/{slug}/full", response_model=SiteFullDetail)
+async def get_site_full(slug: str, response: Response, db: AsyncSession = Depends(get_db)):
+    service = SiteService(db)
+    site_full = await service.get_site_full(slug)
+    if not site_full:
+        raise HTTPException(status_code=404, detail="Heritage site record not found")
+    etag = hashlib.sha256(f"{slug}_{site_full.get('id')}_{len(site_full.get('media', []))}".encode()).hexdigest()
+    response.headers["ETag"] = f'W/"{etag}"'
+    response.headers["Cache-Control"] = "public, max-age=120"
+    return site_full
+
+@router.get("/{slug}/model", response_model=Model3DDetail)
+async def get_site_model(slug: str, response: Response, db: AsyncSession = Depends(get_db)):
+    service = SiteService(db)
+    model = await service.get_site_model(slug)
+    if not model:
+        raise HTTPException(status_code=404, detail="3D Digital Twin model not found for this site")
+    response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    response.headers["Accept-Ranges"] = "bytes"
+    return model
+
+@router.get("/{slug}/cite")
+async def get_site_citation(
+    slug: str,
+    format: str = Query("bibtex", pattern="^(bibtex|apa|ris|csl-json)$", description="Citation format: bibtex, apa, ris, csl-json"),
+    db: AsyncSession = Depends(get_db)
+):
+    service = SiteService(db)
+    res = await service.get_site_citation(slug, format_type=format)
+    if not res:
+        raise HTTPException(status_code=404, detail="Site citation could not be generated")
+    media_type, filename, content = res
+    if format == "csl-json":
+        return Response(content=json.dumps(content, indent=2), media_type=media_type, headers={"Content-Disposition": f'inline; filename="{filename}"'})
+    return Response(content=content, media_type=media_type, headers={"Content-Disposition": f'inline; filename="{filename}"'})
+
+@router.get("/{slug}/og", response_model=SiteOGMetadata)
+async def get_site_og(slug: str, db: AsyncSession = Depends(get_db)):
+    service = SiteService(db)
+    og_data = await service.get_site_og(slug)
+    if not og_data:
+        raise HTTPException(status_code=404, detail="OG metadata not found")
+    return og_data
 
 @router.get("/{slug}", response_model=SiteDetail)
 async def get_site(slug: str, db: AsyncSession = Depends(get_db)):

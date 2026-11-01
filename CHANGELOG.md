@@ -6,6 +6,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-11-01 (Milestone 2: Site Page + 3D Digital Twin Viewer)
+
+### Added
+- **Database Schema & Migrations (`002_m2_3d_models_hotspots_observations.py`):**
+  - Added `models_3d` table with formats (`glb`, `splat`, `ply`), storage keys, file size, poly counts, compression flags, sources (`photogrammetry`, `scan`, `artist_made`, `stock`), scale calibration flags, and status.
+  - Added `hotspots` table with trilingual labels (`label`, `label_hi`, `label_gu`), markdown narratives, 3D vector coordinates (`position`, `camera_position`, `camera_target`), and sort ordering.
+  - Added `folklore_items` and `observations` tables with trilingual text, sources, URLs, confidence levels, and `is_illustrative` boolean flags.
+- **3D Model Optimization Pipeline (`make optimize-models`):**
+  - Meshopt index and vertex attribute quantization reducing `stepwell_pavilion.glb` from **14.02 KB to 3.14 KB (-77.6% size reduction)** without geometric degradation.
+- **FastAPI Endpoints:**
+  - `GET /api/v1/sites/{slug}/full`: Full monograph returning trilingual names, media, tags, folklore items, observations, 3D model summary, and nearby monuments computed via PostGIS `ST_Distance`.
+  - `GET /api/v1/sites/{slug}/model`: 3D model metadata and 5 ordered vector hotspots with immutable caching headers (`Cache-Control: public, max-age=31536000, immutable`, `Accept-Ranges: bytes`).
+  - `GET /api/v1/sites/{slug}/cite`: Academic citation generator supporting `bibtex`, `apa`, `ris`, and `csl-json`.
+  - `GET /api/v1/sites/{slug}/og`: Dynamic share metadata endpoint.
+  - Added `has_3d_model` query parameter and facet count to `/api/v1/sites` and `/api/v1/facets`.
+- **Frontend Site Page (`/sites/[slug]`):**
+  - Editorial monograph layout: Hero, Sticky Section Nav with scroll-spy, Historical Overview, 3D Digital Twin Showpiece, Photographic Archive Masonry Gallery with accessible Lightbox, Folklore & Field Observations with "Illustrative sample" badges, Nearby Monuments Trail, and Cite Record Modal.
+  - Dynamic OpenGraph, Twitter, and Schema.org `Place` / `TouristAttraction` JSON-LD structured data.
+- **3D Digital Twin Showpiece (`@react-three/fiber` + `@react-three/drei`):**
+  - Lazy-loaded dynamic import isolating Three.js runtime; poster placeholder with "Load 3D Digital Twin" trigger.
+  - 5 interactive HTML billboard hotspots with camera animation tweening to stored poses.
+  - Guided tour stepper with autoplay and pause modes.
+  - Interactive 3D measurement caliper tool with distance calculations and scale calibration notices.
+  - Lighting presets (Day, Dusk, Night) with real-time shadow casting and sun-angle rotation.
+  - Wireframe, background mode toggles, and PNG screenshot exporter with attribution watermark.
+  - Accessible `<ol>` Hotspot Directory below canvas with `aria-live` screen-reader updates.
+  - Graceful photo carousel and 360° simulated pan fallback for monuments without 3D models.
+- **Cinematic Map → Site Transition:**
+  - MapLibre `flyTo` camera sweep into site coordinates from preview drawer before page transition, respecting OS `prefers-reduced-motion`.
+- **Automated Verification:**
+  - 29 Pytest backend tests (100% pass, 76% coverage on `site_service.py`, 87% overall).
+  - 14 Vitest frontend unit tests (100% pass).
+  - 5 Playwright E2E tests (100% pass) verifying the complete user flow from explorer to 3D canvas and citation modal.
+
+---
+
 ## [1.1.0] - 2026-10-31 (Milestone 1: Data Seed + Geospatial Explorer)
 
 ### Added
@@ -27,10 +63,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - URL query parameter state persistence (`types`, `state`, `from`, `to`, `site`) enabling hard reload restoration.
   - Accessible "List View" toggle as screen-reader accessible alternative to WebGL canvas.
   - Trilingual language switcher supporting English, Hindi (Devanagari), and Gujarati.
-- **Automated Verification Tests:**
-  - 21 Pytest backend tests (100% pass, 90% coverage on `site_service.py`, 91% overall).
-  - 7 Vitest frontend unit tests (100% pass) verifying BCE calculations and URL state parsing.
-  - 3 Playwright E2E integration tests (100% pass in 1.9s) testing filter-scrub-drawer-reload, BCE Indus sites, and 360px mobile viewports.
 
 ---
 

@@ -337,20 +337,76 @@ class FacetResponse(BaseModel):
     timeline_histogram: List[HistogramBucket]
     total_sites: int
 
-# Document schemas
+# Document & OCR schemas (M3)
+class TranslationResponse(BaseModel):
+    id: str
+    line_id: Optional[str] = None
+    page_id: Optional[str] = None
+    target_lang: str = "en"
+    text: str
+    engine: Optional[str] = "gemini"
+    version: int = 1
+    created_at: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+class EntityMentionResponse(BaseModel):
+    id: str
+    entity_id: str
+    line_id: str
+    char_start: int
+    char_end: int
+    confidence: float
+
+    class Config:
+        from_attributes = True
+
+class EntityResponse(BaseModel):
+    id: str
+    kind: str
+    name: str
+    normalised_name: str
+    wikidata_id: Optional[str] = None
+    site_id: Optional[str] = None
+    mentions: List[EntityMentionResponse] = []
+
+    class Config:
+        from_attributes = True
+
+class TextVersionResponse(BaseModel):
+    id: str
+    entity_type: str
+    entity_id: str
+    version_no: int
+    text: str
+    edited_by: Optional[str] = "curator"
+    edited_at: datetime
+    reason: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
 class OCRLineResponse(BaseModel):
     id: str
-    line_index: int
+    page_id: str
+    line_no: int
+    line_index: Optional[int] = None
+    text: str
+    original_text: Optional[str] = None
+    translated_text: Optional[str] = None
     bbox_x: float
     bbox_y: float
     bbox_w: float
     bbox_h: float
-    original_text: str
-    translated_text: Optional[str] = None
+    polygon: Optional[Any] = None
     confidence: float
-    language: str
-    is_corrected: bool
-    version: int
+    lang: str = "hi"
+    language: Optional[str] = "Devanagari"
+    engine: str = "gemini_vision"
+    is_corrected: bool = False
+    version: int = 1
+    translations: List[TranslationResponse] = []
 
     class Config:
         from_attributes = True
@@ -358,6 +414,20 @@ class OCRLineResponse(BaseModel):
 class OCRLineUpdate(BaseModel):
     original_text: Optional[str] = None
     translated_text: Optional[str] = None
+    text: Optional[str] = None
+    reason: Optional[str] = None
+    edited_by: Optional[str] = "curator"
+
+class TranslationUpdate(BaseModel):
+    text: str
+    reason: Optional[str] = None
+    edited_by: Optional[str] = "curator"
+
+class RevertRequest(BaseModel):
+    entity_type: str = Field(..., description="'line' or 'translation'")
+    entity_id: str
+    version_no: int
+    reason: Optional[str] = "Reverted via human-in-the-loop interface"
 
 class DocumentEntityResponse(BaseModel):
     id: str
@@ -371,12 +441,17 @@ class DocumentEntityResponse(BaseModel):
 
 class DocumentPageResponse(BaseModel):
     id: str
-    page_number: int
-    image_url: str
+    document_id: str
+    page_no: int = 1
+    page_number: Optional[int] = 1
+    image_key: Optional[str] = None
+    image_url: Optional[str] = None
     width: int
     height: int
-    status: str
+    rotation_deg: int = 0
+    status: str = "ready"
     ocr_lines: List[OCRLineResponse] = []
+    translations: List[TranslationResponse] = []
     entities: List[DocumentEntityResponse] = []
 
     class Config:
@@ -385,11 +460,60 @@ class DocumentPageResponse(BaseModel):
 class DocumentResponse(BaseModel):
     id: str
     title: str
-    language: str
-    document_type: str
-    source_archive: str
+    language_hint: str = "auto"
+    language: Optional[str] = "Devanagari"
+    doc_type: str = "printed"
+    document_type: Optional[str] = "manuscript_folio"
+    status: str = "ready"
     site_id: Optional[str] = None
+    uploaded_by: Optional[str] = None
+    source: Optional[str] = None
+    source_archive: Optional[str] = None
+    licence: Optional[str] = "CC-BY-4.0"
+    license: Optional[str] = "CC-BY-4.0"
+    attribution: Optional[str] = None
+    storage_key: Optional[str] = None
+    original_filename: Optional[str] = None
+    mime: Optional[str] = None
+    page_count: int = 1
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     pages: List[DocumentPageResponse] = []
+    entities: List[EntityResponse] = []
+    site: Optional[SiteBrief] = None
+
+    class Config:
+        from_attributes = True
+
+class DocumentCreate(BaseModel):
+    title: str
+    language_hint: str = "auto"
+    doc_type: str = "printed"
+    site_id: Optional[str] = None
+    source: Optional[str] = "Archival Field Scan"
+    licence: str = "CC-BY-4.0"
+    attribution: Optional[str] = None
+    uploaded_by: Optional[str] = "anonymous"
+    storage_key: Optional[str] = None
+    mime: Optional[str] = "image/jpeg"
+    original_filename: Optional[str] = None
+    ocr_engine: Optional[str] = None
+    translation_engine: Optional[str] = None
+
+class JobResponse(BaseModel):
+    id: str
+    kind: str = "ocr_pipeline"
+    status: str = "queued"
+    progress: int = 0
+    stage: Optional[str] = "validate"
+    attempts: int = 0
+    error: Optional[str] = None
+    payload: Dict[str, Any] = {}
+    result: Dict[str, Any] = {}
+    idempotency_key: Optional[str] = None
+    created_at: datetime
+    started_at: Optional[datetime] = None
+    finished_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True

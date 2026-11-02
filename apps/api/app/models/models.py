@@ -123,6 +123,7 @@ class Site(Base):
     route_stops = relationship("RouteStop", back_populates="site")
     site_tags = relationship("SiteTag", back_populates="site", cascade="all, delete-orphan")
     site_dynasties = relationship("SiteDynasty", back_populates="site", cascade="all, delete-orphan")
+    documents = relationship("Document", back_populates="site")
 
 class SiteMedia(Base):
     __tablename__ = "site_media"
@@ -194,54 +195,166 @@ class Hotspot(Base):
 
     model = relationship("Model3D", back_populates="hotspots")
 
+class DocType(str, enum.Enum):
+    printed = "printed"
+    handwritten = "handwritten"
+    inscription = "inscription"
+    journal = "journal"
+    slide = "slide"
+    other = "other"
+
+class DocStatus(str, enum.Enum):
+    uploaded = "uploaded"
+    processing = "processing"
+    ready = "ready"
+    failed = "failed"
+    needs_review = "needs_review"
+
+class JobStatus(str, enum.Enum):
+    queued = "queued"
+    running = "running"
+    succeeded = "succeeded"
+    failed = "failed"
+    retrying = "retrying"
+    dead = "dead"
+
+class EntityKind(str, enum.Enum):
+    place = "place"
+    dynasty = "dynasty"
+    person = "person"
+    date = "date"
+    deity = "deity"
+    artifact = "artifact"
+    other = "other"
+
 class Document(Base):
     __tablename__ = "documents"
 
     id = Column(String, primary_key=True, default=generate_uuid)
     title = Column(String(255), nullable=False)
-    language = Column(String(50), nullable=False)
-    document_type = Column(String(100), default="manuscript_folio")
-    source_archive = Column(String(255), nullable=False)
+    language_hint = Column(String(50), nullable=False, default="auto")
+    language = Column(String(50), nullable=True) # legacy compatibility
+    doc_type = Column(String(50), nullable=False, default="printed")
+    document_type = Column(String(100), nullable=True) # legacy compatibility
+    status = Column(String(50), nullable=False, default="uploaded", index=True)
+    site_id = Column(String, ForeignKey("sites.id", ondelete="SET NULL"), nullable=True, index=True)
+    uploaded_by = Column(String(100), nullable=True)
+    source = Column(String(255), nullable=True)
+    source_archive = Column(String(255), nullable=True) # legacy compatibility
+    licence = Column(String(100), default="CC-BY-4.0")
+    license = Column(String(100), default="CC-BY-4.0") # synonym
+    attribution = Column(String(255), nullable=True)
+    storage_key = Column(String(500), nullable=True)
     original_filename = Column(String(255), nullable=True)
-    site_id = Column(String, ForeignKey("sites.id", ondelete="SET NULL"), nullable=True)
+    mime = Column(String(100), nullable=True)
+    page_count = Column(Integer, default=1)
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    deleted_at = Column(DateTime, nullable=True, index=True)
 
-    pages = relationship("DocumentPage", back_populates="document", cascade="all, delete-orphan")
+    site = relationship("Site", back_populates="documents", lazy="selectin")
+    pages = relationship("DocumentPage", back_populates="document", cascade="all, delete-orphan", order_by="DocumentPage.page_no", lazy="selectin")
 
 class DocumentPage(Base):
     __tablename__ = "document_pages"
 
     id = Column(String, primary_key=True, default=generate_uuid)
     document_id = Column(String, ForeignKey("documents.id", ondelete="CASCADE"), nullable=False, index=True)
-    page_number = Column(Integer, default=1)
-    image_url = Column(String(500), nullable=False)
+    page_no = Column(Integer, default=1, index=True)
+    page_number = Column(Integer, default=1) # legacy synonym
+    image_key = Column(String(500), nullable=True)
+    image_url = Column(String(500), nullable=True) # legacy synonym
     width = Column(Integer, default=1200)
     height = Column(Integer, default=1600)
-    status = Column(String(50), default="processed")
+    rotation_deg = Column(Integer, default=0)
+    status = Column(String(50), default="ready", index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     document = relationship("Document", back_populates="pages")
-    ocr_lines = relationship("OCRLine", back_populates="page", cascade="all, delete-orphan")
-    entities = relationship("DocumentEntity", back_populates="page", cascade="all, delete-orphan")
+    ocr_lines = relationship("OCRLine", back_populates="page", cascade="all, delete-orphan", order_by="OCRLine.line_no", lazy="selectin")
+    translations = relationship("Translation", back_populates="page", cascade="all, delete-orphan", lazy="selectin")
+    entities = relationship("DocumentEntity", back_populates="page", cascade="all, delete-orphan", lazy="selectin")
 
 class OCRLine(Base):
     __tablename__ = "ocr_lines"
 
     id = Column(String, primary_key=True, default=generate_uuid)
     page_id = Column(String, ForeignKey("document_pages.id", ondelete="CASCADE"), nullable=False, index=True)
-    line_index = Column(Integer, nullable=False)
+    line_no = Column(Integer, nullable=False, index=True)
+    line_index = Column(Integer, nullable=True) # legacy synonym
+    text = Column(Text, nullable=False)
+    original_text = Column(Text, nullable=True) # legacy synonym
+    translated_text = Column(Text, nullable=True) # legacy convenience
     bbox_x = Column(Float, nullable=False)
     bbox_y = Column(Float, nullable=False)
     bbox_w = Column(Float, nullable=False)
     bbox_h = Column(Float, nullable=False)
-    original_text = Column(Text, nullable=False)
-    translated_text = Column(Text, nullable=True)
-    confidence = Column(Float, default=0.95)
-    language = Column(String(50), default="Devanagari")
-    is_corrected = Column(Boolean, default=False)
+    polygon = Column(JSON, nullable=True)
+    confidence = Column(Float, default=0.95, index=True)
+    lang = Column(String(50), default="hi")
+    language = Column(String(50), default="Devanagari") # legacy synonym
+    engine = Column(String(50), default="gemini_vision")
     version = Column(Integer, default=1)
+    is_corrected = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     page = relationship("DocumentPage", back_populates="ocr_lines")
+    translations = relationship("Translation", back_populates="line", cascade="all, delete-orphan", lazy="selectin")
+    mentions = relationship("EntityMention", back_populates="line", cascade="all, delete-orphan", lazy="selectin")
+
+class Translation(Base):
+    __tablename__ = "translations"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    line_id = Column(String, ForeignKey("ocr_lines.id", ondelete="CASCADE"), nullable=True, index=True)
+    page_id = Column(String, ForeignKey("document_pages.id", ondelete="CASCADE"), nullable=True, index=True)
+    target_lang = Column(String(50), default="en", index=True)
+    text = Column(Text, nullable=False)
+    engine = Column(String(50), default="gemini")
+    version = Column(Integer, default=1)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    line = relationship("OCRLine", back_populates="translations")
+    page = relationship("DocumentPage", back_populates="translations")
+
+class TextVersion(Base):
+    __tablename__ = "text_versions"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    entity_type = Column(String(50), nullable=False, index=True) # 'line' | 'translation'
+    entity_id = Column(String, nullable=False, index=True)
+    version_no = Column(Integer, nullable=False)
+    text = Column(Text, nullable=False)
+    edited_by = Column(String(100), default="curator")
+    edited_at = Column(DateTime, default=datetime.utcnow)
+    reason = Column(String(255), nullable=True)
+
+class Entity(Base):
+    __tablename__ = "entities"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    kind = Column(String(50), nullable=False, index=True) # place | dynasty | person | date | deity | artifact | other
+    name = Column(String(255), nullable=False)
+    normalised_name = Column(String(255), nullable=False, index=True)
+    wikidata_id = Column(String(100), nullable=True)
+    site_id = Column(String, ForeignKey("sites.id", ondelete="SET NULL"), nullable=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    site = relationship("Site")
+    mentions = relationship("EntityMention", back_populates="entity", cascade="all, delete-orphan")
+
+class EntityMention(Base):
+    __tablename__ = "entity_mentions"
+
+    id = Column(String, primary_key=True, default=generate_uuid)
+    entity_id = Column(String, ForeignKey("entities.id", ondelete="CASCADE"), nullable=False, index=True)
+    line_id = Column(String, ForeignKey("ocr_lines.id", ondelete="CASCADE"), nullable=False, index=True)
+    char_start = Column(Integer, nullable=False)
+    char_end = Column(Integer, nullable=False)
+    confidence = Column(Float, default=0.9)
+
+    entity = relationship("Entity", back_populates="mentions")
+    line = relationship("OCRLine", back_populates="mentions")
 
 class DocumentEntity(Base):
     __tablename__ = "document_entities"
@@ -351,11 +464,17 @@ class Job(Base):
     __tablename__ = "jobs"
 
     id = Column(String, primary_key=True, default=generate_uuid)
-    job_type = Column(String(50), nullable=False)
-    status = Column(String(50), default="queued")
+    kind = Column(String(50), nullable=False, default="ocr_pipeline", index=True)
+    job_type = Column(String(50), nullable=True) # legacy compatibility
+    status = Column(String(50), default="queued", index=True) # queued | running | succeeded | failed | retrying | dead
     progress = Column(Integer, default=0)
+    stage = Column(String(100), nullable=True)
+    attempts = Column(Integer, default=0)
+    error = Column(Text, nullable=True)
     payload = Column(JSON, default=dict)
     result = Column(JSON, default=dict)
-    error = Column(Text, nullable=True)
+    idempotency_key = Column(String(255), unique=True, nullable=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+    started_at = Column(DateTime, nullable=True)
+    finished_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

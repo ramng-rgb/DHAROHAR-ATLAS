@@ -7,6 +7,9 @@ from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
 from app.api.v1.sites import router as sites_router
 from app.api.v1.documents import router as documents_router
+from app.api.v1.lines import router as lines_router
+from app.api.v1.translations import router as translations_router
+from app.api.v1.jobs import router as jobs_router
 from app.api.v1.search import router as search_router
 from app.api.v1.routes import router as routes_router
 from app.api.v1.ingest import router as ingest_router
@@ -44,15 +47,22 @@ async def add_process_time_and_request_id(request: Request, call_next):
 # Include Routers
 app.include_router(sites_router, prefix=settings.API_V1_STR)
 app.include_router(documents_router, prefix=settings.API_V1_STR)
+app.include_router(lines_router, prefix=settings.API_V1_STR)
+app.include_router(translations_router, prefix=settings.API_V1_STR)
+app.include_router(jobs_router, prefix=settings.API_V1_STR)
 app.include_router(search_router, prefix=settings.API_V1_STR)
 app.include_router(routes_router, prefix=settings.API_V1_STR)
 app.include_router(ingest_router, prefix=settings.API_V1_STR)
 app.include_router(facets_router, prefix=settings.API_V1_STR)
 
-# Static files for public models
+# Static files for public models and data
 models_dir = "/Users/ramnarayangupta/Desktop/hac/apps/web/public/models"
 if os.path.exists(models_dir):
     app.mount("/models", StaticFiles(directory=models_dir), name="models")
+
+data_dir = "/Users/ramnarayangupta/Desktop/hac/data"
+os.makedirs(data_dir, exist_ok=True)
+app.mount("/data", StaticFiles(directory=data_dir), name="data")
 
 @app.get("/health", tags=["Observability"])
 async def health_check():

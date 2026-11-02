@@ -16,6 +16,15 @@ client:
 optimize-models:
 	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/optimize_models.py
 
+ingest-folder:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/ingest_folder.py --dir=$(DIR)
+
+eval-ocr:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/eval_ocr.py
+
+eval-translation:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/eval_translation.py
+
 test:
 	PYTHONPATH=apps/api apps/api/.venv/bin/pytest apps/api/tests -v --cov=app
 

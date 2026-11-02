@@ -63,10 +63,10 @@ async def test_documents_and_correction():
         # Test human-in-the-loop correction on the first OCR line
         first_line = docs[0]["pages"][0]["ocr_lines"][0]
         line_id = first_line["id"]
-        
-        patch_res = await client.put(
-            f"/api/v1/documents/ocr-lines/{line_id}",
-            json={"translated_text": "Peer-reviewed translated transcript by Epigraphist"}
+
+        patch_res = await client.patch(
+            f"/api/v1/lines/{line_id}",
+            json={"text": "Peer-reviewed translated transcript by Epigraphist", "reason": "Epigraphist peer review"}
         )
         assert patch_res.status_code == 200
         updated = patch_res.json()

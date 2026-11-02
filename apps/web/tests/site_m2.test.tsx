@@ -81,6 +81,7 @@ describe("3D Hotspot Tour & Multilingual Logic", () => {
       position: [0.2, 1.5, -2.1],
       camera_position: [0.2, 1.8, -0.5],
       camera_target: [0.2, 1.5, -2.1],
+      media_ids: [],
       sort_order: 1,
     },
     {
@@ -93,6 +94,7 @@ describe("3D Hotspot Tour & Multilingual Logic", () => {
       position: [-1.5, 0.4, 0.0],
       camera_position: [-1.5, 0.8, 1.5],
       camera_target: [-1.5, 0.4, 0.0],
+      media_ids: [],
       sort_order: 2,
     },
   ];

@@ -1,0 +1,164 @@
+import json
+import os
+
+TRANSLATION_PAIRS = [
+    {
+        "id": "t_01",
+        "source_lang": "hi",
+        "source_text": "ॐ स्वस्ति श्री चालुक्य राज्ञी उदयमती पाटन वापी निर्माणाय",
+        "reference": "Om. Hail auspiciousness. Queen Udayamati of the Chaulukya (Solanki) dynasty commissioned this subterranean stepwell (vapi) in Patan."
+    },
+    {
+        "id": "t_02",
+        "source_lang": "hi",
+        "source_text": "संवत् १०६३ वर्षे सरस्वती नद्याः तीरे सप्तभूमियुता वापी प्रतिष्ठिता",
+        "reference": "In the Vikram Samvat year 1063 [1006 CE], the seven-tiered stepwell (vav) was consecrated on the banks of the Saraswati River."
+    },
+    {
+        "id": "t_03",
+        "source_lang": "hi",
+        "source_text": "दशावतार विष्णुपूजनार्थं स्थापत्यकला निपुणैः शिल्पिभिः निर्मिता",
+        "reference": "Constructed for the worship of the ten incarnations of Vishnu by master sculptors skilled in Vastu shilpashastra."
+    },
+    {
+        "id": "t_04",
+        "source_lang": "hi",
+        "source_text": "सप्ततलेषु अष्टशतं विष्णोः मूर्तीनां संकीर्तनं शिलासु उत्कीर्णम्",
+        "reference": "Across seven subterranean storeys, over eight hundred sculptures commemorating Vishnu are carved in sandstone relief."
+    },
+    {
+        "id": "t_05",
+        "source_lang": "gu",
+        "source_text": "સંવત ૧૫૫૫ વર્ષે મહા વદિ ૫ બુધે વાવ પ્રતિષ્ઠા સંપૂર્ણા",
+        "reference": "In the Vikram Samvat year 1555 on Wednesday the 5th day of the dark half of Magha, the consecration (pratishtha) of the stepwell (vav) was completed."
+    },
+    {
+        "id": "t_06",
+        "source_lang": "gu",
+        "source_text": "શ્રી વાઘેલા વંશરાણી રૂડાબાઈએ અડાલજ મહાનગરે નિર્માણ કરાવ્યું",
+        "reference": "Queen Rudabai of the Vaghela dynasty patronized its construction in the historic settlement of Adalaj."
+    },
+    {
+        "id": "t_07",
+        "source_lang": "gu",
+        "source_text": "પંચભૂમિકા યુક્ત વાવ સ્થાપત્ય જળ સંરક્ષણાર્થે સમર્પિત",
+        "reference": "Endowed with five subterranean storeys, this stepwell (vav) architecture is dedicated to water conservation and traveler repose."
+    },
+    {
+        "id": "t_08",
+        "source_lang": "gu",
+        "source_text": "શિલ્પકાર ગજધર માલા તથા સહયોગીઓએ આ શિલાલેખ કોતરેલ છે",
+        "reference": "Master stone architect (gajadhara) Mala and his guild engraved this foundation inscription."
+    },
+    {
+        "id": "t_09",
+        "source_lang": "hi",
+        "source_text": "सूर्यकुण्डस्य सोपानेषु अनेकानि लघुमन्दिराणि सुशोभितानि सन्ति",
+        "reference": "Along the stepped tiers of the Surya kund (water reservoir), numerous miniature votive shrines are ornately sculpted."
+    },
+    {
+        "id": "t_10",
+        "source_lang": "hi",
+        "source_text": "सभारङ्ग मण्डपस्य स्तम्भाः मारू-गुर्जर स्थापत्यशैल्यां विनिर्मिताः",
+        "reference": "The pillars of the assembly hall (mandapa) are sculpted in the classical Maru-Gurjara architectural style."
+    },
+    {
+        "id": "t_11",
+        "source_lang": "gu",
+        "source_text": "અષ્ટકોણીય કૂવો અને ઝરૂખા સ્થાપત્ય શીતળ વાતાવરણ પ્રદાન કરે છે",
+        "reference": "The octagonal shaft and cantilevered jharokha balconies provide a naturally cool subterranean microclimate."
+    },
+    {
+        "id": "t_12",
+        "source_lang": "gu",
+        "source_text": "પાષાણ શિલ્પોમાં નવગ્રહ અને દસ અવતારની આકૃતિઓ કોતરાયેલી છે",
+        "reference": "The stone sculptures feature the nine planetary deities (Navagrahas) and depictions of the ten avatars of Vishnu."
+    },
+    {
+        "id": "t_13",
+        "source_lang": "hi",
+        "source_text": "गर्भगृहस्य उपरि भव्यं रेखाशिखरं गगनचुम्बिनं विराजते",
+        "reference": "Above the inner sanctum (garbhagriha), a magnificent curvilinear shikhara spire rises grandly into the sky."
+    },
+    {
+        "id": "t_14",
+        "source_lang": "hi",
+        "source_text": "तोरणद्वारस्य शिलापट्टेषु विद्याधराणां युगलमूर्तयः उत्कीर्णाः",
+        "reference": "On the stone friezes of the ceremonial archway (torana), celestial couple figures of Vidyadharas are sculpted."
+    },
+    {
+        "id": "t_15",
+        "source_lang": "gu",
+        "source_text": "પાટણના હેમચંદ્રાચાર્ય જ્ઞાન ભંડારમાં દુર્લભ તાડપત્ર હસ્તપ્રતો છે",
+        "reference": "The Hemachandracharya Gyan Bhandar of Patan preserves rare palm-leaf manuscripts and medieval folios (pata)."
+    },
+    {
+        "id": "t_16",
+        "source_lang": "hi",
+        "source_text": "कुम्भलगढ दुर्गस्य प्राकारः षट्त्रिंशत् किलोमीटर पर्यन्तं विस्तृतः",
+        "reference": "The perimeter rampart of Kumbhalgarh Fort extends continuously across thirty-six kilometres of mountain ridges."
+    },
+    {
+        "id": "t_17",
+        "source_lang": "gu",
+        "source_text": "ધોળાવીરા નગરના પૂર્વ અને પશ્ચિમ જળાશયો વરસાદી પાણી રોકવા બનાવાયા હતા",
+        "reference": "The eastern and western reservoirs of Dholavira citadel were engineered to capture and store storm runoff."
+    },
+    {
+        "id": "t_18",
+        "source_lang": "hi",
+        "source_text": "प्रदक्षिणापथे तीर्थंकराणां पाषाणमूर्तयः प्रतिष्ठापिताः सन्ति",
+        "reference": "Along the circumambulatory corridor (pradakshina), consecrated stone icons of the Tirthankaras are enshrined."
+    },
+    {
+        "id": "t_19",
+        "source_lang": "gu",
+        "source_text": "ચાંપાનેરની જામા મસ્જિદ હિન્દુ અને ઇસ્લામિક સ્થાપત્યનું સુભગ સમન્વય છે",
+        "reference": "The Jama Mosque of Champaner represents a harmonious synthesis of regional Gujarati and Indo-Islamic architecture."
+    },
+    {
+        "id": "t_20",
+        "source_lang": "hi",
+        "source_text": "मेहरानगढ दुर्गस्य विशाल बुर्जाः जोधपुराय रक्षां अयच्छन्",
+        "reference": "The colossal bastions of Mehrangarh Fort provided formidable strategic defense to Jodhpur atop the sheer cliff."
+    },
+    {
+        "id": "t_21",
+        "source_lang": "gu",
+        "source_text": "સરખેજ રોઝા સંકુલમાં સુલતાન અહમદ શાહના સમયની છત્રી અને તળાવ છે",
+        "reference": "The Sarkhej Roza complex contains domed cenotaphs (chhatris) and an expansive reservoir dating to Sultan Ahmad Shah."
+    },
+    {
+        "id": "t_22",
+        "source_lang": "hi",
+        "source_text": "सहस्रलिङ्ग तडागस्य तटे बहूनि लघुमन्दिराणि जलप्रवाहं नियमयन्ति स्म",
+        "reference": "Along the embankments of Sahasralinga talav (lake), numerous miniature shrines regulated inflow from the Saraswati river."
+    },
+    {
+        "id": "t_23",
+        "source_lang": "gu",
+        "source_text": "વાપી શિલ્પશાસ્ત્ર અનુસાર પગથિયાંવાળી વાવ ત્રણ મુખ્ય પ્રવેશદ્વાર ધરાવે છે",
+        "reference": "According to vapi shilpashastra treatises, a subterranean stepwell (vav) may feature three primary directional entrance pavilions."
+    },
+    {
+        "id": "t_24",
+        "source_lang": "hi",
+        "source_text": "शिल्पकार गजधर मण्डनेन प्रासाद मण्डन ग्रन्थे वास्तुविधा वर्णिता",
+        "reference": "Master royal architect (gajadhara) Mandana detailed temple architectural canons in the treatise Prasada Mandana."
+    },
+    {
+        "id": "t_25",
+        "source_lang": "gu",
+        "source_text": "મોઢેરા સૂર્ય મંદિરના ગર્ભગૃહમાં વિષુવવૃત્ત દિવસે સૂર્યના પ્રથમ કિરણો પડતા",
+        "reference": "At Modhera Sun Temple, the first rays of the rising equinoctial sun shone directly onto the deity in the garbhagriha."
+    }
+]
+
+def main():
+    target_path = "/Users/ramnarayangupta/Desktop/hac/eval/translation/ground_truth.json"
+    with open(target_path, "w", encoding="utf-8") as f:
+        json.dump(TRANSLATION_PAIRS, f, ensure_ascii=False, indent=2)
+    print(f"Generated translation evaluation dataset with {len(TRANSLATION_PAIRS)} pairs in {target_path}")
+
+if __name__ == "__main__":
+    main()

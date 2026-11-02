@@ -6,6 +6,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.0] - 2026-11-02 (Milestone 3: Archive OCR + Translation Pipeline + Document Viewer)
+
+### Added
+- **Data Model & Migrations (`003_m3_ocr_pipeline_jobs_entities.py`):**
+  - Added `documents` table with types (`printed`, `handwritten`, `inscription`, `journal`, `slide`, `other`), status (`uploaded`, `processing`, `ready`, `failed`, `needs_review`), license, attribution, storage key, and soft deletes.
+  - Added `document_pages` table with page dimensions, rotation angle, and status.
+  - Added `ocr_lines` table with normalized bounding boxes (`[ymin, xmin, ymax, xmax]` in 0-1 range), polygon jsonb, line confidence, language, and engine attribution.
+  - Added `translations` table with line/page level targets, language codes, and heritage translation engine metadata.
+  - Added `text_versions` table with append-only audit trail (`entity_type`, `entity_id`, `version_no`, `text`, `edited_by`, `edited_at`, `reason`) and revert capabilities.
+  - Added `entities` and `entity_mentions` tables with kinds (`place`, `dynasty`, `person`, `date`, `deity`, `artifact`, `other`), character offsets, confidence scores, and fuzzy site linking via `pg_trgm`.
+  - Added `jobs` table with stages, progress percentages (0-100%), retry counters, error tracking, and unique idempotency keys.
+- **Provider Adapter Architecture (`apps/api/app/services/`):**
+  - Abstract base interfaces `OCRProvider`, `TranslationProvider`, and `EntityExtractionProvider`.
+  - `GeminiVisionOCR`: Structured cloud vision OCR with strict JSON schema validation, retry logic, and boundary clamping.
+  - `TesseractOCR`: Local open-source fallback engine supporting `hin`, `guj`, `san`, `mar`, and `eng` traineddata with word-to-line bounding box merging.
+  - `FakeOCR` & `FakeTranslation`: High-speed deterministic test adapters for sub-second CI validation.
+  - LLM and Rule-based translation providers preserving specialized architectural glossary terms (*vav, baoli, torana, mandapa, garbhagriha, jharokha*).
+  - Rule-based Gazetteer and LLM Entity Extraction linking historical dynasties and monuments to seeded sites.
+  - Resilience wrappers: Circuit breakers, timeouts, exponential backoff retries, and rate limiting.
+- **Asynchronous Pipeline & Background Workers (`DocumentPipeline`):**
+  - Direct upload flow with storage key generation, MIME/magic-byte validation, and antivirus hook interface.
+  - Checkpoint-resumable stage execution (`validate` -> `render_pages` -> `preprocess` -> `ocr` -> `translate` -> `extract_entities` -> `finalise`) preventing duplicate processing upon worker restarts.
+  - Dead-Letter Queue (DLQ) for repeated failures with administrative requeue endpoint (`POST /api/v1/jobs/{id}/requeue`).
+  - Live Server-Sent Events (SSE) streaming endpoint (`GET /api/v1/jobs/{id}/events`) with real-time stage progress.
+  - Indic Unicode post-processing: Unicode NFC normalization, Devanagari/Gujarati matra-fix heuristics, and fragmented line merging.
+  - Human-in-the-loop corrections API (`PATCH /api/v1/lines/{id}`, `PATCH /api/v1/translations/{id}`, `POST /api/v1/lines/{id}/revert`) writing immutable `text_versions` audit rows.
+  - Export endpoints supporting JSON, plaintext, and ALTO XML (`GET /api/v1/documents/{id}/export?format=...`).
+  - Batch ingestion CLI (`apps/api/scripts/ingest_folder.py` / `make ingest-folder DIR=...`) with `.pptx` deck slide and image extraction via `python-pptx`.
+- **Frontend Archive Hub & Showpiece Viewer (`/archive` & `/archive/[id]`):**
+  - Archive Hub (`/archive`) with metrics, multi-language/type filters, search, and direct upload modal with drag-and-drop, camera capture, and live SSE pipeline stepper.
+  - Three-pane desktop document viewer with synchronized pan/zoom canvas, transcript, and English translation. Mobile tabbed swipe view.
+  - Bidirectional line <-> bounding box linking: Hovering or clicking lines highlights bounding boxes on the original scan with smooth scrolling.
+  - Confidence heatmap toggle with non-color accessibility cues for low-confidence transcriptions.
+  - Signature "Reveal Transcript" animation sweeping bounding box highlights across the scan.
+  - Inline transcription and translation editor with Devanagari/Gujarati Noto fonts, optimistic updates with rollback, and version history drawer with diff view.
+  - Interactive entity badges color- and icon-coded by category (places, dynasties, rulers, dates) with one-click navigation to monument pages.
+  - "Archive Documents & Inscriptions" section embedded on Site Monograph pages (`/sites/[slug]`).
+- **Academic Evaluation Harness & Reporting:**
+  - `make eval-ocr`: Computes CER and WER per script (Devanagari, Gujarati, English) using `jiwer`.
+  - `make eval-translation`: Computes sacreBLEU and chrF using `sacrebleu`.
+  - Quality report recorded in `docs/quality-report.md`.
+- **Automated Verification:**
+  - 45 Pytest backend tests (100% pass).
+  - 22 Vitest frontend unit tests (100% pass).
+  - 7 Playwright E2E tests (100% pass) testing end-to-end explorer, 3D viewer, archive hub, document viewer, and upload stepper.
+
+---
+
 ## [1.2.0] - 2026-11-01 (Milestone 2: Site Page + 3D Digital Twin Viewer)
 
 ### Added

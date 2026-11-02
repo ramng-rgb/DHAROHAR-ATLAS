@@ -69,6 +69,41 @@ body {
 .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
   border-top-color: #D4AF37 !important;
 }
+
+/* Authentic Manuscript Typography & Non-clipping line heights */
+.font-devanagari {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  line-height: 1.85 !important;
+}
+
+.font-gujarati {
+  font-family: 'Noto Sans Gujarati', sans-serif;
+  line-height: 1.85 !important;
+}
+
+/* Scan-to-Text Reveal sweep */
+@keyframes sweepReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.2;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+.animate-sweep-reveal {
+  animation: sweepReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sweep-reveal {
+    animation: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+}
 .maplibregl-popup-anchor-top .maplibregl-popup-tip {
   border-bottom-color: #D4AF37 !important;
 }

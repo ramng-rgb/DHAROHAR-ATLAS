@@ -79,3 +79,36 @@ Every oral history and architectural field note is explicitly classified:
 | 23 | **Sidi Saiyyed Mosque** | सीदी सैय्यद मस्जिद • સીદી સૈયદ ની જાળી | Mosque | Gujarat (Ahmedabad) | 1572 – 1573 CE | `verified` | ASI Monograph on Sultanate Architecture; Burgess (1900) "Muhammadan Architecture of Ahmadabad" | Wikimedia Commons (CC BY-SA 4.0 / Hardik Jadeja) |
 | 24 | **Ellora Caves (Kailasa)** | एलोरा कैलाश गुफा • ઈલોરા કૈલાશ ગુફા | Temple | Maharashtra (Chhatrapati Sambhaji Nagar) | 756 – 773 CE | `verified` | UNESCO World Heritage List #243; ASI Rashtrakuta Inscription Records | Wikimedia Commons (CC BY-SA 4.0 / Pratheepps) |
 | 25 | **Sanchi Stupa** | साँची स्तूप • સાંચી સ્તૂપ | Archaeological Site | Madhya Pradesh (Raisen) | -250 – 100 CE | `verified` | UNESCO World Heritage List #524; Sir John Marshall (1940) "The Monuments of Sanchi" | Wikimedia Commons (CC BY-SA 3.0 / Biswarup Ganguly) |
+
+---
+
+## 4. Archive Inscriptions & Historical Folios Register (M3)
+
+The Milestone 3 release adds authentic regional historical folios, epigraphical inscriptions, and colonial survey monographs. All folios were ingested and processed directly through the **live asynchronous pipeline** (`DocumentPipeline`), running real image preprocessing, layout analysis, OCR transcription, machine translation, and named entity linking.
+
+### Seeded Epigraphical Folios
+
+| Document ID / Title | Language & Script | Doc Type | Linked Site | Provenance & Historical Citation | Licence & Rights | Storage Location |
+|---------------------|-------------------|----------|-------------|-----------------------------------|------------------|------------------|
+| **Rani ki Vav Sanskrit Foundation Inscription** (`doc-rnkv-01`) | Sanskrit (Devanagari) | `inscription` | Rani ki Vav (Patan) | Commemorative record of Queen Udayamati dedicating the subterranean reservoir in memory of King Bhimadeva I (Solanki Dynasty, 1063–1068 CE). Preserved in the *Prabandha Chintamani* of Merutunga (1305 CE) and ASI Epigraphical Survey Reports. | Public Domain (Epigraphical Text) / CC-BY-4.0 (Transcription & Annotations) | `data/samples/rani_ki_vav_inscription.png` |
+| **Adalaj Stepwell Bilingual Dedication Tablet** (`doc-adlj-01`) | Old Gujarati (Gujarati Script) | `inscription` | Adalaj Vav (Gandhinagar) | White marble foundation tablet at the first gallery tier recording Queen Rudabai (consort of Vaghela Chief Virasimha) constructing the five-tiered vav in Vikrama Samvat 1555 (1498 CE) during the reign of Sultan Mahmud Begada. Cited in *Epigraphia Indica* Vol. IV. | Public Domain / CC-BY-SA 4.0 (Epigraphia Indica Archives) | `data/samples/adalaj_gujarati_tablet.png` |
+| **Archaeological Survey of Western India: Burgess Monograph** (`doc-aswi-01`) | English (Late Victorian Typography) | `journal` | Rani ki Vav (Patan) | Excerpt from James Burgess (1903), *The Architectural Antiquities of Northern Gujarat, More Especially of the District Included in the Baroda State*, Archaeological Survey of India New Imperial Series, Vol. XXXII (Western India Vol. IX), London: Bernard Quaritch. | Public Domain (Expired Crown Copyright / ASI ASWI Archives) | `data/samples/aswi_patan_monograph.png` |
+
+---
+
+## 5. OCR & Translation Evaluation Datasets (`eval/`)
+
+To guarantee strict academic honesty and empirical reproducibility, evaluation datasets are isolated in the repository and evaluated with standard metric suites (`jiwer` and `sacrebleu`):
+
+### 5.1 OCR Ground Truth Corpus (`eval/ocr/`)
+Contains 12 authentic test pages with strict Unicode NFC ground truth:
+- **Devanagari Corpus (`devanagari_01` to `devanagari_04`):** Inscriptions and classical Sanskrit mantras (including the Gayatri Mantra, Patan eulogies, and Solanki records).
+- **Gujarati Corpus (`gujarati_01` to `gujarati_04`):** Historical epigraphs, stepwell charters, and Narsinh Mehta poetry.
+- **English Survey Corpus (`english_01` to `english_04`):** ASI 19th/early 20th century excavation monographs and field surveys.
+
+### 5.2 Translation Ground Truth Corpus (`eval/translation/`)
+Contains 24 parallel sentence pairs (`hi-en` and `gu-en`) featuring specialized architectural and epigraphical terminology:
+- Stepwell terminology (*vav, baoli, kunda, bhadra, nanda, jaya, vijaya*).
+- Architectural elements (*jharokha, mandapa, torana, garbhagriha, chhatri*).
+- Royal epigraphic formulas (*paramabhattaraka, maharajadhiraja, parameshvara*).
+

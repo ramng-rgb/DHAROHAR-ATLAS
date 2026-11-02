@@ -4,17 +4,111 @@
 
 ```mermaid
 erDiagram
-    SITES ||--o{ SITE_MEDIA : has
-    SITES ||--o{ MODELS_3D : contains
-    SITES ||--o{ FOLKLORE_ITEMS : remembers
-    SITES ||--o{ OBSERVATIONS : documents
-    SITES ||--o{ ROUTE_STOPS : visited_in
-    SITES ||--o{ SITE_TAGS : categorized_by
-    SITES ||--o{ SITE_DYNASTIES : ruled_by
-    TAGS ||--o{ SITE_TAGS : references
-    DYNASTIES ||--o{ SITE_DYNASTIES : references
-    ROUTES ||--o{ ROUTE_STOPS : sequences
-    MODELS_3D ||--o{ HOTSPOTS : annotates
+    SITES ||--o{ DOCUMENTS : archives
+    DOCUMENTS ||--o{ DOCUMENT_PAGES : contains
+    DOCUMENT_PAGES ||--o{ OCR_LINES : transcribes
+    DOCUMENT_PAGES ||--o{ TRANSLATIONS : translates
+    OCR_LINES ||--o{ TRANSLATIONS : aligns
+    OCR_LINES ||--o{ ENTITY_MENTIONS : references
+    ENTITIES ||--o{ ENTITY_MENTIONS : mentions
+    ENTITIES }o--o| SITES : links_to
+    DOCUMENTS ||--o{ JOBS : executes
+    DOCUMENTS {
+        uuid id PK
+        string title
+        string language_hint
+        string doc_type "Enum: printed, handwritten, inscription, journal, slide, other"
+        string status "Enum: uploaded, processing, ready, failed, needs_review"
+        uuid site_id FK
+        string uploaded_by
+        string source
+        string licence
+        string attribution
+        string storage_key
+        string mime
+        int page_count
+        datetime created_at
+        datetime deleted_at
+    }
+
+    DOCUMENT_PAGES {
+        uuid id PK
+        uuid document_id FK
+        int page_no
+        string image_key
+        int width
+        int height
+        int rotation_deg
+        string status
+    }
+
+    OCR_LINES {
+        uuid id PK
+        uuid page_id FK
+        int line_no
+        text text
+        float[] bbox "[ymin, xmin, ymax, xmax] 0-1"
+        jsonb polygon
+        float confidence
+        string lang
+        string engine
+        string version
+    }
+
+    TRANSLATIONS {
+        uuid id PK
+        uuid line_id FK
+        uuid page_id FK
+        string target_lang
+        text text
+        string engine
+        string version
+    }
+
+    TEXT_VERSIONS {
+        uuid id PK
+        string entity_type "Enum: ocr_line, translation"
+        uuid entity_id
+        int version_no
+        text text
+        string edited_by
+        datetime edited_at
+        string reason
+    }
+
+    ENTITIES {
+        uuid id PK
+        string kind "Enum: place, dynasty, person, date, deity, artifact, other"
+        string name
+        string normalised_name
+        string wikidata_id
+        uuid site_id FK
+    }
+
+    ENTITY_MENTIONS {
+        uuid id PK
+        uuid entity_id FK
+        uuid line_id FK
+        int char_start
+        int char_end
+        float confidence
+    }
+
+    JOBS {
+        uuid id PK
+        string kind
+        string status "Enum: queued, running, succeeded, failed, retrying, dead"
+        int progress "0-100"
+        string stage
+        int attempts
+        text error
+        jsonb payload
+        jsonb result
+        string idempotency_key UK
+        datetime created_at
+        datetime started_at
+        datetime finished_at
+    }
 
     SITES {
         uuid id PK
@@ -201,3 +295,35 @@ erDiagram
    CREATE INDEX idx_sites_confidence ON sites (data_confidence);
    CREATE INDEX idx_sites_deleted_at ON sites (deleted_at);
    ```
+
+6. **M3 Archive Documents, OCR, Entity & Job Indexes:**
+   ```sql
+   -- Document and Page Lookups
+   CREATE INDEX ix_documents_site_id ON documents (site_id);
+   CREATE INDEX ix_documents_status ON documents (status);
+   CREATE INDEX ix_documents_deleted_at ON documents (deleted_at);
+   CREATE INDEX ix_document_pages_document_id ON document_pages (document_id);
+   CREATE INDEX ix_document_pages_page_no ON document_pages (page_no);
+
+   -- OCR Lines and Translations
+   CREATE INDEX ix_ocr_lines_page_id ON ocr_lines (page_id);
+   CREATE INDEX ix_ocr_lines_line_no ON ocr_lines (line_no);
+   CREATE INDEX ix_translations_line_id ON translations (line_id);
+   CREATE INDEX ix_translations_page_id ON translations (page_id);
+
+   -- Version History and Epigraphic Revisions
+   CREATE INDEX ix_text_versions_entity ON text_versions (entity_type, entity_id);
+   CREATE INDEX ix_text_versions_version_no ON text_versions (version_no);
+
+   -- Entities and Fuzzy Inscription Mentions
+   CREATE INDEX ix_entities_kind ON entities (kind);
+   CREATE INDEX ix_entities_site_id ON entities (site_id);
+   CREATE INDEX ix_entities_normalised_name_trgm ON entities USING gin (normalised_name gin_trgm_ops);
+   CREATE INDEX ix_entity_mentions_entity_id ON entity_mentions (entity_id);
+   CREATE INDEX ix_entity_mentions_line_id ON entity_mentions (line_id);
+
+   -- Async Jobs & Idempotency
+   CREATE INDEX ix_jobs_status ON jobs (status);
+   CREATE UNIQUE INDEX uq_jobs_idempotency_key ON jobs (idempotency_key);
+   ```
+

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "page_01",
+    "script": "Devanagari",
+    "title": "Rani ki Vav Foundation Prasasti",
+    "source": "Epigraphia Indica Vol. XXI / Archaeological Survey of India",
+    "license": "Public Domain / CC0",
+    "image": "page_01_devanagari.png",
+    "ground_truth": "page_01_devanagari.gt.txt"
+  },
+  {
+    "id": "page_02",
+    "script": "Devanagari",
+    "title": "Modhera Sun Temple Charter",
+    "source": "Inscriptions of Gujarat Part II, Singhi Jain Series",
+    "license": "Public Domain / CC0",
+    "image": "page_02_devanagari.png",
+    "ground_truth": "page_02_devanagari.gt.txt"
+  },
+  {
+    "id": "page_03",
+    "script": "Devanagari",
+    "title": "Rudra Mahalaya Siddhpur Inscription",
+    "source": "Archaeological Survey of Western India, Vol. IX",
+    "license": "Public Domain / CC0",
+    "image": "page_03_devanagari.png",
+    "ground_truth": "page_03_devanagari.gt.txt"
+  },
+  {
+    "id": "page_04",
+    "script": "Devanagari",
+    "title": "Somnath Temple Rebuilding Memoir",
+    "source": "Corpus Inscriptionum Indicarum Vol. VII",
+    "license": "Public Domain / CC0",
+    "image": "page_04_devanagari.png",
+    "ground_truth": "page_04_devanagari.gt.txt"
+  },
+  {
+    "id": "page_05",
+    "script": "Gujarati",
+    "title": "Adalaj Stepwell Marble Tablet",
+    "source": "Gazetteer of the Bombay Presidency, Vol. IX (Gujarat Population)",
+    "license": "Public Domain / CC0",
+    "image": "page_05_gujarati.png",
+    "ground_truth": "page_05_gujarati.gt.txt"
+  },
+  {
+    "id": "page_06",
+    "script": "Gujarati",
+    "title": "Champaner Citadel Stone Monograph",
+    "source": "Archaeology of Gujarat, H.D. Sankalia (1941)",
+    "license": "Public Domain / CC0",
+    "image": "page_06_gujarati.png",
+    "ground_truth": "page_06_gujarati.gt.txt"
+  },
+  {
+    "id": "page_07",
+    "script": "Gujarati",
+    "title": "Dholavira Field Journal Gujarati Notes",
+    "source": "Gujarat State Archaeology Department Field Notes",
+    "license": "CC-BY-4.0",
+    "image": "page_07_gujarati.png",
+    "ground_truth": "page_07_gujarati.gt.txt"
+  },
+  {
+    "id": "page_08",
+    "script": "Gujarati",
+    "title": "Patan Jain Bhandar Folio",
+    "source": "Hemachandracharya Gyan Bhandar Patan Manuscript Collection",
+    "license": "Public Domain / CC0",
+    "image": "page_08_gujarati.png",
+    "ground_truth": "page_08_gujarati.gt.txt"
+  },
+  {
+    "id": "page_09",
+    "script": "English",
+    "title": "ASWI Stepwell Hydraulic Survey",
+    "source": "Burgess, J. Architectural Antiquities of Northern Gujarat (1903)",
+    "license": "Public Domain / CC0",
+    "image": "page_09_english.png",
+    "ground_truth": "page_09_english.gt.txt"
+  },
+  {
+    "id": "page_10",
+    "script": "English",
+    "title": "Kumbhalgarh Fortification Monograph",
+    "source": "James Tod, Annals and Antiquities of Rajasthan (1829)",
+    "license": "Public Domain / CC0",
+    "image": "page_10_english.png",
+    "ground_truth": "page_10_english.gt.txt"
+  },
+  {
+    "id": "page_11",
+    "script": "English",
+    "title": "Dholavira Harappan Water Survey",
+    "source": "Archaeological Survey of India Memoir No. 71",
+    "license": "Public Domain / CC0",
+    "image": "page_11_english.png",
+    "ground_truth": "page_11_english.gt.txt"
+  }
+]

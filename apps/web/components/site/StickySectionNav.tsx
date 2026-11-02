@@ -15,6 +15,7 @@ const SECTIONS: SectionItem[] = [
   { id: "overview", label: "Overview", icon: <FileText className="w-3.5 h-3.5" /> },
   { id: "twin-3d", label: "3D Digital Twin", icon: <Box className="w-3.5 h-3.5" /> },
   { id: "gallery", label: "Gallery", icon: <Images className="w-3.5 h-3.5" /> },
+  { id: "archive-section", label: "Archive Folios", icon: <BookOpen className="w-3.5 h-3.5" /> },
   { id: "folklore", label: "Folklore", icon: <BookOpen className="w-3.5 h-3.5" /> },
   { id: "observations", label: "Observations", icon: <Sparkles className="w-3.5 h-3.5" /> },
   { id: "nearby", label: "Nearby Sites", icon: <Compass className="w-3.5 h-3.5" /> },

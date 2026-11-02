@@ -737,7 +737,89 @@
         }
       }
     },
+    "/api/v1/documents/uploads": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Upload Document File",
+        "description": "Direct-to-storage upload endpoint with size check (<=25MB) and mime verification.",
+        "operationId": "upload_document_file_api_v1_documents_uploads_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_document_file_api_v1_documents_uploads_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/documents": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Create Document",
+        "description": "Creates document metadata record and enqueues async OCR & translation job.",
+        "operationId": "create_document_api_v1_documents_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DocumentCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Create Document Api V1 Documents Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": [
           "Documents"
@@ -759,6 +841,77 @@
                 }
               ],
               "title": "Site Id"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Language"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "doc_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Doc Type"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
             }
           }
         ],
@@ -832,13 +985,210 @@
         }
       }
     },
-    "/api/v1/documents/ocr-lines/{line_id}": {
-      "put": {
+    "/api/v1/documents/{doc_id}/export": {
+      "get": {
         "tags": [
           "Documents"
         ],
-        "summary": "Update Ocr Line",
-        "operationId": "update_ocr_line_api_v1_documents_ocr_lines__line_id__put",
+        "summary": "Export Document",
+        "operationId": "export_document_api_v1_documents__doc_id__export_get",
+        "parameters": [
+          {
+            "name": "doc_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Doc Id"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(json|txt|alto-xml)$",
+              "default": "json",
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{doc_id}/versions": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Get Document Versions",
+        "operationId": "get_document_versions_api_v1_documents__doc_id__versions_get",
+        "parameters": [
+          {
+            "name": "doc_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Doc Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TextVersionResponse"
+                  },
+                  "title": "Response Get Document Versions Api V1 Documents  Doc Id  Versions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{doc_id}/revert": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Revert Document Version",
+        "operationId": "revert_document_version_api_v1_documents__doc_id__revert_post",
+        "parameters": [
+          {
+            "name": "doc_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Doc Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevertRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/entities/{entity_id}/link": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Link Entity To Site",
+        "operationId": "link_entity_to_site_api_v1_documents_entities__entity_id__link_post",
+        "parameters": [
+          {
+            "name": "entity_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Entity Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_link_entity_to_site_api_v1_documents_entities__entity_id__link_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/lines/{line_id}": {
+      "patch": {
+        "tags": [
+          "Corrections"
+        ],
+        "summary": "Patch Ocr Line",
+        "operationId": "patch_ocr_line_api_v1_lines__line_id__patch",
         "parameters": [
           {
             "name": "line_id",
@@ -884,22 +1234,33 @@
         }
       }
     },
-    "/api/v1/documents/upload": {
-      "post": {
+    "/api/v1/translations/{translation_id}": {
+      "patch": {
         "tags": [
-          "Documents"
+          "Corrections"
         ],
-        "summary": "Upload Document",
-        "operationId": "upload_document_api_v1_documents_upload_post",
+        "summary": "Patch Translation",
+        "operationId": "patch_translation_api_v1_translations__translation_id__patch",
+        "parameters": [
+          {
+            "name": "translation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Translation Id"
+            }
+          }
+        ],
         "requestBody": {
+          "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Body_upload_document_api_v1_documents_upload_post"
+                "$ref": "#/components/schemas/TranslationUpdate"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -907,7 +1268,133 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DocumentResponse"
+                  "$ref": "#/components/schemas/TranslationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get Job Status",
+        "operationId": "get_job_status_api_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/events": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Stream Job Events",
+        "description": "Server-Sent Events (SSE) streaming pipeline stage and progress updates in real-time.",
+        "operationId": "stream_job_events_api_v1_jobs__job_id__events_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/requeue": {
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Requeue Job",
+        "description": "Admin endpoint to requeue failed or dead-letter jobs.",
+        "operationId": "requeue_job_api_v1_jobs__job_id__requeue_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
                 }
               }
             }
@@ -1487,6 +1974,19 @@
         ],
         "title": "AskArchiveResponse"
       },
+      "Body_link_entity_to_site_api_v1_documents_entities__entity_id__link_post": {
+        "properties": {
+          "site_id": {
+            "type": "string",
+            "title": "Site Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site_id"
+        ],
+        "title": "Body_link_entity_to_site_api_v1_documents_entities__entity_id__link_post"
+      },
       "Body_submit_photos_for_3d_api_v1_ingest_photo_to_3d_post": {
         "properties": {
           "site_id": {
@@ -1509,38 +2009,8 @@
         ],
         "title": "Body_submit_photos_for_3d_api_v1_ingest_photo_to_3d_post"
       },
-      "Body_upload_document_api_v1_documents_upload_post": {
+      "Body_upload_document_file_api_v1_documents_uploads_post": {
         "properties": {
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "language": {
-            "type": "string",
-            "title": "Language",
-            "default": "Sanskrit / Devanagari"
-          },
-          "document_type": {
-            "type": "string",
-            "title": "Document Type",
-            "default": "manuscript_folio"
-          },
-          "source_archive": {
-            "type": "string",
-            "title": "Source Archive",
-            "default": "Field Contribution Archive"
-          },
-          "site_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Site Id"
-          },
           "file": {
             "type": "string",
             "contentMediaType": "application/octet-stream",
@@ -1549,10 +2019,9 @@
         },
         "type": "object",
         "required": [
-          "title",
           "file"
         ],
-        "title": "Body_upload_document_api_v1_documents_upload_post"
+        "title": "Body_upload_document_file_api_v1_documents_uploads_post"
       },
       "CitationItem": {
         "properties": {
@@ -1586,6 +2055,136 @@
           "snippet"
         ],
         "title": "CitationItem"
+      },
+      "DocumentCreate": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "language_hint": {
+            "type": "string",
+            "title": "Language Hint",
+            "default": "auto"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "printed"
+          },
+          "site_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Id"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source",
+            "default": "Archival Field Scan"
+          },
+          "licence": {
+            "type": "string",
+            "title": "Licence",
+            "default": "CC-BY-4.0"
+          },
+          "attribution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attribution"
+          },
+          "uploaded_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uploaded By",
+            "default": "anonymous"
+          },
+          "storage_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Key"
+          },
+          "mime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mime",
+            "default": "image/jpeg"
+          },
+          "original_filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Filename"
+          },
+          "ocr_engine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ocr Engine"
+          },
+          "translation_engine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Translation Engine"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "DocumentCreate"
       },
       "DocumentEntityResponse": {
         "properties": {
@@ -1632,12 +2231,47 @@
             "type": "string",
             "title": "Id"
           },
-          "page_number": {
+          "document_id": {
+            "type": "string",
+            "title": "Document Id"
+          },
+          "page_no": {
             "type": "integer",
-            "title": "Page Number"
+            "title": "Page No",
+            "default": 1
+          },
+          "page_number": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Number",
+            "default": 1
+          },
+          "image_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Key"
           },
           "image_url": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Image Url"
           },
           "width": {
@@ -1648,9 +2282,15 @@
             "type": "integer",
             "title": "Height"
           },
+          "rotation_deg": {
+            "type": "integer",
+            "title": "Rotation Deg",
+            "default": 0
+          },
           "status": {
             "type": "string",
-            "title": "Status"
+            "title": "Status",
+            "default": "ready"
           },
           "ocr_lines": {
             "items": {
@@ -1658,6 +2298,14 @@
             },
             "type": "array",
             "title": "Ocr Lines",
+            "default": []
+          },
+          "translations": {
+            "items": {
+              "$ref": "#/components/schemas/TranslationResponse"
+            },
+            "type": "array",
+            "title": "Translations",
             "default": []
           },
           "entities": {
@@ -1672,11 +2320,9 @@
         "type": "object",
         "required": [
           "id",
-          "page_number",
-          "image_url",
+          "document_id",
           "width",
-          "height",
-          "status"
+          "height"
         ],
         "title": "DocumentPageResponse"
       },
@@ -1690,17 +2336,44 @@
             "type": "string",
             "title": "Title"
           },
-          "language": {
+          "language_hint": {
             "type": "string",
-            "title": "Language"
+            "title": "Language Hint",
+            "default": "auto"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language",
+            "default": "Devanagari"
+          },
+          "doc_type": {
+            "type": "string",
+            "title": "Doc Type",
+            "default": "printed"
           },
           "document_type": {
-            "type": "string",
-            "title": "Document Type"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Document Type",
+            "default": "manuscript_folio"
           },
-          "source_archive": {
+          "status": {
             "type": "string",
-            "title": "Source Archive"
+            "title": "Status",
+            "default": "ready"
           },
           "site_id": {
             "anyOf": [
@@ -1713,6 +2386,129 @@
             ],
             "title": "Site Id"
           },
+          "uploaded_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uploaded By"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "source_archive": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Archive"
+          },
+          "licence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Licence",
+            "default": "CC-BY-4.0"
+          },
+          "license": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "License",
+            "default": "CC-BY-4.0"
+          },
+          "attribution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attribution"
+          },
+          "storage_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Key"
+          },
+          "original_filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Filename"
+          },
+          "mime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mime"
+          },
+          "page_count": {
+            "type": "integer",
+            "title": "Page Count",
+            "default": 1
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          },
           "pages": {
             "items": {
               "$ref": "#/components/schemas/DocumentPageResponse"
@@ -1720,17 +2516,129 @@
             "type": "array",
             "title": "Pages",
             "default": []
+          },
+          "entities": {
+            "items": {
+              "$ref": "#/components/schemas/EntityResponse"
+            },
+            "type": "array",
+            "title": "Entities",
+            "default": []
+          },
+          "site": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SiteBrief"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
         "required": [
           "id",
           "title",
-          "language",
-          "document_type",
-          "source_archive"
+          "created_at"
         ],
         "title": "DocumentResponse"
+      },
+      "EntityMentionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "line_id": {
+            "type": "string",
+            "title": "Line Id"
+          },
+          "char_start": {
+            "type": "integer",
+            "title": "Char Start"
+          },
+          "char_end": {
+            "type": "integer",
+            "title": "Char End"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_id",
+          "line_id",
+          "char_start",
+          "char_end",
+          "confidence"
+        ],
+        "title": "EntityMentionResponse"
+      },
+      "EntityResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "normalised_name": {
+            "type": "string",
+            "title": "Normalised Name"
+          },
+          "wikidata_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wikidata Id"
+          },
+          "site_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Id"
+          },
+          "mentions": {
+            "items": {
+              "$ref": "#/components/schemas/EntityMentionResponse"
+            },
+            "type": "array",
+            "title": "Mentions",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "name",
+          "normalised_name"
+        ],
+        "title": "EntityResponse"
       },
       "FacetResponse": {
         "properties": {
@@ -2645,9 +3553,50 @@
             "type": "string",
             "title": "Id"
           },
-          "line_index": {
+          "page_id": {
+            "type": "string",
+            "title": "Page Id"
+          },
+          "line_no": {
             "type": "integer",
+            "title": "Line No"
+          },
+          "line_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Line Index"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "original_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Text"
+          },
+          "translated_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Translated Text"
           },
           "bbox_x": {
             "type": "number",
@@ -2665,11 +3614,25 @@
             "type": "number",
             "title": "Bbox H"
           },
-          "original_text": {
-            "type": "string",
-            "title": "Original Text"
+          "polygon": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polygon"
           },
-          "translated_text": {
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "lang": {
+            "type": "string",
+            "title": "Lang",
+            "default": "hi"
+          },
+          "language": {
             "anyOf": [
               {
                 "type": "string"
@@ -2678,38 +3641,44 @@
                 "type": "null"
               }
             ],
-            "title": "Translated Text"
+            "title": "Language",
+            "default": "Devanagari"
           },
-          "confidence": {
-            "type": "number",
-            "title": "Confidence"
-          },
-          "language": {
+          "engine": {
             "type": "string",
-            "title": "Language"
+            "title": "Engine",
+            "default": "gemini_vision"
           },
           "is_corrected": {
             "type": "boolean",
-            "title": "Is Corrected"
+            "title": "Is Corrected",
+            "default": false
           },
           "version": {
             "type": "integer",
-            "title": "Version"
+            "title": "Version",
+            "default": 1
+          },
+          "translations": {
+            "items": {
+              "$ref": "#/components/schemas/TranslationResponse"
+            },
+            "type": "array",
+            "title": "Translations",
+            "default": []
           }
         },
         "type": "object",
         "required": [
           "id",
-          "line_index",
+          "page_id",
+          "line_no",
+          "text",
           "bbox_x",
           "bbox_y",
           "bbox_w",
           "bbox_h",
-          "original_text",
-          "confidence",
-          "language",
-          "is_corrected",
-          "version"
+          "confidence"
         ],
         "title": "OCRLineResponse"
       },
@@ -2736,6 +3705,40 @@
               }
             ],
             "title": "Translated Text"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "edited_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edited By",
+            "default": "curator"
           }
         },
         "type": "object",
@@ -2943,6 +3946,42 @@
           "stop_order"
         ],
         "title": "RelatedRouteItem"
+      },
+      "RevertRequest": {
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type",
+            "description": "'line' or 'translation'"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "version_no": {
+            "type": "integer",
+            "title": "Version No"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "default": "Reverted via human-in-the-loop interface"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type",
+          "entity_id",
+          "version_no"
+        ],
+        "title": "RevertRequest"
       },
       "RouteResponse": {
         "properties": {
@@ -4485,6 +5524,178 @@
           "url"
         ],
         "title": "SiteOGMetadata"
+      },
+      "TextVersionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "version_no": {
+            "type": "integer",
+            "title": "Version No"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "edited_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edited By",
+            "default": "curator"
+          },
+          "edited_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Edited At"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity_type",
+          "entity_id",
+          "version_no",
+          "text",
+          "edited_at"
+        ],
+        "title": "TextVersionResponse"
+      },
+      "TranslationResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "line_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Line Id"
+          },
+          "page_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Id"
+          },
+          "target_lang": {
+            "type": "string",
+            "title": "Target Lang",
+            "default": "en"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "engine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Engine",
+            "default": "gemini"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version",
+            "default": 1
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "title": "TranslationResponse"
+      },
+      "TranslationUpdate": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "edited_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Edited By",
+            "default": "curator"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "TranslationUpdate"
       },
       "ValidationError": {
         "properties": {

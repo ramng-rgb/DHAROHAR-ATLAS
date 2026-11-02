@@ -8,6 +8,7 @@ import { DigitalTwinShowpiece } from "../viewer3d/DigitalTwinShowpiece";
 import { SiteGallery } from "./SiteGallery";
 import { FolkloreObservationsSection } from "./FolkloreObservationsSection";
 import { NearbySitesSection } from "./NearbySitesSection";
+import { SiteArchiveDocumentsSection } from "./SiteArchiveDocumentsSection";
 import { CiteModal } from "./CiteModal";
 import type { SiteFullDetail, Model3DDetail } from "@/lib/api-client";
 
@@ -61,6 +62,9 @@ export function SitePageClient({ site, model }: SitePageClientProps) {
 
         {/* 5. Photographic Archive / Gallery */}
         <SiteGallery media={site.media || []} siteName={site.name} />
+
+        {/* 5b. Archive Documents & Inscriptions */}
+        <SiteArchiveDocumentsSection siteId={site.id} siteName={site.name} />
 
         {/* 6. Folklore & Field Observations */}
         <div id="folklore-section">

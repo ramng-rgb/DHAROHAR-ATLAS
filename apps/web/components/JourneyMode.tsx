@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import Link from "next/link";
 import { 
   Play, Pause, RotateCcw, ChevronRight, ChevronLeft, 

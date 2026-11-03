@@ -24,6 +24,8 @@ vi.mock("maplibre-gl", () => {
     this.getElement = vi.fn().mockReturnValue(document.createElement("div"));
   }
   return {
+    Map: MockMap,
+    Marker: MockMarker,
     default: {
       Map: MockMap,
       Marker: MockMarker,

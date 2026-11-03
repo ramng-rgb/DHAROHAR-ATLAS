@@ -8,15 +8,38 @@
   --background: #090D16;
   --foreground: #F6F1E9;
   --gold-accent: #D4AF37;
+  --gold-glow: #F3C649;
   --terracotta: #C85A32;
+  --terracotta-accessible: #E07A5F;
   --parchment-card: rgba(26, 21, 16, 0.85);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
+  caret-color: var(--gold-accent);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p, .prose-block {
+  text-wrap: pretty;
+}
+
+::selection {
+  background-color: rgba(212, 175, 55, 0.35);
+  color: #F6F1E9;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.75);
+  outline-offset: 2px;
 }
 
 /* Custom Scrollbar for illuminated manuscript feel */
@@ -28,7 +51,7 @@ body {
   background: #090D16;
 }
 ::-webkit-scrollbar-thumb {
-  background: #4A3E31;
+  background: #3A3228;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -48,7 +71,7 @@ body {
   background: rgba(26, 21, 16, 0.88);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(212, 175, 55, 0.45);
-  box-shadow: 0 12px 35px -8px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.85);
 }
 
 /* Jaali geometric divider */

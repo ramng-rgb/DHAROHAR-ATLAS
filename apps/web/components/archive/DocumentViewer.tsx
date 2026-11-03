@@ -315,7 +315,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
       {/* Toast Notification */}
       {toastMessage && (
         <div 
-          className="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-lg bg-[#D4AF37] text-black font-semibold text-xs shadow-xl flex items-center gap-2 animate-bounce"
+          className="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-lg bg-[#D4AF37] text-black font-semibold text-xs shadow-2xl flex items-center gap-2 transition-all duration-300 ease-out"
           role="status"
           aria-live="polite"
         >
@@ -338,7 +338,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
             <h1 className="font-serif text-sm sm:text-base font-bold text-[#F6F1E9] truncate">
               {doc.title}
             </h1>
-            <div className="flex items-center gap-2 text-[10px] text-[#D8C3A5]/60 font-mono">
+            <div className="flex items-center gap-2 text-[11px] text-[#D8C3A5]/80 font-mono">
               <span>{doc.licence || "CC-BY-4.0"}</span>
               <span>•</span>
               <span className="truncate">{doc.attribution || doc.source}</span>
@@ -500,7 +500,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
             </button>
             <button
               onClick={() => { setZoom(1); setRotation(0); }}
-              className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[10px] text-[#D8C3A5] font-mono"
+              className="px-1.5 py-0.5 rounded hover:bg-white/10 text-[11px] text-[#D8C3A5] font-mono"
               title="Reset Zoom"
             >
               Fit
@@ -553,7 +553,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
                       </div>
                     ))}
                   </div>
-                  <div className="text-[10px] text-zinc-400 font-mono text-center">
+                  <div className="text-[11px] text-zinc-400 font-mono text-center">
                     Simulated Archival Canvas • High-DPI Normalised
                   </div>
                 </div>
@@ -629,7 +629,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
                       <div
                         key={l.id}
                         className={`text-sm ${scriptFontClass} text-[#F6F1E9] p-1.5 rounded ${
-                          l.id === activeLineId ? "bg-[#D4AF37]/20 border-l-2 border-[#D4AF37]" : ""
+                          l.id === activeLineId ? "bg-[#D4AF37]/25 ring-1 ring-[#D4AF37]/60" : ""
                         }`}
                       >
                         {l.text}
@@ -656,11 +656,11 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
               <span className="text-xs font-serif font-bold text-[#D4AF37]">
                 Original Transcript
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[#D8C3A5]/80">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[#D8C3A5]/80">
                 {isGujarati ? "Gujarati" : "Devanagari"}
               </span>
             </div>
-            <span className="text-[10px] text-[#D8C3A5]/50 font-mono">
+            <span className="text-[11px] text-[#D8C3A5]/70 font-mono">
               Shortcuts: [j/k] navigate • [e] edit
             </span>
           </div>
@@ -690,8 +690,8 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
                     <span className="flex items-center gap-1.5">
                       <span className="font-bold text-[#D4AF37]">#{String(idx + 1).padStart(2, "0")}</span>
                       {line.is_corrected && (
-                        <span className="text-[9px] px-1 py-0.2 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 flex items-center gap-0.5">
-                          <CheckCircle2 className="w-2.5 h-2.5" />
+                        <span className="text-[11px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 flex items-center gap-0.5">
+                          <CheckCircle2 className="w-3 h-3" />
                           Human Verified
                         </span>
                       )}
@@ -699,7 +699,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
 
                     <div className="flex items-center gap-2">
                       <span
-                        className={`text-[10px] px-1.5 py-0.2 rounded ${
+                        className={`text-[11px] px-1.5 py-0.5 rounded ${
                           isLow
                             ? "bg-rose-950/70 text-rose-300 border border-rose-500/40"
                             : "bg-emerald-950/40 text-emerald-400"
@@ -784,11 +784,11 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
               <span className="text-xs font-serif font-bold text-[#D4AF37]">
                 Monograph Translation
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[#D8C3A5]/80">
+              <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[#D8C3A5]/80">
                 Target: English
               </span>
             </div>
-            <span className="text-[10px] text-[#D8C3A5]/50 font-mono">
+            <span className="text-[11px] text-[#D8C3A5]/70 font-mono">
               Domain terms preserved
             </span>
           </div>
@@ -814,7 +814,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
                 >
                   <div className="flex items-center justify-between text-[11px] font-mono text-[#D8C3A5]/60 pb-1.5 border-b border-white/5">
                     <span className="font-bold text-[#D4AF37]">Line #{String(idx + 1).padStart(2, "0")}</span>
-                    <span className="text-[10px] text-[#D8C3A5]/50 font-mono">1:1 Aligned</span>
+                    <span className="text-[11px] text-[#D8C3A5]/70 font-mono">1:1 Aligned</span>
                   </div>
 
                   <div className="pt-2 text-sm leading-relaxed text-[#F6F1E9] font-light">
@@ -922,7 +922,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
                       <p className="font-serif text-[#F6F1E9] bg-black/30 p-2 rounded border border-white/5">
                         {v.text}
                       </p>
-                      <div className="text-[10px] text-[#D8C3A5]/60">
+                      <div className="text-[11px] text-[#D8C3A5]/80">
                         <strong>Reason:</strong> {v.reason || "Manual epigraphy revision"}
                       </div>
                       <div className="pt-2 flex justify-end">
@@ -940,7 +940,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
               )}
             </div>
 
-            <div className="pt-4 border-t border-white/10 text-[10px] text-[#D8C3A5]/50 font-mono text-center">
+            <div className="pt-4 border-t border-white/10 text-[11px] text-[#D8C3A5]/70 font-mono text-center">
               All edits timestamped and signed for archival provenance.
             </div>
           </div>

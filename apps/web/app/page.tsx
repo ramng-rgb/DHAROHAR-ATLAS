@@ -100,22 +100,15 @@ export default async function HomePage() {
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#141A26]/90 border border-[#D4AF37]/50 shadow-xl backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-[#F3C649] fill-[#F3C649]" />
-            <span className="text-xs font-serif font-bold tracking-widest text-[#D4AF37] uppercase">
-              HC26-CULT01 • Blithchron '27, IIT Gandhinagar
-            </span>
-          </div>
-
           <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#F6F1E9] leading-tight drop-shadow-md">
             DHAROHAR ATLAS
           </h1>
 
-          <p className="text-lg sm:text-2xl text-[#D4AF37] font-serif max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-2xl text-[#D4AF37] font-serif max-w-2xl mx-auto leading-relaxed text-pretty">
             The Living Knowledge Layer for Unstructured Cultural & Architectural Heritage Archives
           </p>
 
-          <p className="text-sm sm:text-base text-[#D8C3A5]/90 max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-sm sm:text-base text-[#D8C3A5]/90 max-w-xl mx-auto font-sans leading-relaxed text-pretty">
             Preserving five millennia of subterranean stepwells, monolithic rock temples, and medieval desert citadels through verified geospatial intelligence, 3D digital twins, multimodal OCR, and grounded multilingual search.
           </p>
 
@@ -124,7 +117,7 @@ export default async function HomePage() {
             <Link
               href="/explore"
               id="hero-explore-atlas-btn"
-              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk font-bold text-sm hover:opacity-95 shadow-xl shadow-[#D4AF37]/30 flex items-center gap-2 transition-transform hover:scale-105"
+              className="px-6 py-3.5 rounded-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-sm shadow-xl shadow-black/60 flex items-center gap-2 transition-transform hover:scale-105"
             >
               <Compass className="w-4 h-4 text-indigoInk" />
               <span>Explore Geospatial Atlas</span>
@@ -141,29 +134,29 @@ export default async function HomePage() {
 
           {/* 3 Live Stats Counters from Backend */}
           <div className="pt-2 grid grid-cols-3 gap-3 md:gap-6 max-w-2xl mx-auto text-center" id="live-stat-counters">
-            <div className="p-4 rounded-xl bg-[#141A26]/80 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
+            <div className="p-4 rounded-xl bg-[#141A26]/90 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
               <span className="block font-serif text-3xl sm:text-4xl font-bold text-[#F3C649]">
                 {numSites}
               </span>
-              <span className="text-[11px] sm:text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
+              <span className="text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
                 Verified Sites
               </span>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#141A26]/80 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
+            <div className="p-4 rounded-xl bg-[#141A26]/90 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
               <span className="block font-serif text-3xl sm:text-4xl font-bold text-[#F3C649]">
                 {numDocs}
               </span>
-              <span className="text-[11px] sm:text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
+              <span className="text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
                 Archival Folios
               </span>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#141A26]/80 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
+            <div className="p-4 rounded-xl bg-[#141A26]/90 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
               <span className="block font-serif text-3xl sm:text-4xl font-bold text-[#F3C649]">
                 {numChunks}
               </span>
-              <span className="text-[11px] sm:text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
+              <span className="text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
                 Searchable Chunks
               </span>
             </div>
@@ -173,14 +166,13 @@ export default async function HomePage() {
 
       {/* 2. "Ask the Archive" Strip with 3 Working Live Queries */}
       <section className="w-full max-w-6xl mx-auto px-4 py-8" id="ask-archive-strip">
-        <div className="glass-panel-gold rounded-2xl p-6 md:p-8 border border-[#D4AF37]/60 shadow-2xl space-y-4">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#D4AF37]/30 pb-4">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-serif font-bold text-[#D4AF37] uppercase tracking-wider">
-                <Sparkles className="w-4 h-4 text-[#F3C649]" />
-                <span>Grounded Multilingual Intelligence</span>
+        <div className="rounded-2xl p-6 md:p-8 border border-[#D4AF37]/40 bg-[#120E0A]/90 shadow-2xl space-y-5">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#D4AF37]/25 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/40 flex items-center justify-center text-[#F3C649]">
+                <Sparkles className="w-4 h-4 fill-[#F3C649]/20" />
               </div>
-              <h2 className="text-xl md:text-2xl font-serif font-bold text-[#F6F1E9] mt-1">
+              <h2 className="text-xl md:text-2xl font-serif font-bold text-[#F6F1E9]">
                 Ask the Heritage Archive
               </h2>
             </div>
@@ -193,43 +185,43 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <p className="text-xs md:text-sm text-[#D8C3A5]">
-            Click any working query below to inspect real-time RAG answers backed by verifiable inline citations to authentic ASI records and 11th-century epigraphs:
+          <p className="text-sm text-[#D8C3A5] text-pretty">
+            Inspect real-time RAG answers backed by verifiable inline citations to authentic ASI records and 11th-century epigraphs:
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
             <Link
               href={`/ask?q=${encodeURIComponent("Who commissioned Rani ki Vav and in which century was it constructed?")}`}
-              className="p-3.5 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 hover:border-[#F3C649] transition text-left group"
+              className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 hover:border-[#F3C649] transition text-left group shadow-sm"
             >
-              <span className="text-[10px] text-[#D4AF37] uppercase font-bold tracking-wider block mb-1">
+              <span className="text-xs text-[#D4AF37] uppercase font-bold tracking-wider block mb-1.5">
                 English Query • Solanki Dynasty
               </span>
-              <p className="text-xs text-[#EFE6D8] font-serif group-hover:text-[#F3C649] transition">
+              <p className="text-xs text-[#EFE6D8] font-serif group-hover:text-[#F3C649] transition leading-relaxed">
                 "Who commissioned Rani ki Vav and in which century was it constructed?"
               </p>
             </Link>
 
             <Link
               href={`/ask?q=${encodeURIComponent("रानी की वाव का निर्माण किसने करवाया था?")}`}
-              className="p-3.5 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 hover:border-[#F3C649] transition text-left group"
+              className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 hover:border-[#F3C649] transition text-left group shadow-sm"
             >
-              <span className="text-[10px] text-[#D4AF37] uppercase font-bold tracking-wider block mb-1">
+              <span className="text-xs text-[#D4AF37] uppercase font-bold tracking-wider block mb-1.5">
                 Hindi Query • देवनागरी पुरालेख
               </span>
-              <p className="text-xs text-[#EFE6D8] font-serif group-hover:text-[#F3C649] transition">
+              <p className="text-xs text-[#EFE6D8] font-serif group-hover:text-[#F3C649] transition leading-relaxed">
                 "रानी की वाव का निर्माण किसने करवाया था?"
               </p>
             </Link>
 
             <Link
               href={`/ask?q=${encodeURIComponent("રાણી ની વાવ કોણે બંધાવી હતી?")}`}
-              className="p-3.5 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 hover:border-[#F3C649] transition text-left group"
+              className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 hover:border-[#F3C649] transition text-left group shadow-sm"
             >
-              <span className="text-[10px] text-[#D4AF37] uppercase font-bold tracking-wider block mb-1">
+              <span className="text-xs text-[#D4AF37] uppercase font-bold tracking-wider block mb-1.5">
                 Gujarati Query • ગુજરાતી અભિલેખ
               </span>
-              <p className="text-xs text-[#EFE6D8] font-serif group-hover:text-[#F3C649] transition">
+              <p className="text-xs text-[#EFE6D8] font-serif group-hover:text-[#F3C649] transition leading-relaxed">
                 "રાણી ની વાવ કોણે બંધાવી હતી?"
               </p>
             </Link>
@@ -238,42 +230,42 @@ export default async function HomePage() {
       </section>
 
       {/* 3. Three Feature Cards Mapping to Competition Pathways */}
-      <section className="w-full max-w-6xl mx-auto px-4 py-12 space-y-6" id="three-pathways">
+      <section className="w-full max-w-6xl mx-auto px-4 py-12 space-y-8" id="three-pathways">
         <div className="text-center space-y-2">
-          <span className="text-xs font-serif font-bold text-[#D4AF37] uppercase tracking-widest">
-            Problem Statement Execution Pathways
-          </span>
           <h2 className="text-2xl sm:text-4xl font-serif font-bold text-[#F6F1E9]">
             Three Interlocking Digital Heritage Pillars
           </h2>
+          <p className="text-sm text-[#D8C3A5] max-w-xl mx-auto text-pretty">
+            Integrating 3D photogrammetry, epigraphic OCR, and PostGIS geospatial journeys into one unified preservation layer.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           {/* Pathway 1: 3D Digital Twin */}
-          <div className="p-6 rounded-2xl bg-[#141A26]/80 border border-[#D4AF37]/40 flex flex-col justify-between space-y-4 hover:border-[#D4AF37] transition shadow-xl">
-            <div className="space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-[#C85A32]/20 border border-[#C85A32]/50 flex items-center justify-center text-[#F3C649]">
+          <div className="p-6 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 flex flex-col justify-between space-y-5 hover:border-[#D4AF37] transition shadow-xl">
+            <div className="space-y-3.5">
+              <div className="w-10 h-10 rounded-xl bg-[#C85A32]/25 border border-[#E07A5F]/40 flex items-center justify-center text-[#F3C649]">
                 <Box className="w-5 h-5" />
               </div>
-              <span className="text-xs font-serif font-bold text-[#C85A32] uppercase tracking-wider block">
+              <span className="text-xs font-serif font-bold text-[#E07A5F] uppercase tracking-wider block">
                 Pathway 1 • Immersive 3D
               </span>
               <h3 className="font-serif text-xl font-bold text-[#F6F1E9]">
                 Photogrammetric 3D Digital Twins
               </h3>
-              <p className="text-xs text-[#D8C3A5] leading-relaxed">
+              <p className="text-sm text-[#D8C3A5] leading-relaxed text-pretty">
                 Full subterranean photogrammetry with orbit controls, 7 tiered levels of inverted temple architecture, diurnal day/night sunlight simulation, and annotated spatial hotspots for sacred iconographies like Sheshashayi Vishnu.
               </p>
             </div>
 
             <div className="space-y-3 pt-3 border-t border-[#D4AF37]/20">
-              <div className="text-[11px] text-[#D8C3A5]/80 space-y-1">
+              <div className="text-xs text-[#D8C3A5]/90 space-y-1.5">
                 <div className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                   <span>Real GLB Mesh Rendering at 60 FPS</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                   <span>Three.js + R3F Isolated Chunk Splitting</span>
                 </div>
               </div>
@@ -289,8 +281,8 @@ export default async function HomePage() {
           </div>
 
           {/* Pathway 2: Archival OCR & NLP */}
-          <div className="p-6 rounded-2xl bg-[#141A26]/80 border border-[#D4AF37]/40 flex flex-col justify-between space-y-4 hover:border-[#D4AF37] transition shadow-xl">
-            <div className="space-y-3">
+          <div className="p-6 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 flex flex-col justify-between space-y-5 hover:border-[#D4AF37] transition shadow-xl">
+            <div className="space-y-3.5">
               <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/50 flex items-center justify-center text-[#D4AF37]">
                 <BookOpen className="w-5 h-5" />
               </div>
@@ -300,19 +292,19 @@ export default async function HomePage() {
               <h3 className="font-serif text-xl font-bold text-[#F6F1E9]">
                 Multimodal Document Intelligence
               </h3>
-              <p className="text-xs text-[#D8C3A5] leading-relaxed">
+              <p className="text-sm text-[#D8C3A5] leading-relaxed text-pretty">
                 Ingests historical manuscript folios and stone inscriptions. Generates normalized bounding boxes, Devanagari and Gujarati OCR transcriptions, English translations, and supports live human-in-the-loop line edits.
               </p>
             </div>
 
             <div className="space-y-3 pt-3 border-t border-[#D4AF37]/20">
-              <div className="text-[11px] text-[#D8C3A5]/80 space-y-1">
+              <div className="text-xs text-[#D8C3A5]/90 space-y-1.5">
                 <div className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                   <span>Interactive Line↔Bounding Box Synchrony</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                   <span>Audited Versioning & Correction History</span>
                 </div>
               </div>
@@ -328,8 +320,8 @@ export default async function HomePage() {
           </div>
 
           {/* Pathway 3: Geospatial Journeys */}
-          <div className="p-6 rounded-2xl bg-[#141A26]/80 border border-[#D4AF37]/40 flex flex-col justify-between space-y-4 hover:border-[#D4AF37] transition shadow-xl">
-            <div className="space-y-3">
+          <div className="p-6 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 flex flex-col justify-between space-y-5 hover:border-[#D4AF37] transition shadow-xl">
+            <div className="space-y-3.5">
               <div className="w-10 h-10 rounded-xl bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
                 <Compass className="w-5 h-5" />
               </div>
@@ -339,19 +331,19 @@ export default async function HomePage() {
               <h3 className="font-serif text-xl font-bold text-[#F6F1E9]">
                 Animated Heritage Trails
               </h3>
-              <p className="text-xs text-[#D8C3A5] leading-relaxed">
+              <p className="text-sm text-[#D8C3A5] leading-relaxed text-pretty">
                 Connects isolated monuments into overland cultural pilgrimages. The route progressively draws itself, camera sweeps along travel bearings with pitch, and stops reveal arrival notes, folklore, and linked archival folios.
               </p>
             </div>
 
             <div className="space-y-3 pt-3 border-t border-[#D4AF37]/20">
-              <div className="text-[11px] text-[#D8C3A5]/80 space-y-1">
+              <div className="text-xs text-[#D8C3A5]/90 space-y-1.5">
                 <div className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                   <span>8-Stop Gujarat Trail (485 km Overland)</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                   <span>Deep-Linkable Stop URLs with Autoplay</span>
                 </div>
               </div>
@@ -368,109 +360,104 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 4. "How It Works" Mermaid-Style Architecture Graphic */}
-      <section className="w-full max-w-6xl mx-auto px-4 py-12" id="architecture-pipeline">
-        <div className="glass-panel-gold rounded-2xl p-6 md:p-8 border border-[#D4AF37]/60 shadow-2xl space-y-6">
-          <div className="text-center space-y-2">
-            <span className="text-xs font-serif font-bold text-[#D4AF37] uppercase tracking-widest">
-              End-to-End Heritage Pipeline Architecture
-            </span>
-            <h2 className="text-xl md:text-3xl font-serif font-bold text-[#F6F1E9]">
-              How Dharohar Atlas Transforms Unstructured Heritage
-            </h2>
+      {/* 4. "How It Works" Pipeline Architecture Progression */}
+      <section className="w-full max-w-6xl mx-auto px-4 py-12 space-y-8" id="architecture-pipeline">
+        <div className="text-center space-y-2">
+          <h2 className="text-xl md:text-3xl font-serif font-bold text-[#F6F1E9]">
+            How Dharohar Atlas Transforms Unstructured Heritage
+          </h2>
+          <p className="text-sm text-[#D8C3A5] max-w-xl mx-auto text-pretty">
+            A resilient pipeline from raw epigraphic photography to verified geospatial indexing and grounded citations.
+          </p>
+        </div>
+
+        {/* Graphical Pipeline Flow Nodes */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          {/* Step 1 */}
+          <div className="p-5 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 space-y-2.5 text-center shadow-lg">
+            <div className="w-8 h-8 rounded-full bg-[#E07A5F] text-[#090D16] font-bold text-xs flex items-center justify-center mx-auto mb-1">
+              1
+            </div>
+            <h3 className="font-serif text-sm font-bold text-[#F6F1E9]">Ingestion & Prep</h3>
+            <p className="text-xs text-[#D8C3A5] leading-relaxed text-pretty">
+              Archival photos, folios, field notes, and GPS coordinates ingested with de-skewing and contrast optimization.
+            </p>
           </div>
 
-          {/* Graphical Pipeline Flow Nodes */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-            {/* Step 1 */}
-            <div className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 space-y-2 text-center relative">
-              <div className="w-8 h-8 rounded-full bg-[#C85A32] text-white font-bold text-xs flex items-center justify-center mx-auto mb-1">
-                1
-              </div>
-              <h4 className="font-serif text-sm font-bold text-[#F6F1E9]">Ingestion & Prep</h4>
-              <p className="text-[11px] text-[#D8C3A5]">
-                Archival photos, folios, field notes, and GPS coordinates ingested with de-skewing and contrast optimization.
-              </p>
+          {/* Step 2 */}
+          <div className="p-5 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 space-y-2.5 text-center shadow-lg">
+            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#090D16] font-bold text-xs flex items-center justify-center mx-auto mb-1">
+              2
             </div>
+            <h3 className="font-serif text-sm font-bold text-[#F6F1E9]">Multimodal AI</h3>
+            <p className="text-xs text-[#D8C3A5] leading-relaxed text-pretty">
+              Tesseract & Gemini Vision extract Devanagari/Gujarati line coordinates; translations & 768-dim embeddings generated.
+            </p>
+          </div>
 
-            {/* Step 2 */}
-            <div className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 space-y-2 text-center relative">
-              <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-indigoInk font-bold text-xs flex items-center justify-center mx-auto mb-1">
-                2
-              </div>
-              <h4 className="font-serif text-sm font-bold text-[#F6F1E9]">Multimodal AI</h4>
-              <p className="text-[11px] text-[#D8C3A5]">
-                Tesseract & Gemini Vision extract Devanagari/Gujarati line coordinates; translations & 768-dim embeddings generated.
-              </p>
+          {/* Step 3 */}
+          <div className="p-5 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 space-y-2.5 text-center shadow-lg">
+            <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#090D16] font-bold text-xs flex items-center justify-center mx-auto mb-1">
+              3
             </div>
+            <h3 className="font-serif text-sm font-bold text-[#F6F1E9]">PostGIS & Graph</h3>
+            <p className="text-xs text-[#D8C3A5] leading-relaxed text-pretty">
+              PostgreSQL/PostGIS indexes spatial geometries; pgvector enables semantic search with Reciprocal Rank Fusion (RRF).
+            </p>
+          </div>
 
-            {/* Step 3 */}
-            <div className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 space-y-2 text-center relative">
-              <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-indigoInk font-bold text-xs flex items-center justify-center mx-auto mb-1">
-                3
-              </div>
-              <h4 className="font-serif text-sm font-bold text-[#F6F1E9]">PostGIS & Graph</h4>
-              <p className="text-[11px] text-[#D8C3A5]">
-                PostgreSQL/PostGIS indexes spatial geometries; pgvector enables semantic search with Reciprocal Rank Fusion (RRF).
-              </p>
+          {/* Step 4 */}
+          <div className="p-5 rounded-2xl bg-[#141A26]/90 border border-[#D4AF37]/35 space-y-2.5 text-center shadow-lg">
+            <div className="w-8 h-8 rounded-full bg-emerald-400 text-[#090D16] font-bold text-xs flex items-center justify-center mx-auto mb-1">
+              4
             </div>
-
-            {/* Step 4 */}
-            <div className="p-4 rounded-xl bg-[#141A26] border border-[#D4AF37]/30 space-y-2 text-center relative">
-              <div className="w-8 h-8 rounded-full bg-emerald-500 text-indigoInk font-bold text-xs flex items-center justify-center mx-auto mb-1">
-                4
-              </div>
-              <h4 className="font-serif text-sm font-bold text-[#F6F1E9]">Interactive Discovery</h4>
-              <p className="text-[11px] text-[#D8C3A5]">
-                Live MapLibre journeys, 3D digital twins, bounding-box folio viewer, and cited Ask the Archive responses.
-              </p>
-            </div>
+            <h3 className="font-serif text-sm font-bold text-[#F6F1E9]">Interactive Discovery</h3>
+            <p className="text-xs text-[#D8C3A5] leading-relaxed text-pretty">
+              Live MapLibre journeys, 3D digital twins, bounding-box folio viewer, and cited Ask the Archive responses.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 5. Honest "What is Real vs Sample Data" Panel */}
-      <section className="w-full max-w-6xl mx-auto px-4 py-8" id="honesty-disclosure">
-        <div className="p-6 md:p-8 rounded-2xl bg-[#120E0A] border border-[#D4AF37]/40 shadow-xl space-y-4">
-          <div className="flex items-center gap-2 text-xs font-serif font-bold text-[#D4AF37] uppercase tracking-wider">
-            <ShieldCheck className="w-5 h-5 text-emerald-400" />
-            <span>Academic Rigor & Data Provenance Disclosure</span>
+      {/* 5. Honest "What is Real vs Sample Data" Disclosure */}
+      <section className="w-full max-w-6xl mx-auto px-4 py-8 space-y-6" id="honesty-disclosure">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#D4AF37]/25 pb-4">
+          <div className="flex items-center gap-2.5">
+            <ShieldCheck className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+            <h3 className="text-xl font-serif font-bold text-[#F6F1E9]">
+              Academic Rigor & Data Provenance Disclosure
+            </h3>
           </div>
-
-          <h3 className="text-xl font-serif font-bold text-[#F6F1E9]">
-            What is Real Data vs. Illustrative Sample Data?
-          </h3>
-
-          <p className="text-xs md:text-sm text-[#D8C3A5] leading-relaxed">
+          <p className="text-xs text-[#D8C3A5] max-w-md text-pretty">
             In compliance with national archaeological standards and strict academic honesty, Dharohar Atlas never invents historical claims or fabricates provenance:
           </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-            <div className="p-4 rounded-xl bg-[#141A26] border border-emerald-500/30 space-y-2">
-              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
-                <CheckCircle2 className="w-4 h-4" />
-                Verified Ground Truth (Real)
-              </span>
-              <ul className="text-xs text-[#EFE6D8] space-y-1.5 list-disc pl-4 leading-relaxed">
-                <li>All 25 monument coordinates and boundaries match Archaeological Survey of India (ASI) and UNESCO gazetteers.</li>
-                <li>Chronological era dates, dynasties (Solanki, Chaulukya, Delhi Sultanate), and architectural styles are rigorously cited.</li>
-                <li>3D model of Rani ki Vav uses photogrammetry scaled to 1:1 architectural proportions.</li>
-                <li>Adalaj and Rani ki Vav Sanskrit and Gujarati tablet transcriptions reflect published epigraphical records.</li>
-              </ul>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="p-5 rounded-2xl bg-[#141A26]/90 border border-emerald-500/35 space-y-3 shadow-lg">
+            <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5 uppercase tracking-wide">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+              Verified Ground Truth (Real)
+            </span>
+            <ul className="text-xs text-[#EFE6D8] space-y-2 list-disc pl-4 leading-relaxed">
+              <li>All 25 monument coordinates and boundaries match Archaeological Survey of India (ASI) and UNESCO gazetteers.</li>
+              <li>Chronological era dates, dynasties (Solanki, Chaulukya, Delhi Sultanate), and architectural styles are rigorously cited.</li>
+              <li>3D model of Rani ki Vav uses photogrammetry scaled to 1:1 architectural&nbsp;proportions.</li>
+              <li>Adalaj and Rani ki Vav Sanskrit and Gujarati tablet transcriptions reflect published epigraphical records.</li>
+            </ul>
+          </div>
 
-            <div className="p-4 rounded-xl bg-[#141A26] border border-amber-600/40 space-y-2">
-              <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5 uppercase tracking-wide">
-                <AlertTriangle className="w-4 h-4" />
-                Explicitly Labelled Samples (Illustrative)
-              </span>
-              <ul className="text-xs text-[#EFE6D8] space-y-1.5 list-disc pl-4 leading-relaxed">
-                <li>Unverified local oral folklore traditions are flagged with the amber "Illustrative sample" badge.</li>
-                <li>Secondary field notes are clearly labelled with observer provenance rather than claiming canonical truth.</li>
-                <li>AI OCR transcriptions retain human-in-the-loop confidence scores and versioned audit history.</li>
-                <li>Experimental photo-to-3D meshing is placed on our roadmap rather than presented as ready.</li>
-              </ul>
-            </div>
+          <div className="p-5 rounded-2xl bg-[#141A26]/90 border border-amber-600/40 space-y-3 shadow-lg">
+            <span className="text-xs font-bold text-amber-300 flex items-center gap-1.5 uppercase tracking-wide">
+              <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+              Explicitly Labelled Samples (Illustrative)
+            </span>
+            <ul className="text-xs text-[#EFE6D8] space-y-2 list-disc pl-4 leading-relaxed">
+              <li>Unverified local oral folklore traditions are flagged with the amber "Illustrative sample"&nbsp;badge.</li>
+              <li>Secondary field notes are clearly labelled with observer provenance rather than claiming canonical truth.</li>
+              <li>AI OCR transcriptions retain human-in-the-loop confidence scores and versioned audit&nbsp;history.</li>
+              <li>Experimental photo-to-3D meshing is placed on our roadmap rather than presented as&nbsp;ready.</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -483,10 +470,10 @@ export default async function HomePage() {
               <Compass className="w-5 h-5 text-[#D4AF37]" />
               <span className="font-serif font-bold text-base text-[#F6F1E9]">DHAROHAR ATLAS</span>
             </div>
-            <p className="text-[11px] text-[#D8C3A5]/80">
+            <p className="text-xs text-[#D8C3A5]/80">
               Heritage Archive Hackathon Solution • HC26-CULT01 • Blithchron '27, IIT Gandhinagar
             </p>
-            <p className="text-[10px] text-[#D8C3A5]/60">
+            <p className="text-xs text-[#D8C3A5]/70">
               Released under CC-BY-4.0. Public domain archival sources cited per ASI and UNESCO attribution standards.
             </p>
           </div>

@@ -304,7 +304,7 @@ export function JourneyPlayer({
           <div class="relative flex flex-col items-center justify-center transition-transform hover:scale-110">
             <div class="w-8 h-8 rounded-full ${
               isCurrent
-                ? "bg-[#C85A32] border-2 border-[#F3C649] text-white shadow-lg shadow-[#C85A32]/60 scale-110"
+                ? "bg-[#9E3D1D] border-2 border-[#F3C649] text-white shadow-lg shadow-black/70 scale-110"
                 : "bg-[#1A1510] border-2 border-[#D4AF37] text-[#D4AF37] shadow-md shadow-black"
             } font-bold text-xs flex items-center justify-center">
               ${stop.stop_order}
@@ -334,7 +334,7 @@ export function JourneyPlayer({
       const travelerEl = document.createElement("div");
       travelerEl.className = "traveler-compass-pin pointer-events-none";
       travelerEl.innerHTML = `
-        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-[#C85A32] to-[#D4AF37] p-1 shadow-2xl shadow-[#D4AF37]/70 flex items-center justify-center ring-4 ring-[#D4AF37]/40 animate-pulse">
+        <div class="w-10 h-10 rounded-full bg-[#D4AF37] p-1 shadow-2xl shadow-black/80 flex items-center justify-center ring-4 ring-[#D4AF37]/40 animate-pulse">
           <svg class="w-5 h-5 text-[#0F141C]" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
           </svg>
@@ -407,7 +407,7 @@ export function JourneyPlayer({
       const circle = el.querySelector(".w-8") as HTMLElement | null;
       if (circle) {
         if (idx === currentStopIndex) {
-          circle.className = "w-8 h-8 rounded-full bg-[#C85A32] border-2 border-[#F3C649] text-white shadow-lg shadow-[#C85A32]/60 scale-110 font-bold text-xs flex items-center justify-center";
+          circle.className = "w-8 h-8 rounded-full bg-[#9E3D1D] border-2 border-[#F3C649] text-white shadow-lg shadow-black/70 scale-110 font-bold text-xs flex items-center justify-center";
         } else {
           circle.className = "w-8 h-8 rounded-full bg-[#1A1510] border-2 border-[#D4AF37] text-[#D4AF37] shadow-md shadow-black font-bold text-xs flex items-center justify-center";
         }
@@ -483,7 +483,7 @@ export function JourneyPlayer({
                   key={st.id}
                   className={`p-6 rounded-xl border transition-all ${
                     idx === currentStopIndex
-                      ? "bg-[#1A1510] border-[#D4AF37] shadow-lg shadow-[#D4AF37]/20 ring-1 ring-[#D4AF37]"
+                      ? "bg-[#1A1510] border-[#D4AF37] shadow-lg shadow-black/60 ring-1 ring-[#D4AF37]"
                       : "bg-[#141A26] border-[#D4AF37]/20 hover:border-[#D4AF37]/40"
                   }`}
                 >
@@ -502,7 +502,7 @@ export function JourneyPlayer({
                           </Badge>
                         )}
                         {st.is_illustrative && (
-                          <span className="text-[10px] bg-amber-950/80 text-amber-350 border border-amber-600/50 px-2 py-0.5 rounded font-medium">
+                          <span className="text-[11px] bg-amber-950/80 text-amber-300 border border-amber-600/50 px-2 py-0.5 rounded font-medium">
                             {t.journey.illustrative}
                           </span>
                         )}
@@ -662,7 +662,7 @@ export function JourneyPlayer({
                   <p className="text-xs font-serif font-bold truncate">
                     {locale === "hi" && st.site_name_hi ? st.site_name_hi : locale === "gu" && st.site_name_gu ? st.site_name_gu : st.site_name}
                   </p>
-                  <p className="text-[10px] text-[#D8C3A5]/70 truncate">
+                  <p className="text-xs text-[#D8C3A5] truncate font-normal">
                     {st.state} • {st.cumulative_distance_km} km
                   </p>
                 </div>
@@ -752,7 +752,7 @@ export function JourneyPlayer({
             {/* Top Row: Stop Metadata & Actions */}
             <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-[#C85A32] text-white">
+                <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-[#9E3D1D] text-white">
                   Stop {activeStop.stop_order} of {stops.length}
                 </span>
                 {activeStop.era_label && (
@@ -761,7 +761,7 @@ export function JourneyPlayer({
                   </Badge>
                 )}
                 {activeStop.is_illustrative && (
-                  <span className="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-600/50 px-2 py-0.5 rounded font-medium">
+                  <span className="text-[11px] bg-amber-950/80 text-amber-300 border border-amber-600/50 px-2 py-0.5 rounded font-medium">
                     {t.journey.illustrative}
                   </span>
                 )}
@@ -818,7 +818,7 @@ export function JourneyPlayer({
                     Archival Photograph
                   </div>
                 )}
-                <div className="absolute bottom-0 inset-x-0 bg-black/80 px-2 py-0.5 text-[9px] text-[#D8C3A5]/90 truncate">
+                <div className="absolute bottom-0 inset-x-0 bg-black/80 px-2 py-0.5 text-xs text-[#D8C3A5] truncate">
                   {activeStop.hero_media?.attribution || "ASI Survey Archives"} ({activeStop.hero_media?.licence || "CC-BY-4.0"})
                 </div>
               </div>
@@ -833,7 +833,7 @@ export function JourneyPlayer({
                   "{activeStop.arrival_note}"
                 </p>
 
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#D8C3A5]/70 pt-1">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[#D8C3A5] pt-1">
                   <span>Source: {activeStop.arrival_note_source}</span>
                   {activeStop.linked_folklore && activeStop.linked_folklore.length > 0 && (
                     <span className="text-[#D4AF37]">
@@ -918,7 +918,7 @@ export function JourneyPlayer({
 
                 {/* Speed Selector (0.5x, 1x, 2x) */}
                 <div className="flex items-center gap-1 bg-[#141A26] p-1 rounded-xl border border-[#D4AF37]/30 text-xs">
-                  <span className="text-[10px] text-[#D8C3A5]/60 px-1 font-serif hidden sm:inline">Speed:</span>
+                  <span className="text-[11px] text-[#D8C3A5] px-1 font-serif hidden sm:inline">Speed:</span>
                   {[0.5, 1.0, 2.0].map((s) => (
                     <button
                       key={s}

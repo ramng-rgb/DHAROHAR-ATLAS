@@ -31,8 +31,8 @@ export const Chip: React.FC<ChipProps> = ({
       <span>{label}</span>
       {count !== undefined && (
         <span
-          className={`px-1.5 py-0.2 rounded-full text-[10px] ${
-            selected ? "bg-parchment-950 text-goldLeaf font-bold" : "bg-black/30 text-sandstone"
+          className={`px-1.5 py-0.5 rounded-full text-[11px] font-semibold ${
+            selected ? "bg-parchment-950 text-goldLeaf font-bold" : "bg-black/40 text-sandstone"
           }`}
         >
           {count}

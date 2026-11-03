@@ -38,9 +38,6 @@ export function SiteArchiveDocumentsSection({ siteId, siteName }: SiteArchiveDoc
     <section id="archive-section" className="scroll-mt-28 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-[#D4AF37]/20 pb-3">
         <div>
-          <div className="text-xs font-serif font-bold uppercase tracking-wider text-[#D4AF37]">
-            Archival Revitalisation Layer
-          </div>
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
             <span>Archive Documents & Inscriptions</span>
             <span className="text-xs font-mono font-normal text-[#D4AF37] px-2 py-0.5 rounded bg-[#D4AF37]/10 border border-[#D4AF37]/30">
@@ -100,27 +97,27 @@ export function SiteArchiveDocumentsSection({ siteId, siteName }: SiteArchiveDoc
                       className="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-1 text-[#D8C3A5]/40">
+                    <div className="flex flex-col items-center gap-1 text-[#D8C3A5]/70">
                       <FileText className="w-8 h-8" />
-                      <span className="text-[9px] font-mono uppercase">Archival Record</span>
+                      <span className="text-xs font-mono uppercase">Archival Record</span>
                     </div>
                   )}
 
                   <div className="absolute top-2 left-2 flex items-center gap-1.5">
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono uppercase bg-black/70 border border-[#D4AF37]/40 text-[#D4AF37] backdrop-blur-sm">
+                    <span className="px-1.5 py-0.5 rounded text-[11px] font-mono uppercase bg-black/70 border border-[#D4AF37]/40 text-[#D4AF37] font-semibold backdrop-blur-sm">
                       {doc.doc_type}
                     </span>
                   </div>
 
                   <div className="absolute top-2 right-2">
                     {doc.status === "ready" ? (
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 flex items-center gap-1 backdrop-blur-sm">
-                        <CheckCircle2 className="w-2.5 h-2.5" />
+                      <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 flex items-center gap-1 backdrop-blur-sm">
+                        <CheckCircle2 className="w-3 h-3" />
                         Ready
                       </span>
                     ) : (
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-medium bg-blue-950/80 border border-blue-500/50 text-blue-300 flex items-center gap-1 backdrop-blur-sm">
-                        <Clock className="w-2.5 h-2.5 animate-spin" />
+                      <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-950/80 border border-blue-500/50 text-blue-300 flex items-center gap-1 backdrop-blur-sm">
+                        <Clock className="w-3 h-3 animate-spin" />
                         {doc.status}
                       </span>
                     )}
@@ -132,12 +129,12 @@ export function SiteArchiveDocumentsSection({ siteId, siteName }: SiteArchiveDoc
                     <h3 className="font-serif text-sm font-bold text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors line-clamp-2">
                       {doc.title}
                     </h3>
-                    <p className="text-[11px] text-[#D8C3A5]/60 line-clamp-1 mt-1 font-light">
+                    <p className="text-xs text-[#D8C3A5] line-clamp-1 mt-1 font-normal">
                       {doc.attribution || doc.source}
                     </p>
                   </div>
 
-                  <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-[#D8C3A5]/60">
+                  <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs font-mono text-[#D8C3A5]">
                     <span>{lineCount} OCR lines</span>
                     <span>{doc.licence || "CC-BY-4.0"}</span>
                   </div>

@@ -78,9 +78,6 @@ export function SiteGallery({ media, siteName }: SiteGalleryProps) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
           <div>
-            <div className="text-xs uppercase tracking-widest text-primary font-mono font-medium mb-1">
-              Visual Documentation
-            </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
               Photographic Archive & Details
             </h2>
@@ -127,7 +124,7 @@ export function SiteGallery({ media, siteName }: SiteGalleryProps) {
                   <p className="font-medium text-foreground line-clamp-1">{item.caption || `${siteName} detail`}</p>
                   <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
                     <span className="truncate max-w-[65%]">{item.attribution || "Dharohar Archives"}</span>
-                    <span className="px-1.5 py-0.5 rounded bg-muted text-[10px] uppercase font-semibold">
+                    <span className="px-1.5 py-0.5 rounded bg-muted text-[11px] uppercase font-semibold">
                       {item.license || "CC-BY-4.0"}
                     </span>
                   </div>
@@ -219,7 +216,7 @@ export function SiteGallery({ media, siteName }: SiteGalleryProps) {
               </p>
               <div className="flex flex-wrap items-center justify-between text-xs text-white/70 font-mono gap-2 pt-1 border-t border-white/10">
                 <span>Attribution: {activeImage.attribution || "Archaeological Survey / Heritage Archives"}</span>
-                <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[10px] uppercase font-semibold">
+                <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[11px] uppercase font-semibold">
                   {activeImage.license || "CC-BY-4.0"}
                 </span>
               </div>

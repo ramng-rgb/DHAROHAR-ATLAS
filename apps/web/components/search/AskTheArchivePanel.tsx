@@ -223,13 +223,13 @@ export function AskTheArchivePanel({
       {/* Header */}
       <div className="flex items-center justify-between pb-4 border-b border-[#D4AF37]/20">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#C85A32] flex items-center justify-center shadow-lg shadow-[#D4AF37]/20">
+          <div className="w-10 h-10 rounded-xl bg-[#D4AF37] flex items-center justify-center shadow-md shadow-black/50">
             <Sparkles className="w-5 h-5 text-indigoInk fill-indigoInk" />
           </div>
           <div>
             <h2 className="font-serif text-lg font-bold tracking-wide text-[#F6F1E9] flex items-center gap-2">
               Ask the Archive
-              <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40">
+              <span className="text-xs uppercase font-mono font-semibold px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40">
                 Grounded RAG
               </span>
             </h2>
@@ -239,7 +239,7 @@ export function AskTheArchivePanel({
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-[#D8C3A5]/60">
+        <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-[#D8C3A5]">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
           <span>Calibrated Refusal Active</span>
         </div>
@@ -261,12 +261,12 @@ export function AskTheArchivePanel({
             onChange={(e) => setQuestion(e.target.value)}
             disabled={isStreaming}
             placeholder="Ask anything about monuments, inscriptions, or folklore (e.g. 'Who built Rani ki Vav?')..."
-            className="w-full bg-black/40 border border-[#D4AF37]/40 rounded-xl pl-4 pr-24 py-3 text-sm text-[#F6F1E9] placeholder-[#D8C3A5]/50 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all disabled:opacity-50"
+            className="w-full bg-black/40 border border-[#D4AF37]/40 rounded-xl pl-4 pr-24 py-3 text-sm text-[#F6F1E9] placeholder-[#A89F91] focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={isStreaming || !question.trim()}
-            className="absolute right-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk font-bold text-xs flex items-center gap-1.5 hover:opacity-95 disabled:opacity-40 transition-all shadow-md shadow-[#D4AF37]/20"
+            className="absolute right-2 px-4 py-2 rounded-lg bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-xs flex items-center gap-1.5 disabled:opacity-40 transition-all shadow-md shadow-black/50"
           >
             {isStreaming ? (
               <>
@@ -286,10 +286,10 @@ export function AskTheArchivePanel({
       {/* Curated Example Questions */}
       {!response && !isStreaming && (
         <div className="mt-4 pt-3 border-t border-white/5 space-y-2">
-          <p className="text-[11px] font-mono uppercase tracking-wider text-[#D8C3A5]/60 flex items-center gap-1.5">
-            <MessageSquare className="w-3 h-3 text-[#D4AF37]" />
+          <div className="text-xs font-mono font-medium uppercase tracking-wider text-[#D8C3A5] flex items-center gap-1.5">
+            <MessageSquare className="w-3.5 h-3.5 text-[#D4AF37]" />
             Try Curated Archive Inquiries:
-          </p>
+          </div>
           <div className="flex flex-wrap gap-2">
             {curatedQuestions.map((item, idx) => (
               <button
@@ -298,7 +298,7 @@ export function AskTheArchivePanel({
                 onClick={() => handleAsk(item.q)}
                 className="text-xs text-left px-3 py-1.5 rounded-lg bg-black/40 hover:bg-[#D4AF37]/15 border border-[#D4AF37]/25 hover:border-[#D4AF37]/60 text-[#D8C3A5] hover:text-[#F6F1E9] transition-all flex items-center gap-1.5 group"
               >
-                <span className="text-[10px] font-mono uppercase px-1 py-0.2 rounded bg-white/10 text-[#D4AF37]/80">
+                <span className="text-[11px] font-mono uppercase px-1.5 py-0.5 rounded bg-white/10 text-[#D4AF37]">
                   {item.lang}
                 </span>
                 <span>{item.label}</span>
@@ -416,7 +416,7 @@ export function AskTheArchivePanel({
                       <p className="text-xs font-medium text-[#F6F1E9] truncate group-hover:text-[#D4AF37]">
                         {rec.title}
                       </p>
-                      <p className="text-[10px] text-[#D8C3A5]/60 capitalize">
+                      <p className="text-[11px] text-[#D8C3A5]/70 capitalize">
                         {String(rec.source_type || "").replace(/_/g, " ")}
                       </p>
                     </div>
@@ -461,16 +461,16 @@ export function AskTheArchivePanel({
                               <ExternalLink className="w-3 h-3" />
                             </Link>
 
-                            <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#D8C3A5]/80">
+                            <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-white/10 text-[#D8C3A5]">
                               {c.source_type.replace(/_/g, " ")}
                             </span>
 
-                            <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-[#D4AF37]/15 text-[#D4AF37]">
+                            <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] font-semibold">
                               {c.lang}
                             </span>
 
                             {c.is_illustrative && (
-                              <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                              <span className="text-[11px] uppercase font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">
                                 Illustrative Sample
                               </span>
                             )}
@@ -519,7 +519,7 @@ export function AskTheArchivePanel({
           <p className="text-xs text-[#D8C3A5] font-serif italic line-clamp-4">
             &ldquo;{hoveredCitation.snippet}&rdquo;
           </p>
-          <div className="mt-2 pt-1 border-t border-white/10 flex items-center justify-between text-[10px] text-[#D8C3A5]/60 font-mono">
+          <div className="mt-2 pt-1 border-t border-white/10 flex items-center justify-between text-[11px] text-[#D8C3A5]/70 font-mono">
             <span className="uppercase">{hoveredCitation.source_type}</span>
             <span>Click to inspect record</span>
           </div>

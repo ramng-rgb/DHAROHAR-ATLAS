@@ -44,9 +44,10 @@ module.exports = {
         }
       },
       fontFamily: {
-        serif: ["var(--font-cinzel)", "Georgia", "serif"],
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        devanagari: ["var(--font-devanagari)", "serif"]
+        serif: ["'Cinzel'", "Georgia", "serif"],
+        sans: ["'DM Sans'", "system-ui", "-apple-system", "sans-serif"],
+        devanagari: ["'Noto Sans Devanagari'", "serif"],
+        gujarati: ["'Noto Sans Gujarati'", "sans-serif"]
       },
       backgroundImage: {
         'jaali-pattern': "radial-gradient(#d4af37 0.75px, transparent 0.75px), radial-gradient(#d4af37 0.75px, #0f172a 0.75px)",

@@ -31,14 +31,14 @@ export function SiteOverview({ site }: SiteOverviewProps) {
             Historical Context & Significance
           </h2>
 
-          <p>{site.description || site.summary}</p>
+          <p className="max-w-[48ch] leading-relaxed text-pretty text-[#EFE6D8]">{site.description || site.summary}</p>
 
           {site.significance && (
-            <div className="bg-[#1A1510]/80 p-4 rounded-2xl border-l-4 border-[#D4AF37] space-y-1.5">
+            <div className="pt-4 border-t border-[#D4AF37]/25 space-y-1.5">
               <strong className="text-white block font-serif text-sm">
                 Cultural & Structural Significance
               </strong>
-              <p className="text-xs sm:text-sm text-[#D8C3A5]">
+              <p className="text-xs sm:text-sm text-[#D8C3A5] max-w-[48ch] leading-relaxed text-pretty">
                 {site.significance}
               </p>
             </div>
@@ -117,10 +117,10 @@ export function SiteOverview({ site }: SiteOverviewProps) {
               </div>
 
               <div className="pt-1">
-                <dt className="text-[#D8C3A5]/70 text-[11px] block mb-1">
+                <dt className="text-[#D8C3A5] text-xs block mb-1">
                   Primary Source Record:
                 </dt>
-                <dd className="text-[11px] text-[#EFE6D8] leading-tight">
+                <dd className="text-xs text-[#EFE6D8] leading-normal">
                   {site.source_text || site.source}
                   {site.source_url && (
                     <a
@@ -150,7 +150,7 @@ export function SiteOverview({ site }: SiteOverviewProps) {
             </div>
 
             {/* Locator Visual Box */}
-            <div className="relative w-full h-36 rounded-2xl overflow-hidden border border-[#D4AF37]/30 bg-[#1A1510] flex items-center justify-center">
+            <div className="relative w-full h-36 rounded-2xl overflow-hidden bg-black/40 flex items-center justify-center">
               <div 
                 className="absolute inset-0 bg-cover bg-center opacity-40"
                 style={{
@@ -165,7 +165,7 @@ export function SiteOverview({ site }: SiteOverviewProps) {
                 <span className="font-serif font-bold text-xs text-white">
                   {site.name}
                 </span>
-                <span className="text-[10px] text-[#D8C3A5] font-mono">
+                <span className="text-[11px] text-[#D8C3A5] font-mono">
                   {site.latitude.toFixed(4)}, {site.longitude.toFixed(4)}
                 </span>
               </div>

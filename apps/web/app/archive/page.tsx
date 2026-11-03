@@ -86,15 +86,15 @@ export default function ArchiveHubPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-[#D4AF37] px-2 py-0.5 rounded bg-[#D4AF37]/15 border border-[#D4AF37]/40">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#D4AF37] px-2 py-0.5 rounded bg-[#D4AF37]/15 border border-[#D4AF37]/40">
                 ARCHIVAL KNOWLEDGE LAYER
               </span>
-              <span className="text-[11px] text-[#D8C3A5]/60">• Indian Epigraphy & Manuscripts</span>
+              <span className="text-xs text-[#D8C3A5]/80">• Indian Epigraphy & Manuscripts</span>
             </div>
             <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-[#F6F1E9]">
               Revitalised Archival Corpus
             </h1>
-            <p className="text-sm text-[#D8C3A5]/80 max-w-2xl font-light">
+            <p className="text-sm text-[#D8C3A5] max-w-[48ch] font-normal text-pretty">
               High-resolution manuscripts, Solanki foundation tablets, and British-era architectural monographs.
               Digitised via multilingual OCR, aligned with domain heritage glossaries, and linked to spatial monuments.
             </p>
@@ -104,9 +104,9 @@ export default function ArchiveHubPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsUploadModalOpen(true)}
-              className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-black font-semibold text-sm tracking-wide flex items-center gap-2 hover:brightness-110 shadow-lg shadow-[#D4AF37]/20 transition-all cursor-pointer"
+              className="px-5 py-2.5 rounded-lg bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-sm tracking-wide flex items-center gap-2 shadow-lg shadow-black/50 transition-all cursor-pointer"
             >
-              <UploadCloud className="w-4 h-4" />
+              <UploadCloud className="w-4 h-4 text-indigoInk" />
               <span>Ingest Document Scan</span>
             </button>
             <button
@@ -121,25 +121,25 @@ export default function ArchiveHubPage() {
 
         {/* Live Corpus Metrics */}
         <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-white/5">
-          <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+          <div className="p-3.5 rounded-xl bg-black/40 border border-white/5">
             <div className="text-xs text-[#D8C3A5]/70 font-serif">Total Ingested Folios</div>
             <div className="text-2xl font-bold text-[#F6F1E9] mt-1">{documents.length}</div>
-            <div className="text-[10px] text-[#D4AF37] font-mono mt-0.5">{totalPages} rendered pages</div>
+            <div className="text-xs text-[#D4AF37] font-mono mt-0.5">{totalPages} rendered pages</div>
           </div>
-          <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+          <div className="p-3.5 rounded-xl bg-black/40 border border-white/5">
             <div className="text-xs text-[#D8C3A5]/70 font-serif">Scripts Represented</div>
             <div className="text-2xl font-bold text-[#D4AF37] mt-1">3</div>
-            <div className="text-[10px] text-[#D8C3A5]/60 font-mono mt-0.5">Devanagari • Gujarati • Latin</div>
+            <div className="text-xs text-[#D8C3A5]/80 font-mono mt-0.5">Devanagari • Gujarati • Latin</div>
           </div>
-          <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+          <div className="p-3.5 rounded-xl bg-black/40 border border-white/5">
             <div className="text-xs text-[#D8C3A5]/70 font-serif">Fully Verified / Ready</div>
             <div className="text-2xl font-bold text-emerald-400 mt-1">{readyCount}</div>
-            <div className="text-[10px] text-emerald-400/80 font-mono mt-0.5">Automated quality certified</div>
+            <div className="text-xs text-emerald-400/90 font-mono mt-0.5">Automated quality certified</div>
           </div>
-          <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+          <div className="p-3.5 rounded-xl bg-black/40 border border-white/5">
             <div className="text-xs text-[#D8C3A5]/70 font-serif">Needs Human Review</div>
             <div className="text-2xl font-bold text-amber-400 mt-1">{reviewCount}</div>
-            <div className="text-[10px] text-amber-400/80 font-mono mt-0.5">Low confidence flagged</div>
+            <div className="text-xs text-amber-400/90 font-mono mt-0.5">Low confidence flagged</div>
           </div>
         </div>
       </section>
@@ -155,7 +155,7 @@ export default function ArchiveHubPage() {
               placeholder="Search by title, attribution or source..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-lg bg-black/50 border border-white/10 text-xs text-[#F6F1E9] placeholder-[#D8C3A5]/40 focus:border-[#D4AF37] outline-none"
+              className="w-full pl-9 pr-4 py-2 rounded-lg bg-black/50 border border-white/10 text-xs text-[#F6F1E9] placeholder-[#A89F91] focus:border-[#D4AF37] outline-none"
             />
           </div>
 
@@ -203,6 +203,7 @@ export default function ArchiveHubPage() {
         </div>
 
         {/* Documents Grid */}
+        <h2 className="sr-only">Archival Folios and Manuscripts Catalog</h2>
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
@@ -234,7 +235,7 @@ export default function ArchiveHubPage() {
               return (
                 <div
                   key={doc.id}
-                  className="group flex flex-col rounded-xl bg-[#14100B] border border-[#D4AF37]/30 hover:border-[#D4AF37] shadow-lg hover:shadow-xl hover:shadow-[#D4AF37]/10 transition-all overflow-hidden"
+                  className="group flex flex-col rounded-xl bg-[#14100B] border border-[#D4AF37]/30 hover:border-[#D4AF37] shadow-lg hover:shadow-2xl shadow-black/50 transition-all overflow-hidden"
                 >
                   {/* Thumbnail / Image Preview Header */}
                   <div className="relative h-44 w-full bg-[#1A1510] border-b border-[#D4AF37]/20 flex items-center justify-center overflow-hidden">
@@ -250,18 +251,18 @@ export default function ArchiveHubPage() {
                         }}
                       />
                     ) : (
-                      <div className="flex flex-col items-center gap-2 text-[#D8C3A5]/40">
+                      <div className="flex flex-col items-center gap-2 text-[#A89F91]">
                         <FileText className="w-10 h-10" />
-                        <span className="text-[10px] font-mono uppercase tracking-wider">Scanned Folio</span>
+                        <span className="text-xs font-mono uppercase tracking-wider">Scanned Folio</span>
                       </div>
                     )}
 
                     {/* Top Overlay Badges */}
                     <div className="absolute top-3 left-3 flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase font-semibold bg-black/70 border border-[#D4AF37]/40 text-[#D4AF37] backdrop-blur-sm">
+                      <span className="px-2 py-0.5 rounded text-xs font-mono uppercase font-semibold bg-black/80 border border-[#D4AF37]/40 text-[#D4AF37] backdrop-blur-sm">
                         {doc.doc_type?.toUpperCase()}
                       </span>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase font-medium bg-black/60 border border-white/10 text-[#F6F1E9] backdrop-blur-sm">
+                      <span className="px-2 py-0.5 rounded text-xs font-mono uppercase font-medium bg-black/70 border border-white/10 text-[#F6F1E9] backdrop-blur-sm">
                         {doc.language_hint === "gu" ? "Gujarati" : doc.language_hint === "hi" ? "Devanagari" : doc.language_hint?.toUpperCase()}
                       </span>
                     </div>
@@ -269,18 +270,18 @@ export default function ArchiveHubPage() {
                     {/* Status badge */}
                     <div className="absolute top-3 right-3">
                       {doc.status === "ready" ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 flex items-center gap-1 backdrop-blur-sm">
-                          <CheckCircle2 className="w-3 h-3" />
+                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 flex items-center gap-1 backdrop-blur-sm">
+                          <CheckCircle2 className="w-3.5 h-3.5" />
                           Ready
                         </span>
                       ) : doc.status === "needs_review" ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-950/80 border border-amber-500/50 text-amber-400 flex items-center gap-1 backdrop-blur-sm">
-                          <AlertTriangle className="w-3 h-3" />
+                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-950/80 border border-amber-500/50 text-amber-400 flex items-center gap-1 backdrop-blur-sm">
+                          <AlertTriangle className="w-3.5 h-3.5" />
                           Needs Review
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-950/80 border border-blue-500/50 text-blue-400 flex items-center gap-1 backdrop-blur-sm">
-                          <Clock className="w-3 h-3 animate-spin" />
+                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-950/80 border border-blue-500/50 text-blue-400 flex items-center gap-1 backdrop-blur-sm">
+                          <Clock className="w-3.5 h-3.5 animate-spin" />
                           {doc.status}
                         </span>
                       )}
@@ -293,7 +294,7 @@ export default function ArchiveHubPage() {
                       <h3 className="font-serif text-base font-bold text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors line-clamp-2">
                         {doc.title}
                       </h3>
-                      <p className="text-xs text-[#D8C3A5]/70 line-clamp-2 font-light">
+                      <p className="text-xs text-[#D8C3A5] line-clamp-2">
                         {doc.attribution || doc.source || "Historical archival survey record"}
                       </p>
                     </div>
@@ -302,18 +303,18 @@ export default function ArchiveHubPage() {
                       {/* Linked site */}
                       {doc.site ? (
                         <div className="flex items-center gap-1.5 text-xs text-[#D4AF37]">
-                          <MapPin className="w-3.5 h-3.5 text-[#C85A32]" />
+                          <MapPin className="w-3.5 h-3.5 text-[#E07A5F]" />
                           <span className="font-medium truncate">{doc.site.name}</span>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-1.5 text-xs text-white/40">
+                        <div className="flex items-center gap-1.5 text-xs text-[#A89F91]">
                           <MapPin className="w-3.5 h-3.5" />
                           <span>Unlinked regional archive</span>
                         </div>
                       )}
 
                       {/* Line & entity metrics */}
-                      <div className="flex items-center justify-between text-[11px] font-mono text-[#D8C3A5]/60">
+                      <div className="flex items-center justify-between text-xs font-mono text-[#D8C3A5]/80">
                         <span>{totalLines > 0 ? `${totalLines} OCR lines` : "Digitising..."}</span>
                         <span>{doc.licence || "CC-BY-4.0"}</span>
                       </div>

@@ -1,4 +1,5 @@
 import sys
+# pyrefly: ignore[missing-import]
 import httpx
 
 API_URL = "http://127.0.0.1:8000"

@@ -98,7 +98,7 @@ function SearchPageContent() {
             return (
               <span
                 key={mb}
-                className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30"
                 title="Matched via HNSW vector semantic similarity"
               >
                 Semantic
@@ -109,7 +109,7 @@ function SearchPageContent() {
             return (
               <span
                 key={mb}
-                className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30"
+                className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30"
                 title="Matched via PostgreSQL Full-Text Search unaccent"
               >
                 Keyword FTS
@@ -120,7 +120,7 @@ function SearchPageContent() {
             return (
               <span
                 key={mb}
-                className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
                 title="Exact title or trigram lexical match"
               >
                 Name Match
@@ -154,15 +154,15 @@ function SearchPageContent() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search across 25 monuments, 52 folios, and folklore (EN / हिन्दी / ગુજરાતી)..."
-              className="w-full bg-black/50 border border-[#D4AF37]/40 rounded-xl pl-11 pr-4 py-3 text-sm text-[#F6F1E9] placeholder-[#D8C3A5]/50 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
+              className="w-full bg-black/50 border border-[#D4AF37]/40 rounded-xl pl-11 pr-4 py-3 text-sm text-[#F6F1E9] placeholder-[#A89F91] focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all"
             />
           </div>
 
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk font-bold text-sm shadow-lg shadow-[#D4AF37]/20 hover:opacity-95 transition-all flex items-center justify-center gap-2"
+            className="px-6 py-3 rounded-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-sm shadow-lg shadow-black/50 transition-all flex items-center justify-center gap-2"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-4 h-4 text-indigoInk" />
             <span>Search Archive</span>
           </button>
 
@@ -178,7 +178,7 @@ function SearchPageContent() {
             <Filter className="w-4 h-4" />
             <span className="hidden sm:inline">Filters</span>
             {(selectedTypes.length > 0 || selectedStates.length > 0) && (
-              <span className="w-5 h-5 rounded-full bg-[#D4AF37] text-indigoInk text-[10px] font-bold flex items-center justify-center">
+              <span className="w-5 h-5 rounded-full bg-[#D4AF37] text-indigoInk text-[11px] font-bold flex items-center justify-center">
                 {selectedTypes.length + selectedStates.length}
               </span>
             )}
@@ -204,7 +204,7 @@ function SearchPageContent() {
                       onClick={() => toggleTypeFilter(t.id)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium border flex items-center gap-1.5 transition-all ${
                         active
-                          ? "bg-[#D4AF37] text-indigoInk border-[#D4AF37] font-bold shadow-md shadow-[#D4AF37]/20"
+                          ? "bg-[#D4AF37] text-indigoInk border-[#D4AF37] font-bold shadow-md shadow-black/50"
                           : "bg-white/5 border-white/10 text-[#D8C3A5] hover:border-white/25"
                       }`}
                     >
@@ -231,7 +231,7 @@ function SearchPageContent() {
                       onClick={() => toggleStateFilter(st)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
                         active
-                          ? "bg-[#D4AF37] text-indigoInk border-[#D4AF37] font-bold shadow-md shadow-[#D4AF37]/20"
+                          ? "bg-[#D4AF37] text-indigoInk border-[#D4AF37] font-bold shadow-md shadow-black/50"
                           : "bg-white/5 border-white/10 text-[#D8C3A5] hover:border-white/25"
                       }`}
                     >
@@ -304,7 +304,7 @@ function SearchPageContent() {
               }`}
             >
               <span>All Records</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-white/10 text-[10px]">
+              <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[11px] font-medium">
                 {totalHits}
               </span>
             </button>
@@ -319,7 +319,7 @@ function SearchPageContent() {
             >
               <Compass className="w-3.5 h-3.5" />
               <span>Monuments & Sites</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-white/10 text-[10px]">
+              <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[11px] font-medium">
                 {grouped.sites.length}
               </span>
             </button>
@@ -334,7 +334,7 @@ function SearchPageContent() {
             >
               <BookOpen className="w-3.5 h-3.5" />
               <span>Archival Folios & Lines</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-white/10 text-[10px]">
+              <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[11px] font-medium">
                 {grouped.documents.length}
               </span>
             </button>
@@ -349,7 +349,7 @@ function SearchPageContent() {
             >
               <ScrollText className="w-3.5 h-3.5" />
               <span>Folklore & Legends</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-white/10 text-[10px]">
+              <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[11px] font-medium">
                 {grouped.folklore.length}
               </span>
             </button>
@@ -364,7 +364,7 @@ function SearchPageContent() {
             >
               <Layers className="w-3.5 h-3.5" />
               <span>Architectural Observations</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-white/10 text-[10px]">
+              <span className="px-1.5 py-0.5 rounded-full bg-white/10 text-[11px] font-medium">
                 {grouped.observations.length}
               </span>
             </button>

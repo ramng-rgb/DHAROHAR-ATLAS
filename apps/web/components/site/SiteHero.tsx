@@ -72,14 +72,14 @@ export function SiteHero({ site, onOpenCite }: SiteHeroProps) {
           </Link>
 
           {/* Image Attribution Strip */}
-          <div className="text-[11px] text-[#D8C3A5]/80 bg-black/50 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">
+          <div className="text-xs text-[#D8C3A5] bg-black/50 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">
             Photo: <span className="text-white">{site.hero_image_attribution || "Dharohar Field Archives"}</span> • Licence: <span className="text-white">{site.hero_image_license || "CC-BY-4.0"}</span>
           </div>
         </div>
 
         {/* Chips & Badges */}
         <div className="flex flex-wrap items-center gap-2 pt-2">
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#C85A32] text-white shadow-md">
+          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#9E3D1D] text-white shadow-md">
             {site.site_type}
           </span>
 
@@ -125,7 +125,7 @@ export function SiteHero({ site, onOpenCite }: SiteHeroProps) {
 
         {/* Summary Snippet */}
         {site.summary && (
-          <p className="text-sm sm:text-base text-[#EFE6D8] leading-relaxed max-w-3xl font-sans">
+          <p className="text-sm sm:text-base text-[#EFE6D8] leading-relaxed max-w-[48ch] text-pretty font-sans">
             {site.summary}
           </p>
         )}

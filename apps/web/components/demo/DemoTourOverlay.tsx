@@ -308,7 +308,7 @@ export function DemoTourOverlay() {
             {/* Popover Header */}
             <div className="flex items-center justify-between border-b border-[#D4AF37]/30 pb-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#C85A32] text-white font-bold text-xs flex items-center justify-center">
+                <span className="w-6 h-6 rounded-full bg-[#9E3D1D] text-white font-bold text-xs flex items-center justify-center">
                   {currentStepIndex + 1}
                 </span>
                 <span className="text-xs font-serif font-bold text-[#D4AF37] uppercase tracking-wider">

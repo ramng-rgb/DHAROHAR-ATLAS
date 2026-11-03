@@ -134,8 +134,8 @@ export function JourneyMode({ route }: JourneyModeProps) {
       // Animated Traveler Marker
       const travelerEl = document.createElement("div");
       travelerEl.innerHTML = `
-        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-[#C85A32] to-[#D4AF37] p-1 shadow-xl shadow-[#D4AF37]/50 flex items-center justify-center ring-4 ring-[#D4AF37]/30 animate-bounce">
-          <svg class="w-5 h-5 text-indigoInk" fill="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 rounded-full bg-[#D4AF37] p-1 shadow-2xl shadow-black/80 flex items-center justify-center ring-4 ring-[#D4AF37]/40 transition-transform duration-300 ease-out">
+          <svg class="w-5 h-5 text-[#090D16]" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
           </svg>
         </div>
@@ -217,7 +217,7 @@ export function JourneyMode({ route }: JourneyModeProps) {
           {/* Stop Details */}
           <div className="space-y-2 flex-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#C85A32] text-white">
+              <span className="text-xs font-bold uppercase tracking-widest px-2.5 py-0.5 rounded bg-[#9E3D1D] text-white">
                 Stop {activeStop.stop_order} of {stops.length}
               </span>
               <span className="text-xs text-[#D4AF37] font-serif">
@@ -234,7 +234,7 @@ export function JourneyMode({ route }: JourneyModeProps) {
             </p>
 
             {activeStop.travel_note && (
-              <p className="text-xs text-[#D8C3A5]/80 italic border-l-2 border-[#D4AF37] pl-2">
+              <p className="text-xs text-[#D8C3A5]/90 italic border-l border-[#D4AF37]/50 pl-2.5 py-0.5 bg-[#141A26]/40 rounded-r">
                 Field Observation: {activeStop.travel_note}
               </p>
             )}

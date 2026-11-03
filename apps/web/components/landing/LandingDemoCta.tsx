@@ -11,10 +11,10 @@ export function LandingDemoCta() {
       id="landing-demo-mode-cta"
       data-testid="landing-demo-cta"
       onClick={() => triggerDemoTour(0)}
-      className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk font-bold text-sm hover:opacity-95 shadow-xl shadow-[#D4AF37]/30 flex items-center gap-2 transition-transform hover:scale-105 cursor-pointer"
+      className="px-6 py-3.5 rounded-xl bg-[#141A26] hover:bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/50 font-bold text-sm shadow-xl shadow-black/50 flex items-center gap-2 transition-all cursor-pointer"
       aria-label="Launch 9-Step Guided Showcase Demo"
     >
-      <Sparkles className="w-4 h-4 text-indigoInk fill-indigoInk animate-pulse" />
+      <Sparkles className="w-4 h-4 text-[#F3C649] fill-[#F3C649]" />
       <span>Launch Guided Demo Mode</span>
     </button>
   );

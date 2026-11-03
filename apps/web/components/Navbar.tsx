@@ -57,7 +57,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#C85A32] flex items-center justify-center shadow-lg shadow-[#D4AF37]/20 group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-lg bg-[#D4AF37] flex items-center justify-center shadow-lg shadow-black/50 group-hover:scale-105 transition-transform">
               <Compass className="w-6 h-6 text-indigoInk" />
             </div>
             <div>
@@ -65,11 +65,11 @@ export function Navbar() {
                 <span className="font-serif text-lg font-bold tracking-wider text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors">
                   DHAROHAR ATLAS
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40">
+                <span className="text-xs uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40">
                   IITGN Blithchron
                 </span>
               </div>
-              <p className="text-[11px] text-[#D8C3A5]/70 tracking-wide font-serif">
+              <p className="text-xs text-[#D8C3A5]/80 tracking-wide font-serif">
                 धरोहर ज्ञान सेतु • Living Architectural Archive
               </p>
             </div>
@@ -166,10 +166,10 @@ export function Navbar() {
               id="nav-demo-mode-button"
               data-testid="demo-mode-btn"
               onClick={() => triggerDemoTour(0)}
-              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk hover:opacity-95 shadow-md shadow-[#D4AF37]/30 flex items-center gap-1.5 transition-all cursor-pointer"
+              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#D4AF37] text-indigoInk hover:bg-[#F3C649] shadow-md shadow-black/50 flex items-center gap-1.5 transition-all cursor-pointer"
               aria-label="Launch Guided 9-Step Demo Mode"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigoInk fill-indigoInk animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-indigoInk fill-indigoInk" />
               <span>Demo Mode</span>
             </button>
           </div>

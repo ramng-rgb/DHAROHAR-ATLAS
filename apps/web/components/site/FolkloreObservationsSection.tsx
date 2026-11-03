@@ -62,9 +62,6 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <div className="text-xs uppercase tracking-widest text-primary font-mono font-medium mb-1">
-              Living Memory & Scholarship
-            </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
               Folklore & Field Observations
             </h2>
@@ -141,17 +138,17 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                   <div className="space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono uppercase font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
                           {item.kind ? item.kind.replace("_", " ") : "Folklore"}
                         </span>
-                        <span className="text-[10px] uppercase font-mono text-muted-foreground">
+                        <span className="text-[11px] uppercase font-mono text-muted-foreground font-medium">
                           {item.language?.toUpperCase() || "EN"}
                         </span>
                       </div>
 
                       {item.is_illustrative ? (
                         <span
-                          className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1"
+                          className="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1"
                           title="This narrative represents a reconstructed or illustrative folk memory"
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,7 +157,7 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                           Illustrative sample
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                           Verified Tradition
                         </span>
                       )}
@@ -170,7 +167,7 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                       {item.title}
                     </h3>
 
-                    <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
+                    <p className="text-sm text-foreground/80 leading-relaxed max-w-[55ch] whitespace-pre-line text-pretty">
                       {item.body_md}
                     </p>
                   </div>
@@ -184,7 +181,7 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                         href={item.source_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary hover:underline text-[11px] shrink-0 flex items-center gap-0.5"
+                        className="text-primary hover:underline text-xs font-medium shrink-0 flex items-center gap-0.5"
                       >
                         Citation link
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,17 +203,17 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                   <div className="space-y-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-mono uppercase font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                           {item.kind ? item.kind.replace("_", " ") : "Observation"}
                         </span>
-                        <span className="text-[10px] uppercase font-mono text-muted-foreground">
+                        <span className="text-[11px] uppercase font-mono text-muted-foreground font-medium">
                           {item.language?.toUpperCase() || "EN"}
                         </span>
                       </div>
 
                       {item.is_illustrative ? (
                         <span
-                          className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1"
+                          className="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 flex items-center gap-1"
                           title="This note represents an illustrative architectural observation"
                         >
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,7 +222,7 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                           Illustrative sample
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                        <span className="px-2 py-0.5 rounded text-[11px] font-mono font-medium bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
                           Field Record
                         </span>
                       )}
@@ -235,7 +232,7 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                       {item.title || "Architectural Field Note"}
                     </h3>
 
-                    <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
+                    <p className="text-sm text-foreground/80 leading-relaxed max-w-[55ch] whitespace-pre-line text-pretty">
                       {item.body_md}
                     </p>
                   </div>
@@ -249,7 +246,7 @@ export function FolkloreObservationsSection({ folklore, observations }: Folklore
                         href={item.source_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary hover:underline text-[11px] shrink-0 flex items-center gap-0.5"
+                        className="text-primary hover:underline text-xs font-medium shrink-0 flex items-center gap-0.5"
                       >
                         Archive link
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -57,7 +57,7 @@ function getMarkerSvg(siteType: string, isSelected: boolean = false): string {
   }
 
   return `
-    <div style="cursor: pointer; transform: scale(${isSelected ? 1.25 : 1}); transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    <div style="cursor: pointer; transform: scale(${isSelected ? 1.25 : 1}); transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);">
       <svg width="34" height="42" viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 0C5.37 0 0 5.37 0 12c0 8.5 12 18 12 18s12-9.5 12-18c0-6.63-5.37-12-12-12z" fill="${bgColor}" stroke="${color}" stroke-width="1.5"/>
         ${iconPath}
@@ -564,7 +564,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
             id="explore-play-journey-button"
             data-testid="play-journey-btn"
             onClick={() => handlePlayJourney("gujarat-stepwell-trail")}
-            className="px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-xl bg-[#C85A32] hover:bg-[#D4AF37] text-white hover:text-indigoInk border border-[#D4AF37]/50"
+            className="px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk border border-[#D4AF37]/50"
             aria-label="Play Gujarat Stepwell Trail Journey"
           >
             <Compass className="w-3.5 h-3.5" />
@@ -613,13 +613,13 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
         {filterPanelOpen && (
           <aside
             aria-label="Filter Options"
-            className="absolute md:relative z-20 w-full md:w-[320px] lg:w-[350px] max-h-[60vh] md:max-h-full h-auto md:h-full bottom-0 md:bottom-auto bg-[#120E0A]/95 md:bg-[#120E0A]/90 backdrop-blur-md border-t md:border-t-0 md:border-r border-goldLeaf/30 shadow-2xl flex flex-col p-4 overflow-y-auto scrollbar-thin transition-all"
+            className="absolute md:relative z-20 w-full md:w-[320px] lg:w-[350px] max-h-[60vh] md:max-h-full h-auto md:h-full bottom-0 md:bottom-auto bg-[#120E0A]/95 md:bg-[#120E0A]/90 backdrop-blur-md border-t md:border-t-0 md:border-r border-goldLeaf/30 shadow-2xl flex flex-col p-4 md:pt-16 overflow-y-auto scrollbar-thin transition-all"
           >
             {/* Filter Header */}
             <div className="flex items-center justify-between pb-3 border-b border-sandstone/15 mb-3">
               <div className="flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-goldLeaf" />
-                <h3 className="font-serif text-sm font-bold text-parchment-100">{t.filterTitle}</h3>
+                <h3 className="font-serif text-base font-bold text-parchment-100">{t.filterTitle}</h3>
               </div>
               {hasActiveFilters && (
                 <button
@@ -643,7 +643,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                   setSearchQuery(e.target.value);
                   syncParamsToUrl({ q: e.target.value });
                 }}
-                className="w-full pl-9 pr-3 py-2 bg-parchment-950/80 border border-sandstone/25 rounded-lg text-xs text-parchment-100 placeholder-sandstone/50 focus:outline-none focus:border-goldLeaf"
+                className="w-full pl-9 pr-3 py-2 bg-parchment-950/80 border border-sandstone/25 rounded-lg text-xs text-parchment-100 placeholder-[#A89F91] focus:outline-none focus:border-goldLeaf"
               />
               {searchQuery && (
                 <button

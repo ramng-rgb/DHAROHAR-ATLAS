@@ -31,9 +31,6 @@ export function NearbySitesSection({
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
-            <div className="text-xs uppercase tracking-widest text-primary font-mono font-medium mb-1">
-              Geographic Proximity
-            </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-foreground">
               Nearby Monuments & Heritage Trail
             </h2>
@@ -87,7 +84,7 @@ export function NearbySitesSection({
 
                   {/* 3D Badge if available */}
                   {site.has_3d_model && (
-                    <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-primary text-primary-foreground font-mono text-[10px] uppercase font-bold tracking-wider shadow-sm flex items-center gap-1">
+                    <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-primary text-primary-foreground font-mono text-[11px] uppercase font-bold tracking-wider shadow-sm flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                       3D Model
                     </div>
@@ -95,7 +92,7 @@ export function NearbySitesSection({
                 </div>
 
                 <div className="p-4 space-y-1.5">
-                  <div className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground uppercase">
+                  <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground uppercase">
                     <span>{site.site_type.replace("_", " ")}</span>
                     {site.district && (
                       <>
@@ -119,7 +116,7 @@ export function NearbySitesSection({
 
               <div className="px-4 py-2.5 bg-muted/40 border-t border-border/50 flex items-center justify-between text-xs text-muted-foreground font-mono">
                 <span>{site.era_label || site.state}</span>
-                <span className="text-primary group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5 font-sans font-medium text-[11px]">
+                <span className="text-primary group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5 font-sans font-medium text-xs">
                   Explore record &rarr;
                 </span>
               </div>

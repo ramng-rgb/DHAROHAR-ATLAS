@@ -39,9 +39,6 @@ export function SitePageClient({ site, model }: SitePageClientProps) {
         <section id="twin-3d" className="scroll-mt-28 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-[#D4AF37]/20 pb-3">
             <div>
-              <div className="text-xs font-serif font-bold uppercase tracking-wider text-[#D4AF37]">
-                Spatial Preservation Layer
-              </div>
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">
                 3D Digital Twin & Architectural Hotspots
               </h2>

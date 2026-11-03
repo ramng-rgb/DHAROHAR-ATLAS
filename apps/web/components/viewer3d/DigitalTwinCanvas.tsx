@@ -372,14 +372,14 @@ export function DigitalTwinCanvas({
               </span>
             )}
           </div>
-          <p className="text-[11px] text-[#D8C3A5]">
+          <p className="text-xs text-[#D8C3A5]">
             {measurePoints.length === 0
               ? "Click first surface point..."
               : measurePoints.length === 1
               ? "Click second point to measure distance..."
               : "Distance calculated. Click surface to measure another span."}
           </p>
-          <div className="text-[10px] text-[#D8C3A5]/70 pt-1 border-t border-white/10">
+          <div className="text-[11px] text-[#D8C3A5] pt-1 border-t border-white/10">
             {model.scale_calibrated ? "Metrically calibrated" : "*Scale is approximate based on ASI architectural drawings."}
           </div>
         </div>

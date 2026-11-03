@@ -65,12 +65,9 @@ export function ShowpiecePoster({
 
       {/* Central Action CTA */}
       <div className="relative z-10 max-w-xl mx-auto text-center space-y-4 my-auto">
-        <div className="inline-block p-3 rounded-2xl bg-[#D4AF37]/15 border border-[#D4AF37]/30 text-[#D4AF37] shadow-xl animate-bounce-slow">
-          <Compass className="w-8 h-8" />
-        </div>
-
-        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-wide">
-          Explore the Subterranean Architecture of {siteName}
+        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-wide flex items-center justify-center gap-3">
+          <Compass className="w-7 h-7 text-[#D4AF37] shrink-0" />
+          <span>Explore the Subterranean Architecture of {siteName}</span>
         </h3>
 
         <p className="text-xs sm:text-sm text-[#D8C3A5] leading-relaxed max-w-md mx-auto">
@@ -104,25 +101,25 @@ export function ShowpiecePoster({
             </Button>
           )}
 
-          <span className="text-[11px] text-[#D8C3A5]/70">
+          <span className="text-xs text-[#D8C3A5]">
             Optimized payload ({sizeKb} KB). Does not block page performance.
           </span>
         </div>
       </div>
 
       {/* Bottom Features Strip */}
-      <div className="relative z-10 grid grid-cols-3 gap-2 text-center border-t border-white/10 pt-4 text-xs text-[#D8C3A5]/90">
+      <div className="relative z-10 grid grid-cols-3 gap-2 text-center border-t border-white/10 pt-4 text-xs text-[#D8C3A5]">
         <div>
           <strong className="text-white block font-serif">Annotated Hotspots</strong>
-          <span className="text-[10px] text-[#D8C3A5]/60">Guided architectural tour</span>
+          <span className="text-xs text-[#D8C3A5]/90">Guided architectural tour</span>
         </div>
         <div>
           <strong className="text-white block font-serif">Measurement Caliper</strong>
-          <span className="text-[10px] text-[#D8C3A5]/60">Interactive surface metric tool</span>
+          <span className="text-xs text-[#D8C3A5]/90">Interactive surface metric tool</span>
         </div>
         <div>
           <strong className="text-white block font-serif">Lighting Simulator</strong>
-          <span className="text-[10px] text-[#D8C3A5]/60">Day, dusk & sun-angle shadows</span>
+          <span className="text-xs text-[#D8C3A5]/90">Day, dusk & sun-angle shadows</span>
         </div>
       </div>
     </div>

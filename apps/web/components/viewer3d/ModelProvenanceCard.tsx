@@ -39,7 +39,7 @@ export function ModelProvenanceCard({ model, siteName }: ModelProvenanceProps) {
           </h4>
         </div>
         <span
-          className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+          className={`text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
             isPhotogrammetry
               ? "bg-emerald-950/70 text-emerald-400 border-emerald-500/40"
               : "bg-amber-950/70 text-[#F3C649] border-[#D4AF37]/50"
@@ -51,25 +51,25 @@ export function ModelProvenanceCard({ model, siteName }: ModelProvenanceProps) {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
         <div>
-          <span className="text-[#D8C3A5]/70 block text-[11px]">Asset Format:</span>
+          <span className="text-[#D8C3A5] block text-xs">Asset Format:</span>
           <span className="font-semibold text-white uppercase font-mono">
             {model.format || "GLB"} (Meshopt)
           </span>
         </div>
         <div>
-          <span className="text-[#D8C3A5]/70 block text-[11px]">Polygon Count:</span>
+          <span className="text-[#D8C3A5] block text-xs">Polygon Count:</span>
           <span className="font-semibold text-white font-mono">
             {model.poly_count ? model.poly_count.toLocaleString() : "888"} tris
           </span>
         </div>
         <div>
-          <span className="text-[#D8C3A5]/70 block text-[11px]">Payload Size:</span>
+          <span className="text-[#D8C3A5] block text-xs">Payload Size:</span>
           <span className="font-semibold text-emerald-400 font-mono">
             {sizeKb} (Optimized)
           </span>
         </div>
         <div>
-          <span className="text-[#D8C3A5]/70 block text-[11px]">Scale Calibration:</span>
+          <span className="text-[#D8C3A5] block text-xs">Scale Calibration:</span>
           <span className="font-semibold text-white flex items-center gap-1">
             <Scale className="w-3 h-3 text-[#D4AF37]" />
             {model.scale_calibrated ? "Metrically Calibrated" : "Approximate (Scale 1:1)"}
@@ -77,7 +77,7 @@ export function ModelProvenanceCard({ model, siteName }: ModelProvenanceProps) {
         </div>
       </div>
 
-      <div className="text-xs text-[#D8C3A5] bg-[#1A1510]/60 p-3 rounded-lg border border-[#D4AF37]/15 space-y-1.5">
+      <div className="text-xs text-[#D8C3A5] pt-3 border-t border-[#D4AF37]/20 space-y-1.5">
         <div className="flex items-start gap-1.5">
           <Info className="w-3.5 h-3.5 text-[#D4AF37] mt-0.5 flex-shrink-0" />
           <p className="leading-relaxed">
@@ -85,7 +85,7 @@ export function ModelProvenanceCard({ model, siteName }: ModelProvenanceProps) {
             {model.attribution || "Dharohar Atlas Field Heritage Architecture Team"}
           </p>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] pt-1 text-[#D8C3A5]/80">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs pt-1 text-[#D8C3A5]">
           <span>
             Licence: <strong className="text-white">{model.licence || "CC-BY-4.0"}</strong>
           </span>

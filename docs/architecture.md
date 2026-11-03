@@ -8,7 +8,7 @@ Dharohar Atlas is an event-driven, micro-modular web platform engineered to tran
 graph TD
     Client[Next.js 14 App Router Frontend] -->|REST / JSON-RPC| API[FastAPI Async API Gateway]
     API -->|Session Pooling| DB[(PostgreSQL 16 + PostGIS + pgvector)]
-    API -->|Async Job Dispatch| Redis[(Redis 8 Cache & Broker)]
+    API -->|Async Job Dispatch| Redis[(Redis 7 Cache & Broker)]
     Redis --> Worker[Asynchronous Pipeline Workers]
     Worker -->|OCR / Translation| Adapters[ML Provider Adapters]
     Worker -->|Photogrammetry SfM| 3DProc[COLMAP / Mesh Engine]
@@ -37,7 +37,7 @@ graph TD
 
 ### 2.3 Storage & Retrieval Tier
 - **PostgreSQL 16:** Single unified datastore hosting relational metadata, geospatial geography, trigram lexical indexes, and HNSW vector graphs.
-- **Redis 8:** Multi-tier query caching layer (journey routes, search autocomplete, facets) with ETag / 304 Not Modified validation, and job broker for asynchronous pipelines.
+- **Redis 7:** Multi-tier query caching layer (journey routes, search autocomplete, facets) with ETag / 304 Not Modified validation, and job broker for asynchronous pipelines.
 
 ---
 

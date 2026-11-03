@@ -72,3 +72,22 @@ async def test_documents_and_correction():
         updated = patch_res.json()
         assert updated["is_corrected"] is True
         assert updated["version"] >= 2
+
+@pytest.mark.asyncio
+async def test_readiness_probe():
+    async with AsyncClient(base_url=BASE_URL) as client:
+        response = await client.get("/ready")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["status"] == "ready"
+        assert data["checks"]["database"] == "connected"
+        assert data["checks"]["storage"] == "accessible"
+
+@pytest.mark.asyncio
+async def test_metrics_protection():
+    async with AsyncClient(base_url=BASE_URL) as client:
+        # Internal client header access
+        res_internal = await client.get("/metrics")
+        assert res_internal.status_code == 200
+        assert res_internal.json()["status"] == "operational"
+

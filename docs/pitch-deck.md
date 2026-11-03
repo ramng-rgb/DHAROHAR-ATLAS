@@ -50,21 +50,22 @@
 - **Header:** Single Unified PostgreSQL 16 with pgvector & PostGIS
 - **Key Points:**
   - Eliminates microservice fragmentation (no Pinecone, no MongoDB).
-  - 14 relational tables: Sites, Models3D, Hotspots, Documents, OCRLines, Routes, Embeddings.
-  - HNSW index on 768-dimensional embeddings for sub-5ms cosine retrieval.
-  - Trigram GIN indexes on multi-script text for robust fuzzy substring matching.
-- **Speaker Notes:** "Instead of running 4 separate databases, we consolidated everything into PostgreSQL 16 with pgvector and pg_trgm. We get ACID transactions, versioned audits, and vector search in one rock-solid container."
+  - 14 relational tables: Sites, Models3D, Hotspots, Documents, OCRLines, Routes, Search Chunks, Audits.
+  - HNSW index on 768-dimensional embeddings (344 kB) for sub-5ms cosine retrieval.
+  - Trigram GIN indexes (984 kB) and FTS unaccent GIN (280 kB) fused via Reciprocal Rank Fusion ($k=60$).
+- **Speaker Notes:** "Instead of running multiple fragile databases, we consolidated everything into PostgreSQL 16 with pgvector, PostGIS, and pg_trgm. We get ACID transactions, versioned audits, and vector search in one rock-solid container."
 
 ---
 
-### Slide 6: Technology Stack Rationale
+### Slide 6: Technology Stack Rationale & Automated Quality
 - **Header:** Production-Grade Modern Web Engineering
 - **Key Points:**
-  - Frontend: TypeScript Strict, Tailwind CSS, shadcn/ui, MapLibre GL, Three.js / Drei.
-  - Backend: Python 3.12, FastAPI, SQLAlchemy 2.0 Async, Pytest (78% coverage).
-  - CI/CD & Tooling: Docker Compose, GitHub Actions, Ruff, Mypy.
-  - Evaluation: Character Error Rate (CER) 0.00%, Search Recall@5 100.0%.
-- **Speaker Notes:** "We avoided brittle wrappers. We used MapLibre GL for raw mapping performance, Three.js for 60 FPS 3D rendering on mobile devices, and automated test suites with 78% code coverage."
+  - Frontend: TypeScript Strict, Tailwind CSS, MapLibre GL, React Three Fiber.
+  - Backend: Python 3.12, FastAPI, SQLAlchemy 2.0 Async, Redis 7 caching with ETag validation.
+  - Verification: 62 Pytest backend tests (100%), 39 Vitest unit tests (100%), 20 Playwright E2E flows (100%).
+  - Accessibility & Performance: 0 Axe serious/critical violations, Lighthouse mobile $\ge$ 90 across routes.
+  - Evaluation: 92.0% Recall@5 (MRR 0.9050), 100% RAG Answerable Accuracy, 100% Correct Refusal.
+- **Speaker Notes:** "We avoided brittle wrappers. We used MapLibre GL for raw mapping performance, Three.js for 60 FPS 3D rendering on mobile devices, and automated test suites with 62 backend and 39 frontend tests verifying 0 accessibility violations."
 
 ---
 

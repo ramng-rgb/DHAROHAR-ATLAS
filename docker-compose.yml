@@ -40,6 +40,26 @@ services:
       DATABASE_URL: postgresql+asyncpg://ramnarayangupta@db:5432/dharohar_atlas
       SYNC_DATABASE_URL: postgresql://ramnarayangupta@db:5432/dharohar_atlas
       REDIS_URL: redis://redis:6379/0
+      STORAGE_TYPE: local
+      MEDIA_DIR: /data
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: dharohar-worker
+    command: ["python", "/app/scripts/worker.py"]
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql+asyncpg://ramnarayangupta@db:5432/dharohar_atlas
+      SYNC_DATABASE_URL: postgresql://ramnarayangupta@db:5432/dharohar_atlas
+      REDIS_URL: redis://redis:6379/0
+      STORAGE_TYPE: local
+      MEDIA_DIR: /data
 
   web:
     build:

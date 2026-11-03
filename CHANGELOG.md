@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.6.0] - 2026-11-03 (Milestone 6: Deployment + Production Smoke Test + Submission Package)
+
+### Added
+- **Production Multi-Stage Docker Containerization (`apps/api/Dockerfile`, `apps/web/Dockerfile`):**
+  - Backend API & Worker: Multi-stage slim Python 3.12 image, non-root user `appuser` (UID 10001), healthcheck probe on `/health`, and pre-installed Tesseract Indic OCR language models (`hin`, `guj`, `san`, `mar`, `eng`).
+  - Frontend Web: Multi-stage Node.js 20 Alpine image, non-root `node` user, standalone bundle caching, and crawler/spider healthcheck.
+  - Background Worker (`apps/api/scripts/worker.py`): Standalone worker service using the identical API image with graceful SIGTERM termination handling.
+  - Multi-service `docker-compose.yml` configuring `db`, `redis`, `api`, `worker`, and `web`.
+- **Infrastructure Observability & Hardening (`apps/api/app/main.py`):**
+  - Implemented `/ready` readiness probe verifying PostgreSQL database connectivity (`SELECT 1`), Redis cache ping, and storage filesystem read/write access.
+  - Implemented protected `/metrics` internal endpoint guarded by `X-Internal-Token` or internal subnet verification.
+  - Implemented sliding-window rate limiting middleware (`RATE_LIMIT_PER_MINUTE`) with `X-Request-ID` tracing on every response.
+  - Configured portable path resolution for static models and uploads via environment variables (`MEDIA_DIR`, `MODELS_DIR`).
+  - Added immutable `Cache-Control: public, max-age=31536000, immutable` headers and `Accept-Ranges: bytes` in `apps/web/next.config.mjs` for 3D model assets.
+- **Database Index Catalog & Verified Extensions (`docs/deployment.md`):**
+  - Documented strict production execution order: Alembic migrations -> `make seed` -> `make reindex`.
+  - Confirmed and recorded index sizes: `ix_search_chunks_embedding_hnsw` (344 kB), `ix_search_chunks_text_trgm` (984 kB), `ix_search_chunks_tsv` (280 kB), `idx_sites_location` (8.2 kB).
+- **Submission Package:**
+  - `docs/deployment.md`: Complete production deployment, connection string pooling, object storage CORS, and smoke testing guide.
+  - `docs/pitch-deck.md`: 10-slide pitch deck outline for hackathon judges with key takeaways and speaker notes.
+  - `docs/demo-script.md`: Complete minute-by-minute 2:30 video walkthrough script.
+  - All test suites green: **62 Pytest tests**, **39 Vitest tests**, and **20 Playwright E2E tests**.
+
+---
+
 ## [1.5.0] - 2026-11-03 (Milestone 5: Journey Mode + Guided Demo Mode + Polish + Accessibility)
 
 ### Added

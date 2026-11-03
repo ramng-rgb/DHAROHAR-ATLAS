@@ -369,6 +369,7 @@ We believe in complete scholarly honesty. No historical claims are fabricated:
 - **RAG Grounding & Prompt-Injection:** [`docs/adr/0011-rag-grounding-refusal-prompt-injection.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/adr/0011-rag-grounding-refusal-prompt-injection.md) — Calibrated refusal score thresholds, citation extraction validation, and prompt-injection sanitization.
 - **Scalability & Capacity Plan:** [`docs/scalability.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/scalability.md) — Measured indexing/query path numbers and honest extrapolation to 1,000,000 chunks.
 - **Data Privacy & AI Boundary:** [`docs/privacy.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/privacy.md) — What is sent to hosted embedding/LLM providers, telemetry logging policy, and local air-gapped opt-out.
-- **Quality & Evaluation Report:** [`docs/quality-report.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/quality-report.md) — Full benchmark datasets, search recall comparisons, and RAG grounding verification.
-- **Demo Script:** [`docs/demo-script.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/demo-script.md) — Timed 2:30 video walkthrough guide.
+- **Production Deployment & Infrastructure:** [`docs/deployment.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/deployment.md) — Multi-stage Dockerfiles, database indexing, object storage, and smoke testing verification.
+- **10-Slide Pitch Deck:** [`docs/pitch-deck.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/pitch-deck.md) — 10-slide outline for hackathon judges with key takeaways and speaker notes.
+- **Demo Video Script:** [`docs/demo-script.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/demo-script.md) — Timed 2:30 video walkthrough guide.
 

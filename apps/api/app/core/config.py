@@ -23,15 +23,23 @@ class Settings(BaseSettings):
     
     # CORS
     BACKEND_CORS_ORIGINS: list[str] = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://dharohar-atlas.vercel.app",
-        "*"
+        origin.strip()
+        for origin in os.getenv(
+            "CORS_ORIGINS",
+            "http://localhost:3000,http://127.0.0.1:3000,https://dharohar-atlas.vercel.app,*"
+        ).split(",")
+        if origin.strip()
     ]
     
     # Storage / Media
     STORAGE_TYPE: str = os.getenv("STORAGE_TYPE", "local")  # "local", "s3", "supabase"
-    MEDIA_DIR: str = os.getenv("MEDIA_DIR", "/Users/ramnarayangupta/Desktop/hac/data")
+    BASE_PROJECT_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
+    MEDIA_DIR: str = os.getenv("MEDIA_DIR", os.path.join(BASE_PROJECT_DIR, "data"))
+    MODELS_DIR: str = os.getenv("MODELS_DIR", os.path.join(BASE_PROJECT_DIR, "apps/web/public/models"))
+    
+    # Security & Observability
+    METRICS_SECRET_KEY: str = os.getenv("METRICS_SECRET_KEY", "dharohar-internal-metrics-key")
+    RATE_LIMIT_PER_MINUTE: int = int(os.getenv("RATE_LIMIT_PER_MINUTE", "240"))
     
     # Providers (Adapter Pattern)
     OCR_PROVIDER: str = os.getenv("OCR_PROVIDER", "gemini_fallback")  # "gemini", "tesseract", "mock", "gemini_fallback"

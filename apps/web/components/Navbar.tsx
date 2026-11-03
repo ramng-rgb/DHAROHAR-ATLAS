@@ -65,9 +65,6 @@ export function Navbar() {
                 <span className="font-serif text-lg font-bold tracking-wider text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors">
                   DHAROHAR ATLAS
                 </span>
-                <span className="text-xs uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40">
-                  IITGN Blithchron
-                </span>
               </div>
               <p className="text-xs text-[#D8C3A5]/80 tracking-wide font-serif">
                 धरोहर ज्ञान सेतु • Living Architectural Archive

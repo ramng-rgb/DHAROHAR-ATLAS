@@ -189,15 +189,15 @@ export function DemoTourOverlay() {
           aria-modal="true"
           aria-label="Welcome to Dharohar Atlas"
         >
-          <div className="glass-panel-gold max-w-lg w-full rounded-2xl p-6 md:p-8 border border-[#D4AF37] shadow-2xl space-y-6 animate-scale-in">
-            <div className="flex items-center justify-between border-b border-[#D4AF37]/30 pb-3">
-              <div className="flex items-center gap-2 text-xs font-serif font-bold uppercase tracking-wider text-[#D4AF37]">
-                <Sparkles className="w-4 h-4 text-[#F3C649]" />
+          <div className="glass-panel-gold max-w-lg w-full rounded-2xl p-6 md:p-8 border border-sandstone-300 shadow-2xl space-y-6 animate-scale-in bg-[#FCF9F5]">
+            <div className="flex items-center justify-between border-b border-sandstone-300 pb-3">
+              <div className="flex items-center gap-2 text-xs font-serif font-bold uppercase tracking-wider text-terracotta">
+                <Sparkles className="w-4 h-4 text-terracotta" />
                 <span>Evaluation Quickstart</span>
               </div>
               <button
                 onClick={() => handleDismissIntro(false)}
-                className="text-[#D8C3A5] hover:text-white"
+                className="text-indigoHeritage/70 hover:text-indigoHeritage"
                 aria-label="Close intro"
               >
                 <X className="w-4 h-4" />
@@ -205,37 +205,37 @@ export function DemoTourOverlay() {
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-2xl font-serif font-bold text-[#F6F1E9]">
+              <h2 className="text-2xl font-serif font-bold text-indigoHeritage">
                 Welcome to Dharohar Atlas
               </h2>
-              <p className="text-sm text-[#EFE6D8] leading-relaxed">
+              <p className="text-sm text-indigoHeritage/80 leading-relaxed text-pretty">
                 A living multimodal heritage intelligence system preserving uncurated Indian monuments across five millennia.
               </p>
             </div>
 
             {/* 3 Step Highlights */}
             <div className="space-y-3 py-2">
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#141A26] border border-[#D4AF37]/20">
-                <Compass className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-sandstone-100 border border-sandstone-300">
+                <Compass className="w-5 h-5 text-terracotta flex-shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <span className="font-bold text-[#F3C649] block">1. Geospatial & Journey Mode</span>
-                  <p className="text-[#D8C3A5]">Explore authentic monuments with temporal sliders and animated travel routes.</p>
+                  <span className="font-bold text-indigoHeritage block">1. Geospatial & Journey Mode</span>
+                  <p className="text-indigoHeritage/75">Explore authentic monuments with temporal sliders and animated travel routes.</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#141A26] border border-[#D4AF37]/20">
-                <Box className="w-5 h-5 text-[#C85A32] flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-sandstone-100 border border-sandstone-300">
+                <Box className="w-5 h-5 text-terracotta flex-shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <span className="font-bold text-[#F3C649] block">2. 3D Digital Twin & Multimodal Archive</span>
-                  <p className="text-[#D8C3A5]">Inspect spatial hotspots on Rani ki Vav and OCR folios with bounding-box highlights.</p>
+                  <span className="font-bold text-indigoHeritage block">2. 3D Digital Twin & Multimodal Archive</span>
+                  <p className="text-indigoHeritage/75">Inspect spatial hotspots on Rani ki Vav and OCR folios with bounding-box highlights.</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-3 rounded-xl bg-[#141A26] border border-[#D4AF37]/20">
-                <Search className="w-5 h-5 text-[#D4AF37] flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-sandstone-100 border border-sandstone-300">
+                <Search className="w-5 h-5 text-terracotta flex-shrink-0 mt-0.5" />
                 <div className="text-xs">
-                  <span className="font-bold text-[#F3C649] block">3. Hindi Semantic Search & Grounded RAG</span>
-                  <p className="text-[#D8C3A5]">Ask natural-language questions with verifiable inline citations to authentic records.</p>
+                  <span className="font-bold text-indigoHeritage block">3. Hindi Semantic Search & Grounded RAG</span>
+                  <p className="text-indigoHeritage/75">Ask natural-language questions with verifiable inline citations to authentic records.</p>
                 </div>
               </div>
             </div>
@@ -244,16 +244,16 @@ export function DemoTourOverlay() {
               <Button
                 variant="primary"
                 onClick={() => handleDismissIntro(true)}
-                className="flex-1 gap-2 bg-[#D4AF37] text-indigoInk hover:bg-[#F3C649] font-bold"
+                className="flex-1 gap-2 bg-mutedGold text-indigoHeritage-dark hover:bg-mutedGold-light font-bold shadow-sm"
               >
-                <Play className="w-4 h-4 fill-indigoInk" />
+                <Play className="w-4 h-4 fill-indigoHeritage-dark" />
                 <span>Launch 9-Step Guided Demo</span>
               </Button>
 
               <Button
                 variant="outline"
                 onClick={() => handleDismissIntro(false)}
-                className="text-[#D8C3A5] border-[#D4AF37]/40 hover:bg-[#D4AF37]/10 text-xs"
+                className="text-indigoHeritage border-sandstone-300 hover:bg-sandstone-200 text-xs"
               >
                 Explore On My Own
               </Button>
@@ -293,7 +293,7 @@ export function DemoTourOverlay() {
           {/* Floating Tour Popover Box */}
           <div
             ref={popoverRef}
-            className="fixed z-50 pointer-events-auto max-w-md w-full glass-panel-gold rounded-2xl p-5 border border-[#D4AF37] shadow-2xl space-y-4 animate-scale-in"
+            className="fixed z-50 pointer-events-auto max-w-md w-full glass-panel-gold rounded-2xl p-5 border border-sandstone-300 shadow-2xl space-y-4 animate-scale-in bg-[#FCF9F5]"
             style={{
               top: targetRect
                 ? targetRect.bottom + 20 + 260 > window.innerHeight
@@ -307,12 +307,12 @@ export function DemoTourOverlay() {
             }}
           >
             {/* Popover Header */}
-            <div className="flex items-center justify-between border-b border-[#D4AF37]/30 pb-2">
+            <div className="flex items-center justify-between border-b border-sandstone-300 pb-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#9E3D1D] text-white font-bold text-xs flex items-center justify-center">
+                <span className="w-6 h-6 rounded-full bg-terracotta text-white font-bold text-xs flex items-center justify-center shadow-sm">
                   {currentStepIndex + 1}
                 </span>
-                <span className="text-xs font-serif font-bold text-[#D4AF37] uppercase tracking-wider">
+                <span className="text-xs font-serif font-bold text-terracotta uppercase tracking-wider">
                   Step {currentStepIndex + 1} of {steps.length}
                 </span>
               </div>
@@ -320,16 +320,16 @@ export function DemoTourOverlay() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleReset}
-                  className="text-[11px] text-[#D8C3A5] hover:text-[#F3C649] flex items-center gap-1 transition"
+                  className="text-xs text-[#1F2A44]/80 hover:text-terracotta flex items-center gap-1 transition"
                   title="Reset Demo State"
                 >
-                  <RotateCcw className="w-3 h-3" />
+                  <RotateCcw className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Reset</span>
                 </button>
 
                 <button
                   onClick={() => setIsActive(false)}
-                  className="text-[#D8C3A5] hover:text-white transition"
+                  className="text-[#1F2A44]/80 hover:text-[#1F2A44] transition p-1"
                   aria-label="Exit Demo Mode"
                   title="Exit (Esc)"
                 >
@@ -340,30 +340,30 @@ export function DemoTourOverlay() {
 
             {/* Step Body */}
             <div className="space-y-2">
-              <h3 className="text-base font-serif font-bold text-[#F6F1E9]">
+              <h3 className="text-base font-serif font-bold text-[#1F2A44]">
                 {currentStep.title}
               </h3>
-              <p className="text-xs text-[#EFE6D8] leading-relaxed">
+              <p className="text-xs text-[#2A3752] leading-relaxed font-sans text-pretty">
                 {currentStep.caption}
               </p>
 
               {currentStep.sample_query && (
-                <div className="bg-[#141A26] p-2.5 rounded-lg border border-[#D4AF37]/30 text-xs">
-                  <span className="text-[#D4AF37] font-semibold block text-[11px]">Live Sample Query:</span>
-                  <span className="text-[#F6F1E9] font-mono">{currentStep.sample_query}</span>
+                <div className="bg-sandstone-100 p-2.5 rounded-lg border border-sandstone-300 text-xs">
+                  <span className="text-terracotta font-semibold block text-[11px]">Live Sample Query:</span>
+                  <span className="text-[#1F2A44] font-mono">{currentStep.sample_query}</span>
                 </div>
               )}
 
               {currentStep.sample_question && (
-                <div className="bg-[#141A26] p-2.5 rounded-lg border border-[#D4AF37]/30 text-xs">
-                  <span className="text-[#D4AF37] font-semibold block text-[11px]">Grounded Ask Question:</span>
-                  <span className="text-[#F6F1E9] font-serif italic">"{currentStep.sample_question}"</span>
+                <div className="bg-sandstone-100 p-2.5 rounded-lg border border-sandstone-300 text-xs">
+                  <span className="text-terracotta font-semibold block text-[11px]">Grounded Ask Question:</span>
+                  <span className="text-[#1F2A44] font-serif italic">"{currentStep.sample_question}"</span>
                 </div>
               )}
             </div>
 
             {/* Progress dots & Navigation buttons */}
-            <div className="flex items-center justify-between pt-2 border-t border-[#D4AF37]/25">
+            <div className="flex items-center justify-between pt-2 border-t border-sandstone-300">
               <div className="flex items-center gap-1">
                 {steps.map((st, idx) => (
                   <button
@@ -371,10 +371,10 @@ export function DemoTourOverlay() {
                     onClick={() => setCurrentStepIndex(idx)}
                     className={`w-2 h-2 rounded-full transition-all ${
                       idx === currentStepIndex
-                        ? "w-4 bg-[#F3C649]"
+                        ? "w-4 bg-mutedGold"
                         : idx < currentStepIndex
-                        ? "bg-[#C85A32]"
-                        : "bg-white/20 hover:bg-white/40"
+                        ? "bg-terracotta"
+                        : "bg-sandstone-300 hover:bg-sandstone-400"
                     }`}
                     title={`Jump to ${st.title}`}
                     aria-label={`Jump to step ${st.id}`}
@@ -388,7 +388,7 @@ export function DemoTourOverlay() {
                   size="sm"
                   onClick={handleBack}
                   disabled={currentStepIndex === 0}
-                  className="text-xs px-2.5 py-1 text-[#D8C3A5] border-[#D4AF37]/40 disabled:opacity-30"
+                  className="text-xs px-2.5 py-1 text-[#1F2A44] border-sandstone-300 hover:bg-sandstone-200 disabled:opacity-30"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                   <span>Back</span>
@@ -399,7 +399,7 @@ export function DemoTourOverlay() {
                   variant="primary"
                   size="sm"
                   onClick={handleNext}
-                  className="text-xs px-3 py-1 bg-[#D4AF37] text-indigoInk hover:bg-[#F3C649] font-bold"
+                  className="text-xs px-3 py-1 bg-mutedGold text-indigoHeritage-dark hover:bg-mutedGold-light font-bold shadow-sm"
                 >
                   <span>{currentStepIndex === steps.length - 1 ? "Finish Demo" : "Next"}</span>
                   <ChevronRight className="w-3.5 h-3.5" />

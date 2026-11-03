@@ -260,44 +260,7 @@ async def seed():
                         media_url=hs.get("media_url")
                     ))
 
-        # Seed Demo Route
-        if demo_route_data:
-            route_slug = demo_route_data["slug"]
-            route = (await session.execute(select(Route).where(Route.slug == route_slug))).scalar_one_or_none()
-            if not route:
-                route = Route(
-                    id=str(uuid.uuid4()),
-                    slug=route_slug,
-                    title=demo_route_data["title"],
-                    summary=demo_route_data.get("summary"),
-                    description=demo_route_data.get("summary"),
-                    total_distance_km=180.0,
-                    estimated_duration_days=3,
-                    era_theme="Stepwells and Hydraulic Landmarks"
-                )
-                session.add(route)
-                await session.flush()
-
-            # Seed stops
-            for stop in demo_route_data.get("stops", []):
-                target_site = site_map.get(stop["site_slug"])
-                if target_site:
-                    existing_stop = (await session.execute(
-                        select(RouteStop).where(RouteStop.route_id == route.id, RouteStop.site_id == target_site.id)
-                    )).scalar_one_or_none()
-                    if not existing_stop:
-                        session.add(RouteStop(
-                            id=str(uuid.uuid4()),
-                            route_id=route.id,
-                            site_id=target_site.id,
-                            stop_order=stop["stop_order"],
-                            arrival_note=stop.get("arrival_note"),
-                            narrative=stop.get("arrival_note"),
-                            travel_note="Regional highway and stone-paved historical trail connection.",
-                            transit_mode="heritage_vehicle"
-                        ))
-
-        # Seed 3 authentic multilingual documents through the actual processing worker
+        # Seed 3 authentic multilingual documents through the actual processing worker first so route stops can link them
         sample_docs_spec = [
             {
                 "title": "Solanki Royal Charter on Saraswati Inundation",
@@ -316,7 +279,7 @@ async def seed():
                 "source": "Gazetteer of the Bombay Presidency, Vol. IX (Gujarat Population) / ASI Inscriptions",
                 "licence": "Public Domain / CC0",
                 "attribution": "ASI Western Circle Epigraphy Wing",
-                "site_slug": "adalaj-stepwell",
+                "site_slug": "adalaj-vav",
                 "image_rel": "eval/ocr/page_05_gujarati.png"
             },
             {
@@ -366,8 +329,81 @@ async def seed():
                 print(f"Processing seeded document through real worker pipeline: {doc.title} (Job {job.id})...")
                 await pipeline.run(job_id=job.id, file_bytes=file_bytes)
 
+        await session.flush()
+
+        # Seed Routes (Flagship Gujarat Stepwell Trail + Rajasthan Forts Trail)
+        routes_to_seed = data.get("routes", [])
+        if not routes_to_seed and demo_route_data:
+            routes_to_seed = [demo_route_data]
+
+        for rdata in routes_to_seed:
+            route_slug = rdata["slug"]
+            route = (await session.execute(select(Route).where(Route.slug == route_slug))).scalar_one_or_none()
+            if not route:
+                route = Route(
+                    id=str(uuid.uuid4()),
+                    slug=route_slug,
+                    title=rdata["title"],
+                    title_hi=rdata.get("title_hi"),
+                    title_gu=rdata.get("title_gu"),
+                    summary=rdata.get("summary"),
+                    summary_hi=rdata.get("summary_hi"),
+                    summary_gu=rdata.get("summary_gu"),
+                    description=rdata.get("summary"),
+                    difficulty=rdata.get("difficulty", "Moderate"),
+                    total_distance_km=float(rdata.get("total_distance_km", 250.0)),
+                    estimated_duration_days=int(rdata.get("estimated_duration_days", 3)),
+                    era_theme=rdata.get("era_theme", "Architectural Heritage")
+                )
+                session.add(route)
+                await session.flush()
+            else:
+                route.title = rdata["title"]
+                route.title_hi = rdata.get("title_hi")
+                route.title_gu = rdata.get("title_gu")
+                route.summary = rdata.get("summary")
+                route.summary_hi = rdata.get("summary_hi")
+                route.summary_gu = rdata.get("summary_gu")
+                route.difficulty = rdata.get("difficulty", "Moderate")
+                route.total_distance_km = float(rdata.get("total_distance_km", 250.0))
+                route.estimated_duration_days = int(rdata.get("estimated_duration_days", 3))
+                route.era_theme = rdata.get("era_theme", "Architectural Heritage")
+
+            # Replace stops with enriched records
+            await session.execute(delete(RouteStop).where(RouteStop.route_id == route.id))
+            for stop in rdata.get("stops", []):
+                target_site = site_map.get(stop["site_slug"])
+                if target_site:
+                    # Collect real linked folklore, observations, and documents
+                    f_ids = [f.id for f in (await session.execute(
+                        select(FolkloreItem).where(FolkloreItem.site_id == target_site.id)
+                    )).scalars().all()]
+                    o_ids = [o.id for o in (await session.execute(
+                        select(Observation).where(Observation.site_id == target_site.id)
+                    )).scalars().all()]
+                    d_ids = [d.id for d in (await session.execute(
+                        select(Document).where(Document.site_id == target_site.id)
+                    )).scalars().all()]
+
+                    session.add(RouteStop(
+                        id=str(uuid.uuid4()),
+                        route_id=route.id,
+                        site_id=target_site.id,
+                        stop_order=stop["stop_order"],
+                        arrival_note=stop.get("arrival_note"),
+                        arrival_note_source=stop.get("arrival_note_source", "Archaeological Survey Records"),
+                        is_illustrative=stop.get("is_illustrative", False),
+                        dwell_seconds=int(stop.get("dwell_seconds", 12)),
+                        linked_folklore_ids=f_ids,
+                        linked_observation_ids=o_ids,
+                        linked_document_ids=d_ids,
+                        narrative=stop.get("arrival_note"),
+                        travel_note="Regional heritage corridor connecting monuments.",
+                        transit_mode="heritage_vehicle"
+                    ))
+
         await session.commit()
-        print("Successfully seeded all authentic sites, routes, dynasties, tags, and 3 pipeline-processed archival folios.")
+        print("Successfully seeded all authentic sites, routes, enriched stops, dynasties, tags, and 3 pipeline-processed archival folios.")
 
 if __name__ == "__main__":
     asyncio.run(seed())

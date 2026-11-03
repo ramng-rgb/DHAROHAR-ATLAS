@@ -424,14 +424,20 @@ class Route(Base):
     id = Column(String, primary_key=True, default=generate_uuid)
     slug = Column(String(255), unique=True, nullable=False, index=True)
     title = Column(String(255), nullable=False)
+    title_hi = Column(String(255), nullable=True)
+    title_gu = Column(String(255), nullable=True)
     summary = Column(Text, nullable=True)
+    summary_hi = Column(Text, nullable=True)
+    summary_gu = Column(Text, nullable=True)
     description = Column(Text, nullable=True)
+    cover_media_id = Column(String(255), nullable=True)
+    difficulty = Column(String(50), default="Moderate")
     total_distance_km = Column(Float, default=150.0)
     estimated_duration_days = Column(Integer, default=3)
     era_theme = Column(String(100), default="Stepwells of Gujarat")
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    stops = relationship("RouteStop", back_populates="route", order_by="RouteStop.stop_order")
+    stops = relationship("RouteStop", back_populates="route", order_by="RouteStop.stop_order", lazy="selectin")
 
 class RouteStop(Base):
     __tablename__ = "route_stops"
@@ -441,13 +447,19 @@ class RouteStop(Base):
     site_id = Column(String, ForeignKey("sites.id", ondelete="CASCADE"), nullable=False, index=True)
     stop_order = Column(Integer, nullable=False)
     arrival_note = Column(Text, nullable=True)
+    arrival_note_source = Column(String(255), nullable=True)
+    is_illustrative = Column(Boolean, default=False)
+    dwell_seconds = Column(Integer, default=12)
+    linked_folklore_ids = Column(JSON, default=list)
+    linked_observation_ids = Column(JSON, default=list)
+    linked_document_ids = Column(JSON, default=list)
     narrative = Column(Text, nullable=True)
     transit_mode = Column(String(50), default="caravan_trail")
     travel_note = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     route = relationship("Route", back_populates="stops")
-    site = relationship("Site", back_populates="route_stops")
+    site = relationship("Site", back_populates="route_stops", lazy="selectin")
 
 class Embedding(Base):
     __tablename__ = "embeddings"

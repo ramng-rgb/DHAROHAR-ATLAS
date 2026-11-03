@@ -31,11 +31,12 @@ async def get_cache(key: str) -> Optional[str]:
         logger.warning(f"Redis get error for key '{key}': {e}")
         return None
 
-async def set_cache(key: str, value: str, expire_seconds: int = 120) -> None:
+async def set_cache(key: str, value: str, expire_seconds: int = 120, ttl: Optional[int] = None) -> None:
     client = get_redis_client()
     if not client:
         return
+    ex = ttl if ttl is not None else expire_seconds
     try:
-        await client.set(key, value, ex=expire_seconds)
+        await client.set(key, value, ex=ex)
     except Exception as e:
         logger.warning(f"Redis set error for key '{key}': {e}")

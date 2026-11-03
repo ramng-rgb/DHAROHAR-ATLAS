@@ -546,6 +546,81 @@ class RouteResponse(BaseModel):
     class Config:
         from_attributes = True
 
+# Journey Mode Schemas (M5)
+class JourneyStopResponse(BaseModel):
+    id: str
+    site_id: str
+    site_slug: str
+    site_name: str
+    site_name_hi: Optional[str] = None
+    site_name_gu: Optional[str] = None
+    site_type: str
+    state: str
+    district: Optional[str] = None
+    latitude: float
+    longitude: float
+    period_start_year: Optional[int] = None
+    period_end_year: Optional[int] = None
+    era_label: Optional[str] = None
+    stop_order: int
+    arrival_note: Optional[str] = None
+    arrival_note_source: Optional[str] = None
+    is_illustrative: bool = False
+    dwell_seconds: int = 12
+    hero_media: Optional[Dict[str, Any]] = None
+    has_3d_model: bool = False
+    model_3d_id: Optional[str] = None
+    linked_folklore: List[Dict[str, Any]] = []
+    linked_observations: List[Dict[str, Any]] = []
+    linked_documents: List[Dict[str, Any]] = []
+    leg_distance_km: float = 0.0
+    cumulative_distance_km: float = 0.0
+    leg_geometry: Optional[Dict[str, Any]] = None
+    bearing_deg: Optional[float] = None
+
+class JourneyResponse(BaseModel):
+    id: str
+    slug: str
+    title: str
+    title_hi: Optional[str] = None
+    title_gu: Optional[str] = None
+    summary: Optional[str] = None
+    summary_hi: Optional[str] = None
+    summary_gu: Optional[str] = None
+    description: Optional[str] = None
+    cover_media_url: Optional[str] = None
+    difficulty: str = "Moderate"
+    era_theme: str
+    total_distance_km: float
+    estimated_duration_days: int
+    full_geometry: Dict[str, Any]
+    stops: List[JourneyStopResponse] = []
+    total_stops: int
+
+# Demo Script Schemas (M5)
+class DemoStep(BaseModel):
+    id: str
+    step_number: int
+    title: str
+    title_hi: Optional[str] = None
+    title_gu: Optional[str] = None
+    caption: str
+    caption_hi: Optional[str] = None
+    caption_gu: Optional[str] = None
+    route: str
+    target_selector: str
+    action_type: str = "navigate"
+    sample_query: Optional[str] = None
+    sample_question: Optional[str] = None
+    site_slug: Optional[str] = None
+    document_id: Optional[str] = None
+
+class DemoScriptResponse(BaseModel):
+    version: str = "1.0"
+    total_steps: int
+    estimated_duration_seconds: int
+    steps: List[DemoStep] = []
+
 # Search & RAG (M4)
 class SearchHit(BaseModel):
     id: str

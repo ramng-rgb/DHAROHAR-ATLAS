@@ -1,9 +1,12 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException
+import json
+import hashlib
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, Response, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.services.route_service import RouteService
-from app.schemas.schemas import RouteResponse
+from app.schemas.schemas import RouteResponse, JourneyResponse
+from app.core.redis_cache import get_cache, set_cache
 
 router = APIRouter(prefix="/routes", tags=["Routes"])
 
@@ -19,3 +22,35 @@ async def get_route(slug: str, db: AsyncSession = Depends(get_db)):
     if not route:
         raise HTTPException(status_code=404, detail="Heritage travel route not found")
     return route
+
+@router.get("/{slug}/journey", response_model=JourneyResponse)
+async def get_journey(slug: str, request: Request, response: Response, db: AsyncSession = Depends(get_db)):
+    cache_key = f"journey:{slug}"
+    cached = await get_cache(cache_key)
+    
+    if cached:
+        data = json.loads(cached)
+    else:
+        service = RouteService(db)
+        data = await service.get_journey_by_slug(slug)
+        if not data:
+            raise HTTPException(status_code=404, detail=f"Journey route '{slug}' not found")
+        await set_cache(cache_key, json.dumps(data), ttl=3600)
+
+    # Compute ETag
+    content_bytes = json.dumps(data, sort_keys=True).encode("utf-8")
+    etag = f'"{hashlib.md5(content_bytes).hexdigest()}"'
+    response.headers["ETag"] = etag
+    response.headers["Cache-Control"] = "public, max-age=3600, stale-while-revalidate=86400"
+
+    # Handle If-None-Match
+    if request.headers.get("if-none-match") == etag:
+        return Response(
+            status_code=304,
+            headers={
+                "ETag": etag,
+                "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
+            }
+        )
+
+    return data

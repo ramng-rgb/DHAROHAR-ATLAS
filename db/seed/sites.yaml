@@ -1126,32 +1126,161 @@ sites:
     source_url: https://commons.wikimedia.org
 demo_route:
   slug: gujarat-stepwell-trail
-  title: 'Explorer Fellowship: Gujarat Stepwell Trail'
-  summary: A curated 6-stop historical fellowship tracing medieval hydraulic sanctification
-    from the Saraswati river sands of Patan through Sultanate Ahmedabad to the Aravalli
-    foothills.
+  title: 'Gujarat Stepwell & Water Architecture Trail'
+  title_hi: 'गुजरात वाव एवं जल स्थापत्य यात्रा'
+  title_gu: 'ગુજરાત વાવ અને જળ સ્થાપત્ય યાત્રા'
+  summary: 'An 8-stop flagship expedition tracing 4,500 years of water architecture from Bronze Age Harappan reservoirs to grand medieval subterranean stepwells.'
+  summary_hi: 'कांस्य युगीन हड़प्पा जलाशयों से लेकर भव्य मध्यकालीन बावड़ियों तक जल स्थापत्य के 4,500 वर्षों का 8-पड़ाव वाला ऐतिहासिक मार्ग।'
+  summary_gu: 'કાંસ્ય યુગના હડપ્પન જળાશયોથી લઈને ભવ્ય મધ્યયુગીન વાવો સુધીના જળ સ્થાપત્યના 4,500 વર્ષોને જોડતી 8-પડાવની મુખ્ય યાત્રા.'
+  difficulty: 'Moderate'
+  era_theme: 'Subterranean Hydraulic Sanctification'
+  total_distance_km: 485.0
+  estimated_duration_days: 4
   stops:
-  - site_slug: rani-ki-vav
-    stop_order: 1
-    arrival_note: 'Commence expedition at dawn at Rani ki Vav. Note: Descriptive travel
-      narrative is an illustrative sample designed for historical fellowship visualization.'
-  - site_slug: modhera-sun-temple
-    stop_order: 2
-    arrival_note: Arrive at Modhera Sun Temple for mid-day equinox shadow measurement
-      along Surya Kund stepped pavilions.
   - site_slug: adalaj-vav
-    stop_order: 3
-    arrival_note: Descend into Adalaj Vav's cooling five subterranean storeys, examining
-      Indo-Islamic hybrid floral motifs.
+    stop_order: 1
+    arrival_note: 'Begin at Adalaj Stepwell at dawn. Five subterranean storeys descend into cool sandstone pavilions built by Queen Rudabai in 1499 CE.'
+    arrival_note_source: 'ASI Western Circle Epigraphy Monograph; Gazetteer of Bombay Presidency Vol IX'
+    is_illustrative: false
+    dwell_seconds: 14
   - site_slug: dada-harir-vav
-    stop_order: 4
-    arrival_note: Inspect the bilingual Sanskrit and Arabic foundation epigraphs on
-      the upper spiral staircase landings.
+    stop_order: 2
+    arrival_note: 'Continue southeast into Asarwa, Ahmedabad. Inspect the bilingual Sanskrit and Arabic foundation epigraphs on the spiral staircase landings.'
+    arrival_note_source: 'James Burgess, Architectural Antiquities of Northern Gujarat (1903)'
+    is_illustrative: false
+    dwell_seconds: 12
   - site_slug: sarkhej-roza
+    stop_order: 3
+    arrival_note: 'Reach the royal lakeside acropolis of Sarkhej. Observe sunset water reflections across the vast 17-acre stepped masonry tank.'
+    arrival_note_source: 'Archaeological Survey of India Technical Monograph #19'
+    is_illustrative: false
+    dwell_seconds: 12
+  - site_slug: modhera-sun-temple
+    stop_order: 4
+    arrival_note: 'Journey northward to the Pushpavati riverbank for mid-day equinox observations along the 52 miniature shrines of Surya Kund.'
+    arrival_note_source: 'ASI Northern Circle Survey Report (1922)'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: rani-ki-vav
     stop_order: 5
-    arrival_note: Observe sunset water reflections across the vast masonry tank of
-      Sarkhej Acropolis.
+    arrival_note: 'Descend into the pinnacle of Solanki subterranean architecture: seven tiers of sculptured pavilions commissioned by Queen Udayamati in 1063 CE.'
+    arrival_note_source: 'ASI Monument Monograph #24; UNESCO World Heritage Evaluation #922'
+    is_illustrative: false
+    dwell_seconds: 16
   - site_slug: champaner-pavagadh
     stop_order: 6
-    arrival_note: Conclude at the fortified water tanks and pre-Mughal city gateways
-      of Champaner.
+    arrival_note: 'Traverse southeast toward Pavagadh hill. Survey the Vada Talav and fortified rain-fed masonry cisterns of the medieval Gujarat Sultanate capital.'
+    arrival_note_source: 'Archaeological Survey of India Memoir #63'
+    is_illustrative: false
+    dwell_seconds: 12
+  - site_slug: lothal
+    stop_order: 7
+    arrival_note: "Arrive at the Gulf of Khambhat floodplains to inspect the world's oldest tidal dockyard (2400 BCE), engineered with kiln-fired burnt brick lock-gates."
+    arrival_note_source: 'S.R. Rao, Lothal: A Harappan Port Town (ASI Memoir #78)'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: dholavira
+    stop_order: 8
+    arrival_note: 'Conclude in the Great Rann of Kutch amidst massive stone-cut rock reservoirs and stormwater catchment conduits of the Indus civilization.'
+    arrival_note_source: 'R.S. Bisht, Excavations at Dholavira 1990–2005 (ASI Publication)'
+    is_illustrative: false
+    dwell_seconds: 16
+
+routes:
+- slug: gujarat-stepwell-trail
+  title: 'Gujarat Stepwell & Water Architecture Trail'
+  title_hi: 'गुजरात वाव एवं जल स्थापत्य यात्रा'
+  title_gu: 'ગુજરાત વાવ અને જળ સ્થાપત્ય યાત્રા'
+  summary: 'An 8-stop flagship expedition tracing 4,500 years of water architecture from Bronze Age Harappan reservoirs to grand medieval subterranean stepwells.'
+  summary_hi: 'कांस्य युगीन हड़प्पा जलाशयों से लेकर भव्य मध्यकालीन बावड़ियों तक जल स्थापत्य के 4,500 वर्षों का 8-पड़ाव वाला ऐतिहासिक मार्ग।'
+  summary_gu: 'કાંસ્ય યુગના હડપ્પન જળાશયોથી લઈને ભવ્ય મધ્યયુગીન વાવો સુધીના જળ સ્થાપત્યના 4,500 વર્ષોને જોડતી 8-પડાવની મુખ્ય યાત્રા.'
+  difficulty: 'Moderate'
+  era_theme: 'Subterranean Hydraulic Sanctification'
+  total_distance_km: 485.0
+  estimated_duration_days: 4
+  stops:
+  - site_slug: adalaj-vav
+    stop_order: 1
+    arrival_note: 'Begin at Adalaj Stepwell at dawn. Five subterranean storeys descend into cool sandstone pavilions built by Queen Rudabai in 1499 CE.'
+    arrival_note_source: 'ASI Western Circle Epigraphy Monograph; Gazetteer of Bombay Presidency Vol IX'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: dada-harir-vav
+    stop_order: 2
+    arrival_note: 'Continue southeast into Asarwa, Ahmedabad. Inspect the bilingual Sanskrit and Arabic foundation epigraphs on the spiral staircase landings.'
+    arrival_note_source: 'James Burgess, Architectural Antiquities of Northern Gujarat (1903)'
+    is_illustrative: false
+    dwell_seconds: 12
+  - site_slug: sarkhej-roza
+    stop_order: 3
+    arrival_note: 'Reach the royal lakeside acropolis of Sarkhej. Observe sunset water reflections across the vast 17-acre stepped masonry tank.'
+    arrival_note_source: 'Archaeological Survey of India Technical Monograph #19'
+    is_illustrative: false
+    dwell_seconds: 12
+  - site_slug: modhera-sun-temple
+    stop_order: 4
+    arrival_note: 'Journey northward to the Pushpavati riverbank for mid-day equinox observations along the 52 miniature shrines of Surya Kund.'
+    arrival_note_source: 'ASI Northern Circle Survey Report (1922)'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: rani-ki-vav
+    stop_order: 5
+    arrival_note: 'Descend into the pinnacle of Solanki subterranean architecture: seven tiers of sculptured pavilions commissioned by Queen Udayamati in 1063 CE.'
+    arrival_note_source: 'ASI Monument Monograph #24; UNESCO World Heritage Evaluation #922'
+    is_illustrative: false
+    dwell_seconds: 16
+  - site_slug: champaner-pavagadh
+    stop_order: 6
+    arrival_note: 'Traverse southeast toward Pavagadh hill. Survey the Vada Talav and fortified rain-fed masonry cisterns of the medieval Gujarat Sultanate capital.'
+    arrival_note_source: 'Archaeological Survey of India Memoir #63'
+    is_illustrative: false
+    dwell_seconds: 12
+  - site_slug: lothal
+    stop_order: 7
+    arrival_note: "Arrive at the Gulf of Khambhat floodplains to inspect the world's oldest tidal dockyard (2400 BCE), engineered with kiln-fired burnt brick lock-gates."
+    arrival_note_source: 'S.R. Rao, Lothal: A Harappan Port Town (ASI Memoir #78)'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: dholavira
+    stop_order: 8
+    arrival_note: 'Conclude in the Great Rann of Kutch amidst massive stone-cut rock reservoirs and stormwater catchment conduits of the Indus civilization.'
+    arrival_note_source: 'R.S. Bisht, Excavations at Dholavira 1990–2005 (ASI Publication)'
+    is_illustrative: false
+    dwell_seconds: 16
+- slug: rajasthan-forts-trail
+  title: 'Citadels of the Desert: Marwar & Mewar Fortresses Trail'
+  title_hi: 'मरुभूमि के दुर्ग: मारवाड़ एवं मेवाड़ किला यात्रा'
+  title_gu: 'રણના કિલ્લાઓ: મારવાડ અને મેવાડ કિલ્લા યાત્રા'
+  summary: "A 4-stop architectural voyage across Rajasthan's cliff-top fortifications, from Chittorgarh's victory towers to Chand Baori's geometric labyrinth."
+  summary_hi: 'चित्तौड़गढ़ के विजय स्तंभ से लेकर चाँद बावड़ी के ज्यामितीय भूलभुलैया तक राजस्थान के पहाड़ी दुर्गों की 4-पड़ाव की यात्रा।'
+  summary_gu: 'ચિત્તોડગઢના વિજય સ્તંભથી લઈને ચાંદ બાવડીની ભૌમિતિક ભુલભુલામણી સુધી રાજસ્થાનના પહાડી કિલ્લાઓની 4-પડાવની યાત્રા.'
+  difficulty: 'Challenging'
+  era_theme: 'Rajput Military Architecture & Bastions'
+  total_distance_km: 390.0
+  estimated_duration_days: 3
+  stops:
+  - site_slug: chittorgarh-fort
+    stop_order: 1
+    arrival_note: "Ascend the legendary 180-meter plateau of Chittorgarh. Inspect the 9-storey Vijay Stambha and water-storing Gaumukh Kund reservoir."
+    arrival_note_source: 'ASI Jaipur Circle Survey Notes; Tod Annals of Rajasthan'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: kumbhalgarh-fort
+    stop_order: 2
+    arrival_note: "Traverse into the rugged Aravalli crest. Walk along the 36-kilometer continuous defensive stone perimeter wall built by Rana Kumbha."
+    arrival_note_source: 'Archaeological Survey of India Technical Monograph #31'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: mehrangarh-fort
+    stop_order: 3
+    arrival_note: "Stand before the 120-meter volcanic perpendicular cliff of Jodhpur. Examine Rao Jodha's massive bastions and delicate red sandstone jharokhas."
+    arrival_note_source: 'Mehrangarh Museum Trust Archival Records'
+    is_illustrative: false
+    dwell_seconds: 14
+  - site_slug: chand-baori
+    stop_order: 4
+    arrival_note: "Conclude at the geometric wonder of Abhaneri: 3,500 triangular steps cascading 13 subterranean storeys into an emerald pool."
+    arrival_note_source: 'Dausa District Gazetteer; Morna Livingston (2002)'
+    is_illustrative: false
+    dwell_seconds: 16
+

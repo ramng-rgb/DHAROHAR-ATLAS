@@ -14,6 +14,7 @@ from app.api.v1.search import router as search_router
 from app.api.v1.routes import router as routes_router
 from app.api.v1.ingest import router as ingest_router
 from app.api.v1.facets import router as facets_router
+from app.api.v1.demo import router as demo_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -54,6 +55,7 @@ app.include_router(search_router, prefix=settings.API_V1_STR)
 app.include_router(routes_router, prefix=settings.API_V1_STR)
 app.include_router(ingest_router, prefix=settings.API_V1_STR)
 app.include_router(facets_router, prefix=settings.API_V1_STR)
+app.include_router(demo_router, prefix=settings.API_V1_STR)
 
 # Static files for public models and data
 models_dir = "/Users/ramnarayangupta/Desktop/hac/apps/web/public/models"

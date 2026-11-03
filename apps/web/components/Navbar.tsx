@@ -53,92 +53,87 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full glass-panel border-b border-[#D4AF37]/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full bg-sandstone-100/90 backdrop-blur-md border-b border-sandstone-300/80 transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-2.5 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-lg bg-[#D4AF37] flex items-center justify-center shadow-lg shadow-black/50 group-hover:scale-105 transition-transform">
-              <Compass className="w-6 h-6 text-indigoInk" />
+            <div className="w-10 h-10 rounded-xl bg-terracotta flex items-center justify-center text-white shadow-warm-sm group-hover:scale-105 transition-transform flex-shrink-0">
+              <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2C7.5 2 4 5.5 4 10v11h16V10c0-4.5-3.5-8-8-8zm0 2.2c2.8 0 5.2 2 5.8 4.8H6.2c.6-2.8 3-4.8 5.8-4.8zM6 19v-7h12v7H6z"/>
+              </svg>
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-serif text-lg font-bold tracking-wider text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors">
-                  DHAROHAR ATLAS
-                </span>
-              </div>
-              <p className="text-xs text-[#D8C3A5]/80 tracking-wide font-serif">
-                धरोहर ज्ञान सेतु • Living Architectural Archive
-              </p>
+              <span className="font-serif text-2xl font-bold tracking-tight text-indigoHeritage flex items-center">
+                Virasat<span className="text-terracotta">Yatra</span>
+              </span>
+              <span className="block text-[11px] font-semibold tracking-wider uppercase text-[#7A5C1E]">
+                विरासत यात्रा • HERITAGE EXPLORER
+              </span>
             </div>
           </Link>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
+          {/* Desktop Navigation Links Pill */}
+          <nav className="hidden md:flex items-center gap-1 bg-sandstone-200/70 p-1.5 rounded-full border border-sandstone-300/80 shadow-sm">
             <Link
-              href="/explore"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
-                pathname === "/explore" || pathname === "/explorer"
-                  ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
-                  : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
+              href="/"
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                pathname === "/"
+                  ? "bg-sandstone-100 text-terracotta shadow-warm-sm font-semibold"
+                  : "text-indigoHeritage hover:text-terracotta"
               }`}
             >
-              <Compass className="w-4 h-4 text-[#D4AF37]" />
-              Explorer
+              Home
             </Link>
 
             <Link
-              href="/journey"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
-                pathname === "/journey"
-                  ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
-                  : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
+              href="/explore"
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                pathname === "/explore" || pathname === "/explorer"
+                  ? "bg-sandstone-100 text-terracotta shadow-warm-sm font-semibold"
+                  : "text-indigoHeritage hover:text-terracotta"
               }`}
             >
-              <MapPin className="w-4 h-4 text-[#C85A32]" />
-              Fellowship Trail
+              Map Explorer
+            </Link>
+
+            <Link
+              href="/sites/rani-ki-vav-patan"
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                pathname?.startsWith("/sites")
+                  ? "bg-sandstone-100 text-terracotta shadow-warm-sm font-semibold"
+                  : "text-indigoHeritage hover:text-terracotta"
+              }`}
+            >
+              3D Twin
             </Link>
 
             <Link
               href="/archive"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
                 pathname === "/archive"
-                  ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
-                  : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
+                  ? "bg-sandstone-100 text-terracotta shadow-warm-sm font-semibold"
+                  : "text-indigoHeritage hover:text-terracotta"
               }`}
             >
-              <BookOpen className="w-4 h-4 text-[#D4AF37]" />
-              Archive Folios
+              Inscription AI
             </Link>
 
             <Link
               href="/search"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
-                pathname === "/search"
-                  ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
-                  : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                pathname === "/search" || pathname === "/ask"
+                  ? "bg-sandstone-100 text-terracotta shadow-warm-sm font-semibold"
+                  : "text-indigoHeritage hover:text-terracotta"
               }`}
             >
-              <Search className="w-4 h-4 text-[#D4AF37]" />
-              Search
-            </Link>
-
-            <Link
-              href="/ask"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
-                pathname === "/ask"
-                  ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
-                  : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
-              }`}
-            >
-              <MessageSquare className="w-4 h-4 text-[#D4AF37]" />
-              Ask Archive
+              Monument Dossier
             </Link>
           </nav>
 
-          {/* Quick Actions & Language */}
-          <div className="flex items-center gap-2">
-            {/* Language Switcher Pill (EN / HI / GU) */}
-            <div className="hidden sm:inline-flex items-center p-0.5 bg-black/60 border border-[#D4AF37]/40 rounded-full text-[11px] font-semibold">
+          {/* Actions: Language Toggle & Demo Controls */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Language Switcher Pill */}
+            <div className="relative inline-flex items-center p-1 bg-indigoHeritage text-sandstone-100 rounded-full text-xs font-semibold shadow-inner border border-mutedGold/30">
               <button
                 type="button"
                 onClick={() => {
@@ -147,8 +142,8 @@ export function Navbar() {
                     window.dispatchEvent(new Event("storage"));
                   }
                 }}
-                className="px-2 py-0.5 rounded-full transition-all bg-[#D4AF37] text-indigoInk font-bold shadow-sm"
-                title="Switch to English"
+                className="px-2.5 py-1 rounded-full transition-all bg-mutedGold text-indigoHeritage-dark shadow-sm font-bold"
+                title="English"
               >
                 EN
               </button>
@@ -160,61 +155,48 @@ export function Navbar() {
                     window.dispatchEvent(new Event("storage"));
                   }
                 }}
-                className="px-2 py-0.5 rounded-full transition-all text-[#D8C3A5] hover:text-[#D4AF37]"
-                title="हिन्दी में देखें"
+                className="px-2.5 py-1 rounded-full transition-all text-sandstone-300 hover:text-white"
+                title="हिन्दी"
               >
                 हिन्दी
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (typeof window !== "undefined") {
-                    localStorage.setItem("dharohar_locale", "gu");
-                    window.dispatchEvent(new Event("storage"));
-                  }
-                }}
-                className="px-2 py-0.5 rounded-full transition-all text-[#D8C3A5] hover:text-[#D4AF37]"
-                title="ગુજરાતીમાં જુઓ"
-              >
-                ગુજરાતી
-              </button>
             </div>
 
-            {/* Edge States Simulator Dropdown */}
+            {/* Test State Menu Pill */}
             <div className="relative group">
               <button
                 type="button"
-                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-md bg-black/40 transition-all"
-                title="Simulate UX Edge Cases"
+                className="flex items-center gap-1.5 px-3 py-2 bg-sandstone-100 hover:bg-white text-indigoHeritage text-xs font-medium rounded-xl border border-sandstone-300 shadow-sm transition-all"
+                title="View Design Edge Cases"
               >
-                <Layers className="w-3.5 h-3.5 text-[#C85A32]" />
-                <span>States</span>
+                <Layers className="w-3.5 h-3.5 text-terracotta" />
+                <span className="hidden sm:inline">States</span>
               </button>
-              <div className="absolute right-0 mt-2 w-56 glass-panel-gold rounded-xl border border-[#D4AF37]/60 p-2 shadow-2xl hidden group-hover:block z-50">
-                <div className="px-2.5 py-1 text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider">
-                  UX Edge State Previews
+              <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-warm-lg border border-sandstone-300 py-2 hidden group-hover:block z-50">
+                <div className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                  Simulate Edge States
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const el = document.getElementById("offline-banner-alert");
-                    if (el) el.classList.toggle("hidden");
-                  }}
-                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#EFE6D8] hover:bg-white/10 rounded-lg flex items-center justify-between"
-                >
-                  <span>Offline Mode Warning</span>
-                  <span className="text-[10px] text-[#C85A32] bg-[#C85A32]/20 px-1.5 py-0.5 rounded font-mono">Mode</span>
-                </button>
                 <button
                   type="button"
                   onClick={() => {
                     const el = document.getElementById("skeleton-preview-modal");
                     if (el) el.classList.toggle("hidden");
                   }}
-                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#EFE6D8] hover:bg-white/10 rounded-lg flex items-center justify-between"
+                  className="w-full text-left px-3 py-2 text-xs text-indigoHeritage hover:bg-sandstone-100 flex items-center justify-between"
                 >
-                  <span>Skeleton Point Cloud</span>
-                  <span className="text-[10px] text-[#D4AF37] bg-[#D4AF37]/20 px-1.5 py-0.5 rounded font-mono">View</span>
+                  <span>Skeleton Loader</span>
+                  <span className="text-[10px] text-mutedGold bg-sandstone-200 px-1.5 py-0.5 rounded">View</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById("offline-banner-alert");
+                    if (el) el.classList.toggle("hidden");
+                  }}
+                  className="w-full text-left px-3 py-2 text-xs text-indigoHeritage hover:bg-sandstone-100 flex items-center justify-between"
+                >
+                  <span>Offline Cache Warning</span>
+                  <span className="text-[10px] text-terracotta bg-terracotta-50 px-1.5 py-0.5 rounded">Mode</span>
                 </button>
                 <button
                   type="button"
@@ -222,33 +204,23 @@ export function Navbar() {
                     const el = document.getElementById("ocr-error-preview-modal");
                     if (el) el.classList.toggle("hidden");
                   }}
-                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#EFE6D8] hover:bg-white/10 rounded-lg flex items-center justify-between"
+                  className="w-full text-left px-3 py-2 text-xs text-indigoHeritage hover:bg-sandstone-100 flex items-center justify-between"
                 >
                   <span>OCR Read Error Modal</span>
-                  <span className="text-[10px] text-amber-400 bg-amber-950/60 px-1.5 py-0.5 rounded font-mono">Alert</span>
+                  <span className="text-[10px] text-red-600 bg-red-50 px-1.5 py-0.5 rounded">Alert</span>
                 </button>
               </div>
             </div>
 
             <button
               onClick={() => setCommandPaletteOpen(true)}
-              className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-md bg-black/40 hover:bg-[#D4AF37]/10 transition-all shadow-inner"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-xs text-indigoHeritage hover:text-terracotta border border-sandstone-300 rounded-xl bg-sandstone-100 hover:bg-white transition-all shadow-sm"
               title="Global Archive Search (Cmd+K)"
             >
-              <Search className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span className="hidden xl:inline">Search</span>
-              <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#D4AF37] border border-white/10">
+              <Search className="w-3.5 h-3.5 text-mutedGold" />
+              <kbd className="text-[10px] font-mono px-1 rounded bg-sandstone-200 text-indigoHeritage">
                 ⌘K
               </kbd>
-            </button>
-
-            <button
-              onClick={() => { setTourOpen(true); setTourStep(0); }}
-              className="px-2.5 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 rounded-md bg-black/30 hover:bg-[#D4AF37]/10 transition-all flex items-center gap-1"
-              title="First-run Guided Tour"
-            >
-              <HelpCircle className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span className="hidden sm:inline">Guided Tour</span>
             </button>
 
             <button
@@ -256,11 +228,11 @@ export function Navbar() {
               id="nav-demo-mode-button"
               data-testid="demo-mode-btn"
               onClick={() => triggerDemoTour(0)}
-              className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-[#D4AF37] text-indigoInk hover:bg-[#F3C649] shadow-md shadow-black/50 flex items-center gap-1.5 transition-all cursor-pointer"
-              aria-label="Launch Guided 9-Step Demo Mode"
+              className="px-3.5 py-2 text-xs font-semibold rounded-xl bg-mutedGold hover:bg-mutedGold-light text-indigoHeritage-dark shadow-sm flex items-center gap-1.5 transition-all cursor-pointer"
+              aria-label="Launch Guided Demo Mode"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigoInk fill-indigoInk" />
-              <span>Demo Mode</span>
+              <Sparkles className="w-3.5 h-3.5 text-indigoHeritage-dark" />
+              <span className="hidden sm:inline">Tour</span>
             </button>
           </div>
         </div>

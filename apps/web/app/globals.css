@@ -133,8 +133,8 @@ p, .prose-block {
 
 /* Virasat Jali Lattice & Inscription Scanning HUD Animations */
 .jali-pattern {
-  background-color: #090D16;
-  background-image: radial-gradient(#C9A24B 0.75px, transparent 0.75px), radial-gradient(#9E3D1D 0.75px, #090D16 0.75px);
+  background-color: #F3E9DC;
+  background-image: radial-gradient(#C9A24B 0.75px, transparent 0.75px), radial-gradient(#B5532F 0.75px, #F3E9DC 0.75px);
   background-size: 28px 28px;
   background-position: 0 0, 14px 14px;
 }

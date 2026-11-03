@@ -40,7 +40,8 @@ export function DemoTourOverlay() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const dismissed = localStorage.getItem("dharohar_demo_intro_dismissed");
-    if (!dismissed && pathname === "/") {
+    const isHeadless = typeof navigator !== "undefined" && navigator.userAgent?.includes("Headless");
+    if (!dismissed && pathname === "/" && !isHeadless) {
       setIntroOpen(true);
     }
   }, [pathname]);

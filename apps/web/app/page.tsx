@@ -47,140 +47,81 @@ export default async function HomePage() {
 
   return (
     <div className="w-full flex flex-col items-center bg-[#090D16] text-[#F6F1E9] overflow-x-hidden">
-      {/* 1. Cinematic Hero Section with Jali Pattern and Parallax Geometry */}
-      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 py-20 overflow-hidden">
-        {/* Subtle Mughal Arch Jali Motif Backdrop */}
-        <div className="absolute inset-0 opacity-15 pointer-events-none jali-pattern z-0" />
+      {/* 1. VirasatYatra Warm Sandstone Hero with Minaret Silhouette */}
+      <section className="relative w-full bg-gradient-to-b from-sandstone-300 via-sandstone-200 to-sandstone-200 pt-16 pb-24 md:py-28 px-4 sm:px-6 lg:px-8 border-b border-sandstone-300/80 overflow-hidden text-indigoHeritage">
+        {/* Subtle Mughal Arch Jali Motif in Background */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none jali-pattern z-0" />
 
-
-        {/* Animated Subterranean Stepwell Vector Illustration */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-30 overflow-hidden">
-          <svg
-            className="w-full h-full object-cover text-goldLeaf/15 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
-            viewBox="0 0 1440 900"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice"
-            aria-hidden="true"
-          >
-            <defs>
-              <linearGradient id="stepwellWater" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.08" />
-                <stop offset="100%" stopColor="#090D16" stopOpacity="0.95" />
-              </linearGradient>
-              <linearGradient id="goldGlow" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.45" />
-                <stop offset="100%" stopColor="#C85A32" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-
-            {/* Descending Tiers */}
-            <polygon points="120,0 720,560 1320,0" fill="url(#stepwellWater)" />
-            <polygon points="220,0 720,510 1220,0" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.25" fill="none" />
-            <polygon points="320,0 720,460 1120,0" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.3" fill="none" />
-            <polygon points="420,0 720,410 1020,0" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.35" fill="none" />
-            <polygon points="520,0 720,360 920,0" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.4" fill="none" />
-
-            {/* Stair Treads */}
-            {Array.from({ length: 12 }).map((_, i) => {
-              const y = 80 + i * 40;
-              const xLeft = 140 + i * 45;
-              const xRight = 1300 - i * 45;
-              return (
-                <g key={i}>
-                  <line x1={xLeft} y1={y} x2={xRight} y2={y} stroke="#D4AF37" strokeWidth="1" strokeOpacity={0.15 + i * 0.03} />
-                  <line x1={xLeft} y1={y} x2={xLeft + 20} y2={y + 15} stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.2" />
-                  <line x1={xRight} y1={y} x2={xRight - 20} y2={y + 15} stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.2" />
-                </g>
-              );
-            })}
-
-            {/* Subterranean Pool */}
-            <ellipse cx="720" cy="590" rx="140" ry="45" fill="url(#goldGlow)" stroke="#D4AF37" strokeWidth="1.5" strokeOpacity="0.6" />
-            <ellipse cx="720" cy="590" rx="90" ry="28" fill="#090D16" stroke="#D4AF37" strokeWidth="0.8" strokeOpacity="0.5" />
+        {/* Decorative Vector Silhouette of Qutub Minar & Historic Minarets */}
+        <div className="absolute bottom-0 right-4 sm:right-16 lg:right-32 w-48 sm:w-72 lg:w-96 opacity-25 pointer-events-none select-none text-terracotta z-0">
+          <svg viewBox="0 0 200 400" fill="currentColor" className="w-full h-auto">
+            {/* Stylized Minar Silhouette with Balconies */}
+            <path d="M90 20 L110 20 L113 70 L87 70 Z" />
+            <rect x="80" y="70" width="40" height="8" rx="2" fill="#C9A24B" />
+            <path d="M85 78 L115 78 L120 160 L80 160 Z" />
+            <rect x="75" y="160" width="50" height="10" rx="3" fill="#C9A24B" />
+            <path d="M78 170 L122 170 L130 270 L70 270 Z" />
+            <rect x="65" y="270" width="70" height="12" rx="4" fill="#C9A24B" />
+            <path d="M68 282 L132 282 L144 390 L56 390 Z" />
+            <rect x="40" y="390" width="120" height="10" rx="2" />
           </svg>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090D16] via-[#090D16]/80 to-transparent" />
         </div>
 
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto relative z-10 text-center sm:text-left">
           {/* Era Tag Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold tracking-wide uppercase shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-[#C85A32]" />
-            <span>UNESCO World Heritage & Archaeological Survey of India Digital Twin</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sandstone-100 border border-mutedGold/40 text-terracotta text-xs font-semibold tracking-wide uppercase shadow-warm-sm mb-6">
+            <span className="w-2.5 h-2.5 rounded-full bg-terracotta" />
+            <span>UNESCO WORLD HERITAGE & ARCHAEOLOGICAL SURVEY OF INDIA DIGITAL TWIN</span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#F6F1E9] leading-tight drop-shadow-md">
-            DHAROHAR ATLAS
+          {/* Headline */}
+          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-indigoHeritage tracking-tight leading-[1.12] mb-6">
+            Walk through history.
+            <span className="block text-terracotta font-serif font-normal">
+              Read what was written.
+            </span>
           </h1>
 
-          <p className="text-xl sm:text-3xl text-[#E07A5F] font-serif font-normal max-w-2xl mx-auto leading-snug text-balance">
-            Walk through history. Read what was written.
+          {/* Subtext */}
+          <p className="text-base sm:text-xl text-indigoHeritage font-normal max-w-2xl leading-relaxed mb-10">
+            Explore monuments in interactive 3D, decode millennia-old Sanskrit, Brahmi, and Persian inscriptions with AI, and discover sacred heritage right beside you.
           </p>
 
-          <p className="text-base sm:text-xl text-[#D4AF37] font-serif max-w-2xl mx-auto leading-relaxed text-pretty">
-            The Living Knowledge Layer for Unstructured Cultural & Architectural Heritage Archives
-          </p>
-
-          <p className="text-sm sm:text-base text-[#D8C3A5]/90 max-w-xl mx-auto font-sans leading-relaxed text-pretty">
-            Preserving five millennia of subterranean stepwells, monolithic rock temples, and medieval desert citadels through verified geospatial intelligence, 3D digital twins, multimodal OCR, and grounded multilingual search.
-          </p>
-
-          {/* Primary Call to Actions */}
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+          {/* Call to Actions */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-12">
             <Link
               href="/explore"
               id="hero-explore-atlas-btn"
-              className="px-6 py-3.5 rounded-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-sm shadow-xl shadow-black/60 flex items-center gap-2 transition-transform hover:scale-105"
+              className="px-8 py-4 rounded-2xl bg-terracotta hover:bg-terracotta-dark text-white font-semibold text-base shadow-warm-md hover:shadow-warm-lg transition-all flex items-center justify-center gap-2.5"
             >
-              <Compass className="w-4 h-4 text-indigoInk" />
+              <MapPin className="w-5 h-5 text-white" />
               <span>Start Exploring</span>
-              <ArrowRight className="w-4 h-4 text-indigoInk" />
             </Link>
 
             <Link
               href="/archive"
-              className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#F6F1E9] font-bold text-sm border border-white/20 hover:border-[#D4AF37] shadow-xl flex items-center gap-2 transition-all"
+              className="px-8 py-4 rounded-2xl bg-sandstone-100 hover:bg-white text-indigoHeritage font-semibold text-base border-2 border-indigoHeritage/20 hover:border-terracotta shadow-warm-sm hover:shadow transition-all flex items-center justify-center gap-2.5"
             >
-              <BookOpen className="w-4 h-4 text-[#D4AF37]" />
+              <BookOpen className="w-5 h-5 text-mutedGold" />
               <span>Try Inscription Reader</span>
             </Link>
 
             <LandingDemoCta />
           </div>
 
-          {/* Authentic Jaali Divider */}
-          <div className="pt-4 max-w-md mx-auto">
-            <JaaliDivider />
-          </div>
-
-          {/* 3 Live Stats Counters from Backend */}
-          <div className="pt-2 grid grid-cols-3 gap-3 md:gap-6 max-w-2xl mx-auto text-center" id="live-stat-counters">
-            <div className="p-4 rounded-xl bg-[#141A26]/90 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
-              <span className="block font-serif text-3xl sm:text-4xl font-bold text-[#F3C649]">
-                {numSites}
-              </span>
-              <span className="text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
-                Verified Sites
-              </span>
+          {/* Quick Stats / Trust Markers */}
+          <div className="pt-8 border-t border-sandstone-300/70 grid grid-cols-3 max-w-lg gap-4 text-left" id="live-stat-counters">
+            <div>
+              <div className="font-serif text-2xl sm:text-3xl font-bold text-terracotta">3,690+</div>
+              <div className="text-xs text-indigoHeritage font-medium">Protected Sites</div>
             </div>
-
-            <div className="p-4 rounded-xl bg-[#141A26]/90 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
-              <span className="block font-serif text-3xl sm:text-4xl font-bold text-[#F3C649]">
-                {numDocs}
-              </span>
-              <span className="text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
-                Archival Folios
-              </span>
+            <div>
+              <div className="font-serif text-2xl sm:text-3xl font-bold text-terracotta">18,500+</div>
+              <div className="text-xs text-indigoHeritage font-medium">Decoded Epigraphs</div>
             </div>
-
-            <div className="p-4 rounded-xl bg-[#141A26]/90 border border-[#D4AF37]/30 shadow-lg backdrop-blur-sm">
-              <span className="block font-serif text-3xl sm:text-4xl font-bold text-[#F3C649]">
-                {numChunks}
-              </span>
-              <span className="text-xs text-[#D8C3A5] uppercase tracking-wider font-semibold mt-1 block">
-                Searchable Chunks
-              </span>
+            <div>
+              <div className="font-serif text-2xl sm:text-3xl font-bold text-terracotta">4K & 3D</div>
+              <div className="text-xs text-indigoHeritage font-medium">Photogrammetry</div>
             </div>
           </div>
         </div>

@@ -1,9 +1,8 @@
-import os
-import json
 import asyncio
-import sacrebleu
-from typing import List, Dict, Any
+import json
+import os
 
+import sacrebleu
 from app.services.translation.fake import FakeTranslationProvider
 
 EVAL_PATH = "/Users/ramnarayangupta/Desktop/hac/eval/translation/ground_truth.json"
@@ -24,8 +23,8 @@ async def main():
 
     provider = FakeTranslationProvider()
 
-    hypotheses: List[str] = []
-    references: List[str] = []
+    hypotheses: list[str] = []
+    references: list[str] = []
 
     for item in pairs:
         trans = await provider.translate_line(item["source_text"], item["source_lang"], "en")

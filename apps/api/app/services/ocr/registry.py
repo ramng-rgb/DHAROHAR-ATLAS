@@ -1,17 +1,17 @@
-import os
 import logging
-from typing import Optional
+import os
+
 from app.core.config import settings
 from app.services.ocr.base import OCRProvider
+from app.services.ocr.fake import FakeOCRProvider
 from app.services.ocr.gemini_vision import GeminiVisionOCR
 from app.services.ocr.tesseract import TesseractOCR
-from app.services.ocr.fake import FakeOCRProvider
 
 logger = logging.getLogger(__name__)
 
-_PROVIDER_INSTANCE: Optional[OCRProvider] = None
+_PROVIDER_INSTANCE: OCRProvider | None = None
 
-def get_ocr_provider(engine_name: Optional[str] = None) -> OCRProvider:
+def get_ocr_provider(engine_name: str | None = None) -> OCRProvider:
     global _PROVIDER_INSTANCE
     selected = (engine_name or os.getenv("OCR_ENGINE") or getattr(settings, "OCR_PROVIDER", "gemini")).lower()
 

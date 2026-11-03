@@ -1,13 +1,14 @@
-from typing import List, Optional
+
 from pydantic import BaseModel, Field
+
 
 class ExtractedEntity(BaseModel):
     kind: str = Field(..., description="place | dynasty | person | date | deity | artifact | other")
     name: str
     normalised_name: str
-    wikidata_id: Optional[str] = None
-    linked_site_id: Optional[str] = None
-    link_confidence: Optional[float] = None
+    wikidata_id: str | None = None
+    linked_site_id: str | None = None
+    link_confidence: float | None = None
 
 class ExtractedMention(BaseModel):
     line_id: str
@@ -19,5 +20,5 @@ class ExtractedMention(BaseModel):
     entity_kind: str
 
 class EntityExtractionResult(BaseModel):
-    entities: List[ExtractedEntity] = Field(default_factory=list)
-    mentions: List[ExtractedMention] = Field(default_factory=list)
+    entities: list[ExtractedEntity] = Field(default_factory=list)
+    mentions: list[ExtractedMention] = Field(default_factory=list)

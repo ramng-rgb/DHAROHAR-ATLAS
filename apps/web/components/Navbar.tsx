@@ -8,6 +8,7 @@ import {
   HelpCircle, Layers, ChevronRight, X, Search
 } from "lucide-react";
 import { CommandPalette } from "@/components/search/CommandPalette";
+import { triggerDemoTour } from "@/components/demo/DemoTourOverlay";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -160,13 +161,17 @@ export function Navbar() {
               <span className="hidden sm:inline">Guided Tour</span>
             </button>
 
-            <Link
-              href="/explore?demo=true"
-              className="px-3 py-1.5 text-xs font-semibold rounded-md bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk hover:opacity-95 shadow-md shadow-[#D4AF37]/20 flex items-center gap-1.5 transition-all"
+            <button
+              type="button"
+              id="nav-demo-mode-button"
+              data-testid="demo-mode-btn"
+              onClick={() => triggerDemoTour(0)}
+              className="px-3 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-[#D4AF37] to-[#C85A32] text-indigoInk hover:opacity-95 shadow-md shadow-[#D4AF37]/30 flex items-center gap-1.5 transition-all cursor-pointer"
+              aria-label="Launch Guided 9-Step Demo Mode"
             >
-              <Sparkles className="w-3.5 h-3.5 text-indigoInk fill-indigoInk" />
+              <Sparkles className="w-3.5 h-3.5 text-indigoInk fill-indigoInk animate-pulse" />
               <span>Demo Mode</span>
-            </Link>
+            </button>
           </div>
         </div>
       </header>

@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
+from app.core.database import get_db
+from app.models.models import Document, Route, Site
+from app.schemas.schemas import DemoScriptResponse, DemoStep
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.core.database import get_db
-from app.models.models import Site, Document, Route, OCRLine
-from app.schemas.schemas import DemoScriptResponse, DemoStep
 
 router = APIRouter(prefix="/demo", tags=["Demo Mode"])
 

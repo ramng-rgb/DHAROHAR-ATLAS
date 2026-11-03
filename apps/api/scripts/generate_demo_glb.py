@@ -1,6 +1,7 @@
 import json
-import struct
 import os
+import struct
+
 
 def create_box_mesh(min_x, min_y, min_z, max_x, max_y, max_z):
     # 8 vertices

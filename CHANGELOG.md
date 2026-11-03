@@ -6,6 +6,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.5.0] - 2026-11-03 (Milestone 5: Journey Mode + Guided Demo Mode + Polish + Accessibility)
+
+### Added
+- **Database Model & Migrations (`005_m5_journey_and_demo.py`):**
+  - Extended `routes` table with trilingual titles (`title_en`, `title_hi`, `title_gu`), narrative summary, and cover media association.
+  - Extended `route_stops` table with `arrival_note`, `arrival_note_source`, `is_illustrative` badge flag, `dwell_seconds` autoplay timing, and JSON foreign key arrays (`linked_folklore_ids`, `linked_observation_ids`, `linked_document_ids`).
+  - Seeded 8-stop flagship itinerary `gujarat-stepwell-trail` (Adalaj, Dada Harir, Sarkhej Roza, Modhera Sun Temple, Rani ki Vav, Champaner, Lothal, Dholavira) and 4-stop `rajasthan-forts-trail` with authenticated archival records.
+- **Backend Journey & Demo API (`apps/api/app/`):**
+  - Implemented `GET /api/v1/routes/{slug}/journey` endpoint returning ordered stops with hero media, linked folklore/observations/documents, PostGIS leg LineString geometries, leg distances, and cumulative trail distances.
+  - Added Redis query caching (`TTL = 300s`) and RFC 7232 HTTP ETag validation supporting `304 Not Modified`.
+  - Implemented `GET /api/v1/demo/script` endpoint serving curated 9-step showcase tour data.
+  - Added backend integrity test `test_demo_script_integrity` verifying that every demo step references real seeded database entities and valid frontend URLs.
+- **Frontend Journey Mode (`JourneyPlayer.tsx` & `/journeys/[slug]`):**
+  - Progressive GeoJSON line-trim route rendering using MapLibre expressions and `requestAnimationFrame`.
+  - Camera transitions flying stop-to-stop with calculated bearing and pitch along the leg direction.
+  - Floating story cards displaying hero photography with attribution, era badges, arrival notes with authentic provenance, linked oral folklore snippets, related document links, and direct 3D digital twin launch action.
+  - Scrubbable progress bar with stop ticks, speed controls (0.5x, 1x, 2x), keyboard shortcuts (`Space` = play/pause, `ArrowRight`/`ArrowLeft` = next/prev, `Esc` = exit), and URL query state sync (`?stop=5&playing=1`).
+  - Accessible Screen Reader Alternative: Plain-text ordered itinerary view (`data-testid="journey-text-version"`) with complete narrative content.
+  - Respects `prefers-reduced-motion` with instant jumps and static route geometry.
+- **Frontend Guided Demo Tour (`DemoTourOverlay.tsx`):**
+  - 9-step curated walkthrough: Landing -> Explore Map (filter state & scrub timeline) -> Launch Journey -> Open Site Monograph -> 3D Twin & Hotspot -> Archive Document with BBox Linking -> Hindi Semantic Search -> Grounded Ask the Archive.
+  - Target element spotlighting, step counter ("Step 1 of 9"), Next/Back/Reset actions, keyboard focus trap, and dismissible first-run intro modal (`dharohar_demo_intro_dismissed`).
+- **Landing Page Final Design Polish (`apps/web/app/page.tsx`):**
+  - Parallax hero illustration, live database stat counters (`/api/v1/sites/count`, `/api/v1/search/analytics`), 3 pathway showcase cards (3D, OCR/NLP, GIS), Ask the Archive query strip with working multilingual questions, Mermaid pipeline graphic, and honest data disclosure panel.
+- **Accessibility & Quality Hardening:**
+  - 0 serious and 0 critical WCAG 2.1 AA violations verified across 5 main routes via automated Axe-core audit specs.
+  - Form controls and select elements hardened with explicit `aria-label`s.
+  - Dynamic hit titles provided with accessible fallback text preventing empty focusable links.
+  - All test suites green: **60 Pytest backend tests**, **39 Vitest frontend tests**, and **20 Playwright E2E tests**.
+
+---
+
 ## [1.4.0] - 2026-11-03 (Milestone 4: Semantic Search + Ask the Archive (RAG))
 
 ### Added

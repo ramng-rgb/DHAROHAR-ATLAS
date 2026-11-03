@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional, Any, Dict
+from typing import Any
+
 from pydantic import BaseModel, Field, field_validator
+
 
 class BoundingBox(BaseModel):
     x: float = Field(..., ge=0.0, le=1.0, description="Normalized X coordinate [0.0, 1.0]")
@@ -17,14 +19,14 @@ class BoundingBox(BaseModel):
         except (ValueError, TypeError):
             return 0.0
 
-    def to_rect(self) -> Dict[str, float]:
+    def to_rect(self) -> dict[str, float]:
         return {"x": self.x, "y": self.y, "w": self.w, "h": self.h}
 
 class OCRLineData(BaseModel):
     line_no: int = Field(..., ge=0)
     text: str = Field(..., min_length=1)
     bbox: BoundingBox
-    polygon: Optional[List[List[float]]] = None
+    polygon: list[list[float]] | None = None
     confidence: float = Field(default=0.9, ge=0.0, le=1.0)
     lang: str = Field(default="hi")
     engine: str = Field(default="ocr_engine")
@@ -33,11 +35,11 @@ class OCRPageData(BaseModel):
     page_no: int = Field(default=1, ge=1)
     width: int = Field(default=1200, gt=0)
     height: int = Field(default=1600, gt=0)
-    lines: List[OCRLineData] = Field(default_factory=list)
+    lines: list[OCRLineData] = Field(default_factory=list)
     mean_confidence: float = Field(default=0.9)
 
     @classmethod
-    def create(cls, page_no: int, width: int, height: int, lines: List[OCRLineData]) -> "OCRPageData":
+    def create(cls, page_no: int, width: int, height: int, lines: list[OCRLineData]) -> "OCRPageData":
         if lines:
             mean_c = sum(l.confidence for l in lines) / len(lines)
         else:
@@ -45,14 +47,14 @@ class OCRPageData(BaseModel):
         return cls(page_no=page_no, width=width, height=height, lines=lines, mean_confidence=round(mean_c, 3))
 
 class OCRDocumentData(BaseModel):
-    pages: List[OCRPageData] = Field(default_factory=list)
+    pages: list[OCRPageData] = Field(default_factory=list)
     total_lines: int = Field(default=0)
     mean_confidence: float = Field(default=0.9)
-    detected_script: Optional[str] = None
+    detected_script: str | None = None
     engine_name: str = Field(default="unknown")
 
     @classmethod
-    def from_pages(cls, pages: List[OCRPageData], detected_script: Optional[str] = None, engine_name: str = "ocr") -> "OCRDocumentData":
+    def from_pages(cls, pages: list[OCRPageData], detected_script: str | None = None, engine_name: str = "ocr") -> "OCRDocumentData":
         all_lines = [l for p in pages for l in p.lines]
         total_l = len(all_lines)
         if total_l > 0:
@@ -77,11 +79,10 @@ class OCRProvider(ABC):
     async def recognise(
         self,
         image_bytes: bytes,
-        lang_hints: Optional[List[str]] = None,
+        lang_hints: list[str] | None = None,
         mime: str = "image/jpeg"
     ) -> OCRDocumentData:
         """
         Recognises text and bounding boxes from image_bytes.
         Returns normalized OCRDocumentData.
         """
-        pass

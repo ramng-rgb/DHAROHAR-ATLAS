@@ -1,12 +1,20 @@
-import uuid
 import asyncio
-from typing import List, Optional
-from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, BackgroundTasks
+import uuid
+
+from app.core.database import AsyncSessionLocal, get_db
+from app.models.models import Job, Model3D
+from app.schemas.schemas import JobResponse
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    UploadFile,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from app.core.database import get_db, AsyncSessionLocal
-from app.models.models import Job, Site, Model3D
-from app.schemas.schemas import JobResponse
 
 router = APIRouter(prefix="/ingest", tags=["Ingestion & 3D Pipelines"])
 
@@ -74,7 +82,7 @@ async def run_photo_to_3d_pipeline(job_id: str, site_id: str, is_demo_mode: bool
 async def submit_photos_for_3d(
     background_tasks: BackgroundTasks,
     site_id: str = Form(...),
-    files: List[UploadFile] = File(...),
+    files: list[UploadFile] = File(...),
     db: AsyncSession = Depends(get_db)
 ):
     if len(files) < 1:

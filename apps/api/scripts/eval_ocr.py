@@ -1,13 +1,13 @@
-import os
-import json
-import time
 import asyncio
+import json
+import os
+import time
 import unicodedata
-import editdistance
-from typing import List, Dict, Any
+from typing import Any
 
-from app.services.ocr.tesseract import TesseractOCR
+import editdistance
 from app.services.ocr.fake import FakeOCRProvider
+from app.services.ocr.tesseract import TesseractOCR
 
 EVAL_DIR = "/Users/ramnarayangupta/Desktop/hac/eval/ocr"
 
@@ -33,7 +33,7 @@ def compute_wer(predicted: str, ground_truth: str) -> float:
     dist = editdistance.eval(p_words, g_words)
     return min(1.0, dist / len(g_words))
 
-async def evaluate_engine(engine_name: str, provider, items: List[Dict[str, Any]]):
+async def evaluate_engine(engine_name: str, provider, items: list[dict[str, Any]]):
     results = []
     for item in items:
         img_path = os.path.join(EVAL_DIR, item["image"])
@@ -66,8 +66,8 @@ async def evaluate_engine(engine_name: str, provider, items: List[Dict[str, Any]
 
     return results
 
-def aggregate_by_script(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, float]]:
-    grouped: Dict[str, List[Dict[str, Any]]] = {}
+def aggregate_by_script(results: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
     for r in results:
         s = r["script"]
         if s not in grouped:

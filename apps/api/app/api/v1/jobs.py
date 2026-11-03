@@ -1,20 +1,20 @@
-import json
 import asyncio
+import json
 import logging
-from typing import AsyncGenerator
+from collections.abc import AsyncGenerator
+
+from app.core.database import AsyncSessionLocal, get_db
+from app.models.models import Job, JobStatus
+from app.schemas.schemas import JobResponse
+from app.services.pipeline.orchestrator import (
+    DocumentPipeline,
+    register_job_listener,
+    unregister_job_listener,
+)
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-
-from app.core.database import get_db, AsyncSessionLocal
-from app.models.models import Job, JobStatus
-from app.schemas.schemas import JobResponse
-from app.services.pipeline.orchestrator import (
-    register_job_listener,
-    unregister_job_listener,
-    DocumentPipeline
-)
 
 logger = logging.getLogger(__name__)
 
@@ -63,9 +63,9 @@ async def stream_job_events(job_id: str, db: AsyncSession = Depends(get_db)):
                     yield f"data: {json.dumps(event)}\n\n"
                     if event.get("status") in ("succeeded", "dead"):
                         break
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     # Heartbeat ping
-                    yield f": keep-alive\n\n"
+                    yield ": keep-alive\n\n"
         finally:
             unregister_job_listener(job_id, q)
 

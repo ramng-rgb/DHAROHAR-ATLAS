@@ -1,17 +1,24 @@
+import hashlib
 import json
 import math
-import hashlib
 from datetime import datetime
-from typing import List, Optional, Dict, Any, Tuple
+from typing import Any
+
+from app.core.redis_cache import get_cache, set_cache
+from app.models.models import (
+    Model3D,
+    Route,
+    RouteStop,
+    Site,
+    SiteDynasty,
+    SiteTag,
+    Tag,
+)
+from sqlalchemy import and_, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-from sqlalchemy import or_, and_, func, not_
-from app.models.models import (
-    Site, SiteMedia, Model3D, Hotspot, Tag, SiteTag, Dynasty, SiteDynasty,
-    FolkloreItem, Observation, Route, RouteStop
-)
-from app.core.redis_cache import get_cache, set_cache
+
 
 def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """Calculates distance between two coordinates in kilometers."""
@@ -41,17 +48,17 @@ class SiteService:
 
     def _build_filter_conditions(
         self,
-        q: Optional[str] = None,
-        site_types: Optional[List[str]] = None,
-        states: Optional[List[str]] = None,
-        dynasties: Optional[List[str]] = None,
-        tags: Optional[List[str]] = None,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
-        bbox: Optional[str] = None,
-        data_confidence: Optional[List[str]] = None,
-        has_3d_model: Optional[bool] = None,
-    ) -> List[Any]:
+        q: str | None = None,
+        site_types: list[str] | None = None,
+        states: list[str] | None = None,
+        dynasties: list[str] | None = None,
+        tags: list[str] | None = None,
+        year_from: int | None = None,
+        year_to: int | None = None,
+        bbox: str | None = None,
+        data_confidence: list[str] | None = None,
+        has_3d_model: bool | None = None,
+    ) -> list[Any]:
         conditions = [Site.deleted_at.is_(None)]
 
         if q:
@@ -140,19 +147,19 @@ class SiteService:
 
     async def list_sites(
         self,
-        q: Optional[str] = None,
-        site_types: Optional[List[str]] = None,
-        states: Optional[List[str]] = None,
-        dynasties: Optional[List[str]] = None,
-        tags: Optional[List[str]] = None,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
-        bbox: Optional[str] = None,
-        data_confidence: Optional[List[str]] = None,
-        has_3d_model: Optional[bool] = None,
+        q: str | None = None,
+        site_types: list[str] | None = None,
+        states: list[str] | None = None,
+        dynasties: list[str] | None = None,
+        tags: list[str] | None = None,
+        year_from: int | None = None,
+        year_to: int | None = None,
+        bbox: str | None = None,
+        data_confidence: list[str] | None = None,
+        has_3d_model: bool | None = None,
         limit: int = 100,
         offset: int = 0
-    ) -> Tuple[List[Dict[str, Any]], int, Optional[str]]:
+    ) -> tuple[list[dict[str, Any]], int, str | None]:
         conditions = self._build_filter_conditions(
             q=q,
             site_types=site_types,
@@ -226,7 +233,7 @@ class SiteService:
         next_cursor = str(offset + limit) if (offset + limit) < total else None
         return items, total, next_cursor
 
-    async def get_site_by_slug(self, slug: str) -> Optional[Dict[str, Any]]:
+    async def get_site_by_slug(self, slug: str) -> dict[str, Any] | None:
         stmt = (
             select(Site)
             .where(
@@ -345,18 +352,18 @@ class SiteService:
 
     async def get_geojson(
         self,
-        bbox: Optional[str] = None,
-        zoom: Optional[float] = None,
-        q: Optional[str] = None,
-        site_types: Optional[List[str]] = None,
-        states: Optional[List[str]] = None,
-        dynasties: Optional[List[str]] = None,
-        tags: Optional[List[str]] = None,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
-        data_confidence: Optional[List[str]] = None,
-        has_3d_model: Optional[bool] = None
-    ) -> Tuple[Dict[str, Any], str]:
+        bbox: str | None = None,
+        zoom: float | None = None,
+        q: str | None = None,
+        site_types: list[str] | None = None,
+        states: list[str] | None = None,
+        dynasties: list[str] | None = None,
+        tags: list[str] | None = None,
+        year_from: int | None = None,
+        year_to: int | None = None,
+        data_confidence: list[str] | None = None,
+        has_3d_model: bool | None = None
+    ) -> tuple[dict[str, Any], str]:
         # Cache key construction
         params_str = f"{bbox}_{zoom}_{q}_{site_types}_{states}_{dynasties}_{tags}_{year_from}_{year_to}_{data_confidence}_{has_3d_model}"
         cache_hash = hashlib.sha256(params_str.encode()).hexdigest()
@@ -487,17 +494,17 @@ class SiteService:
 
     async def get_facets(
         self,
-        q: Optional[str] = None,
-        site_types: Optional[List[str]] = None,
-        states: Optional[List[str]] = None,
-        dynasties: Optional[List[str]] = None,
-        tags: Optional[List[str]] = None,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
-        bbox: Optional[str] = None,
-        data_confidence: Optional[List[str]] = None,
-        has_3d_model: Optional[bool] = None
-    ) -> Dict[str, Any]:
+        q: str | None = None,
+        site_types: list[str] | None = None,
+        states: list[str] | None = None,
+        dynasties: list[str] | None = None,
+        tags: list[str] | None = None,
+        year_from: int | None = None,
+        year_to: int | None = None,
+        bbox: str | None = None,
+        data_confidence: list[str] | None = None,
+        has_3d_model: bool | None = None
+    ) -> dict[str, Any]:
         conditions = self._build_filter_conditions(
             q=q,
             site_types=site_types,
@@ -577,7 +584,7 @@ class SiteService:
             "total_sites": len(sites)
         }
 
-    async def get_site_full(self, slug: str) -> Optional[Dict[str, Any]]:
+    async def get_site_full(self, slug: str) -> dict[str, Any] | None:
         cache_key = f"site_full:{slug}"
         cached_json = await get_cache(cache_key)
         if cached_json:
@@ -826,7 +833,7 @@ class SiteService:
         await set_cache(cache_key, json.dumps(full_data), expire_seconds=300)
         return full_data
 
-    async def get_site_model(self, slug: str) -> Optional[Dict[str, Any]]:
+    async def get_site_model(self, slug: str) -> dict[str, Any] | None:
         stmt = (
             select(Site)
             .where(
@@ -891,7 +898,7 @@ class SiteService:
             "hotspots": hotspots_data
         }
 
-    async def get_site_citation(self, slug: str, format_type: str = "bibtex") -> Optional[Tuple[str, str, Any]]:
+    async def get_site_citation(self, slug: str, format_type: str = "bibtex") -> tuple[str, str, Any] | None:
         site_dict = await self.get_site_by_slug(slug)
         if not site_dict:
             return None
@@ -955,7 +962,7 @@ ER  -
         else:
             return None
 
-    async def get_site_og(self, slug: str) -> Optional[Dict[str, Any]]:
+    async def get_site_og(self, slug: str) -> dict[str, Any] | None:
         site_dict = await self.get_site_by_slug(slug)
         if not site_dict:
             return None

@@ -1,30 +1,35 @@
 import hashlib
 import json
-from typing import List, Optional, Union
+
+from app.core.database import get_db
+from app.schemas.schemas import (
+    GeoJSONFeatureCollection,
+    Model3DDetail,
+    SiteBrief,
+    SiteDetail,
+    SiteFullDetail,
+    SiteLight,
+    SiteOGMetadata,
+)
+from app.services.site_service import SiteService
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.core.database import get_db
-from app.services.site_service import SiteService
-from app.schemas.schemas import (
-    SiteBrief, SiteLight, SiteDetail, GeoJSONFeatureCollection,
-    SiteFullDetail, Model3DDetail, SiteOGMetadata
-)
 
 router = APIRouter(prefix="/sites", tags=["Sites"])
 
-@router.get("", response_model=List[Union[SiteBrief, SiteLight]])
+@router.get("", response_model=list[SiteBrief | SiteLight])
 async def list_sites(
-    q: Optional[str] = Query(None, description="Search term in name, regional names or summary"),
-    site_type: Optional[List[str]] = Query(None, description="Filter by site type"),
-    state: Optional[List[str]] = Query(None, description="Filter by state"),
-    dynasty: Optional[List[str]] = Query(None, description="Filter by dynasty"),
-    tag: Optional[List[str]] = Query(None, description="Filter by tag slug"),
-    year_from: Optional[int] = Query(None, description="Filter sites dating at or after year (negative = BCE)"),
-    year_to: Optional[int] = Query(None, description="Filter sites dating at or before year (negative = BCE)"),
-    bbox: Optional[str] = Query(None, description="Bounding box 'min_lng,min_lat,max_lng,max_lat'"),
-    data_confidence: Optional[List[str]] = Query(None, description="Filter by data confidence ('verified', 'likely', 'unverified')"),
-    has_3d_model: Optional[bool] = Query(None, description="Filter by presence of 3D digital twin"),
-    fields: Optional[str] = Query(None, description="Field selection, e.g. 'light' for map markers"),
+    q: str | None = Query(None, description="Search term in name, regional names or summary"),
+    site_type: list[str] | None = Query(None, description="Filter by site type"),
+    state: list[str] | None = Query(None, description="Filter by state"),
+    dynasty: list[str] | None = Query(None, description="Filter by dynasty"),
+    tag: list[str] | None = Query(None, description="Filter by tag slug"),
+    year_from: int | None = Query(None, description="Filter sites dating at or after year (negative = BCE)"),
+    year_to: int | None = Query(None, description="Filter sites dating at or before year (negative = BCE)"),
+    bbox: str | None = Query(None, description="Bounding box 'min_lng,min_lat,max_lng,max_lat'"),
+    data_confidence: list[str] | None = Query(None, description="Filter by data confidence ('verified', 'likely', 'unverified')"),
+    has_3d_model: bool | None = Query(None, description="Filter by presence of 3D digital twin"),
+    fields: str | None = Query(None, description="Field selection, e.g. 'light' for map markers"),
     limit: int = Query(100, ge=1, le=500),
     offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db)
@@ -51,17 +56,17 @@ async def list_sites(
 @router.get("/geojson", response_model=GeoJSONFeatureCollection)
 async def get_sites_geojson(
     response: Response,
-    bbox: Optional[str] = Query(None, description="Viewport bounding box 'min_lng,min_lat,max_lng,max_lat'"),
-    zoom: Optional[float] = Query(None, description="Map zoom level for server-side clustering"),
-    q: Optional[str] = Query(None),
-    site_type: Optional[List[str]] = Query(None),
-    state: Optional[List[str]] = Query(None),
-    dynasty: Optional[List[str]] = Query(None),
-    tag: Optional[List[str]] = Query(None),
-    year_from: Optional[int] = Query(None),
-    year_to: Optional[int] = Query(None),
-    data_confidence: Optional[List[str]] = Query(None),
-    has_3d_model: Optional[bool] = Query(None, description="Filter by presence of 3D digital twin"),
+    bbox: str | None = Query(None, description="Viewport bounding box 'min_lng,min_lat,max_lng,max_lat'"),
+    zoom: float | None = Query(None, description="Map zoom level for server-side clustering"),
+    q: str | None = Query(None),
+    site_type: list[str] | None = Query(None),
+    state: list[str] | None = Query(None),
+    dynasty: list[str] | None = Query(None),
+    tag: list[str] | None = Query(None),
+    year_from: int | None = Query(None),
+    year_to: int | None = Query(None),
+    data_confidence: list[str] | None = Query(None),
+    has_3d_model: bool | None = Query(None, description="Filter by presence of 3D digital twin"),
     db: AsyncSession = Depends(get_db)
 ):
     service = SiteService(db)

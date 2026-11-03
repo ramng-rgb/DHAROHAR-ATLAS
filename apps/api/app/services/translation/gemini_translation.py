@@ -1,20 +1,19 @@
 import json
 import logging
 import re
-from typing import List, Optional
-import httpx
-from pydantic import BaseModel, Field
 
+import httpx
+from app.services.resilience.circuit_breaker import CircuitBreaker
+from app.services.resilience.retry import retry_with_backoff
 from app.services.translation.base import (
-    TranslationProvider,
     TranslationInputLine,
     TranslationOutputLine,
-    TranslationResult
+    TranslationProvider,
+    TranslationResult,
 )
 from app.services.translation.fake import FakeTranslationProvider
 from app.services.translation.glossary import GLOSSARY_PROMPT_INSTRUCTION
-from app.services.resilience.circuit_breaker import CircuitBreaker
-from app.services.resilience.retry import retry_with_backoff
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -23,10 +22,10 @@ class TranslatedLineSchema(BaseModel):
     translated_text: str
 
 class BatchTranslationSchema(BaseModel):
-    lines: List[TranslatedLineSchema]
+    lines: list[TranslatedLineSchema]
 
 class GeminiTranslationProvider(TranslationProvider):
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str | None = None, model_name: str = "gemini-2.0-flash"):
         self.api_key = api_key or ""
         self.model_name = model_name
         self._circuit_breaker = CircuitBreaker("gemini_translation", failure_threshold=3, recovery_time=20.0)
@@ -44,7 +43,7 @@ class GeminiTranslationProvider(TranslationProvider):
 
     async def translate_batch(
         self,
-        lines: List[TranslationInputLine],
+        lines: list[TranslationInputLine],
         source_lang: str,
         target_lang: str = "en"
     ) -> TranslationResult:
@@ -105,7 +104,7 @@ class GeminiTranslationProvider(TranslationProvider):
             # Validate line count alignment
             parsed_dict = {item.line_no: item.translated_text for item in parsed.lines}
 
-            output_lines: List[TranslationOutputLine] = []
+            output_lines: list[TranslationOutputLine] = []
             for l in lines:
                 translated = parsed_dict.get(l.line_no)
                 if not translated:

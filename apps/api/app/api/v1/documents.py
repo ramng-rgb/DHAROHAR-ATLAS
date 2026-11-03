@@ -1,30 +1,32 @@
-import os
-import io
-import uuid
 import logging
-from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, Response
-from fastapi.responses import PlainTextResponse, Response
-from sqlalchemy.ext.asyncio import AsyncSession
+import os
+import uuid
 
 from app.core.database import get_db
+from app.schemas.schemas import (
+    DocumentCreate,
+    DocumentResponse,
+    RevertRequest,
+    TextVersionResponse,
+)
 from app.services.document_service import DocumentService
 from app.services.pipeline.export import (
-    export_document_as_txt,
+    export_document_as_alto_xml,
     export_document_as_json,
-    export_document_as_alto_xml
+    export_document_as_txt,
 )
-from app.schemas.schemas import (
-    DocumentResponse,
-    DocumentCreate,
-    OCRLineResponse,
-    OCRLineUpdate,
-    TranslationResponse,
-    TranslationUpdate,
-    TextVersionResponse,
-    RevertRequest,
-    EntityResponse
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    Response,
+    UploadFile,
 )
+from fastapi.responses import PlainTextResponse, Response
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
@@ -88,12 +90,12 @@ async def create_document(
 # -------------------------------------------------------------
 # 2. Document Query Endpoints
 # -------------------------------------------------------------
-@router.get("", response_model=List[DocumentResponse])
+@router.get("", response_model=list[DocumentResponse])
 async def list_documents(
-    site_id: Optional[str] = None,
-    language: Optional[str] = None,
-    status: Optional[str] = None,
-    doc_type: Optional[str] = None,
+    site_id: str | None = None,
+    language: str | None = None,
+    status: str | None = None,
+    doc_type: str | None = None,
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db)
@@ -153,7 +155,7 @@ async def export_document(
 # -------------------------------------------------------------
 # 4. Version History & Revert
 # -------------------------------------------------------------
-@router.get("/{doc_id}/versions", response_model=List[TextVersionResponse])
+@router.get("/{doc_id}/versions", response_model=list[TextVersionResponse])
 async def get_document_versions(doc_id: str, db: AsyncSession = Depends(get_db)):
     service = DocumentService(db)
     versions = await service.get_document_version_history(doc_id)

@@ -162,6 +162,7 @@ export default function ArchiveHubPage() {
           <div className="flex flex-wrap items-center gap-2">
             {/* Language */}
             <select
+              aria-label="Filter documents by script or language"
               value={languageFilter}
               onChange={(e) => setLanguageFilter(e.target.value)}
               className="px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-xs text-[#D8C3A5] focus:border-[#D4AF37] outline-none"
@@ -174,6 +175,7 @@ export default function ArchiveHubPage() {
 
             {/* Status */}
             <select
+              aria-label="Filter documents by processing status"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-xs text-[#D8C3A5] focus:border-[#D4AF37] outline-none"
@@ -186,6 +188,7 @@ export default function ArchiveHubPage() {
 
             {/* Type */}
             <select
+              aria-label="Filter documents by archival type"
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
               className="px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-xs text-[#D8C3A5] focus:border-[#D4AF37] outline-none"

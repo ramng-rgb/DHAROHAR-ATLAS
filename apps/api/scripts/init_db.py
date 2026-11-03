@@ -1,10 +1,7 @@
 import asyncio
-from app.core.database import engine, Base
-from app.models.models import (
-    Site, SiteMedia, Model3D, Hotspot, Document, DocumentPage, 
-    OCRLine, DocumentEntity, FolkloreItem, ArchitecturalObservation, 
-    Route, RouteStop, Embedding, Job
-)
+
+from app.core.database import Base, engine
+
 
 async def init_tables():
     print("Connecting to database and creating tables...")

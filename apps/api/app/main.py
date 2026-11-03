@@ -1,20 +1,21 @@
+import os
 import time
 import uuid
-import os
+
+from app.api.v1.demo import router as demo_router
+from app.api.v1.documents import router as documents_router
+from app.api.v1.facets import router as facets_router
+from app.api.v1.ingest import router as ingest_router
+from app.api.v1.jobs import router as jobs_router
+from app.api.v1.lines import router as lines_router
+from app.api.v1.routes import router as routes_router
+from app.api.v1.search import router as search_router
+from app.api.v1.sites import router as sites_router
+from app.api.v1.translations import router as translations_router
+from app.core.config import settings
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from app.core.config import settings
-from app.api.v1.sites import router as sites_router
-from app.api.v1.documents import router as documents_router
-from app.api.v1.lines import router as lines_router
-from app.api.v1.translations import router as translations_router
-from app.api.v1.jobs import router as jobs_router
-from app.api.v1.search import router as search_router
-from app.api.v1.routes import router as routes_router
-from app.api.v1.ingest import router as ingest_router
-from app.api.v1.facets import router as facets_router
-from app.api.v1.demo import router as demo_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

@@ -1,31 +1,39 @@
+import asyncio
+import logging
 import os
 import uuid
-import json
-import logging
-import asyncio
 from datetime import datetime
-from typing import Dict, Any, Optional, List, Callable
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Any
+
+from app.models.models import (
+    DocStatus,
+    Document,
+    DocumentPage,
+    Entity,
+    EntityMention,
+    Job,
+    JobStatus,
+    OCRLine,
+    Translation,
+)
+from app.services.entities.extractor import EntityExtractionProvider
+from app.services.ocr.registry import get_ocr_provider
+from app.services.pipeline.postprocess import merge_and_postprocess_lines
+from app.services.pipeline.preprocess import (
+    preprocess_image_for_ocr,
+    render_pages_from_bytes,
+)
+from app.services.translation.base import TranslationInputLine
+from app.services.translation.registry import get_translation_provider
 from sqlalchemy import delete
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-
-from app.core.config import settings
-from app.models.models import (
-    Document, DocumentPage, OCRLine, Translation, TextVersion,
-    Entity, EntityMention, Job, JobStatus, DocStatus
-)
-from app.services.ocr.registry import get_ocr_provider
-from app.services.translation.registry import get_translation_provider
-from app.services.translation.base import TranslationInputLine
-from app.services.entities.extractor import EntityExtractionProvider
-from app.services.pipeline.preprocess import render_pages_from_bytes, preprocess_image_for_ocr
-from app.services.pipeline.postprocess import merge_and_postprocess_lines
 
 logger = logging.getLogger(__name__)
 
 # In-memory pub-sub for SSE event streams
-_JOB_EVENT_LISTENERS: Dict[str, List[asyncio.Queue]] = {}
+_JOB_EVENT_LISTENERS: dict[str, list[asyncio.Queue]] = {}
 
 def register_job_listener(job_id: str) -> asyncio.Queue:
     q = asyncio.Queue()
@@ -41,7 +49,7 @@ def unregister_job_listener(job_id: str, q: asyncio.Queue) -> None:
         if not _JOB_EVENT_LISTENERS[job_id]:
             del _JOB_EVENT_LISTENERS[job_id]
 
-async def emit_job_event(job_id: str, event_data: Dict[str, Any]) -> None:
+async def emit_job_event(job_id: str, event_data: dict[str, Any]) -> None:
     queues = _JOB_EVENT_LISTENERS.get(job_id, [])
     for q in queues:
         await q.put(event_data)
@@ -65,8 +73,8 @@ class DocumentPipeline:
         job: Job,
         stage: str,
         progress: int,
-        checkpoint_data: Optional[Dict[str, Any]] = None,
-        error: Optional[str] = None
+        checkpoint_data: dict[str, Any] | None = None,
+        error: str | None = None
     ) -> None:
         job.stage = stage
         job.progress = progress
@@ -89,7 +97,7 @@ class DocumentPipeline:
         }
         await emit_job_event(job.id, event)
 
-    async def run(self, job_id: str, file_bytes: Optional[bytes] = None) -> Job:
+    async def run(self, job_id: str, file_bytes: bytes | None = None) -> Job:
         """
         Idempotent execution with stage checkpoints and dead-letter queue.
         Resumes from last checkpoint if interrupted.

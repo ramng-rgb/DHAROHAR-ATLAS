@@ -1,15 +1,19 @@
 import base64
-import json
 import logging
 import re
-from typing import List, Optional
-import httpx
-from pydantic import BaseModel, Field
 
-from app.services.ocr.base import OCRProvider, OCRDocumentData, OCRPageData, OCRLineData, BoundingBox
+import httpx
+from app.services.ocr.base import (
+    BoundingBox,
+    OCRDocumentData,
+    OCRLineData,
+    OCRPageData,
+    OCRProvider,
+)
 from app.services.ocr.fake import FakeOCRProvider
 from app.services.resilience.circuit_breaker import CircuitBreaker
 from app.services.resilience.retry import retry_with_backoff
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
@@ -25,10 +29,10 @@ class GeminiLineSchema(BaseModel):
 
 class GeminiOCRResponseSchema(BaseModel):
     detected_script: str = "Devanagari"
-    lines: List[GeminiLineSchema] = Field(default_factory=list)
+    lines: list[GeminiLineSchema] = Field(default_factory=list)
 
 class GeminiVisionOCR(OCRProvider):
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str | None = None, model_name: str = "gemini-2.0-flash"):
         self.api_key = api_key or ""
         self.model_name = model_name
         self._circuit_breaker = CircuitBreaker("gemini_vision_ocr", failure_threshold=3, recovery_time=20.0)
@@ -41,7 +45,7 @@ class GeminiVisionOCR(OCRProvider):
     async def recognise(
         self,
         image_bytes: bytes,
-        lang_hints: Optional[List[str]] = None,
+        lang_hints: list[str] | None = None,
         mime: str = "image/jpeg"
     ) -> OCRDocumentData:
         if not self.api_key:
@@ -119,7 +123,7 @@ class GeminiVisionOCR(OCRProvider):
 
             parsed = GeminiOCRResponseSchema.model_validate_json(clean_json)
 
-            lines: List[OCRLineData] = []
+            lines: list[OCRLineData] = []
             for item in parsed.lines:
                 # Convert ymin, xmin, ymax, xmax to x, y, w, h
                 x = min(item.bbox_xmin, item.bbox_xmax)

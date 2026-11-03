@@ -1,8 +1,8 @@
 import asyncio
 import logging
 import random
-import time
-from typing import Callable, Any, Type, Tuple
+from collections.abc import Callable
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +13,7 @@ async def retry_with_backoff(
     base_delay: float = 0.5,
     max_delay: float = 8.0,
     factor: float = 2.0,
-    retry_on: Tuple[Type[Exception], ...] = (Exception,),
+    retry_on: tuple[type[Exception], ...] = (Exception,),
     timeout_sec: float = 30.0,
     operation_name: str = "operation",
     **kwargs
@@ -40,7 +40,7 @@ async def retry_with_backoff(
             )
             await asyncio.sleep(sleep_time)
             delay *= factor
-        except asyncio.TimeoutError as exc:
+        except TimeoutError as exc:
             last_err = exc
             if attempt == max_retries:
                 logger.error("Timeout exhausted for %s after %d attempts (%rs)", operation_name, attempt, timeout_sec)

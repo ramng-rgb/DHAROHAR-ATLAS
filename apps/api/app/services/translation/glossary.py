@@ -1,6 +1,5 @@
-from typing import Dict
 
-HERITAGE_GLOSSARY: Dict[str, str] = {
+HERITAGE_GLOSSARY: dict[str, str] = {
     "vav": "stepwell (subterranean tiered water structure)",
     "baoli": "stepwell (stepped masonry reservoir)",
     "baori": "stepwell (subterranean stepped water monument)",

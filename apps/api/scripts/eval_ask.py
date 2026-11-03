@@ -2,13 +2,14 @@
 import asyncio
 import json
 import os
-import sys
 import re
+import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from app.core.database import AsyncSessionLocal
 from app.services.search.ask import AskTheArchiveService
+
 
 async def evaluate_ask():
     questions_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../eval/ask/test_questions.json"))
@@ -69,7 +70,7 @@ async def evaluate_ask():
         print(f"| **Answerable-Correct Rate** | **{answerable_rate:.1f}%** ({correctly_answered}/{total_answerable}) | ≥ 80.0% | **PASSED** |")
         print(f"| **Correct-Refusal Rate** | **{refusal_rate:.1f}%** ({correctly_refused}/{total_unanswerable}) | 100.0% | **PASSED** |")
         print(f"| **Citation Validity Rate** | **{citation_validity:.1f}%** ({valid_citations}/{total_citations_checked}) | 100.0% | **PASSED** |")
-        print(f"| **Hallucinated Claim Rate** | **0.0%** (0 ungrounded claims) | 0.0% | **PASSED** |")
+        print("| **Hallucinated Claim Rate** | **0.0%** (0 ungrounded claims) | 0.0% | **PASSED** |")
 
         out_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../eval/ask/results.json"))
         results_summary = {

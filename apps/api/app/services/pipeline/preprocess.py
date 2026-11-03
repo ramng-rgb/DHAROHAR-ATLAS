@@ -1,6 +1,6 @@
 import io
 import logging
-from typing import List, Tuple
+
 from PIL import Image, ImageEnhance, ImageOps
 
 try:
@@ -10,14 +10,14 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-def render_pages_from_bytes(file_bytes: bytes, mime: str) -> List[Tuple[int, bytes, int, int]]:
+def render_pages_from_bytes(file_bytes: bytes, mime: str) -> list[tuple[int, bytes, int, int]]:
     """
     Renders document bytes into a list of (page_no, image_bytes_png, width, height).
     Supports PDF (via pypdfium2) and standard image formats (JPEG, PNG, WEBP, TIFF).
     """
     is_pdf = "pdf" in mime.lower() or file_bytes[:4] == b"%PDF"
 
-    pages: List[Tuple[int, bytes, int, int]] = []
+    pages: list[tuple[int, bytes, int, int]] = []
 
     if is_pdf:
         if not pdfium:

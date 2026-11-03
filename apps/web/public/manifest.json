@@ -1,0 +1,17 @@
+{
+  "name": "Dharohar Atlas - Living Heritage Archive",
+  "short_name": "Dharohar Atlas",
+  "description": "Living Knowledge Layer for Unstructured Cultural & Architectural Heritage Archives",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090D16",
+  "theme_color": "#090D16",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

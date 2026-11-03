@@ -1,14 +1,25 @@
 import asyncio
 import uuid
-import json
+
 import numpy as np
-from sqlalchemy.future import select
 from app.core.database import AsyncSessionLocal
 from app.models.models import (
-    Site, SiteMedia, Model3D, Hotspot, Document, DocumentPage, 
-    OCRLine, DocumentEntity, FolkloreItem, ArchitecturalObservation, 
-    Route, RouteStop, Embedding
+    ArchitecturalObservation,
+    Document,
+    DocumentEntity,
+    DocumentPage,
+    Embedding,
+    FolkloreItem,
+    Hotspot,
+    Model3D,
+    OCRLine,
+    Route,
+    RouteStop,
+    Site,
+    SiteMedia,
 )
+from sqlalchemy.future import select
+
 
 def deterministic_vector(text: str, dim: int = 768) -> list:
     """Generate a high-quality deterministic normalized embedding for testing & demo semantic search."""
@@ -798,7 +809,7 @@ async def seed_all():
             folklore = FolkloreItem(
                 site_id=site.id,
                 title=f"Oral Tradition & Field Accounts of {site.name}",
-                narrative=f"Local oral histories recorded in Patan and Saurashtra recount that subterranean stepwells served not only as seasonal freshwater lifelines but as contemplative community assemblies where music, spiritual discourses, and desert journeys convened.",
+                narrative="Local oral histories recorded in Patan and Saurashtra recount that subterranean stepwells served not only as seasonal freshwater lifelines but as contemplative community assemblies where music, spiritual discourses, and desert journeys convened.",
                 language="English / Regional Dialect",
                 source_tradition="Recorded in Gujarat Vernacular Society Field Ethnography, 1898 (ASI Records)",
                 authenticity_status="verified_oral_history"

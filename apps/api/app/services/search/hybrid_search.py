@@ -1,13 +1,13 @@
+import json
+import logging
 import re
 import time
 import unicodedata
-import json
-import logging
-from typing import List, Dict, Any, Optional, Tuple
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
+from typing import Any
 
-from app.services.search.embeddings import get_embedding_provider, EmbeddingProvider
+from app.services.search.embeddings import EmbeddingProvider, get_embedding_provider
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
@@ -41,23 +41,23 @@ def detect_query_language(q: str) -> str:
     return "en"
 
 class HybridSearchEngine:
-    def __init__(self, db: AsyncSession, embedding_provider: Optional[EmbeddingProvider] = None):
+    def __init__(self, db: AsyncSession, embedding_provider: EmbeddingProvider | None = None):
         self.db = db
         self.embedding_provider = embedding_provider or get_embedding_provider()
 
     async def search(
         self,
         q: str,
-        types: Optional[List[str]] = None,
-        lang: Optional[List[str]] = None,
-        site_id: Optional[str] = None,
-        state: Optional[List[str]] = None,
-        year_from: Optional[int] = None,
-        year_to: Optional[int] = None,
+        types: list[str] | None = None,
+        lang: list[str] | None = None,
+        site_id: str | None = None,
+        state: list[str] | None = None,
+        year_from: int | None = None,
+        year_to: int | None = None,
         limit: int = 20,
         k_rrf: int = 60,
         candidate_k: int = 35
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         start_time = time.perf_counter()
         clean_q = normalize_query_text(q)
         query_lang = detect_query_language(clean_q)
@@ -78,7 +78,7 @@ class HybridSearchEngine:
 
         # Build dynamic SQL filter clauses
         filter_clauses = ["c.deleted_at IS NULL"]
-        params: Dict[str, Any] = {
+        params: dict[str, Any] = {
             "query_vec": vec_str,
             "q": clean_q,
             "candidate_k": candidate_k
@@ -160,9 +160,9 @@ class HybridSearchEngine:
         trgm_rows = (await self.db.execute(trgm_sql, params)).fetchall()
 
         # 5. Reciprocal Rank Fusion (RRF, k=60)
-        rrf_scores: Dict[str, float] = {}
-        items_by_id: Dict[str, Dict[str, Any]] = {}
-        matches_by_id: Dict[str, set] = {}
+        rrf_scores: dict[str, float] = {}
+        items_by_id: dict[str, dict[str, Any]] = {}
+        matches_by_id: dict[str, set] = {}
 
         w_dense = 1.0
         w_fts = 1.0
@@ -229,7 +229,7 @@ class HybridSearchEngine:
         }
 
         # Site metadata cache for enrichment
-        site_cache: Dict[str, Dict[str, Any]] = {}
+        site_cache: dict[str, dict[str, Any]] = {}
 
         for cid in sorted_cids:
             item = items_by_id[cid]
@@ -305,7 +305,7 @@ class HybridSearchEngine:
             "grouped": grouped
         }
 
-    async def suggest(self, q: str, limit: int = 8) -> List[Dict[str, Any]]:
+    async def suggest(self, q: str, limit: int = 8) -> list[dict[str, Any]]:
         clean_q = normalize_query_text(q)
         if not clean_q or len(clean_q) < 2:
             return []
@@ -342,7 +342,7 @@ class HybridSearchEngine:
 
         return suggestions
 
-    def _row_to_dict(self, r: Any) -> Dict[str, Any]:
+    def _row_to_dict(self, r: Any) -> dict[str, Any]:
         meta = r.metadata_json or {}
         return {
             "id": str(r.id),

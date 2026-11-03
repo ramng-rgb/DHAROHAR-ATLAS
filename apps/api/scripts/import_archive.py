@@ -1,9 +1,9 @@
-import os
-import sys
 import argparse
-import json
 import csv
+import json
+import sys
 from pathlib import Path
+
 
 def ingest_folder_or_file(source_path: str, output_manifest: str = "imported_manifest.json"):
     path = Path(source_path)

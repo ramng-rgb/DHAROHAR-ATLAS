@@ -1,24 +1,24 @@
-from typing import List, Optional
+
+from app.core.database import get_db
+from app.schemas.schemas import FacetResponse
+from app.services.site_service import SiteService
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.core.database import get_db
-from app.services.site_service import SiteService
-from app.schemas.schemas import FacetResponse
 
 router = APIRouter(prefix="/facets", tags=["Facets"])
 
 @router.get("", response_model=FacetResponse)
 async def get_facets(
-    q: Optional[str] = Query(None),
-    site_type: Optional[List[str]] = Query(None),
-    state: Optional[List[str]] = Query(None),
-    dynasty: Optional[List[str]] = Query(None),
-    tag: Optional[List[str]] = Query(None),
-    year_from: Optional[int] = Query(None),
-    year_to: Optional[int] = Query(None),
-    bbox: Optional[str] = Query(None),
-    data_confidence: Optional[List[str]] = Query(None),
-    has_3d_model: Optional[bool] = Query(None, description="Filter by presence of 3D model"),
+    q: str | None = Query(None),
+    site_type: list[str] | None = Query(None),
+    state: list[str] | None = Query(None),
+    dynasty: list[str] | None = Query(None),
+    tag: list[str] | None = Query(None),
+    year_from: int | None = Query(None),
+    year_to: int | None = Query(None),
+    bbox: str | None = Query(None),
+    data_confidence: list[str] | None = Query(None),
+    has_3d_model: bool | None = Query(None, description="Filter by presence of 3D model"),
     db: AsyncSession = Depends(get_db)
 ):
     service = SiteService(db)

@@ -1,12 +1,16 @@
+import logging
 import re
 import unicodedata
-import logging
-from typing import List, Dict, Optional, Tuple, Any
+from typing import Any
+
+from app.models.models import Dynasty, Site
+from app.services.entities.base import (
+    EntityExtractionResult,
+    ExtractedEntity,
+    ExtractedMention,
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-
-from app.models.models import Site, Dynasty
-from app.services.entities.base import ExtractedEntity, ExtractedMention, EntityExtractionResult
 
 logger = logging.getLogger(__name__)
 
@@ -35,20 +39,20 @@ def string_similarity(s1: str, s2: str) -> float:
     return intersection / union
 
 class EntityExtractionProvider:
-    def __init__(self, db: Optional[AsyncSession] = None):
+    def __init__(self, db: AsyncSession | None = None):
         self.db = db
 
     async def extract_and_link(
         self,
-        lines: List[Dict[str, Any]]  # [{"id": str, "line_no": int, "text": str}]
+        lines: list[dict[str, Any]]  # [{"id": str, "line_no": int, "text": str}]
     ) -> EntityExtractionResult:
         """
         Runs rule-based gazetteer pass and fuzzy site linking.
         Maps character spans back to lines.
         """
         # Load sites and dynasties from DB if session provided
-        known_sites: List[Dict[str, str]] = []
-        known_dynasties: List[str] = []
+        known_sites: list[dict[str, str]] = []
+        known_dynasties: list[str] = []
 
         if self.db:
             try:
@@ -62,7 +66,7 @@ class EntityExtractionProvider:
                 logger.warning("Could not query DB for entity gazetteer: %s", exc)
 
         # Built-in fallback gazetteer
-        gazetteer: List[Tuple[str, str, List[str]]] = [
+        gazetteer: list[tuple[str, str, list[str]]] = [
             # (canonical_name, kind, search_patterns)
             ("Rani ki Vav", "place", ["rani ki vav", "पाटन वापी", "પાટણ વાવ", "queen's stepwell", "patna vapi", "पाटन", "પાટણ"]),
             ("Adalaj Stepwell", "place", ["adalaj", "અડાલજ", "अडालज", "adalaj stepwell", "અડાલજ વાવ", "rudabai stepwell"]),
@@ -95,8 +99,8 @@ class EntityExtractionProvider:
             if dyn.lower() not in existing_names:
                 gazetteer.append((dyn, "dynasty", [dyn.lower()]))
 
-        entities_map: Dict[str, ExtractedEntity] = {}
-        mentions: List[ExtractedMention] = []
+        entities_map: dict[str, ExtractedEntity] = {}
+        mentions: list[ExtractedMention] = []
 
         for line_obj in lines:
             line_id = line_obj.get("id", "")

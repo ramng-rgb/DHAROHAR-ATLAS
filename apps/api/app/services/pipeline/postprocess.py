@@ -1,7 +1,7 @@
 import re
 import unicodedata
-from typing import List, Dict, Any, Tuple
-from app.services.ocr.base import OCRLineData, BoundingBox
+
+from app.services.ocr.base import OCRLineData
 
 DEVANAGARI_DIGITS = "०१२३४५६७८९"
 GUJARATI_DIGITS = "૦૧૨૩૪૫૬૭૮૯"
@@ -47,9 +47,9 @@ def clean_ocr_text(text: str) -> str:
     return cleaned
 
 def merge_and_postprocess_lines(
-    lines: List[OCRLineData],
+    lines: list[OCRLineData],
     confidence_threshold: float = 0.85
-) -> Tuple[List[OCRLineData], bool]:
+) -> tuple[list[OCRLineData], bool]:
     """
     Post-processes OCR lines:
     1. Unicode NFC & matra fixes
@@ -60,7 +60,7 @@ def merge_and_postprocess_lines(
     if not lines:
         return [], False
 
-    processed: List[OCRLineData] = []
+    processed: list[OCRLineData] = []
     has_low_conf = False
 
     for l in lines:

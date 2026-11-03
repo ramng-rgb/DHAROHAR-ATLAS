@@ -1,28 +1,36 @@
 import logging
 import uuid
+from collections.abc import Callable
 from datetime import datetime
-from typing import List, Optional, Dict, Any, Callable
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, delete
-from sqlalchemy.orm import selectinload
+from typing import Any
 
 from app.models.models import (
-    Site, Document, DocumentPage, OCRLine, Translation,
-    FolkloreItem, Observation, SearchChunk
+    Document,
+    DocumentPage,
+    FolkloreItem,
+    Observation,
+    SearchChunk,
+    Site,
 )
 from app.services.search.chunker import (
-    ChunkData, DocumentChunker, SiteChunker, LoreAndObservationChunker
+    ChunkData,
+    DocumentChunker,
+    LoreAndObservationChunker,
+    SiteChunker,
 )
-from app.services.search.embeddings import get_embedding_provider, EmbeddingProvider
+from app.services.search.embeddings import EmbeddingProvider, get_embedding_provider
+from sqlalchemy import select, update
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 logger = logging.getLogger(__name__)
 
 class SearchIndexer:
-    def __init__(self, db: AsyncSession, embedding_provider: Optional[EmbeddingProvider] = None):
+    def __init__(self, db: AsyncSession, embedding_provider: EmbeddingProvider | None = None):
         self.db = db
         self.embedding_provider = embedding_provider or get_embedding_provider()
 
-    async def index_chunks(self, chunks: List[ChunkData]) -> int:
+    async def index_chunks(self, chunks: list[ChunkData]) -> int:
         """
         Embeds and saves chunks idempotently using content_hash comparison.
         """
@@ -107,7 +115,7 @@ class SearchIndexer:
             await self.soft_delete_chunks("translation", document_id)
             return 0
 
-        all_chunks: List[ChunkData] = []
+        all_chunks: list[ChunkData] = []
         for page in doc.pages:
             lines_data = [
                 {
@@ -180,7 +188,7 @@ class SearchIndexer:
         await self.db.execute(stmt)
         await self.db.flush()
 
-    async def reindex_all(self, progress_callback: Optional[Callable[[str, int, int], None]] = None) -> Dict[str, Any]:
+    async def reindex_all(self, progress_callback: Callable[[str, int, int], None] | None = None) -> dict[str, Any]:
         """
         Backfills all sites, documents, folklore items, and observations into search_chunks.
         """

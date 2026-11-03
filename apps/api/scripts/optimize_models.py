@@ -3,7 +3,6 @@
 3D Model Optimization Script using gltf-transform
 Compresses GLB models with meshopt / Draco quantization and reports before/after sizes.
 """
-import os
 import subprocess
 import sys
 from pathlib import Path

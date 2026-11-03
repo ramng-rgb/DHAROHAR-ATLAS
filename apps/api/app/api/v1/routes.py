@@ -1,16 +1,16 @@
-import json
 import hashlib
-from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Response, Request
-from sqlalchemy.ext.asyncio import AsyncSession
+import json
+
 from app.core.database import get_db
-from app.services.route_service import RouteService
-from app.schemas.schemas import RouteResponse, JourneyResponse
 from app.core.redis_cache import get_cache, set_cache
+from app.schemas.schemas import JourneyResponse, RouteResponse
+from app.services.route_service import RouteService
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/routes", tags=["Routes"])
 
-@router.get("", response_model=List[RouteResponse])
+@router.get("", response_model=list[RouteResponse])
 async def list_routes(db: AsyncSession = Depends(get_db)):
     service = RouteService(db)
     return await service.list_routes()

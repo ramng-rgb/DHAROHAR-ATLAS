@@ -1,13 +1,13 @@
 import logging
-from typing import Optional
+
 import redis.asyncio as aioredis
 from app.core.config import settings
 
 logger = logging.getLogger("dharohar.cache")
 
-_redis_client: Optional[aioredis.Redis] = None
+_redis_client: aioredis.Redis | None = None
 
-def get_redis_client() -> Optional[aioredis.Redis]:
+def get_redis_client() -> aioredis.Redis | None:
     global _redis_client
     if _redis_client is None:
         try:
@@ -21,7 +21,7 @@ def get_redis_client() -> Optional[aioredis.Redis]:
             _redis_client = None
     return _redis_client
 
-async def get_cache(key: str) -> Optional[str]:
+async def get_cache(key: str) -> str | None:
     client = get_redis_client()
     if not client:
         return None
@@ -31,7 +31,7 @@ async def get_cache(key: str) -> Optional[str]:
         logger.warning(f"Redis get error for key '{key}': {e}")
         return None
 
-async def set_cache(key: str, value: str, expire_seconds: int = 120, ttl: Optional[int] = None) -> None:
+async def set_cache(key: str, value: str, expire_seconds: int = 120, ttl: int | None = None) -> None:
     client = get_redis_client()
     if not client:
         return

@@ -1,14 +1,19 @@
-import re
+import asyncio
 import json
 import logging
-import asyncio
-from typing import List, Dict, Any, Optional, AsyncIterator, Tuple
-from sqlalchemy.ext.asyncio import AsyncSession
-import httpx
+import re
+from collections.abc import AsyncIterator
+from typing import Any
 
+import httpx
 from app.core.config import settings
-from app.services.search.hybrid_search import HybridSearchEngine, normalize_query_text, detect_query_language
 from app.services.resilience.circuit_breaker import CircuitBreaker
+from app.services.search.hybrid_search import (
+    HybridSearchEngine,
+    detect_query_language,
+    normalize_query_text,
+)
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +33,7 @@ def sanitize_chunk_text(text: str) -> str:
         cleaned = re.sub(pat, "[FILTERED_INSTRUCTION]", cleaned)
     return cleaned
 
-def extract_and_validate_citations(answer: str, max_valid_index: int) -> Tuple[str, List[int]]:
+def extract_and_validate_citations(answer: str, max_valid_index: int) -> tuple[str, list[int]]:
     """
     Extracts citation markers like [1], [2] from the answer.
     Strips or flags any citation index > max_valid_index.
@@ -59,11 +64,11 @@ class AskTheArchiveService:
     async def answer_question(
         self,
         question: str,
-        filters: Optional[Dict[str, Any]] = None,
-        lang: Optional[str] = None,
+        filters: dict[str, Any] | None = None,
+        lang: str | None = None,
         retrieval_k: int = 5,
         min_score_threshold: float = 0.010
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Grounded answer generation with strict refusal and citation validation.
         """
@@ -91,9 +96,7 @@ class AskTheArchiveService:
             top_chunk = chunks[0]
             matched_by = top_chunk.get("matched_by", [])
             vec_score = top_chunk.get("vector_score", 0.0)
-            if "keyword" in matched_by or "name" in matched_by:
-                is_relevant = True
-            elif vec_score >= 0.35:
+            if "keyword" in matched_by or "name" in matched_by or vec_score >= 0.35:
                 is_relevant = True
 
         if not chunks or not is_relevant:
@@ -185,7 +188,7 @@ class AskTheArchiveService:
         self,
         question: str,
         context_prompt: str,
-        sources: List[Dict[str, Any]],
+        sources: list[dict[str, Any]],
         target_lang: str
     ) -> str:
         api_key = settings.GEMINI_API_KEY
@@ -242,7 +245,7 @@ class AskTheArchiveService:
     def _deterministic_grounded_answer(
         self,
         question: str,
-        sources: List[Dict[str, Any]],
+        sources: list[dict[str, Any]],
         lang: str
     ) -> str:
         s1 = sources[0]
@@ -254,15 +257,15 @@ class AskTheArchiveService:
         if lang == "hi":
             if "रानी" in question or "वाव" in question or "stepwell" in q_lower or "udayamati" in q_lower:
                 return (
-                    f"धरोहर अभिलेखागार के अनुसार, रानी की वाव पाटन (गुजरात) में स्थित 11वीं शताब्दी की एक प्रसिद्ध बावड़ी है [1]। "
-                    f"इसका निर्माण चालुक्य/सोलंकी राजवंश के शासक राजा भीमदेव प्रथम की स्मृति में उनकी रानी उदयमती द्वारा 1063 ईस्वी में करवाया गया था [1]। "
-                    f"यह सात भूमिगत मंजिलों में निर्मित है और भगवान विष्णु के दशावतार शिल्पों से सुशोભિત है [1]।"
+                    "धरोहर अभिलेखागार के अनुसार, रानी की वाव पाटन (गुजरात) में स्थित 11वीं शताब्दी की एक प्रसिद्ध बावड़ी है [1]। "
+                    "इसका निर्माण चालुक्य/सोलंकी राजवंश के शासक राजा भीमदेव प्रथम की स्मृति में उनकी रानी उदयमती द्वारा 1063 ईस्वी में करवाया गया था [1]। "
+                    "यह सात भूमिगत मंजिलों में निर्मित है और भगवान विष्णु के दशावतार शिल्पों से सुशोભિત है [1]।"
                 )
             if "अडालज" in question or "adalaj" in q_lower or "रुदाबाई" in question:
                 return (
-                    f"अडालज की वाव गांधीनगर जिले में स्थित एक पंच-स्तरीय जल स्थापत्य स्मारक है [1]। "
-                    f"इसकी स्थापना संवत् 1555 (1498 ईस्वी) में रानी रुदाबाई द्वारा अपने पति राणा वीरसिंह की स्मृति में करवाई गई थी [1]। "
-                    f"यह वाघेला और गुजरात सल्तनत की समन्वयकारी वास्तुकला का अनुपम उदाहरण है [1]।"
+                    "अडालज की वाव गांधीनगर जिले में स्थित एक पंच-स्तरीय जल स्थापत्य स्मारक है [1]। "
+                    "इसकी स्थापना संवत् 1555 (1498 ईस्वी) में रानी रुदाबाई द्वारा अपने पति राणा वीरसिंह की स्मृति में करवाई गई थी [1]। "
+                    "यह वाघेला और गुजरात सल्तनत की समन्वयकारी वास्तुकला का अनुपम उदाहरण है [1]।"
                 )
             return f"{s1['title']} के ऐतिहासिक अभिलेख के अनुसार: {s1['snippet']} [1]"
 
@@ -270,42 +273,42 @@ class AskTheArchiveService:
         if lang == "gu":
             if "રાણી" in question or "વાવ" in question or "stepwell" in q_lower:
                 return (
-                    f"ધરોહર આર્કાઇવ અનુસાર, રાણી ની વાવ પાટણમાં સ્થિત ૧૧મી સદીનું ભવ્ય ભૂગર્ભ જળ સ્થાપત્ય છે [1]. "
-                    f"સોલંકી વંશના રાજા ભીમદેવ પહેલાના સ્મરણાર્થે તેમની રાણી ઉદયમતી દ્વારા આ વાવનું નિર્માણ કરાવાયું હતું [1]. "
-                    f"તે સાત સ્તરોમાં ફેલાયેલી છે અને મારૂ-ગુર્જર સ્થાપત્ય શૈલીનું શિખર ગણાય છે [1]."
+                    "ધરોહર આર્કાઇવ અનુસાર, રાણી ની વાવ પાટણમાં સ્થિત ૧૧મી સદીનું ભવ્ય ભૂગર્ભ જળ સ્થાપત્ય છે [1]. "
+                    "સોલંકી વંશના રાજા ભીમદેવ પહેલાના સ્મરણાર્થે તેમની રાણી ઉદયમતી દ્વારા આ વાવનું નિર્માણ કરાવાયું હતું [1]. "
+                    "તે સાત સ્તરોમાં ફેલાયેલી છે અને મારૂ-ગુર્જર સ્થાપત્ય શૈલીનું શિખર ગણાય છે [1]."
                 )
             if "અડાલજ" in question or "adalaj" in q_lower or "રૂડાબાઈ" in question:
                 return (
-                    f"અડાલજ ની વાવ ગાંધીનગર નજીક આવેલી પાંચ માળની ઐતિહાસિક વાવ છે [1]. "
-                    f"તેનું નિર્માણ સંવત ૧૫૫૫ (૧૪૯૮ ઈ.સ.) માં રાણી રૂડાબાઈ દ્વારા કરાવવામાં આવ્યું હતું [1]. "
-                    f"તેના શિલાલેખમાં સોલંકી અને સુલતાન મહમૂદ બેગડાના સમયનું સાંધ્ય સ્થાપત્ય જોવા મળે છે [1]."
+                    "અડાલજ ની વાવ ગાંધીનગર નજીક આવેલી પાંચ માળની ઐતિહાસિક વાવ છે [1]. "
+                    "તેનું નિર્માણ સંવત ૧૫૫૫ (૧૪૯૮ ઈ.સ.) માં રાણી રૂડાબાઈ દ્વારા કરાવવામાં આવ્યું હતું [1]. "
+                    "તેના શિલાલેખમાં સોલંકી અને સુલતાન મહમૂદ બેગડાના સમયનું સાંધ્ય સ્થાપત્ય જોવા મળે છે [1]."
                 )
             return f"{s1['title']} ના અભિલેખ અનુસાર: {s1['snippet']} [1]"
 
         # English grounded synthesis
         if "stepwell" in q_lower or "vav" in q_lower or "water" in q_lower:
             text = (
-                f"According to the Dharohar Heritage Archive, subterranean stepwells in Gujarat and Rajasthan "
-                f"functioned as monumental civil water reservoirs and sacred sanctuaries [1]. "
-                f"Rani ki Vav in Patan was commissioned in 1063 CE by Queen Udayamati in memory of King Bhimadeva I [1], "
-                f"featuring seven subterranean terraced storeys and over 500 principal sculptures of Lord Vishnu."
+                "According to the Dharohar Heritage Archive, subterranean stepwells in Gujarat and Rajasthan "
+                "functioned as monumental civil water reservoirs and sacred sanctuaries [1]. "
+                "Rani ki Vav in Patan was commissioned in 1063 CE by Queen Udayamati in memory of King Bhimadeva I [1], "
+                "featuring seven subterranean terraced storeys and over 500 principal sculptures of Lord Vishnu."
             )
             if s2:
-                text += f" Similarly, the Adalaj Stepwell (1498 CE) was constructed by Queen Rudabai [2], combining Solanki engineering with Sultanate jharokha pavilions."
+                text += " Similarly, the Adalaj Stepwell (1498 CE) was constructed by Queen Rudabai [2], combining Solanki engineering with Sultanate jharokha pavilions."
             return text
 
         if "inscription" in q_lower or "patron" in q_lower or "udayamati" in q_lower or "bhimadeva" in q_lower:
             return (
-                f"Archival records confirm that Queen Udayamati of the Chaulukya (Solanki) dynasty patronized "
-                f"the foundation of the subterranean stepwell at Patan in memory of King Bhimadeva I [1]. "
-                f"This historical event is corroborated by the Prabandha Chintamani of Merutunga (1305 CE) and ASI epigraphical records [1]."
+                "Archival records confirm that Queen Udayamati of the Chaulukya (Solanki) dynasty patronized "
+                "the foundation of the subterranean stepwell at Patan in memory of King Bhimadeva I [1]. "
+                "This historical event is corroborated by the Prabandha Chintamani of Merutunga (1305 CE) and ASI epigraphical records [1]."
             )
 
         if "fort" in q_lower or "defense" in q_lower or "kumbhalgarh" in q_lower:
             return (
-                f"The defensive architecture of Western India is documented in the archive's fort monographs [1]. "
-                f"Kumbhalgarh Fort encompasses a 36-kilometer continuous defensive rampart built by Rana Kumbha [1], "
-                f"featuring multi-tiered baffle gates designed to withstand siege warfare."
+                "The defensive architecture of Western India is documented in the archive's fort monographs [1]. "
+                "Kumbhalgarh Fort encompasses a 36-kilometer continuous defensive rampart built by Rana Kumbha [1], "
+                "featuring multi-tiered baffle gates designed to withstand siege warfare."
             )
 
         # Fallback to direct citation of source 1
@@ -317,8 +320,8 @@ class AskTheArchiveService:
     async def stream_answer(
         self,
         question: str,
-        filters: Optional[Dict[str, Any]] = None,
-        lang: Optional[str] = None
+        filters: dict[str, Any] | None = None,
+        lang: str | None = None
     ) -> AsyncIterator[str]:
         """
         Server-Sent Events generator yielding partial token chunks

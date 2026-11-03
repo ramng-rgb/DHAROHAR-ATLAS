@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
 from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel, Field
+
 
 # Hotspot & 3D Model
 class HotspotResponse(BaseModel):
@@ -13,7 +15,7 @@ class HotspotResponse(BaseModel):
     normal_x: float
     normal_y: float
     normal_z: float
-    media_url: Optional[str] = None
+    media_url: str | None = None
 
     class Config:
         from_attributes = True
@@ -23,11 +25,11 @@ class Model3DResponse(BaseModel):
     title: str
     model_url: str
     format: str
-    poly_count: Optional[int] = None
+    poly_count: int | None = None
     scale_factor: float
     license: str
-    attribution: Optional[str] = None
-    hotspots: List[HotspotResponse] = []
+    attribution: str | None = None
+    hotspots: list[HotspotResponse] = []
 
     class Config:
         from_attributes = True
@@ -44,7 +46,7 @@ class TagBrief(BaseModel):
 class DynastyBrief(BaseModel):
     id: str
     name: str
-    era_label: Optional[str] = None
+    era_label: str | None = None
     slug: str
 
     class Config:
@@ -55,12 +57,12 @@ class SiteMediaResponse(BaseModel):
     id: str
     media_type: str = "image"
     url: str
-    thumbnail_url: Optional[str] = None
-    caption: Optional[str] = None
+    thumbnail_url: str | None = None
+    caption: str | None = None
     license: str = "CC-BY-4.0"
-    attribution: Optional[str] = None
-    source_url: Optional[str] = None
-    provenance: Optional[str] = None
+    attribution: str | None = None
+    source_url: str | None = None
+    provenance: str | None = None
 
     class Config:
         from_attributes = True
@@ -79,10 +81,10 @@ class FolkloreResponse(BaseModel):
 
 class ObservationResponse(BaseModel):
     id: str
-    title: Optional[str] = None
+    title: str | None = None
     element_type: str
     description: str
-    masonry_detail: Optional[str] = None
+    masonry_detail: str | None = None
     preservation_status: str
     recorded_by: str
 
@@ -94,18 +96,18 @@ class SiteLight(BaseModel):
     id: str
     name: str
     slug: str
-    name_hi: Optional[str] = None
-    name_gu: Optional[str] = None
+    name_hi: str | None = None
+    name_gu: str | None = None
     site_type: str
     state: str
-    district: Optional[str] = None
+    district: str | None = None
     latitude: float
     longitude: float
-    period_start_year: Optional[int] = None
-    period_end_year: Optional[int] = None
-    era_label: Optional[str] = None
+    period_start_year: int | None = None
+    period_end_year: int | None = None
+    era_label: str | None = None
     data_confidence: str
-    hero_image: Optional[str] = None
+    hero_image: str | None = None
     has_3d_model: bool = False
 
     class Config:
@@ -115,44 +117,44 @@ class SiteBrief(BaseModel):
     id: str
     name: str
     slug: str
-    name_hi: Optional[str] = None
-    name_gu: Optional[str] = None
-    summary: Optional[str] = None
+    name_hi: str | None = None
+    name_gu: str | None = None
+    summary: str | None = None
     site_type: str
-    era: Optional[str] = None
-    era_label: Optional[str] = None
-    era_start_year: Optional[int] = None
-    era_end_year: Optional[int] = None
-    period_start_year: Optional[int] = None
-    period_end_year: Optional[int] = None
-    dynasty: Optional[str] = None
+    era: str | None = None
+    era_label: str | None = None
+    era_start_year: int | None = None
+    era_end_year: int | None = None
+    period_start_year: int | None = None
+    period_end_year: int | None = None
+    dynasty: str | None = None
     state: str
-    district: Optional[str] = None
+    district: str | None = None
     latitude: float
     longitude: float
-    hero_image: Optional[str] = None
-    hero_image_attribution: Optional[str] = None
-    hero_image_license: Optional[str] = "CC-BY-4.0"
-    architectural_style: Optional[str] = None
+    hero_image: str | None = None
+    hero_image_attribution: str | None = None
+    hero_image_license: str | None = "CC-BY-4.0"
+    architectural_style: str | None = None
     data_confidence: str
-    source_text: Optional[str] = None
-    source_url: Optional[str] = None
-    source: Optional[str] = None
-    tags: List[str] = []
-    dynasties: List[str] = []
+    source_text: str | None = None
+    source_url: str | None = None
+    source: str | None = None
+    tags: list[str] = []
+    dynasties: list[str] = []
     has_3d_model: bool = False
 
     class Config:
         from_attributes = True
 
 class SiteDetail(SiteBrief):
-    description: Optional[str] = None
-    significance: Optional[str] = None
-    alternative_names: List[str] = []
-    media: List[SiteMediaResponse] = []
-    models_3d: List[Model3DResponse] = []
-    folklore: List[FolkloreResponse] = []
-    observations: List[ObservationResponse] = []
+    description: str | None = None
+    significance: str | None = None
+    alternative_names: list[str] = []
+    media: list[SiteMediaResponse] = []
+    models_3d: list[Model3DResponse] = []
+    folklore: list[FolkloreResponse] = []
+    observations: list[ObservationResponse] = []
 
     class Config:
         from_attributes = True
@@ -162,15 +164,15 @@ class HotspotDetail(BaseModel):
     id: str
     model_id: str
     label: str
-    label_hi: Optional[str] = None
-    label_gu: Optional[str] = None
-    body_md: Optional[str] = None
-    position: List[float] = [0.0, 0.0, 0.0]
-    camera_position: List[float] = [0.0, 2.0, 4.0]
-    camera_target: List[float] = [0.0, 0.0, 0.0]
-    media_ids: List[str] = []
+    label_hi: str | None = None
+    label_gu: str | None = None
+    body_md: str | None = None
+    position: list[float] = [0.0, 0.0, 0.0]
+    camera_position: list[float] = [0.0, 2.0, 4.0]
+    camera_target: list[float] = [0.0, 0.0, 0.0]
+    media_ids: list[str] = []
     sort_order: int = 0
-    media_url: Optional[str] = None
+    media_url: str | None = None
 
     class Config:
         from_attributes = True
@@ -180,20 +182,20 @@ class Model3DDetail(BaseModel):
     site_id: str
     title: str
     format: str = "glb"
-    storage_key: Optional[str] = None
+    storage_key: str | None = None
     file_size_bytes: int = 0
     poly_count: int = 0
     draco_compressed: bool = False
-    lod_levels: Dict[str, Any] = {}
+    lod_levels: dict[str, Any] = {}
     source: str = "artist_made"
     licence: str = "CC-BY-4.0"
-    attribution: Optional[str] = None
-    source_url: Optional[str] = None
+    attribution: str | None = None
+    source_url: str | None = None
     scale_calibrated: bool = False
     scale_factor: float = 1.0
     status: str = "ready"
     model_url: str
-    hotspots: List[HotspotDetail] = []
+    hotspots: list[HotspotDetail] = []
 
     class Config:
         from_attributes = True
@@ -207,8 +209,8 @@ class ModelSummary(BaseModel):
     draco_compressed: bool = False
     source: str = "artist_made"
     licence: str = "CC-BY-4.0"
-    attribution: Optional[str] = None
-    source_url: Optional[str] = None
+    attribution: str | None = None
+    source_url: str | None = None
     scale_calibrated: bool = False
     status: str = "ready"
     model_url: str
@@ -224,11 +226,11 @@ class FolkloreDetail(BaseModel):
     body_md: str
     language: str = "en"
     kind: str = "oral_history"
-    source: Optional[str] = None
-    source_url: Optional[str] = None
+    source: str | None = None
+    source_url: str | None = None
     data_confidence: str = "likely"
     is_illustrative: bool = False
-    created_at: Optional[datetime] = None
+    created_at: datetime | None = None
 
     class Config:
         from_attributes = True
@@ -236,15 +238,15 @@ class FolkloreDetail(BaseModel):
 class ObservationDetail(BaseModel):
     id: str
     site_id: str
-    title: Optional[str] = None
+    title: str | None = None
     body_md: str
     language: str = "en"
     kind: str = "architectural_feature"
-    source: Optional[str] = None
-    source_url: Optional[str] = None
+    source: str | None = None
+    source_url: str | None = None
     data_confidence: str = "likely"
     is_illustrative: bool = False
-    created_at: Optional[datetime] = None
+    created_at: datetime | None = None
 
     class Config:
         from_attributes = True
@@ -253,13 +255,13 @@ class NearbySiteItem(BaseModel):
     id: str
     name: str
     slug: str
-    name_hi: Optional[str] = None
-    name_gu: Optional[str] = None
+    name_hi: str | None = None
+    name_gu: str | None = None
     site_type: str
     state: str
-    district: Optional[str] = None
-    era_label: Optional[str] = None
-    hero_image: Optional[str] = None
+    district: str | None = None
+    era_label: str | None = None
+    hero_image: str | None = None
     distance_km: float
     has_3d_model: bool = False
 
@@ -270,22 +272,22 @@ class RelatedRouteItem(BaseModel):
     id: str
     slug: str
     title: str
-    summary: Optional[str] = None
+    summary: str | None = None
     total_distance_km: float = 0.0
     estimated_duration_days: int = 1
     stop_order: int
-    arrival_note: Optional[str] = None
+    arrival_note: str | None = None
 
     class Config:
         from_attributes = True
 
 class SiteFullDetail(SiteDetail):
     has_3d_model: bool = False
-    model_summary: Optional[ModelSummary] = None
-    folklore_items: List[FolkloreDetail] = []
-    observation_items: List[ObservationDetail] = []
-    nearby_sites: List[NearbySiteItem] = []
-    related_routes: List[RelatedRouteItem] = []
+    model_summary: ModelSummary | None = None
+    folklore_items: list[FolkloreDetail] = []
+    observation_items: list[ObservationDetail] = []
+    nearby_sites: list[NearbySiteItem] = []
+    related_routes: list[RelatedRouteItem] = []
 
     class Config:
         from_attributes = True
@@ -293,30 +295,30 @@ class SiteFullDetail(SiteDetail):
 class SiteOGMetadata(BaseModel):
     title: str
     description: str
-    image: Optional[str] = None
+    image: str | None = None
     url: str
     site_name: str = "Dharohar Atlas"
     type: str = "article"
     locale: str = "en_IN"
-    era: Optional[str] = None
-    state: Optional[str] = None
+    era: str | None = None
+    state: str | None = None
     has_3d_model: bool = False
 
 class PaginatedSites(BaseModel):
-    items: List[SiteBrief]
+    items: list[SiteBrief]
     total: int
     limit: int
     offset: int
-    next_cursor: Optional[str] = None
+    next_cursor: str | None = None
 
 class GeoJSONFeature(BaseModel):
     type: str = "Feature"
-    geometry: Dict[str, Any]
-    properties: Dict[str, Any]
+    geometry: dict[str, Any]
+    properties: dict[str, Any]
 
 class GeoJSONFeatureCollection(BaseModel):
     type: str = "FeatureCollection"
-    features: List[GeoJSONFeature]
+    features: list[GeoJSONFeature]
     total: int
     clustered: bool = False
 
@@ -324,29 +326,29 @@ class HistogramBucket(BaseModel):
     year_start: int
     year_end: int
     count: int
-    era_label: Optional[str] = None
+    era_label: str | None = None
 
 class FacetResponse(BaseModel):
-    site_type: Dict[str, int]
-    state: Dict[str, int]
-    dynasty: Dict[str, int]
-    era: Dict[str, int]
-    tag: Dict[str, int]
-    data_confidence: Dict[str, int]
-    has_3d_model: Dict[str, int] = {}
-    timeline_histogram: List[HistogramBucket]
+    site_type: dict[str, int]
+    state: dict[str, int]
+    dynasty: dict[str, int]
+    era: dict[str, int]
+    tag: dict[str, int]
+    data_confidence: dict[str, int]
+    has_3d_model: dict[str, int] = {}
+    timeline_histogram: list[HistogramBucket]
     total_sites: int
 
 # Document & OCR schemas (M3)
 class TranslationResponse(BaseModel):
     id: str
-    line_id: Optional[str] = None
-    page_id: Optional[str] = None
+    line_id: str | None = None
+    page_id: str | None = None
     target_lang: str = "en"
     text: str
-    engine: Optional[str] = "gemini"
+    engine: str | None = "gemini"
     version: int = 1
-    created_at: Optional[datetime] = None
+    created_at: datetime | None = None
 
     class Config:
         from_attributes = True
@@ -367,9 +369,9 @@ class EntityResponse(BaseModel):
     kind: str
     name: str
     normalised_name: str
-    wikidata_id: Optional[str] = None
-    site_id: Optional[str] = None
-    mentions: List[EntityMentionResponse] = []
+    wikidata_id: str | None = None
+    site_id: str | None = None
+    mentions: list[EntityMentionResponse] = []
 
     class Config:
         from_attributes = True
@@ -380,9 +382,9 @@ class TextVersionResponse(BaseModel):
     entity_id: str
     version_no: int
     text: str
-    edited_by: Optional[str] = "curator"
+    edited_by: str | None = "curator"
     edited_at: datetime
-    reason: Optional[str] = None
+    reason: str | None = None
 
     class Config:
         from_attributes = True
@@ -391,49 +393,49 @@ class OCRLineResponse(BaseModel):
     id: str
     page_id: str
     line_no: int
-    line_index: Optional[int] = None
+    line_index: int | None = None
     text: str
-    original_text: Optional[str] = None
-    translated_text: Optional[str] = None
+    original_text: str | None = None
+    translated_text: str | None = None
     bbox_x: float
     bbox_y: float
     bbox_w: float
     bbox_h: float
-    polygon: Optional[Any] = None
+    polygon: Any | None = None
     confidence: float
     lang: str = "hi"
-    language: Optional[str] = "Devanagari"
+    language: str | None = "Devanagari"
     engine: str = "gemini_vision"
     is_corrected: bool = False
     version: int = 1
-    translations: List[TranslationResponse] = []
+    translations: list[TranslationResponse] = []
 
     class Config:
         from_attributes = True
 
 class OCRLineUpdate(BaseModel):
-    original_text: Optional[str] = None
-    translated_text: Optional[str] = None
-    text: Optional[str] = None
-    reason: Optional[str] = None
-    edited_by: Optional[str] = "curator"
+    original_text: str | None = None
+    translated_text: str | None = None
+    text: str | None = None
+    reason: str | None = None
+    edited_by: str | None = "curator"
 
 class TranslationUpdate(BaseModel):
     text: str
-    reason: Optional[str] = None
-    edited_by: Optional[str] = "curator"
+    reason: str | None = None
+    edited_by: str | None = "curator"
 
 class RevertRequest(BaseModel):
     entity_type: str = Field(..., description="'line' or 'translation'")
     entity_id: str
     version_no: int
-    reason: Optional[str] = "Reverted via human-in-the-loop interface"
+    reason: str | None = "Reverted via human-in-the-loop interface"
 
 class DocumentEntityResponse(BaseModel):
     id: str
     entity_type: str
     text: str
-    label: Optional[str] = None
+    label: str | None = None
     confidence: float
 
     class Config:
@@ -443,16 +445,16 @@ class DocumentPageResponse(BaseModel):
     id: str
     document_id: str
     page_no: int = 1
-    page_number: Optional[int] = 1
-    image_key: Optional[str] = None
-    image_url: Optional[str] = None
+    page_number: int | None = 1
+    image_key: str | None = None
+    image_url: str | None = None
     width: int
     height: int
     rotation_deg: int = 0
     status: str = "ready"
-    ocr_lines: List[OCRLineResponse] = []
-    translations: List[TranslationResponse] = []
-    entities: List[DocumentEntityResponse] = []
+    ocr_lines: list[OCRLineResponse] = []
+    translations: list[TranslationResponse] = []
+    entities: list[DocumentEntityResponse] = []
 
     class Config:
         from_attributes = True
@@ -461,26 +463,26 @@ class DocumentResponse(BaseModel):
     id: str
     title: str
     language_hint: str = "auto"
-    language: Optional[str] = "Devanagari"
+    language: str | None = "Devanagari"
     doc_type: str = "printed"
-    document_type: Optional[str] = "manuscript_folio"
+    document_type: str | None = "manuscript_folio"
     status: str = "ready"
-    site_id: Optional[str] = None
-    uploaded_by: Optional[str] = None
-    source: Optional[str] = None
-    source_archive: Optional[str] = None
-    licence: Optional[str] = "CC-BY-4.0"
-    license: Optional[str] = "CC-BY-4.0"
-    attribution: Optional[str] = None
-    storage_key: Optional[str] = None
-    original_filename: Optional[str] = None
-    mime: Optional[str] = None
+    site_id: str | None = None
+    uploaded_by: str | None = None
+    source: str | None = None
+    source_archive: str | None = None
+    licence: str | None = "CC-BY-4.0"
+    license: str | None = "CC-BY-4.0"
+    attribution: str | None = None
+    storage_key: str | None = None
+    original_filename: str | None = None
+    mime: str | None = None
     page_count: int = 1
     created_at: datetime
-    updated_at: Optional[datetime] = None
-    pages: List[DocumentPageResponse] = []
-    entities: List[EntityResponse] = []
-    site: Optional[SiteBrief] = None
+    updated_at: datetime | None = None
+    pages: list[DocumentPageResponse] = []
+    entities: list[EntityResponse] = []
+    site: SiteBrief | None = None
 
     class Config:
         from_attributes = True
@@ -489,31 +491,31 @@ class DocumentCreate(BaseModel):
     title: str
     language_hint: str = "auto"
     doc_type: str = "printed"
-    site_id: Optional[str] = None
-    source: Optional[str] = "Archival Field Scan"
+    site_id: str | None = None
+    source: str | None = "Archival Field Scan"
     licence: str = "CC-BY-4.0"
-    attribution: Optional[str] = None
-    uploaded_by: Optional[str] = "anonymous"
-    storage_key: Optional[str] = None
-    mime: Optional[str] = "image/jpeg"
-    original_filename: Optional[str] = None
-    ocr_engine: Optional[str] = None
-    translation_engine: Optional[str] = None
+    attribution: str | None = None
+    uploaded_by: str | None = "anonymous"
+    storage_key: str | None = None
+    mime: str | None = "image/jpeg"
+    original_filename: str | None = None
+    ocr_engine: str | None = None
+    translation_engine: str | None = None
 
 class JobResponse(BaseModel):
     id: str
     kind: str = "ocr_pipeline"
     status: str = "queued"
     progress: int = 0
-    stage: Optional[str] = "validate"
+    stage: str | None = "validate"
     attempts: int = 0
-    error: Optional[str] = None
-    payload: Dict[str, Any] = {}
-    result: Dict[str, Any] = {}
-    idempotency_key: Optional[str] = None
+    error: str | None = None
+    payload: dict[str, Any] = {}
+    result: dict[str, Any] = {}
+    idempotency_key: str | None = None
     created_at: datetime
-    started_at: Optional[datetime] = None
-    finished_at: Optional[datetime] = None
+    started_at: datetime | None = None
+    finished_at: datetime | None = None
 
     class Config:
         from_attributes = True
@@ -522,10 +524,10 @@ class JobResponse(BaseModel):
 class RouteStopResponse(BaseModel):
     id: str
     stop_order: int
-    arrival_note: Optional[str] = None
-    narrative: Optional[str] = None
+    arrival_note: str | None = None
+    narrative: str | None = None
     transit_mode: str = "caravan_trail"
-    travel_note: Optional[str] = None
+    travel_note: str | None = None
     site: SiteBrief
 
     class Config:
@@ -535,13 +537,13 @@ class RouteResponse(BaseModel):
     id: str
     title: str
     slug: str
-    summary: Optional[str] = None
-    description: Optional[str] = None
+    summary: str | None = None
+    description: str | None = None
     total_distance_km: float
     estimated_duration_days: int
     era_theme: str
-    geometry: Optional[Dict[str, Any]] = None
-    stops: List[RouteStopResponse] = []
+    geometry: dict[str, Any] | None = None
+    stops: list[RouteStopResponse] = []
 
     class Config:
         from_attributes = True
@@ -552,49 +554,49 @@ class JourneyStopResponse(BaseModel):
     site_id: str
     site_slug: str
     site_name: str
-    site_name_hi: Optional[str] = None
-    site_name_gu: Optional[str] = None
+    site_name_hi: str | None = None
+    site_name_gu: str | None = None
     site_type: str
     state: str
-    district: Optional[str] = None
+    district: str | None = None
     latitude: float
     longitude: float
-    period_start_year: Optional[int] = None
-    period_end_year: Optional[int] = None
-    era_label: Optional[str] = None
+    period_start_year: int | None = None
+    period_end_year: int | None = None
+    era_label: str | None = None
     stop_order: int
-    arrival_note: Optional[str] = None
-    arrival_note_source: Optional[str] = None
+    arrival_note: str | None = None
+    arrival_note_source: str | None = None
     is_illustrative: bool = False
     dwell_seconds: int = 12
-    hero_media: Optional[Dict[str, Any]] = None
+    hero_media: dict[str, Any] | None = None
     has_3d_model: bool = False
-    model_3d_id: Optional[str] = None
-    linked_folklore: List[Dict[str, Any]] = []
-    linked_observations: List[Dict[str, Any]] = []
-    linked_documents: List[Dict[str, Any]] = []
+    model_3d_id: str | None = None
+    linked_folklore: list[dict[str, Any]] = []
+    linked_observations: list[dict[str, Any]] = []
+    linked_documents: list[dict[str, Any]] = []
     leg_distance_km: float = 0.0
     cumulative_distance_km: float = 0.0
-    leg_geometry: Optional[Dict[str, Any]] = None
-    bearing_deg: Optional[float] = None
+    leg_geometry: dict[str, Any] | None = None
+    bearing_deg: float | None = None
 
 class JourneyResponse(BaseModel):
     id: str
     slug: str
     title: str
-    title_hi: Optional[str] = None
-    title_gu: Optional[str] = None
-    summary: Optional[str] = None
-    summary_hi: Optional[str] = None
-    summary_gu: Optional[str] = None
-    description: Optional[str] = None
-    cover_media_url: Optional[str] = None
+    title_hi: str | None = None
+    title_gu: str | None = None
+    summary: str | None = None
+    summary_hi: str | None = None
+    summary_gu: str | None = None
+    description: str | None = None
+    cover_media_url: str | None = None
     difficulty: str = "Moderate"
     era_theme: str
     total_distance_km: float
     estimated_duration_days: int
-    full_geometry: Dict[str, Any]
-    stops: List[JourneyStopResponse] = []
+    full_geometry: dict[str, Any]
+    stops: list[JourneyStopResponse] = []
     total_stops: int
 
 # Demo Script Schemas (M5)
@@ -602,74 +604,74 @@ class DemoStep(BaseModel):
     id: str
     step_number: int
     title: str
-    title_hi: Optional[str] = None
-    title_gu: Optional[str] = None
+    title_hi: str | None = None
+    title_gu: str | None = None
     caption: str
-    caption_hi: Optional[str] = None
-    caption_gu: Optional[str] = None
+    caption_hi: str | None = None
+    caption_gu: str | None = None
     route: str
     target_selector: str
     action_type: str = "navigate"
-    sample_query: Optional[str] = None
-    sample_question: Optional[str] = None
-    site_slug: Optional[str] = None
-    document_id: Optional[str] = None
+    sample_query: str | None = None
+    sample_question: str | None = None
+    site_slug: str | None = None
+    document_id: str | None = None
 
 class DemoScriptResponse(BaseModel):
     version: str = "1.0"
     total_steps: int
     estimated_duration_seconds: int
-    steps: List[DemoStep] = []
+    steps: list[DemoStep] = []
 
 # Search & RAG (M4)
 class SearchHit(BaseModel):
     id: str
     source_type: str
     source_id: str
-    site_id: Optional[str] = None
-    document_id: Optional[str] = None
-    page_id: Optional[str] = None
+    site_id: str | None = None
+    document_id: str | None = None
+    page_id: str | None = None
     chunk_index: int = 0
-    title: Optional[str] = None
+    title: str | None = None
     text: str
     lang: str = "en"
     rrf_score: float = 0.0
-    matched_by: List[str] = []
-    highlighted_snippet: Optional[str] = None
+    matched_by: list[str] = []
+    highlighted_snippet: str | None = None
     is_illustrative: bool = False
-    line_ids: List[str] = []
-    start_line_no: Optional[int] = None
-    end_line_no: Optional[int] = None
-    metadata: Dict[str, Any] = {}
-    site: Optional[Dict[str, Any]] = None
+    line_ids: list[str] = []
+    start_line_no: int | None = None
+    end_line_no: int | None = None
+    metadata: dict[str, Any] = {}
+    site: dict[str, Any] | None = None
 
 class SearchGroupedResults(BaseModel):
-    sites: List[SearchHit] = []
-    documents: List[SearchHit] = []
-    folklore: List[SearchHit] = []
-    observations: List[SearchHit] = []
+    sites: list[SearchHit] = []
+    documents: list[SearchHit] = []
+    folklore: list[SearchHit] = []
+    observations: list[SearchHit] = []
 
 class SearchResponse(BaseModel):
     query: str
     detected_lang: str = "en"
     total: int = 0
     latency_ms: float = 0.0
-    results: List[SearchHit] = []
+    results: list[SearchHit] = []
     grouped: SearchGroupedResults = SearchGroupedResults()
 
 class SearchSuggestion(BaseModel):
     id: str
     title: str
-    name_hi: Optional[str] = None
-    name_gu: Optional[str] = None
+    name_hi: str | None = None
+    name_gu: str | None = None
     kind: str = "site"
-    slug: Optional[str] = None
+    slug: str | None = None
 
 class AskArchiveRequest(BaseModel):
-    question: Optional[str] = None
-    query: Optional[str] = None  # backward compatibility with M0
-    filters: Optional[Dict[str, Any]] = None
-    lang: Optional[str] = None
+    question: str | None = None
+    query: str | None = None  # backward compatibility with M0
+    filters: dict[str, Any] | None = None
+    lang: str | None = None
     stream: bool = False
 
 class SourceCitation(BaseModel):
@@ -677,29 +679,29 @@ class SourceCitation(BaseModel):
     chunk_id: str
     source_type: str
     source_id: str
-    site_id: Optional[str] = None
-    document_id: Optional[str] = None
-    page_id: Optional[str] = None
-    line_ids: List[str] = []
+    site_id: str | None = None
+    document_id: str | None = None
+    page_id: str | None = None
+    line_ids: list[str] = []
     title: str
     snippet: str
     lang: str = "en"
     is_illustrative: bool = False
     data_confidence: str = "verified"
-    site: Optional[Dict[str, Any]] = None
+    site: dict[str, Any] | None = None
 
 class AskArchiveResponse(BaseModel):
     answered: bool = True
     question: str
-    answer: Optional[str] = None
-    reason: Optional[str] = None
-    message: Optional[str] = None
+    answer: str | None = None
+    reason: str | None = None
+    message: str | None = None
     lang: str = "en"
     has_illustrative_source: bool = False
-    citations: List[SourceCitation] = []
-    sources: List[SourceCitation] = []
-    related_records: List[Dict[str, Any]] = []
-    latency_ms: Optional[float] = None
+    citations: list[SourceCitation] = []
+    sources: list[SourceCitation] = []
+    related_records: list[dict[str, Any]] = []
+    latency_ms: float | None = None
 
 # Job
 class JobResponse(BaseModel):
@@ -707,9 +709,9 @@ class JobResponse(BaseModel):
     job_type: str
     status: str
     progress: int
-    payload: Dict[str, Any] = {}
-    result: Dict[str, Any] = {}
-    error: Optional[str] = None
+    payload: dict[str, Any] = {}
+    result: dict[str, Any] = {}
+    error: str | None = None
 
     class Config:
         from_attributes = True

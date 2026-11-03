@@ -22,20 +22,22 @@ graph TD
 
 ### 2.1 Presentation Tier (`apps/web`)
 - **Next.js 14 App Router:** Server-rendered initial pages with client components for rich interactive experiences.
-- **MapLibre GL JS:** Hardware-accelerated WebGL vector map rendering clustered archaeological monuments with custom canvas layers.
+- **MapLibre GL JS:** Hardware-accelerated WebGL vector map rendering clustered archaeological monuments with custom canvas layers and progressive GeoJSON route line drawing.
+- **Journey Mode Player (`/journeys/[slug]`):** Hardware-accelerated dynamic vector camera sweeps (`flyTo` with pitch/bearing), story card overlays, playback state machine (pause/scrub/speed), and accessible plain-text alternative.
+- **Guided Demo Tour (`DemoTourOverlay`):** 9-step curated walkthrough driven by `GET /api/v1/demo/script` with element spotlighting, step progression, and keyboard focus trap.
 - **React Three Fiber & Drei:** WebGL 3D rendering pipeline loading GLB photogrammetric models with directional lighting, spatial hotspot raycasting, and metric measurement calipers.
 - **Interactive Bounding Box Canvas:** High-precision SVG/DOM overlay aligning machine OCR bounding boxes with archival folios.
 
 ### 2.2 Backend & Service Tier (`apps/api`)
 - **Clean Layered Separation:**
-  - `api/v1/`: HTTP routers handling validation and status codes (zero business logic).
-  - `services/`: Encapsulated domain business logic (`SiteService`, `SearchService`, `DocumentService`, `RouteService`).
-  - `providers/`: ML and OCR adapter abstraction layer.
-  - `models/`: SQLAlchemy 2.0 ORM entities with pgvector columns.
+  - `api/v1/`: HTTP routers handling validation, ETag headers, and status codes (zero business logic).
+  - `services/`: Encapsulated domain business logic (`SiteService`, `SearchService`, `DocumentService`, `RouteService`, `DemoScriptService`).
+  - `providers/`: ML and OCR adapter abstraction layer (Gemini, Tesseract, pgvector, Fake providers for CI).
+  - `models/`: SQLAlchemy 2.0 ORM entities with PostGIS geography, pgvector columns, and enriched route relationships.
 
 ### 2.3 Storage & Retrieval Tier
 - **PostgreSQL 16:** Single unified datastore hosting relational metadata, geospatial geography, trigram lexical indexes, and HNSW vector graphs.
-- **Redis 8:** Query caching layer and job broker for long-running photogrammetry tasks.
+- **Redis 8:** Multi-tier query caching layer (journey routes, search autocomplete, facets) with ETag / 304 Not Modified validation, and job broker for asynchronous pipelines.
 
 ---
 

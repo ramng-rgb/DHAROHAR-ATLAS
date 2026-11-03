@@ -1,17 +1,19 @@
 import hashlib
-from typing import List, Dict, Any, Optional
+from typing import Any
+
 from pydantic import BaseModel
+
 
 class ChunkData(BaseModel):
     source_type: str  # site | document_line_group | folklore | observation | translation
     source_id: str
-    site_id: Optional[str] = None
-    document_id: Optional[str] = None
-    page_id: Optional[str] = None
+    site_id: str | None = None
+    document_id: str | None = None
+    page_id: str | None = None
     chunk_index: int = 0
     text: str
     lang: str = "en"
-    metadata_json: Dict[str, Any] = {}
+    metadata_json: dict[str, Any] = {}
     is_illustrative: bool = False
 
     @property
@@ -29,19 +31,19 @@ class DocumentChunker:
     def chunk_document_lines(
         document_id: str,
         page_id: str,
-        lines: List[Dict[str, Any]],
-        site_id: Optional[str] = None,
+        lines: list[dict[str, Any]],
+        site_id: str | None = None,
         doc_title: str = "",
         max_words: int = 60
-    ) -> List[ChunkData]:
+    ) -> list[ChunkData]:
         if not lines:
             return []
 
         # Sort lines by line_no
         sorted_lines = sorted(lines, key=lambda l: l.get("line_no", 0))
-        chunks: List[ChunkData] = []
-        current_words: List[str] = []
-        current_line_ids: List[str] = []
+        chunks: list[ChunkData] = []
+        current_words: list[str] = []
+        current_line_ids: list[str] = []
         start_line_no = sorted_lines[0].get("line_no", 1)
         end_line_no = start_line_no
         detected_lang = sorted_lines[0].get("lang", "sa")
@@ -113,15 +115,15 @@ class DocumentChunker:
     def chunk_translations(
         document_id: str,
         page_id: str,
-        translations: List[Dict[str, Any]],
-        site_id: Optional[str] = None,
+        translations: list[dict[str, Any]],
+        site_id: str | None = None,
         doc_title: str = "",
         target_lang: str = "en"
-    ) -> List[ChunkData]:
+    ) -> list[ChunkData]:
         if not translations:
             return []
 
-        chunks: List[ChunkData] = []
+        chunks: list[ChunkData] = []
         combined_texts = []
         line_ids = []
 
@@ -203,7 +205,7 @@ class SiteChunker:
 
 class LoreAndObservationChunker:
     @staticmethod
-    def chunk_folklore(folklore: Any, site: Optional[Any] = None) -> ChunkData:
+    def chunk_folklore(folklore: Any, site: Any | None = None) -> ChunkData:
         site_name = site.name if site else "Heritage Site"
         text = f"{folklore.title} ({folklore.kind} for {site_name}): {folklore.body_md}. Source: {folklore.source or 'Living Tradition'}."
         return ChunkData(
@@ -226,7 +228,7 @@ class LoreAndObservationChunker:
         )
 
     @staticmethod
-    def chunk_observation(observation: Any, site: Optional[Any] = None) -> ChunkData:
+    def chunk_observation(observation: Any, site: Any | None = None) -> ChunkData:
         site_name = site.name if site else "Heritage Site"
         text = f"{observation.title} ({observation.kind} at {site_name}): {observation.body_md}. Source: {observation.source or 'Architectural Survey'}."
         return ChunkData(

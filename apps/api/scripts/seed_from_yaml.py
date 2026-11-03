@@ -1,22 +1,29 @@
-import os
-import sys
-import uuid
-import yaml
 import asyncio
-from datetime import datetime
+import os
+import uuid
+
+import yaml
+from app.core.database import AsyncSessionLocal
+from app.models.models import (
+    Document,
+    Dynasty,
+    Embedding,
+    FolkloreItem,
+    Hotspot,
+    Model3D,
+    Observation,
+    Route,
+    RouteStop,
+    Site,
+    SiteDynasty,
+    SiteMedia,
+    SiteTag,
+    Tag,
+)
+from app.services.providers import deterministic_vector
 from geoalchemy2.elements import WKTElement
 from sqlalchemy import delete
 from sqlalchemy.future import select
-
-from app.core.database import AsyncSessionLocal
-from app.models.models import (
-    Site, SiteMedia, Tag, SiteTag, Dynasty, SiteDynasty,
-    Route, RouteStop, Document, DocumentPage, OCRLine, DocumentEntity,
-    FolkloreItem, Observation, ArchitecturalObservation, Embedding,
-    Model3D, Hotspot,
-    SiteType, DataConfidence
-)
-from app.services.providers import deterministic_vector
 
 SEED_YAML_PATH = os.path.join(os.path.dirname(__file__), "../../../db/seed/sites.yaml")
 
@@ -294,8 +301,8 @@ async def seed():
             }
         ]
 
-        from app.services.document_service import DocumentService
         from app.schemas.schemas import DocumentCreate
+        from app.services.document_service import DocumentService
         from app.services.pipeline.orchestrator import DocumentPipeline
 
         doc_service = DocumentService(session)

@@ -1,15 +1,27 @@
-import uuid
 import enum
+import uuid
 from datetime import datetime
-from typing import List, Optional
-from sqlalchemy import (
-    Column, String, Text, Float, Integer, Boolean, DateTime, ForeignKey, Index, JSON, Enum, CheckConstraint, BigInteger
-)
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import TSVECTOR
-from pgvector.sqlalchemy import Vector
-from geoalchemy2 import Geography
+
 from app.core.database import Base
+from geoalchemy2 import Geography
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import (
+    JSON,
+    BigInteger,
+    Boolean,
+    CheckConstraint,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Index,
+    Integer,
+    String,
+    Text,
+)
+from sqlalchemy.dialects.postgresql import TSVECTOR
+from sqlalchemy.orm import relationship
+
 
 def generate_uuid() -> str:
     return str(uuid.uuid4())

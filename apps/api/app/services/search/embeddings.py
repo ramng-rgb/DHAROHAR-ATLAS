@@ -1,11 +1,10 @@
-import os
 import hashlib
 import logging
+import os
 from abc import ABC, abstractmethod
-from typing import List, Optional
+
 import httpx
 import numpy as np
-
 from app.core.config import settings
 from app.services.resilience.circuit_breaker import CircuitBreaker
 from app.services.resilience.retry import retry_with_backoff
@@ -24,11 +23,11 @@ class EmbeddingProvider(ABC):
         pass
 
     @abstractmethod
-    async def embed_text(self, text: str) -> List[float]:
+    async def embed_text(self, text: str) -> list[float]:
         pass
 
     @abstractmethod
-    async def embed_batch(self, texts: List[str]) -> List[List[float]]:
+    async def embed_batch(self, texts: list[str]) -> list[list[float]]:
         pass
 
 
@@ -80,7 +79,7 @@ class FakeEmbeddingProvider(EmbeddingProvider):
     def dimension(self) -> int:
         return self._dim
 
-    def _generate_vector(self, text: str) -> List[float]:
+    def _generate_vector(self, text: str) -> list[float]:
         clean_text = text.lower().strip()
         # Seed from sha256 of text
         h = hashlib.sha256(clean_text.encode("utf-8")).hexdigest()
@@ -104,10 +103,10 @@ class FakeEmbeddingProvider(EmbeddingProvider):
             vec = vec / norm
         return vec.tolist()
 
-    async def embed_text(self, text: str) -> List[float]:
+    async def embed_text(self, text: str) -> list[float]:
         return self._generate_vector(text)
 
-    async def embed_batch(self, texts: List[str]) -> List[List[float]]:
+    async def embed_batch(self, texts: list[str]) -> list[list[float]]:
         return [self._generate_vector(t) for t in texts]
 
 
@@ -116,7 +115,7 @@ class GeminiEmbeddingProvider(EmbeddingProvider):
     Hosted Google Gemini embedding provider (text-embedding-004) with
     automatic circuit breaking, exponential backoff, and fallback to FakeEmbeddingProvider.
     """
-    def __init__(self, api_key: Optional[str] = None, model: str = "text-embedding-004"):
+    def __init__(self, api_key: str | None = None, model: str = "text-embedding-004"):
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.model = model
         self._circuit_breaker = CircuitBreaker("gemini_embedding", failure_threshold=3, recovery_time=20.0)
@@ -130,7 +129,7 @@ class GeminiEmbeddingProvider(EmbeddingProvider):
     def dimension(self) -> int:
         return 768
 
-    async def embed_text(self, text: str) -> List[float]:
+    async def embed_text(self, text: str) -> list[float]:
         if not self.api_key:
             return await self._fake_fallback.embed_text(text)
 
@@ -162,7 +161,7 @@ class GeminiEmbeddingProvider(EmbeddingProvider):
             logger.warning("GeminiEmbeddingProvider failed, using fallback: %s", e)
             return await self._fake_fallback.embed_text(text)
 
-    async def embed_batch(self, texts: List[str]) -> List[List[float]]:
+    async def embed_batch(self, texts: list[str]) -> list[list[float]]:
         if not self.api_key:
             return await self._fake_fallback.embed_batch(texts)
 

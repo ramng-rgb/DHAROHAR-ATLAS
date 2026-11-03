@@ -4,14 +4,16 @@ import json
 import os
 import sys
 import time
+
 import numpy as np
 from sqlalchemy import text
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from app.core.database import AsyncSessionLocal
-from app.services.search.hybrid_search import HybridSearchEngine, normalize_query_text
 from app.services.search.embeddings import get_embedding_provider
+from app.services.search.hybrid_search import HybridSearchEngine, normalize_query_text
+
 
 async def evaluate_search():
     queries_file = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../eval/search/test_queries.json"))

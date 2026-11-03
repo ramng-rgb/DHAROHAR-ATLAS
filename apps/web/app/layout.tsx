@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
+import { DemoTourOverlay } from "@/components/demo/DemoTourOverlay";
 
 export const metadata: Metadata = {
   title: "Dharohar Atlas | Digital Revitalisation of Cultural Heritage Archives",
@@ -16,6 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <meta name="theme-color" content="#090D16" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -26,6 +30,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-[#090D16] text-[#F6F1E9] flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-[#D4AF37]">
         <Navbar />
         <main className="flex-1 flex flex-col">{children}</main>
+        <DemoTourOverlay />
       </body>
     </html>
   );

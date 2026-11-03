@@ -1,14 +1,14 @@
-import os
 import logging
-from typing import Optional
+import os
+
 from app.core.config import settings
 from app.services.translation.base import TranslationProvider
-from app.services.translation.gemini_translation import GeminiTranslationProvider
 from app.services.translation.fake import FakeTranslationProvider
+from app.services.translation.gemini_translation import GeminiTranslationProvider
 
 logger = logging.getLogger(__name__)
 
-def get_translation_provider(engine_name: Optional[str] = None) -> TranslationProvider:
+def get_translation_provider(engine_name: str | None = None) -> TranslationProvider:
     selected = (engine_name or os.getenv("TRANSLATION_ENGINE") or getattr(settings, "TRANSLATION_PROVIDER", "gemini")).lower()
 
     if selected in ("fake", "mock", "test"):

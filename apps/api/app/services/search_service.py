@@ -1,8 +1,9 @@
-from typing import List, Dict, Any, Optional
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
+from typing import Any
+
 from app.services.providers import get_embedding_provider, get_llm_provider
-from app.models.models import Embedding, Site
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 class SearchService:
     def __init__(self, db: AsyncSession):
@@ -10,7 +11,7 @@ class SearchService:
         self.embedding_provider = get_embedding_provider()
         self.llm_provider = get_llm_provider()
 
-    async def hybrid_search(self, query: str, limit: int = 15, k: int = 60) -> Dict[str, Any]:
+    async def hybrid_search(self, query: str, limit: int = 15, k: int = 60) -> dict[str, Any]:
         """
         Executes Reciprocal Rank Fusion (RRF) combining dense pgvector cosine similarity
         and pg_trgm trigram lexical full-text search.
@@ -46,8 +47,8 @@ class SearchService:
         lexical_rows = (await self.db.execute(lexical_sql, {"query": query, "wildcard": wildcard})).fetchall()
 
         # 3. Reciprocal Rank Fusion (RRF)
-        rrf_scores: Dict[str, float] = {}
-        record_map: Dict[str, Dict[str, Any]] = {}
+        rrf_scores: dict[str, float] = {}
+        record_map: dict[str, dict[str, Any]] = {}
 
         # Process Dense Ranks
         for rank, row in enumerate(dense_rows):
@@ -84,7 +85,7 @@ class SearchService:
         sorted_doc_ids = sorted(rrf_scores.keys(), key=lambda did: rrf_scores[did], reverse=True)[:limit]
         
         results = []
-        grouped: Dict[str, List[Dict[str, Any]]] = {
+        grouped: dict[str, list[dict[str, Any]]] = {
             "site": [],
             "ocr_line": [],
             "folklore": [],
@@ -122,7 +123,7 @@ class SearchService:
             "grouped": grouped
         }
 
-    async def ask_archive(self, query: str) -> Dict[str, Any]:
+    async def ask_archive(self, query: str) -> dict[str, Any]:
         """
         Retrieval-Augmented Generation (RAG) over the heritage archive with inline citations.
         Refuses to hallucinate when no verified records match.

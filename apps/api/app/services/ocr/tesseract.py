@@ -1,7 +1,7 @@
 import io
 import logging
 import shutil
-from typing import List, Optional, Dict
+
 from PIL import Image
 
 try:
@@ -9,13 +9,19 @@ try:
 except ImportError:
     pytesseract = None
 
-from app.services.ocr.base import OCRProvider, OCRDocumentData, OCRPageData, OCRLineData, BoundingBox
+from app.services.ocr.base import (
+    BoundingBox,
+    OCRDocumentData,
+    OCRLineData,
+    OCRPageData,
+    OCRProvider,
+)
 from app.services.ocr.fake import FakeOCRProvider
 
 logger = logging.getLogger(__name__)
 
 class TesseractOCR(OCRProvider):
-    def __init__(self, tesseract_cmd: Optional[str] = None):
+    def __init__(self, tesseract_cmd: str | None = None):
         self._cmd = tesseract_cmd or shutil.which("tesseract") or "/opt/homebrew/bin/tesseract" or "/usr/local/bin/tesseract"
         if pytesseract and self._cmd and shutil.which(self._cmd):
             pytesseract.pytesseract.tesseract_cmd = self._cmd
@@ -33,7 +39,7 @@ class TesseractOCR(OCRProvider):
     async def recognise(
         self,
         image_bytes: bytes,
-        lang_hints: Optional[List[str]] = None,
+        lang_hints: list[str] | None = None,
         mime: str = "image/jpeg"
     ) -> OCRDocumentData:
         if not self.is_available():
@@ -85,7 +91,7 @@ class TesseractOCR(OCRProvider):
             )
 
             # Group words by (block_num, par_num, line_num)
-            grouped: Dict[tuple, List[dict]] = {}
+            grouped: dict[tuple, list[dict]] = {}
             n_boxes = len(data["text"])
             for i in range(n_boxes):
                 text = (data["text"][i] or "").strip()
@@ -107,7 +113,7 @@ class TesseractOCR(OCRProvider):
                     "conf": conf
                 })
 
-            lines: List[OCRLineData] = []
+            lines: list[OCRLineData] = []
             line_idx = 1
             for key, words in grouped.items():
                 line_text = " ".join([w["text"] for w in words]).strip()

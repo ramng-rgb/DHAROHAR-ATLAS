@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
-from typing import List, Dict, Any, Optional
-import numpy as np
 import hashlib
-import json
-import httpx
+from abc import ABC, abstractmethod
+from typing import Any
+
+import numpy as np
 from app.core.config import settings
+
 
 # -------------------------------------------------------------
 # 1. OCR Provider Interface & Adapters
@@ -21,7 +21,7 @@ class OCRLineResult:
         self.language = language
 
 class OCRResult:
-    def __init__(self, lines: List[OCRLineResult], raw_text: str, provider_name: str):
+    def __init__(self, lines: list[OCRLineResult], raw_text: str, provider_name: str):
         self.lines = lines
         self.raw_text = raw_text
         self.provider_name = provider_name
@@ -68,7 +68,7 @@ class BaseTranslationProvider(ABC):
         pass
 
 class NeuralTranslationProvider(BaseTranslationProvider):
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: str | None = None):
         self.api_key = api_key
 
     async def translate(self, text: str, source_lang: str, target_lang: str = "English") -> str:
@@ -90,7 +90,7 @@ class NeuralTranslationProvider(BaseTranslationProvider):
 # -------------------------------------------------------------
 # 3. Embedding Provider Interface & Adapters
 # -------------------------------------------------------------
-def deterministic_vector(text: str, dim: int = 768) -> List[float]:
+def deterministic_vector(text: str, dim: int = 768) -> list[float]:
     np.random.seed(int(hashlib.sha256(text.encode("utf-8")).hexdigest()[:8], 16))
     vec = np.random.randn(dim)
     keywords = {
@@ -110,14 +110,14 @@ def deterministic_vector(text: str, dim: int = 768) -> List[float]:
 
 class BaseEmbeddingProvider(ABC):
     @abstractmethod
-    async def get_embedding(self, text: str) -> List[float]:
+    async def get_embedding(self, text: str) -> list[float]:
         pass
 
 class NeuralEmbeddingProvider(BaseEmbeddingProvider):
     def __init__(self, dim: int = 768):
         self.dim = dim
 
-    async def get_embedding(self, text: str) -> List[float]:
+    async def get_embedding(self, text: str) -> list[float]:
         return deterministic_vector(text, self.dim)
 
 # -------------------------------------------------------------
@@ -125,14 +125,14 @@ class NeuralEmbeddingProvider(BaseEmbeddingProvider):
 # -------------------------------------------------------------
 class BaseLLMProvider(ABC):
     @abstractmethod
-    async def generate_response(self, query: str, context: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def generate_response(self, query: str, context: list[dict[str, Any]]) -> dict[str, Any]:
         pass
 
 class GeminiLLMProvider(BaseLLMProvider):
     def __init__(self, api_key: str):
         self.api_key = api_key
 
-    async def generate_response(self, query: str, context: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def generate_response(self, query: str, context: list[dict[str, Any]]) -> dict[str, Any]:
         if not context:
             return {
                 "answer": "I could not find verified records in the Dharohar Heritage Archive matching your query. To protect academic accuracy, the system does not fabricate heritage information. Please try querying known sites like Rani ki Vav, Modhera Sun Temple, or Adalaj Stepwell.",
@@ -160,19 +160,19 @@ class GeminiLLMProvider(BaseLLMProvider):
         q = query.lower()
         if "stepwell" in q or "vav" in q or "baori" in q or "water" in q:
             answer = (
-                f"Based on the Dharohar Heritage Archive, subterranean water monuments in western India served as both sacred architecture and vital hydraulic lifelines [1]. "
-                f"The Maru-Gurjara style of stepwells is typified by Rani ki Vav in Patan, built in 1063 CE by Queen Udayamati [1], featuring seven subterranean levels adorned with over 800 sculptures of Lord Vishnu. "
-                f"Further south in Gandhinagar, the Adalaj Stepwell (1498 CE) demonstrates Indo-Islamic fusion under Queen Rudabai [2], featuring five subterranean storeys and an octagonal shaft open to the sky that maintained a microclimate 5°C cooler than the desert heat."
+                "Based on the Dharohar Heritage Archive, subterranean water monuments in western India served as both sacred architecture and vital hydraulic lifelines [1]. "
+                "The Maru-Gurjara style of stepwells is typified by Rani ki Vav in Patan, built in 1063 CE by Queen Udayamati [1], featuring seven subterranean levels adorned with over 800 sculptures of Lord Vishnu. "
+                "Further south in Gandhinagar, the Adalaj Stepwell (1498 CE) demonstrates Indo-Islamic fusion under Queen Rudabai [2], featuring five subterranean storeys and an octagonal shaft open to the sky that maintained a microclimate 5°C cooler than the desert heat."
             )
         elif "solanki" in q or "chaulukya" in q or "patron" in q:
             answer = (
-                f"The Solanki (Chaulukya) dynasty of Gujarat (10th–13th century CE) presided over the golden age of Maru-Gurjara architecture [1]. "
-                f"Notable imperial works include Queen Udayamati's memorial stepwell at Patan (Rani ki Vav) [1], the solar-aligned Modhera Sun Temple commissioned by King Bhima I in 1026 CE [2], and the colossal Rudra Mahalaya temple at Siddhpur initiated by Siddharaja Jayasimha."
+                "The Solanki (Chaulukya) dynasty of Gujarat (10th–13th century CE) presided over the golden age of Maru-Gurjara architecture [1]. "
+                "Notable imperial works include Queen Udayamati's memorial stepwell at Patan (Rani ki Vav) [1], the solar-aligned Modhera Sun Temple commissioned by King Bhima I in 1026 CE [2], and the colossal Rudra Mahalaya temple at Siddhpur initiated by Siddharaja Jayasimha."
             )
         elif "fort" in q or "rajput" in q or "defense" in q or "kumbhalgarh" in q:
             answer = (
-                f"The hill fortresses of Rajasthan exemplify medieval Rajput military engineering and palace architecture [1]. "
-                f"Kumbhalgarh Fort features the second longest continuous fortification perimeter on earth (36 km), designed by Rana Kumbha to encircle over 360 temples [1]. Mehrangarh Fort in Jodhpur stands atop a perpendicular 400-foot cliff, while Jaisalmer Fort remains one of the world's few continuously inhabited living fortifications [2]."
+                "The hill fortresses of Rajasthan exemplify medieval Rajput military engineering and palace architecture [1]. "
+                "Kumbhalgarh Fort features the second longest continuous fortification perimeter on earth (36 km), designed by Rana Kumbha to encircle over 360 temples [1]. Mehrangarh Fort in Jodhpur stands atop a perpendicular 400-foot cliff, while Jaisalmer Fort remains one of the world's few continuously inhabited living fortifications [2]."
             )
         else:
             first_rec = context[0]

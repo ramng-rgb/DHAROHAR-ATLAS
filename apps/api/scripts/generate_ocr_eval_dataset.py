@@ -1,6 +1,7 @@
-import os
 import json
+import os
 import unicodedata
+
 from PIL import Image, ImageDraw, ImageFont
 
 EVAL_DIR = "/Users/ramnarayangupta/Desktop/hac/eval/ocr"

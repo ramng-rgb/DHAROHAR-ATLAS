@@ -396,8 +396,9 @@ function SearchPageContent() {
                           <Link
                             href={siteSlug ? `/sites/${siteSlug}` : `/explore?site=${hit.site_id || hit.source_id}`}
                             className="font-serif font-bold text-base text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors"
+                            aria-label={hit.title || "Heritage Site Record"}
                           >
-                            {hit.title}
+                            {hit.title || "Heritage Site Record"}
                           </Link>
                           {renderMatchedByBadges(hit.matched_by)}
                         </div>
@@ -493,8 +494,9 @@ function SearchPageContent() {
                           <Link
                             href={deepLinkUrl}
                             className="font-serif font-bold text-base text-[#F6F1E9] group-hover:text-[#D4AF37] transition-colors"
+                            aria-label={hit.title || "Archival Inscription Folio"}
                           >
-                            {hit.title}
+                            {hit.title || "Archival Inscription Folio"}
                           </Link>
                           {renderMatchedByBadges(hit.matched_by)}
                         </div>

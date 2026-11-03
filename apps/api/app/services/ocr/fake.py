@@ -1,5 +1,12 @@
-from typing import List, Optional
-from app.services.ocr.base import OCRProvider, OCRDocumentData, OCRPageData, OCRLineData, BoundingBox
+
+from app.services.ocr.base import (
+    BoundingBox,
+    OCRDocumentData,
+    OCRLineData,
+    OCRPageData,
+    OCRProvider,
+)
+
 
 class FakeOCRProvider(OCRProvider):
     @property
@@ -9,7 +16,7 @@ class FakeOCRProvider(OCRProvider):
     async def recognise(
         self,
         image_bytes: bytes,
-        lang_hints: Optional[List[str]] = None,
+        lang_hints: list[str] | None = None,
         mime: str = "image/jpeg"
     ) -> OCRDocumentData:
         hints = [h.lower() for h in (lang_hints or ["devanagari"])]

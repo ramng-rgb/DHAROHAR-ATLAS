@@ -1,6 +1,8 @@
 import json
 import os
+
 from app.main import app
+
 
 def export_openapi():
     openapi_schema = app.openapi()

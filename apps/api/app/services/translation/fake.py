@@ -1,16 +1,16 @@
 import logging
-from typing import List, Dict
+
 from app.services.translation.base import (
-    TranslationProvider,
     TranslationInputLine,
     TranslationOutputLine,
-    TranslationResult
+    TranslationProvider,
+    TranslationResult,
 )
 from app.services.translation.glossary import HERITAGE_GLOSSARY
 
 logger = logging.getLogger(__name__)
 
-KNOWN_PAIRS: Dict[str, str] = {
+KNOWN_PAIRS: dict[str, str] = {
     "ॐ स्वस्ति श्री चालुक्य राज्ञी उदयमती पाटन वापी निर्माणाय":
         "Om. Hail auspiciousness. Queen Udayamati of the Chaulukya (Solanki) dynasty commissioned this subterranean stepwell (vapi) in Patan.",
     "संवत् १०६३ वर्षे सरस्वती नद्याः तीरे सप्तभूमियुता वापी प्रतिष्ठिता":
@@ -58,11 +58,11 @@ class FakeTranslationProvider(TranslationProvider):
 
     async def translate_batch(
         self,
-        lines: List[TranslationInputLine],
+        lines: list[TranslationInputLine],
         source_lang: str,
         target_lang: str = "en"
     ) -> TranslationResult:
-        out_lines: List[TranslationOutputLine] = []
+        out_lines: list[TranslationOutputLine] = []
         for l in lines:
             t = await self.translate_line(l.text, source_lang, target_lang)
             out_lines.append(

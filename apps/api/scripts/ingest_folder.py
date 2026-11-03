@@ -1,10 +1,11 @@
-import os
-import sys
-import io
 import argparse
 import asyncio
+import io
 import logging
-from typing import List, Dict, Any
+import os
+import sys
+from typing import Any
+
 from PIL import Image
 
 try:
@@ -14,7 +15,6 @@ except ImportError:
     Presentation = None
 
 from app.core.database import AsyncSessionLocal
-from app.models.models import Document, DocumentPage, OCRLine, Translation, Job, DocStatus, JobStatus
 from app.schemas.schemas import DocumentCreate
 from app.services.document_service import DocumentService
 from app.services.pipeline.orchestrator import DocumentPipeline
@@ -22,7 +22,7 @@ from app.services.pipeline.orchestrator import DocumentPipeline
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("ingest-folder")
 
-def extract_pptx_slides(pptx_path: str) -> List[Dict[str, Any]]:
+def extract_pptx_slides(pptx_path: str) -> list[dict[str, Any]]:
     """
     Extracts text, slide titles, notes, and embedded images from PowerPoint archives.
     """

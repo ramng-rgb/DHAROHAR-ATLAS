@@ -1,8 +1,8 @@
+from app.core.database import get_db
+from app.schemas.schemas import OCRLineResponse, OCRLineUpdate
+from app.services.document_service import DocumentService
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.core.database import get_db
-from app.services.document_service import DocumentService
-from app.schemas.schemas import OCRLineResponse, OCRLineUpdate
 
 router = APIRouter(prefix="/lines", tags=["Corrections"])
 

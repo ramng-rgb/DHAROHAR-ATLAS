@@ -1,23 +1,23 @@
 from app.services.ocr.base import (
-    OCRProvider,
     BoundingBox,
+    OCRDocumentData,
     OCRLineData,
     OCRPageData,
-    OCRDocumentData
+    OCRProvider,
 )
-from app.services.ocr.gemini_vision import GeminiVisionOCR
-from app.services.ocr.tesseract import TesseractOCR
 from app.services.ocr.fake import FakeOCRProvider
+from app.services.ocr.gemini_vision import GeminiVisionOCR
 from app.services.ocr.registry import get_ocr_provider
+from app.services.ocr.tesseract import TesseractOCR
 
 __all__ = [
-    "OCRProvider",
     "BoundingBox",
+    "FakeOCRProvider",
+    "GeminiVisionOCR",
+    "OCRDocumentData",
     "OCRLineData",
     "OCRPageData",
-    "OCRDocumentData",
-    "GeminiVisionOCR",
+    "OCRProvider",
     "TesseractOCR",
-    "FakeOCRProvider",
     "get_ocr_provider"
 ]

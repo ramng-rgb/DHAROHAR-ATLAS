@@ -1,14 +1,16 @@
-from typing import List, Optional, Dict, Any
+from typing import Any
+
+from app.models.models import Route, RouteStop
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
-from app.models.models import Route, RouteStop, Site
+
 
 class RouteService:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    def _format_route(self, route: Route) -> Dict[str, Any]:
+    def _format_route(self, route: Route) -> dict[str, Any]:
         stops_list = sorted(route.stops, key=lambda s: s.stop_order)
         coordinates = []
         formatted_stops = []
@@ -73,7 +75,7 @@ class RouteService:
             "stops": formatted_stops
         }
 
-    async def list_routes(self) -> List[Dict[str, Any]]:
+    async def list_routes(self) -> list[dict[str, Any]]:
         stmt = select(Route).options(
             selectinload(Route.stops).selectinload(RouteStop.site)
         )
@@ -81,7 +83,7 @@ class RouteService:
         routes = result.scalars().all()
         return [self._format_route(r) for r in routes]
 
-    async def get_route_by_slug(self, slug: str) -> Optional[Dict[str, Any]]:
+    async def get_route_by_slug(self, slug: str) -> dict[str, Any] | None:
         stmt = (
             select(Route)
             .where(Route.slug == slug)
@@ -95,9 +97,10 @@ class RouteService:
             return None
         return self._format_route(route)
 
-    async def get_journey_by_slug(self, slug: str) -> Optional[Dict[str, Any]]:
-        from app.models.models import FolkloreItem, Observation, Document, Model3D
+    async def get_journey_by_slug(self, slug: str) -> dict[str, Any] | None:
         import math
+
+        from app.models.models import Document, FolkloreItem, Model3D, Observation
 
         def haversine(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
             R = 6371.0
@@ -114,7 +117,7 @@ class RouteService:
             x = math.cos(phi1) * math.sin(phi2) - math.sin(phi1) * math.cos(phi2) * math.cos(dlambda)
             return round((math.degrees(math.atan2(y, x)) + 360) % 360, 1)
 
-        def interpolate(lat1: float, lon1: float, lat2: float, lon2: float, steps: int = 12) -> List[List[float]]:
+        def interpolate(lat1: float, lon1: float, lat2: float, lon2: float, steps: int = 12) -> list[list[float]]:
             pts = []
             for i in range(steps + 1):
                 t = i / steps

@@ -1,28 +1,28 @@
-import json
-from typing import List, Optional, Dict, Any
-from fastapi import APIRouter, Depends, Query, Request
-from fastapi.responses import StreamingResponse
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
-
 from app.core.database import get_db
-from app.services.search.hybrid_search import HybridSearchEngine
-from app.services.search.ask import AskTheArchiveService
 from app.schemas.schemas import (
-    SearchResponse, SearchSuggestion, AskArchiveRequest, AskArchiveResponse
+    AskArchiveRequest,
+    AskArchiveResponse,
+    SearchResponse,
+    SearchSuggestion,
 )
+from app.services.search.ask import AskTheArchiveService
+from app.services.search.hybrid_search import HybridSearchEngine
+from fastapi import APIRouter, Depends, Query
+from fastapi.responses import StreamingResponse
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="", tags=["Search & Ask"])
 
 @router.get("/search", response_model=SearchResponse)
 async def search_archive(
     q: str = Query(..., min_length=1, description="Multilingual search query"),
-    types: Optional[List[str]] = Query(None, description="Filter by source types (site, document_line_group, folklore, observation)"),
-    lang: Optional[List[str]] = Query(None, description="Filter by languages"),
-    site_id: Optional[str] = Query(None, description="Filter by monument site ID"),
-    state: Optional[List[str]] = Query(None, description="Filter by Indian states"),
-    year_from: Optional[int] = Query(None, description="Chronological start year"),
-    year_to: Optional[int] = Query(None, description="Chronological end year"),
+    types: list[str] | None = Query(None, description="Filter by source types (site, document_line_group, folklore, observation)"),
+    lang: list[str] | None = Query(None, description="Filter by languages"),
+    site_id: str | None = Query(None, description="Filter by monument site ID"),
+    state: list[str] | None = Query(None, description="Filter by Indian states"),
+    year_from: int | None = Query(None, description="Chronological start year"),
+    year_to: int | None = Query(None, description="Chronological end year"),
     limit: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db)
 ):
@@ -45,7 +45,7 @@ async def search_archive(
         limit=limit
     )
 
-@router.get("/search/suggest", response_model=List[SearchSuggestion])
+@router.get("/search/suggest", response_model=list[SearchSuggestion])
 async def search_suggestions(
     q: str = Query(..., min_length=2, description="Prefix or query substring"),
     limit: int = Query(8, ge=1, le=20),
@@ -78,7 +78,7 @@ async def ask_the_archive(
 @router.get("/ask/stream")
 async def ask_the_archive_stream(
     question: str = Query(..., min_length=2, description="Natural language heritage question"),
-    lang: Optional[str] = Query(None, description="Preferred language: en, hi, gu"),
+    lang: str | None = Query(None, description="Preferred language: en, hi, gu"),
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -116,9 +116,13 @@ async def search_analytics(
         p95 = float(np.percentile(latencies, 95))
 
     zero_hit_queries = [r.query for r in rows if r.result_count == 0]
+    chunk_count = (await db.execute(text("SELECT COUNT(*) FROM search_chunks"))).scalar() or 0
+    doc_count = (await db.execute(text("SELECT COUNT(*) FROM documents WHERE deleted_at IS NULL"))).scalar() or 0
 
     return {
         "total_queries_logged": len(rows),
+        "total_chunks": chunk_count,
+        "total_documents": doc_count,
         "latency_p50_ms": round(p50, 2),
         "latency_p95_ms": round(p95, 2),
         "zero_result_queries": list(set(zero_hit_queries))[:10],

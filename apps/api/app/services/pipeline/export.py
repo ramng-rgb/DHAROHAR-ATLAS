@@ -1,8 +1,10 @@
 import json
 import xml.etree.ElementTree as ET
+from typing import Any
 from xml.dom import minidom
-from typing import Any, Dict
+
 from app.models.models import Document
+
 
 def export_document_as_txt(doc: Document) -> str:
     lines = []
@@ -25,7 +27,7 @@ def export_document_as_txt(doc: Document) -> str:
     return "\n".join(lines)
 
 def export_document_as_json(doc: Document) -> str:
-    data: Dict[str, Any] = {
+    data: dict[str, Any] = {
         "id": doc.id,
         "title": doc.title,
         "language_hint": doc.language_hint,

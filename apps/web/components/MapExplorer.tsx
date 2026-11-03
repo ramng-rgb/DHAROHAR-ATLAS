@@ -23,6 +23,8 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { translations, SupportedLocale } from "@/lib/i18n";
 import { AskTheArchivePanel } from "@/components/search/AskTheArchivePanel";
+import { JourneyPlayer } from "@/components/journey/JourneyPlayer";
+import { fetchJourneyBySlug, JourneyDetail } from "@/lib/api";
 
 interface MapExplorerProps {
   initialSites: SiteBrief[];
@@ -113,6 +115,27 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   const [error, setError] = useState<string | null>(null);
   const [matchedSiteIds, setMatchedSiteIds] = useState<string[] | null>(null);
   const [askArchiveOpen, setAskArchiveOpen] = useState<boolean>(false);
+  const [activeJourney, setActiveJourney] = useState<JourneyDetail | null>(null);
+  const [journeyLoading, setJourneyLoading] = useState<boolean>(false);
+
+  const handlePlayJourney = useCallback(async (slug: string = "gujarat-stepwell-trail") => {
+    setJourneyLoading(true);
+    try {
+      const data = await fetchJourneyBySlug(slug);
+      setActiveJourney(data);
+    } catch (err) {
+      console.error("Failed to load journey:", err);
+    } finally {
+      setJourneyLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const journeySlug = searchParams.get("journey");
+    if (journeySlug) {
+      handlePlayJourney(journeySlug);
+    }
+  }, [searchParams, handlePlayJourney]);
 
   // Wire explorer search bar to M4 hybrid search API
   useEffect(() => {
@@ -535,6 +558,19 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
             ))}
           </div>
 
+          {/* Play a Journey Button */}
+          <button
+            type="button"
+            id="explore-play-journey-button"
+            data-testid="play-journey-btn"
+            onClick={() => handlePlayJourney("gujarat-stepwell-trail")}
+            className="px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-xl bg-[#C85A32] hover:bg-[#D4AF37] text-white hover:text-indigoInk border border-[#D4AF37]/50"
+            aria-label="Play Gujarat Stepwell Trail Journey"
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{journeyLoading ? "Loading..." : "Play Journey"}</span>
+          </button>
+
           {/* Ask Archive Floating Trigger */}
           <button
             type="button"
@@ -561,6 +597,18 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
       {/* Main Content Area */}
       <div className="relative w-full flex-1 flex overflow-hidden">
+        {/* Embedded Fullscreen Journey Mode Overlay */}
+        {activeJourney && (
+          <div className="absolute inset-0 z-40 bg-[#090D16]">
+            <JourneyPlayer
+              journey={activeJourney}
+              embedded={true}
+              locale={locale}
+              onExit={() => setActiveJourney(null)}
+            />
+          </div>
+        )}
+
         {/* Left Filter Panel (Collapsible desktop sidebar / mobile bottom sheet) */}
         {filterPanelOpen && (
           <aside

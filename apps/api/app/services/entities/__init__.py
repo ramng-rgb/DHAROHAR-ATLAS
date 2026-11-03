@@ -1,13 +1,13 @@
 from app.services.entities.base import (
+    EntityExtractionResult,
     ExtractedEntity,
     ExtractedMention,
-    EntityExtractionResult
 )
 from app.services.entities.extractor import EntityExtractionProvider
 
 __all__ = [
-    "ExtractedEntity",
-    "ExtractedMention",
+    "EntityExtractionProvider",
     "EntityExtractionResult",
-    "EntityExtractionProvider"
+    "ExtractedEntity",
+    "ExtractedMention"
 ]

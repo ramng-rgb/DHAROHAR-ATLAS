@@ -1,18 +1,30 @@
-import os
-import uuid
 import asyncio
+import uuid
 from datetime import datetime
-from typing import List, Optional, Dict, Any, Tuple
+
+from app.models.models import (
+    DocStatus,
+    Document,
+    DocumentPage,
+    Entity,
+    EntityMention,
+    Job,
+    JobStatus,
+    OCRLine,
+    TextVersion,
+    Translation,
+)
+from app.schemas.schemas import (
+    DocumentCreate,
+    OCRLineUpdate,
+    RevertRequest,
+    TranslationUpdate,
+)
+from app.services.pipeline.orchestrator import DocumentPipeline
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 
-from app.models.models import (
-    Document, DocumentPage, OCRLine, Translation, TextVersion,
-    Entity, EntityMention, Job, JobStatus, DocStatus, Site
-)
-from app.schemas.schemas import DocumentCreate, OCRLineUpdate, TranslationUpdate, RevertRequest
-from app.services.pipeline.orchestrator import DocumentPipeline
 
 class DocumentService:
     def __init__(self, db: AsyncSession):
@@ -20,13 +32,13 @@ class DocumentService:
 
     async def list_documents(
         self,
-        site_id: Optional[str] = None,
-        language: Optional[str] = None,
-        status: Optional[str] = None,
-        doc_type: Optional[str] = None,
+        site_id: str | None = None,
+        language: str | None = None,
+        status: str | None = None,
+        doc_type: str | None = None,
         limit: int = 50,
         offset: int = 0
-    ) -> List[Document]:
+    ) -> list[Document]:
         stmt = (
             select(Document)
             .where(Document.deleted_at.is_(None))
@@ -52,7 +64,7 @@ class DocumentService:
         result = await self.db.execute(stmt)
         return result.scalars().all()
 
-    async def get_document(self, doc_id: str) -> Optional[Document]:
+    async def get_document(self, doc_id: str) -> Document | None:
         stmt = (
             select(Document)
             .execution_options(populate_existing=True)
@@ -89,9 +101,9 @@ class DocumentService:
     async def create_document_and_enqueue_job(
         self,
         doc_in: DocumentCreate,
-        file_bytes: Optional[bytes] = None,
+        file_bytes: bytes | None = None,
         run_async: bool = True
-    ) -> Tuple[Document, Job]:
+    ) -> tuple[Document, Job]:
         doc_id = str(uuid.uuid4())
         job_id = str(uuid.uuid4())
         idempotency_key = f"ocr_{doc_id}_{int(datetime.utcnow().timestamp())}"
@@ -144,20 +156,20 @@ class DocumentService:
 
         return doc, job
 
-    async def _run_pipeline_background(self, job_id: str, file_bytes: Optional[bytes]):
+    async def _run_pipeline_background(self, job_id: str, file_bytes: bytes | None):
         from app.core.database import AsyncSessionLocal
         async with AsyncSessionLocal() as session:
             pipeline = DocumentPipeline(session)
             try:
                 await pipeline.run(job_id=job_id, file_bytes=file_bytes)
-            except Exception as e:
+            except Exception:
                 pass
 
     async def update_line_text(
         self,
         line_id: str,
         update_data: OCRLineUpdate
-    ) -> Optional[OCRLine]:
+    ) -> OCRLine | None:
         stmt = select(OCRLine).where(OCRLine.id == line_id).options(selectinload(OCRLine.translations))
         res = await self.db.execute(stmt)
         line = res.scalars().first()
@@ -212,7 +224,7 @@ class DocumentService:
         self,
         translation_id: str,
         update_data: TranslationUpdate
-    ) -> Optional[Translation]:
+    ) -> Translation | None:
         stmt = select(Translation).where(Translation.id == translation_id)
         res = await self.db.execute(stmt)
         trans = res.scalars().first()
@@ -336,7 +348,7 @@ class DocumentService:
         await self.db.commit()
         return True
 
-    async def get_document_version_history(self, doc_id: str) -> List[TextVersion]:
+    async def get_document_version_history(self, doc_id: str) -> list[TextVersion]:
         doc = await self.get_document(doc_id)
         if not doc:
             return []
@@ -356,7 +368,7 @@ class DocumentService:
         res = await self.db.execute(stmt)
         return res.scalars().all()
 
-    async def link_entity_to_site(self, entity_id: str, site_id: str) -> Optional[Entity]:
+    async def link_entity_to_site(self, entity_id: str, site_id: str) -> Entity | None:
         ent_res = await self.db.execute(select(Entity).where(Entity.id == entity_id))
         entity = ent_res.scalars().first()
         if not entity:

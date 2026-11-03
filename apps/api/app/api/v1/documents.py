@@ -2,6 +2,7 @@ import logging
 import os
 import uuid
 
+from app.core.config import settings
 from app.core.database import get_db
 from app.schemas.schemas import (
     DocumentCreate,
@@ -41,14 +42,28 @@ async def upload_document_file(
     file: UploadFile = File(...)
 ):
     """
-    Direct-to-storage upload endpoint with size check (<=25MB) and mime verification.
+    Direct-to-storage upload endpoint with size check (<=25MB) and mime/magic-byte verification.
     """
     content = await file.read()
     if len(content) > 25 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="File exceeds maximum allowed size of 25MB.")
 
+    # Validate Magic Bytes (JPEG, PNG, PDF, TIFF, WebP)
+    is_valid_format = (
+        content.startswith(b"\x89PNG\r\n\x1a\n") or
+        content.startswith(b"\xff\xd8\xff") or
+        content.startswith(b"%PDF") or
+        content.startswith(b"II*\x00") or content.startswith(b"MM\x00*") or
+        (content.startswith(b"RIFF") and len(content) >= 12 and content[8:12] == b"WEBP")
+    )
+    if not is_valid_format and len(content) > 0:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid file format. Magic bytes do not match supported archival formats (PNG, JPEG, PDF, TIFF, WebP)."
+        )
+
     storage_filename = f"{uuid.uuid4().hex}_{file.filename or 'upload.jpg'}"
-    storage_dir = "/Users/ramnarayangupta/Desktop/hac/data/uploads"
+    storage_dir = os.path.join(settings.MEDIA_DIR, "uploads")
     os.makedirs(storage_dir, exist_ok=True)
     local_path = os.path.join(storage_dir, storage_filename)
 

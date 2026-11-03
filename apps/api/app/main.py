@@ -15,8 +15,11 @@ from app.api.v1.sites import router as sites_router
 from app.api.v1.translations import router as translations_router
 from app.core.config import settings
 from app.core.rate_limiter import EndpointCategory, tiered_rate_limiter
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+import json
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(
@@ -28,6 +31,57 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
+# Standardized Error Exception Handlers
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    details = []
+    for err in exc.errors():
+        loc = " -> ".join(str(l) for l in err.get("loc", []))
+        details.append({
+            "field": loc,
+            "issue": err.get("msg", "Validation error"),
+            "type": err.get("type", "value_error")
+        })
+    return JSONResponse(
+        status_code=422,
+        content={
+            "error": {
+                "code": "VALIDATION_ERROR",
+                "message": "Request validation failed. Please check the supplied parameters.",
+                "details": details
+            },
+            "detail": exc.errors()
+        }
+    )
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    code_map = {
+        400: "BAD_REQUEST",
+        401: "UNAUTHENTICATED",
+        403: "FORBIDDEN",
+        404: "NOT_FOUND",
+        409: "CONFLICT",
+        413: "PAYLOAD_TOO_LARGE",
+        422: "VALIDATION_ERROR",
+        429: "RATE_LIMITED",
+        500: "INTERNAL_SERVER_ERROR"
+    }
+    code = code_map.get(exc.status_code, "HTTP_ERROR")
+    msg = exc.detail if isinstance(exc.detail, str) else "An error occurred."
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "error": {
+                "code": code,
+                "message": msg,
+                "details": exc.detail if isinstance(exc.detail, list) else []
+            },
+            "detail": exc.detail
+        },
+        headers=exc.headers
+    )
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -37,17 +91,41 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Tiered Rate Limiting & Request ID Middleware
+# Tiered Rate Limiting & Request ID Middleware with Early Malformed JSON Trapping
 @app.middleware("http")
 async def tiered_rate_limiting_and_request_id(request: Request, call_next):
     # 1. Generate / Preserve Request ID
     request_id = request.headers.get("X-Request-ID", str(uuid.uuid4()))
     start_time = time.time()
 
-    # 2. Extract body for Auth Routes (allows per-account extraction without stream exhaustion)
+    # 2. Trap malformed/garbage JSON early on mutating requests with application/json
     body_bytes = None
+    content_type = request.headers.get("content-type", "").lower()
+    if request.method in ("POST", "PUT", "PATCH") and "application/json" in content_type:
+        body_bytes = await request.body()
+        if body_bytes.strip():
+            try:
+                json.loads(body_bytes)
+            except Exception as json_err:
+                return JSONResponse(
+                    status_code=400,
+                    content={
+                        "error": {
+                            "code": "MALFORMED_JSON",
+                            "message": "Malformed JSON in request body.",
+                            "details": [{"issue": str(json_err)}]
+                        },
+                        "detail": "Malformed JSON in request body."
+                    },
+                    headers={"X-Request-ID": request_id}
+                )
+        async def receive():
+            return {"type": "http.request", "body": body_bytes}
+        request = Request(request.scope, receive=receive)
+
+    # For other auth requests (e.g. form-encoded), preserve body for account rate limit evaluation
     path = request.url.path
-    if "/auth" in path and request.method in ("POST", "PUT"):
+    if body_bytes is None and "/auth" in path and request.method in ("POST", "PUT"):
         body_bytes = await request.body()
         async def receive():
             return {"type": "http.request", "body": body_bytes}
@@ -57,8 +135,12 @@ async def tiered_rate_limiting_and_request_id(request: Request, call_next):
     decision = await tiered_rate_limiter.evaluate_request(request, body_bytes=body_bytes)
 
     if not decision.allowed:
-        from fastapi.responses import JSONResponse
         content = {
+            "error": {
+                "code": "RATE_LIMITED",
+                "message": decision.reason or "Rate limit exceeded. Please slow down.",
+                "details": []
+            },
             "detail": decision.reason or "Rate limit exceeded. Please slow down.",
             "retry_after": decision.retry_after,
             "category": decision.category.value,

@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Any
 
 from app.models.models import Route, RouteStop
@@ -141,6 +142,39 @@ class RouteService:
         full_coords = []
         cumulative_dist = 0.0
 
+        # Batch load related records to eliminate N+1 queries across route stops
+        site_ids = [st.site.id for st in sorted_stops if st.site]
+        folklore_by_site: dict[str, list[FolkloreItem]] = defaultdict(list)
+        obs_by_site: dict[str, list[Observation]] = defaultdict(list)
+        docs_by_site: dict[str, list[Document]] = defaultdict(list)
+        models_by_site: dict[str, Model3D] = {}
+
+        if site_ids:
+            folk_rows = (await self.db.execute(
+                select(FolkloreItem).where(FolkloreItem.site_id.in_(site_ids))
+            )).scalars().all()
+            for f in folk_rows:
+                folklore_by_site[f.site_id].append(f)
+
+            obs_rows = (await self.db.execute(
+                select(Observation).where(Observation.site_id.in_(site_ids))
+            )).scalars().all()
+            for o in obs_rows:
+                obs_by_site[o.site_id].append(o)
+
+            doc_rows = (await self.db.execute(
+                select(Document).where(Document.site_id.in_(site_ids), Document.deleted_at.is_(None))
+            )).scalars().all()
+            for d in doc_rows:
+                docs_by_site[d.site_id].append(d)
+
+            m_rows = (await self.db.execute(
+                select(Model3D).where(Model3D.site_id.in_(site_ids))
+            )).scalars().all()
+            for m in m_rows:
+                if m.site_id not in models_by_site:
+                    models_by_site[m.site_id] = m
+
         for idx, st in enumerate(sorted_stops):
             site = st.site
             if not site:
@@ -174,10 +208,8 @@ class RouteService:
                 if prev_site:
                     brg = bearing(prev_site.latitude, prev_site.longitude, site.latitude, site.longitude)
 
-            # Query real linked records for this site
-            folklore_rows = (await self.db.execute(
-                select(FolkloreItem).where(FolkloreItem.site_id == site.id)
-            )).scalars().all()
+            # Retrieve pre-fetched linked records for this site in O(1)
+            folklore_rows = folklore_by_site.get(site.id, [])
             linked_folk = [
                 {
                     "id": f.id,
@@ -191,9 +223,7 @@ class RouteService:
                 for f in folklore_rows
             ]
 
-            obs_rows = (await self.db.execute(
-                select(Observation).where(Observation.site_id == site.id)
-            )).scalars().all()
+            obs_rows = obs_by_site.get(site.id, [])
             linked_obs = [
                 {
                     "id": o.id,
@@ -207,9 +237,7 @@ class RouteService:
                 for o in obs_rows
             ]
 
-            doc_rows = (await self.db.execute(
-                select(Document).where(Document.site_id == site.id, Document.deleted_at == None)
-            )).scalars().all()
+            doc_rows = docs_by_site.get(site.id, [])
             linked_docs = [
                 {
                     "id": d.id,
@@ -222,9 +250,7 @@ class RouteService:
                 for d in doc_rows
             ]
 
-            model_row = (await self.db.execute(
-                select(Model3D).where(Model3D.site_id == site.id)
-            )).scalars().first()
+            model_row = models_by_site.get(site.id)
 
             hero_media = {
                 "url": site.hero_image or "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&w=1200&q=80",

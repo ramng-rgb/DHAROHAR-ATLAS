@@ -1,0 +1,78 @@
+services:
+  # 1. FastAPI API Gateway
+  - type: web
+    name: dharohar-api
+    runtime: docker
+    dockerContext: .
+    dockerfilePath: apps/api/Dockerfile
+    plan: starter
+    region: singapore # Closest to India (ap-southeast-1)
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: DATABASE_URL
+        sync: false # Set in Render Dashboard from Supabase pooled connection string
+      - key: SYNC_DATABASE_URL
+        sync: false # Set in Render Dashboard from Supabase direct connection string
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: dharohar-redis
+          property: connectionString
+      - key: CORS_ORIGINS
+        value: "https://dharohar-atlas.vercel.app,http://localhost:3000"
+      - key: STORAGE_TYPE
+        value: "local"
+      - key: MEDIA_DIR
+        value: "/data"
+      - key: OCR_PROVIDER
+        value: "gemini_fallback"
+      - key: TRANSLATION_PROVIDER
+        value: "neural"
+      - key: EMBEDDING_PROVIDER
+        value: "neural"
+      - key: LLM_PROVIDER
+        value: "gemini"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: METRICS_SECRET_KEY
+        generateValue: true
+
+  # 2. Asynchronous Ingestion & Pipeline Worker
+  - type: worker
+    name: dharohar-worker
+    runtime: docker
+    dockerContext: .
+    dockerfilePath: apps/api/Dockerfile
+    dockerCommand: python /app/scripts/worker.py
+    plan: starter
+    region: singapore
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SYNC_DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: dharohar-redis
+          property: connectionString
+      - key: STORAGE_TYPE
+        value: "local"
+      - key: MEDIA_DIR
+        value: "/data"
+      - key: OCR_PROVIDER
+        value: "gemini_fallback"
+      - key: TRANSLATION_PROVIDER
+        value: "neural"
+      - key: GEMINI_API_KEY
+        sync: false
+
+  # 3. Redis Cache & Job Broker
+  - type: redis
+    name: dharohar-redis
+    plan: free
+    region: singapore
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: [] # internal access only

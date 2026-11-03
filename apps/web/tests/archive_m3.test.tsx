@@ -121,6 +121,7 @@ describe("M3: DocumentViewer Interactive Component & Bidirectional Linking", () 
     mime: "image/png",
     page_count: 1,
     created_at: new Date().toISOString(),
+    entities: [],
     pages: [
       {
         id: "p1",
@@ -133,6 +134,7 @@ describe("M3: DocumentViewer Interactive Component & Bidirectional Linking", () 
         height: 1600,
         rotation_deg: 0,
         status: "ready",
+        entities: [],
         ocr_lines: [
           {
             id: "line-1",
@@ -150,6 +152,7 @@ describe("M3: DocumentViewer Interactive Component & Bidirectional Linking", () 
             engine: "fake_ocr",
             version: 1,
             is_corrected: false,
+            translations: [],
           },
           {
             id: "line-2",
@@ -167,6 +170,7 @@ describe("M3: DocumentViewer Interactive Component & Bidirectional Linking", () 
             engine: "fake_ocr",
             version: 1,
             is_corrected: false,
+            translations: [],
           },
           {
             id: "line-3",
@@ -184,6 +188,7 @@ describe("M3: DocumentViewer Interactive Component & Bidirectional Linking", () 
             engine: "fake_ocr",
             version: 1,
             is_corrected: false,
+            translations: [],
           },
         ],
         translations: [
@@ -221,7 +226,7 @@ describe("M3: DocumentViewer Interactive Component & Bidirectional Linking", () 
       id: "site-1",
       slug: "rani-ki-vav",
       name: "Rani ki Vav (The Queen's Stepwell)",
-    },
+    } as any,
   };
 
   beforeEach(() => {

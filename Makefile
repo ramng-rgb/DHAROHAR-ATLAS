@@ -25,6 +25,16 @@ eval-ocr:
 eval-translation:
 	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/eval_translation.py
 
+reindex:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/reindex.py
+
+eval-search:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/eval_search.py
+
+eval-ask:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/eval_ask.py
+
+
 test:
 	PYTHONPATH=apps/api apps/api/.venv/bin/pytest apps/api/tests -v --cov=app
 

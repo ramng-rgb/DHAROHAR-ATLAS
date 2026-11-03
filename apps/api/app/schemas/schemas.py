@@ -546,42 +546,85 @@ class RouteResponse(BaseModel):
     class Config:
         from_attributes = True
 
-# Search & RAG
-class SearchResultItem(BaseModel):
+# Search & RAG (M4)
+class SearchHit(BaseModel):
     id: str
-    content_type: str
-    content_id: str
-    title: str
-    text_snippet: str
-    rrf_score: float
-    slug: Optional[str] = None
-    latitude: Optional[float] = None
-    longitude: Optional[float] = None
-    era: Optional[str] = None
-    dynasty: Optional[str] = None
-    has_3d: Optional[bool] = False
+    source_type: str
+    source_id: str
+    site_id: Optional[str] = None
+    document_id: Optional[str] = None
+    page_id: Optional[str] = None
+    chunk_index: int = 0
+    title: Optional[str] = None
+    text: str
+    lang: str = "en"
+    rrf_score: float = 0.0
+    matched_by: List[str] = []
+    highlighted_snippet: Optional[str] = None
+    is_illustrative: bool = False
+    line_ids: List[str] = []
+    start_line_no: Optional[int] = None
+    end_line_no: Optional[int] = None
+    metadata: Dict[str, Any] = {}
+    site: Optional[Dict[str, Any]] = None
+
+class SearchGroupedResults(BaseModel):
+    sites: List[SearchHit] = []
+    documents: List[SearchHit] = []
+    folklore: List[SearchHit] = []
+    observations: List[SearchHit] = []
 
 class SearchResponse(BaseModel):
     query: str
-    total: int
-    results: List[SearchResultItem]
-    grouped: Dict[str, List[Dict[str, Any]]]
+    detected_lang: str = "en"
+    total: int = 0
+    latency_ms: float = 0.0
+    results: List[SearchHit] = []
+    grouped: SearchGroupedResults = SearchGroupedResults()
+
+class SearchSuggestion(BaseModel):
+    id: str
+    title: str
+    name_hi: Optional[str] = None
+    name_gu: Optional[str] = None
+    kind: str = "site"
+    slug: Optional[str] = None
 
 class AskArchiveRequest(BaseModel):
-    query: str
+    question: Optional[str] = None
+    query: Optional[str] = None  # backward compatibility with M0
+    filters: Optional[Dict[str, Any]] = None
+    lang: Optional[str] = None
+    stream: bool = False
 
-class CitationItem(BaseModel):
-    index: int
+class SourceCitation(BaseModel):
+    citation_index: int
+    chunk_id: str
+    source_type: str
+    source_id: str
+    site_id: Optional[str] = None
+    document_id: Optional[str] = None
+    page_id: Optional[str] = None
+    line_ids: List[str] = []
     title: str
-    content_type: str
-    id: str
     snippet: str
+    lang: str = "en"
+    is_illustrative: bool = False
+    data_confidence: str = "verified"
+    site: Optional[Dict[str, Any]] = None
 
 class AskArchiveResponse(BaseModel):
-    query: str
-    answer: str
-    citations: List[CitationItem] = []
-    confidence: float
+    answered: bool = True
+    question: str
+    answer: Optional[str] = None
+    reason: Optional[str] = None
+    message: Optional[str] = None
+    lang: str = "en"
+    has_illustrative_source: bool = False
+    citations: List[SourceCitation] = []
+    sources: List[SourceCitation] = []
+    related_records: List[Dict[str, Any]] = []
+    latency_ms: Optional[float] = None
 
 # Job
 class JobResponse(BaseModel):

@@ -1,0 +1,26 @@
+{
+  "keyword_only": {
+    "name": "Keyword-Only (Postgres FTS)",
+    "recall_at_5": 32.0,
+    "recall_at_10": 32.0,
+    "mrr": 0.32,
+    "latency_p50_ms": 0.19,
+    "latency_p95_ms": 0.38
+  },
+  "vector_only": {
+    "name": "Vector-Only (pgvector HNSW)",
+    "recall_at_5": 84.0,
+    "recall_at_10": 88.0,
+    "mrr": 0.62,
+    "latency_p50_ms": 0.72,
+    "latency_p95_ms": 0.89
+  },
+  "hybrid_rrf": {
+    "name": "Hybrid Search (RRF k=60)",
+    "recall_at_5": 92.0,
+    "recall_at_10": 96.0,
+    "mrr": 0.905,
+    "latency_p50_ms": 9.4,
+    "latency_p95_ms": 13.89
+  }
+}

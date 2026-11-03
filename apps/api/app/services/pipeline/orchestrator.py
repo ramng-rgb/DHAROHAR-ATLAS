@@ -386,6 +386,15 @@ class DocumentPipeline:
                 "status": doc_record.status,
                 "needs_review": any_low_confidence
             }
+
+            # Auto-index document chunks for semantic search (M4)
+            try:
+                from app.services.search.indexer import SearchIndexer
+                indexer = SearchIndexer(self.db)
+                await indexer.index_document(doc_id)
+            except Exception as e:
+                logger.warning("Auto-indexing document %s failed: %s", doc_id, e)
+
             await self.db.commit()
 
             await emit_job_event(job.id, {

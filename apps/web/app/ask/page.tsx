@@ -1,6 +1,8 @@
+"use client";
+
 import React from "react";
-import { SemanticSearchBox } from "@/components/SemanticSearchBox";
-import { MessageSquare, Sparkles, ShieldCheck } from "lucide-react";
+import { AskTheArchivePanel } from "@/components/search/AskTheArchivePanel";
+import { MessageSquare, Sparkles } from "lucide-react";
 
 export default function AskArchivePage() {
   return (
@@ -14,11 +16,11 @@ export default function AskArchivePage() {
           Ask the Dharohar Archive
         </h1>
         <p className="text-sm sm:text-base text-[#D8C3A5] max-w-2xl mx-auto font-serif">
-          Inquire about Solanki stepwell engineering, medieval Rajput defensive fortifications, or Sanskrit inscriptions. Answers are synthesized with inline record citations and refuse to hallucinate unverified lore.
+          Inquire about Solanki stepwell engineering, medieval Rajput defensive fortifications, or Sanskrit inscriptions. Answers are synthesized strictly from retrieved archive records with inline citations and calibrated refusal.
         </p>
       </div>
 
-      <SemanticSearchBox />
+      <AskTheArchivePanel />
     </div>
   );
 }

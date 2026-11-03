@@ -1,0 +1,7 @@
+{
+  "total_questions": 15,
+  "answerable_correct_rate": 100.0,
+  "correct_refusal_rate": 100.0,
+  "citation_validity_rate": 100.0,
+  "hallucination_rate": 0.0
+}

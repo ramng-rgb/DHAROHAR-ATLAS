@@ -1415,9 +1415,10 @@
     "/api/v1/search": {
       "get": {
         "tags": [
-          "Search"
+          "Search & Ask"
         ],
         "summary": "Search Archive",
+        "description": "Hybrid Reciprocal Rank Fusion (RRF) search combining:\n1. Dense vector cosine similarity via HNSW (pgvector)\n2. PostgreSQL Full-Text Search (simple unaccent)\n3. Trigram lexical fuzzy matching (pg_trgm)\nReturns grouped results across Sites, Documents, Folklore, and Observations.",
         "operationId": "search_archive_api_v1_search_get",
         "parameters": [
           {
@@ -1427,10 +1428,127 @@
             "schema": {
               "type": "string",
               "minLength": 1,
-              "description": "Multilingual query (English/Hindi/Gujarati/Sanskrit)",
+              "description": "Multilingual search query",
               "title": "Q"
             },
-            "description": "Multilingual query (English/Hindi/Gujarati/Sanskrit)"
+            "description": "Multilingual search query"
+          },
+          {
+            "name": "types",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by source types (site, document_line_group, folklore, observation)",
+              "title": "Types"
+            },
+            "description": "Filter by source types (site, document_line_group, folklore, observation)"
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by languages",
+              "title": "Lang"
+            },
+            "description": "Filter by languages"
+          },
+          {
+            "name": "site_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by monument site ID",
+              "title": "Site Id"
+            },
+            "description": "Filter by monument site ID"
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by Indian states",
+              "title": "State"
+            },
+            "description": "Filter by Indian states"
+          },
+          {
+            "name": "year_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Chronological start year",
+              "title": "Year From"
+            },
+            "description": "Chronological start year"
+          },
+          {
+            "name": "year_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Chronological end year",
+              "title": "Year To"
+            },
+            "description": "Chronological end year"
           },
           {
             "name": "limit",
@@ -1438,9 +1556,9 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 50,
+              "maximum": 100,
               "minimum": 1,
-              "default": 15,
+              "default": 20,
               "title": "Limit"
             }
           }
@@ -1469,13 +1587,76 @@
         }
       }
     },
-    "/api/v1/search/ask": {
+    "/api/v1/search/suggest": {
+      "get": {
+        "tags": [
+          "Search & Ask"
+        ],
+        "summary": "Search Suggestions",
+        "description": "Fast (<100ms) autocomplete suggestions across monument names, entities, and document titles.",
+        "operationId": "search_suggestions_api_v1_search_suggest_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Prefix or query substring",
+              "title": "Q"
+            },
+            "description": "Prefix or query substring"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1,
+              "default": 8,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchSuggestion"
+                  },
+                  "title": "Response Search Suggestions Api V1 Search Suggest Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ask": {
       "post": {
         "tags": [
-          "Search"
+          "Search & Ask"
         ],
         "summary": "Ask The Archive",
-        "operationId": "ask_the_archive_api_v1_search_ask_post",
+        "description": "Grounded Question-Answering (RAG) over the archive.\nStrictly answers from retrieved sources with verified citations [1], [2].\nRefuses when evidence is absent, preserving academic integrity.",
+        "operationId": "ask_the_archive_api_v1_ask_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1494,6 +1675,112 @@
                 "schema": {
                   "$ref": "#/components/schemas/AskArchiveResponse"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ask/stream": {
+      "get": {
+        "tags": [
+          "Search & Ask"
+        ],
+        "summary": "Ask The Archive Stream",
+        "description": "Server-Sent Events (SSE) streaming endpoint for Ask the Archive.\nYields partial text tokens, ending with a final JSON payload of validated citations.",
+        "operationId": "ask_the_archive_stream_api_v1_ask_stream_get",
+        "parameters": [
+          {
+            "name": "question",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "description": "Natural language heritage question",
+              "title": "Question"
+            },
+            "description": "Natural language heritage question"
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Preferred language: en, hi, gu",
+              "title": "Lang"
+            },
+            "description": "Preferred language: en, hi, gu"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search/analytics": {
+      "get": {
+        "tags": [
+          "Search & Ask"
+        ],
+        "summary": "Search Analytics",
+        "description": "Curator analytics endpoint showing recent queries, zero-hit queries, and p50/p95 latency.",
+        "operationId": "search_analytics_api_v1_search_analytics_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -1932,45 +2219,154 @@
     "schemas": {
       "AskArchiveRequest": {
         "properties": {
+          "question": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Question"
+          },
           "query": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Query"
+          },
+          "filters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filters"
+          },
+          "lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lang"
+          },
+          "stream": {
+            "type": "boolean",
+            "title": "Stream",
+            "default": false
           }
         },
         "type": "object",
-        "required": [
-          "query"
-        ],
         "title": "AskArchiveRequest"
       },
       "AskArchiveResponse": {
         "properties": {
-          "query": {
+          "answered": {
+            "type": "boolean",
+            "title": "Answered",
+            "default": true
+          },
+          "question": {
             "type": "string",
-            "title": "Query"
+            "title": "Question"
           },
           "answer": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Answer"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "lang": {
+            "type": "string",
+            "title": "Lang",
+            "default": "en"
+          },
+          "has_illustrative_source": {
+            "type": "boolean",
+            "title": "Has Illustrative Source",
+            "default": false
           },
           "citations": {
             "items": {
-              "$ref": "#/components/schemas/CitationItem"
+              "$ref": "#/components/schemas/SourceCitation"
             },
             "type": "array",
             "title": "Citations",
             "default": []
           },
-          "confidence": {
-            "type": "number",
-            "title": "Confidence"
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceCitation"
+            },
+            "type": "array",
+            "title": "Sources",
+            "default": []
+          },
+          "related_records": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Related Records",
+            "default": []
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
           }
         },
         "type": "object",
         "required": [
-          "query",
-          "answer",
-          "confidence"
+          "question"
         ],
         "title": "AskArchiveResponse"
       },
@@ -2022,39 +2418,6 @@
           "file"
         ],
         "title": "Body_upload_document_file_api_v1_documents_uploads_post"
-      },
-      "CitationItem": {
-        "properties": {
-          "index": {
-            "type": "integer",
-            "title": "Index"
-          },
-          "title": {
-            "type": "string",
-            "title": "Title"
-          },
-          "content_type": {
-            "type": "string",
-            "title": "Content Type"
-          },
-          "id": {
-            "type": "string",
-            "title": "Id"
-          },
-          "snippet": {
-            "type": "string",
-            "title": "Snippet"
-          }
-        },
-        "type": "object",
-        "required": [
-          "index",
-          "title",
-          "content_type",
-          "id",
-          "snippet"
-        ],
-        "title": "CitationItem"
       },
       "DocumentCreate": {
         "properties": {
@@ -4123,69 +4486,284 @@
         ],
         "title": "RouteStopResponse"
       },
+      "SearchGroupedResults": {
+        "properties": {
+          "sites": {
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            },
+            "type": "array",
+            "title": "Sites",
+            "default": []
+          },
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            },
+            "type": "array",
+            "title": "Documents",
+            "default": []
+          },
+          "folklore": {
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            },
+            "type": "array",
+            "title": "Folklore",
+            "default": []
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            },
+            "type": "array",
+            "title": "Observations",
+            "default": []
+          }
+        },
+        "type": "object",
+        "title": "SearchGroupedResults"
+      },
+      "SearchHit": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "source_type": {
+            "type": "string",
+            "title": "Source Type"
+          },
+          "source_id": {
+            "type": "string",
+            "title": "Source Id"
+          },
+          "site_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Id"
+          },
+          "document_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Document Id"
+          },
+          "page_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Id"
+          },
+          "chunk_index": {
+            "type": "integer",
+            "title": "Chunk Index",
+            "default": 0
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "lang": {
+            "type": "string",
+            "title": "Lang",
+            "default": "en"
+          },
+          "rrf_score": {
+            "type": "number",
+            "title": "Rrf Score",
+            "default": 0.0
+          },
+          "matched_by": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Matched By",
+            "default": []
+          },
+          "highlighted_snippet": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Highlighted Snippet"
+          },
+          "is_illustrative": {
+            "type": "boolean",
+            "title": "Is Illustrative",
+            "default": false
+          },
+          "line_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Line Ids",
+            "default": []
+          },
+          "start_line_no": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Line No"
+          },
+          "end_line_no": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Line No"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "default": {}
+          },
+          "site": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source_type",
+          "source_id",
+          "text"
+        ],
+        "title": "SearchHit"
+      },
       "SearchResponse": {
         "properties": {
           "query": {
             "type": "string",
             "title": "Query"
           },
+          "detected_lang": {
+            "type": "string",
+            "title": "Detected Lang",
+            "default": "en"
+          },
           "total": {
             "type": "integer",
-            "title": "Total"
+            "title": "Total",
+            "default": 0
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms",
+            "default": 0.0
           },
           "results": {
             "items": {
-              "$ref": "#/components/schemas/SearchResultItem"
+              "$ref": "#/components/schemas/SearchHit"
             },
             "type": "array",
-            "title": "Results"
+            "title": "Results",
+            "default": []
           },
           "grouped": {
-            "additionalProperties": {
-              "items": {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              "type": "array"
-            },
-            "type": "object",
-            "title": "Grouped"
+            "$ref": "#/components/schemas/SearchGroupedResults",
+            "default": {
+              "sites": [],
+              "documents": [],
+              "folklore": [],
+              "observations": []
+            }
           }
         },
         "type": "object",
         "required": [
-          "query",
-          "total",
-          "results",
-          "grouped"
+          "query"
         ],
         "title": "SearchResponse"
       },
-      "SearchResultItem": {
+      "SearchSuggestion": {
         "properties": {
           "id": {
             "type": "string",
             "title": "Id"
           },
-          "content_type": {
-            "type": "string",
-            "title": "Content Type"
-          },
-          "content_id": {
-            "type": "string",
-            "title": "Content Id"
-          },
           "title": {
             "type": "string",
             "title": "Title"
           },
-          "text_snippet": {
-            "type": "string",
-            "title": "Text Snippet"
+          "name_hi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Hi"
           },
-          "rrf_score": {
-            "type": "number",
-            "title": "Rrf Score"
+          "name_gu": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Gu"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "default": "site"
           },
           "slug": {
             "anyOf": [
@@ -4197,74 +4775,14 @@
               }
             ],
             "title": "Slug"
-          },
-          "latitude": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Latitude"
-          },
-          "longitude": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Longitude"
-          },
-          "era": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Era"
-          },
-          "dynasty": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dynasty"
-          },
-          "has_3d": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Has 3D",
-            "default": false
           }
         },
         "type": "object",
         "required": [
           "id",
-          "content_type",
-          "content_id",
-          "title",
-          "text_snippet",
-          "rrf_score"
+          "title"
         ],
-        "title": "SearchResultItem"
+        "title": "SearchSuggestion"
       },
       "SiteBrief": {
         "properties": {
@@ -5524,6 +6042,112 @@
           "url"
         ],
         "title": "SiteOGMetadata"
+      },
+      "SourceCitation": {
+        "properties": {
+          "citation_index": {
+            "type": "integer",
+            "title": "Citation Index"
+          },
+          "chunk_id": {
+            "type": "string",
+            "title": "Chunk Id"
+          },
+          "source_type": {
+            "type": "string",
+            "title": "Source Type"
+          },
+          "source_id": {
+            "type": "string",
+            "title": "Source Id"
+          },
+          "site_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site Id"
+          },
+          "document_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Document Id"
+          },
+          "page_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Id"
+          },
+          "line_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Line Ids",
+            "default": []
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "snippet": {
+            "type": "string",
+            "title": "Snippet"
+          },
+          "lang": {
+            "type": "string",
+            "title": "Lang",
+            "default": "en"
+          },
+          "is_illustrative": {
+            "type": "boolean",
+            "title": "Is Illustrative",
+            "default": false
+          },
+          "data_confidence": {
+            "type": "string",
+            "title": "Data Confidence",
+            "default": "verified"
+          },
+          "site": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Site"
+          }
+        },
+        "type": "object",
+        "required": [
+          "citation_index",
+          "chunk_id",
+          "source_type",
+          "source_id",
+          "title",
+          "snippet"
+        ],
+        "title": "SourceCitation"
       },
       "TextVersionResponse": {
         "properties": {

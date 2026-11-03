@@ -45,7 +45,7 @@ async def test_hybrid_search():
 @pytest.mark.asyncio
 async def test_ask_the_archive():
     async with AsyncClient(base_url=BASE_URL) as client:
-        response = await client.post("/api/v1/search/ask", json={"query": "Rani ki Vav Queen Udayamati"})
+        response = await client.post("/api/v1/ask", json={"question": "Rani ki Vav Queen Udayamati"})
         assert response.status_code == 200
         res = response.json()
         assert "answer" in res

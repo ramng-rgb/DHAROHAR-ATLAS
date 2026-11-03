@@ -77,6 +77,29 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
     }).catch(() => {});
   }, []);
 
+  // Deep-link to line from URL query param (?line=...)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const sp = new URLSearchParams(window.location.search);
+      const lineParam = sp.get("line");
+      if (lineParam && doc.pages?.length) {
+        for (let pIdx = 0; pIdx < doc.pages.length; pIdx++) {
+          const p = doc.pages[pIdx];
+          const match = (p.ocr_lines || []).find(
+            (l: any) => l.id === lineParam || String(l.line_index) === lineParam
+          );
+          if (match) {
+            setActivePageIndex(pIdx);
+            setTimeout(() => {
+              selectLine(match.id);
+            }, 300);
+            break;
+          }
+        }
+      }
+    }
+  }, [doc]);
+
   // Show auto-dismiss toast
   const showToast = (msg: string) => {
     setToastMessage(msg);

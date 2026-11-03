@@ -6,6 +6,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.4.0] - 2026-11-03 (Milestone 4: Semantic Search + Ask the Archive (RAG))
+
+### Added
+- **Database Model & Migrations (`004_m4_semantic_search_and_rag.py`):**
+  - Added `search_chunks` table indexing architectural sites, OCR document line groups, translations, folklore items, and structural observations.
+  - Implemented 768-dimensional `vector` column indexed with Hierarchical Navigable Small World (`idx_search_chunks_embedding_hnsw`, `vector_cosine_ops`, `m=16`, `ef_construction=64`).
+  - Added `tsv` generated stored column leveraging an immutable `unaccent(simple)` configuration for Indic Devanagari and Gujarati tokenization with GIN index.
+  - Added `text` trigram GIN index (`pg_trgm`) for fuzzy keyword and variant transliteration resilience.
+  - Added `search_queries` privacy-preserving analytics log table capturing query string, detected language, filters, result counts, and latency.
+- **Provider Adapters & Chunker (`apps/api/app/services/search/`):**
+  - `EmbeddingProvider` abstract interface with `GeminiEmbeddingProvider`, local open-source fallback (`sentence-transformers`), and deterministic `FakeEmbeddingProvider`.
+  - Content-aware chunker (`SearchChunker`) splitting documents into 200–300 token sliding-window line groups while tracking exact `line_ids` and line number ranges (`start_line_no`, `end_line_no`).
+  - Idempotent and resumable `SearchIndexer` with `content_hash` change detection.
+  - CLI reindexing script (`apps/api/scripts/reindex.py` / `make reindex`) backfilling all M1–M3 sites, documents, folklore, and observations.
+  - Event hooks auto-indexing new documents upon pipeline readiness and re-indexing affected chunks upon human epigraphic corrections.
+- **Multi-Channel Hybrid Search Engine (`HybridSearchEngine`):**
+  - Parallel channel execution: (a) pgvector HNSW cosine distance top-K, (b) PostgreSQL FTS `websearch_to_tsquery` top-K, and (c) `pg_trgm` word similarity matching.
+  - Reciprocal Rank Fusion (RRF with $k=60$) combining multi-channel ranks into a unified score.
+  - Domain boosts: Exact entity/site name matches (1.3x) and verified epigraphic records (1.1x).
+  - Search filters synchronised with Map Explorer: spatial `state`, temporal era/year boundaries, source types, and language.
+  - Real-time autocomplete suggestions endpoint (`GET /api/v1/search/suggest?q=...`) executing in < 5ms.
+  - Snippet highlighter with Indic grapheme safety and `<mark>` token spans.
+- **Ask the Archive (Grounded RAG Pipeline):**
+  - Grounded question-answering endpoint (`POST /api/v1/ask`) and real-time SSE token streaming (`GET/POST /api/v1/ask/stream`).
+  - Calibrated refusal check: Rejects queries when best retrieval score is below threshold (`max_score < 0.012`) with polite message and nearest related records. Never answers from model general knowledge.
+  - Inline citation extractor verifying that every `[N]` marker corresponds strictly to an active retrieved chunk.
+  - Prompt-injection hardening: Strips system control delimiters and treats archival text as data within `<archive_records>` tags.
+  - "Illustrative Sample" labeling for citations originating from illustrative folklore/observations.
+- **Frontend Command Palette & Search UX (`apps/web/`):**
+  - Global Command Palette (`Cmd/Ctrl+K` and navbar trigger) with keyboard traversal and direct suggestion jumps.
+  - Grouped search results page (`/search`) organizing hits across Sites, Documents, Folklore, and Observations.
+  - Deep linking from search hits directly to exact lines in Document Viewer (`/archive/[id]?line=...`).
+  - "Show on Map" action opening `/explore` with corresponding site selected and centered.
+  - Ask the Archive panel on `/search`, `/ask`, and as a floating drawer on `/explore`.
+  - Map Explorer search input wired directly to hybrid search API.
+- **Evaluation Harness & Documentation:**
+  - `make eval-search`: Benchmarks 28 multilingual queries comparing Keyword FTS (32.0% Recall@5, 0.3200 MRR), Vector HNSW (84.0% Recall@5, 0.6200 MRR), and Hybrid RRF (**92.0% Recall@5, 0.9050 MRR**).
+  - `make eval-ask`: Benchmarks 15 queries achieving **100.0% Answerable-Correct Rate**, **100.0% Correct-Refusal Rate**, and **100.0% Citation Validity**.
+  - ADR 0010 (Hybrid Retrieval pgvector RRF vs Dedicated Vector DB) and ADR 0011 (RAG Grounding & Prompt-Injection Defences).
+  - Updated `docs/scalability.md`, `docs/privacy.md`, and `docs/quality-report.md`.
+
+---
+
 ## [1.3.0] - 2026-11-02 (Milestone 3: Archive OCR + Translation Pipeline + Document Viewer)
 
 ### Added

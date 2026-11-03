@@ -1,0 +1,198 @@
+[
+  {
+    "id": "q01",
+    "query": "Rani ki Vav Queen Stepwell Patan",
+    "lang": "en",
+    "expected_site_id": "79afbb05-22dd-42a1-968d-a9c3c3c10a2a",
+    "expected_slug": "rani-ki-vav"
+  },
+  {
+    "id": "q02",
+    "query": "रानी की वाव पाटन",
+    "lang": "hi",
+    "expected_site_id": "79afbb05-22dd-42a1-968d-a9c3c3c10a2a",
+    "expected_slug": "rani-ki-vav"
+  },
+  {
+    "id": "q03",
+    "query": "રાણી ની વાવ સોલંકી",
+    "lang": "gu",
+    "expected_site_id": "79afbb05-22dd-42a1-968d-a9c3c3c10a2a",
+    "expected_slug": "rani-ki-vav"
+  },
+  {
+    "id": "q04",
+    "query": "Adalaj stepwell Queen Rudabai 1498",
+    "lang": "en",
+    "expected_site_id": "217b1ae0-26de-4b38-a4e8-789548bee84e",
+    "expected_slug": "adalaj-vav"
+  },
+  {
+    "id": "q05",
+    "query": "अડાલજ ની વાવ ગાંધીનગર",
+    "lang": "gu",
+    "expected_site_id": "217b1ae0-26de-4b38-a4e8-789548bee84e",
+    "expected_slug": "adalaj-vav"
+  },
+  {
+    "id": "q06",
+    "query": "अडालज की बावड़ी रुदाबाई",
+    "lang": "hi",
+    "expected_site_id": "217b1ae0-26de-4b38-a4e8-789548bee84e",
+    "expected_slug": "adalaj-vav"
+  },
+  {
+    "id": "q07",
+    "query": "Modhera Sun Temple solar alignment",
+    "lang": "en",
+    "expected_site_id": "87c8d5b6-f135-4215-b01b-6cbd0be0f8fb",
+    "expected_slug": "modhera-sun-temple"
+  },
+  {
+    "id": "q08",
+    "query": "मोढेरा सूर्य मंदिर मेहसाणा",
+    "lang": "hi",
+    "expected_site_id": "87c8d5b6-f135-4215-b01b-6cbd0be0f8fb",
+    "expected_slug": "modhera-sun-temple"
+  },
+  {
+    "id": "q09",
+    "query": "મોઢેરા સૂર્ય મંદિર રામકુંડ",
+    "lang": "gu",
+    "expected_site_id": "87c8d5b6-f135-4215-b01b-6cbd0be0f8fb",
+    "expected_slug": "modhera-sun-temple"
+  },
+  {
+    "id": "q10",
+    "query": "Dholavira Harappan water reservoirs",
+    "lang": "en",
+    "expected_site_id": "b4711758-a3bc-4a4b-ab36-e247af6f8eca",
+    "expected_slug": "dholavira"
+  },
+  {
+    "id": "q11",
+    "query": "धोलावीरा सिंधु घाटी सभ्यता कच्छ",
+    "lang": "hi",
+    "expected_site_id": "b4711758-a3bc-4a4b-ab36-e247af6f8eca",
+    "expected_slug": "dholavira"
+  },
+  {
+    "id": "q12",
+    "query": "ધોળાવીરા હડપ્પીય નગર",
+    "lang": "gu",
+    "expected_site_id": "b4711758-a3bc-4a4b-ab36-e247af6f8eca",
+    "expected_slug": "dholavira"
+  },
+  {
+    "id": "q13",
+    "query": "Lothal ancient maritime port dockyard",
+    "lang": "en",
+    "expected_site_id": "468aba82-599b-4fbc-aa9f-32ea281b5504",
+    "expected_slug": "lothal"
+  },
+  {
+    "id": "q14",
+    "query": "लोथल बंदरगाह गोदी",
+    "lang": "hi",
+    "expected_site_id": "468aba82-599b-4fbc-aa9f-32ea281b5504",
+    "expected_slug": "lothal"
+  },
+  {
+    "id": "q15",
+    "query": "Kumbhalgarh fort longest continuous wall",
+    "lang": "en",
+    "expected_site_id": "43a8c275-9c8d-4928-9719-6ac8cf83d07c",
+    "expected_slug": "kumbhalgarh-fort"
+  },
+  {
+    "id": "q16",
+    "query": "कुम्भलगढ़ दुर्ग राणा कुम्भा",
+    "lang": "hi",
+    "expected_site_id": "43a8c275-9c8d-4928-9719-6ac8cf83d07c",
+    "expected_slug": "kumbhalgarh-fort"
+  },
+  {
+    "id": "q17",
+    "query": "Mehrangarh fort Jodhpur cliff",
+    "lang": "en",
+    "expected_site_id": "492ba83e-c70e-42fa-b0f8-0a99b129716c",
+    "expected_slug": "mehrangarh-fort"
+  },
+  {
+    "id": "q18",
+    "query": "मेहरानगढ़ किला जोधपुर",
+    "lang": "hi",
+    "expected_site_id": "492ba83e-c70e-42fa-b0f8-0a99b129716c",
+    "expected_slug": "mehrangarh-fort"
+  },
+  {
+    "id": "q19",
+    "query": "Dada Harir stepwell bilingual epigraph",
+    "lang": "en",
+    "expected_site_id": "a1cfcb1d-d9c2-40ff-a63d-0d9fa744852a",
+    "expected_slug": "dada-harir-vav"
+  },
+  {
+    "id": "q20",
+    "query": "Champaner Pavagadh mosque helical stepwell",
+    "lang": "en",
+    "expected_site_id": "d7fa2f69-3476-4272-b26e-73094109b385",
+    "expected_slug": "champaner-pavagadh"
+  },
+  {
+    "id": "q21",
+    "query": "चांपानेर पावागढ़ जामी मस्जिद",
+    "lang": "hi",
+    "expected_site_id": "d7fa2f69-3476-4272-b26e-73094109b385",
+    "expected_slug": "champaner-pavagadh"
+  },
+  {
+    "id": "q22",
+    "query": "Ranakpur Jain temple 1444 marble pillars",
+    "lang": "en",
+    "expected_site_id": "8ec84f11-1fc5-4e83-90ec-0c9b1a1435a4",
+    "expected_slug": "ranakpur-jain-temple"
+  },
+  {
+    "id": "q23",
+    "query": "surya mandir modhera",
+    "lang": "en",
+    "expected_site_id": "87c8d5b6-f135-4215-b01b-6cbd0be0f8fb",
+    "expected_slug": "modhera-sun-temple"
+  },
+  {
+    "id": "q24",
+    "query": "rani ki bav patan",
+    "lang": "en",
+    "expected_site_id": "79afbb05-22dd-42a1-968d-a9c3c3c10a2a",
+    "expected_slug": "rani-ki-vav"
+  },
+  {
+    "id": "q25",
+    "query": "kumbhalgarh kila rajasthan",
+    "lang": "en",
+    "expected_site_id": "43a8c275-9c8d-4928-9719-6ac8cf83d07c",
+    "expected_slug": "kumbhalgarh-fort"
+  },
+  {
+    "id": "q26",
+    "query": "baking cheese pizza on Mars",
+    "lang": "en",
+    "expected_site_id": null,
+    "expected_slug": null
+  },
+  {
+    "id": "q27",
+    "query": "quantum teleportation protocol 2026",
+    "lang": "en",
+    "expected_site_id": null,
+    "expected_slug": null
+  },
+  {
+    "id": "q28",
+    "query": "android smartphone operating system kernel",
+    "lang": "en",
+    "expected_site_id": null,
+    "expected_slug": null
+  }
+]

@@ -1,17 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   Compass, MapPin, BookOpen, MessageSquare, Play, Sparkles, 
-  HelpCircle, Layers, ChevronRight, X
+  HelpCircle, Layers, ChevronRight, X, Search
 } from "lucide-react";
+import { CommandPalette } from "@/components/search/CommandPalette";
 
 export function Navbar() {
   const pathname = usePathname();
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+
+  // Global shortcut to open command palette
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const tourSteps = [
     {
@@ -99,6 +113,18 @@ export function Navbar() {
             </Link>
 
             <Link
+              href="/search"
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
+                pathname === "/search"
+                  ? "bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/40"
+                  : "text-[#EFE6D8]/80 hover:text-[#D4AF37] hover:bg-white/5"
+              }`}
+            >
+              <Search className="w-4 h-4 text-[#D4AF37]" />
+              Search
+            </Link>
+
+            <Link
               href="/ask"
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-1.5 ${
                 pathname === "/ask"
@@ -113,6 +139,18 @@ export function Navbar() {
 
           {/* Quick Actions & Language */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCommandPaletteOpen(true)}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-md bg-black/40 hover:bg-[#D4AF37]/10 transition-all shadow-inner"
+              title="Global Archive Search (Cmd+K)"
+            >
+              <Search className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span className="hidden lg:inline">Search Archive</span>
+              <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#D4AF37] border border-white/10">
+                ⌘K
+              </kbd>
+            </button>
+
             <button
               onClick={() => { setTourOpen(true); setTourStep(0); }}
               className="px-2.5 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 rounded-md bg-black/30 hover:bg-[#D4AF37]/10 transition-all flex items-center gap-1"
@@ -132,6 +170,12 @@ export function Navbar() {
           </div>
         </div>
       </header>
+
+      {/* Global Command Palette */}
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+      />
 
       {/* 30-Second Guided Tour Modal for Judges */}
       {tourOpen && (

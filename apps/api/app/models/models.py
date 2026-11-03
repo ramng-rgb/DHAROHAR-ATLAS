@@ -478,3 +478,46 @@ class Job(Base):
     started_at = Column(DateTime, nullable=True)
     finished_at = Column(DateTime, nullable=True)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class SearchChunkSourceType(str, enum.Enum):
+    site = "site"
+    document_line_group = "document_line_group"
+    folklore = "folklore"
+    observation = "observation"
+    translation = "translation"
+
+class SearchChunk(Base):
+    __tablename__ = "search_chunks"
+
+    id = Column(String(100), primary_key=True, default=generate_uuid)
+    source_type = Column(String(50), nullable=False)  # site, document_line_group, folklore, observation, translation
+    source_id = Column(String(100), nullable=False, index=True)
+    site_id = Column(String(100), ForeignKey("sites.id", ondelete="SET NULL"), nullable=True, index=True)
+    document_id = Column(String(100), ForeignKey("documents.id", ondelete="SET NULL"), nullable=True, index=True)
+    page_id = Column(String(100), ForeignKey("document_pages.id", ondelete="SET NULL"), nullable=True)
+    chunk_index = Column(Integer, default=0, nullable=False)
+    text = Column(Text, nullable=False)
+    lang = Column(String(50), default="en", nullable=False)
+    embedding = Column(Vector(768), nullable=False)
+    embedding_model = Column(String(100), default="text-embedding-004", nullable=False)
+    metadata_json = Column(JSON, default=dict, nullable=False)
+    content_hash = Column(String(64), nullable=False, index=True)
+    is_illustrative = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    deleted_at = Column(DateTime, nullable=True, index=True)
+
+    site = relationship("Site", foreign_keys=[site_id])
+    document = relationship("Document", foreign_keys=[document_id])
+
+class SearchQuery(Base):
+    __tablename__ = "search_queries"
+
+    id = Column(String(100), primary_key=True, default=generate_uuid)
+    query = Column(Text, nullable=False)
+    lang = Column(String(50), nullable=True)
+    filters = Column(JSON, default=dict, nullable=False)
+    result_count = Column(Integer, default=0, nullable=False)
+    latency_ms = Column(Float, default=0.0, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+

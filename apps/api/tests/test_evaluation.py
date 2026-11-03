@@ -91,7 +91,16 @@ async def test_search_recall_at_5():
             
             found = False
             for item in results[:5]:
-                if expected_substring.lower() in item["title"].lower() or expected_substring.lower() in item.get("text_snippet", "").lower():
+                site_name = ""
+                if item.get("site") and isinstance(item["site"], dict):
+                    site_name = item["site"].get("name") or ""
+                elif item.get("site_name"):
+                    site_name = item["site_name"]
+                title = (item.get("title") or "").lower()
+                text = (item.get("text") or "").lower()
+                snippet = (item.get("highlighted_snippet") or "").lower()
+                target = expected_substring.lower()
+                if target in site_name.lower() or target in title or target in text or target in snippet:
                     found = True
                     break
             if found:

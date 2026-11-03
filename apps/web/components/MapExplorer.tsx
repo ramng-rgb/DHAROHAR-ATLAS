@@ -21,8 +21,8 @@ import { Button } from "@/components/ui/Button";
 import { Drawer } from "@/components/ui/Drawer";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { Skeleton } from "@/components/ui/Skeleton";
 import { translations, SupportedLocale } from "@/lib/i18n";
+import { AskTheArchivePanel } from "@/components/search/AskTheArchivePanel";
 
 interface MapExplorerProps {
   initialSites: SiteBrief[];
@@ -111,6 +111,30 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   const [facets, setFacets] = useState<FacetResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [matchedSiteIds, setMatchedSiteIds] = useState<string[] | null>(null);
+  const [askArchiveOpen, setAskArchiveOpen] = useState<boolean>(false);
+
+  // Wire explorer search bar to M4 hybrid search API
+  useEffect(() => {
+    if (!searchQuery || searchQuery.trim().length < 2) {
+      setMatchedSiteIds(null);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const resp = await api.searchArchive({
+          q: searchQuery.trim(),
+          types: ["site"],
+          limit: 30,
+        });
+        const hitIds = (resp.grouped?.sites || []).map((s) => s.site_id || s.source_id);
+        setMatchedSiteIds(hitIds);
+      } catch (err) {
+        console.error("Hybrid search error in explorer:", err);
+      }
+    }, 180);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Sync state to URL params cleanly using window.location.search
   const syncParamsToUrl = useCallback(
@@ -425,7 +449,9 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
       if (selectedConfidences.length > 0 && !selectedConfidences.includes(site.data_confidence)) return false;
       if (yearFrom !== undefined && site.period_end_year != null && site.period_end_year < yearFrom) return false;
       if (yearTo !== undefined && site.period_start_year != null && site.period_start_year > yearTo) return false;
-      if (searchQuery) {
+      if (matchedSiteIds !== null) {
+        if (!matchedSiteIds.includes(site.id) && !matchedSiteIds.includes(site.slug)) return false;
+      } else if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const matchesName = site.name.toLowerCase().includes(q) || (site.name_hi && site.name_hi.includes(q)) || (site.name_gu && site.name_gu.includes(q));
         const matchesLoc = site.state.toLowerCase().includes(q) || (site.district && site.district.toLowerCase().includes(q));
@@ -433,7 +459,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
       }
       return true;
     });
-  }, [initialSites, selectedTypes, selectedStates, selectedConfidences, yearFrom, yearTo, searchQuery]);
+  }, [initialSites, selectedTypes, selectedStates, selectedConfidences, yearFrom, yearTo, searchQuery, matchedSiteIds]);
 
   return (
     <div className="relative w-full h-full flex flex-col overflow-hidden bg-[#090D16]">
@@ -508,6 +534,21 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
               </button>
             ))}
           </div>
+
+          {/* Ask Archive Floating Trigger */}
+          <button
+            type="button"
+            onClick={() => setAskArchiveOpen(!askArchiveOpen)}
+            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-xl ${
+              askArchiveOpen
+                ? "bg-goldLeaf text-parchment-950 border border-goldLeaf"
+                : "glass-panel-gold text-goldLeaf border border-goldLeaf/40 hover:border-goldLeaf"
+            }`}
+            aria-label="Ask the Archive Grounded RAG"
+          >
+            <Sparkles className="w-3.5 h-3.5 fill-goldLeaf text-goldLeaf" />
+            <span className="hidden sm:inline">Ask Archive</span>
+          </button>
 
           {loading && (
             <div className="glass-panel rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-goldLeaf">
@@ -951,6 +992,35 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
           </div>
         )}
       </Drawer>
+
+      {/* Floating Ask the Archive Panel on /explore */}
+      {askArchiveOpen && (
+        <div className="absolute top-16 right-4 z-40 w-full max-w-lg max-h-[85vh] overflow-y-auto animate-fadeIn shadow-2xl">
+          <div className="relative">
+            <button
+              onClick={() => setAskArchiveOpen(false)}
+              className="absolute top-4 right-4 z-50 p-1.5 rounded-lg bg-black/60 text-[#D8C3A5] hover:text-[#D4AF37] border border-white/10"
+              aria-label="Close Ask Archive"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <AskTheArchivePanel
+              compact
+              onShowOnMap={(siteId) => {
+                const match = initialSites.find((s) => s.id === siteId || s.slug === siteId);
+                if (match) {
+                  setSelectedSite(match);
+                  setPreviewDrawerOpen(true);
+                  if (mapInstance.current && match.longitude && match.latitude) {
+                    mapInstance.current.flyTo({ center: [match.longitude, match.latitude], zoom: 12 });
+                  }
+                }
+                setAskArchiveOpen(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -253,6 +253,38 @@ erDiagram
         text arrival_notes
         string suggested_duration
     }
+    SEARCH_CHUNKS {
+        uuid id PK
+        string source_type "Enum: site, document_line_group, folklore, observation, translation"
+        string source_id
+        uuid site_id FK
+        uuid document_id FK
+        uuid page_id FK
+        int chunk_index
+        text text
+        string lang
+        vector_768 embedding "HNSW indexed (vector_cosine_ops)"
+        tsvector tsv "Generated ALWAYS STORED (unaccent simple FTS)"
+        string content_hash
+        bool is_illustrative
+        jsonb metadata_json
+        datetime created_at
+        datetime updated_at
+        datetime deleted_at
+    }
+
+    SEARCH_QUERIES {
+        uuid id PK
+        text query
+        string lang
+        jsonb filters
+        int result_count
+        float latency_ms
+        datetime created_at
+    }
+
+    SITES ||--o{ SEARCH_CHUNKS : indexes
+    DOCUMENTS ||--o{ SEARCH_CHUNKS : indexes
 ```
 
 ---
@@ -325,5 +357,32 @@ erDiagram
    -- Async Jobs & Idempotency
    CREATE INDEX ix_jobs_status ON jobs (status);
    CREATE UNIQUE INDEX uq_jobs_idempotency_key ON jobs (idempotency_key);
+   ```
+
+7. **M4 Semantic Vector, Full-Text, Trigram & Analytics Indexes:**
+   ```sql
+   -- pgvector HNSW Cosine Index (m=16, ef_construction=64)
+   CREATE INDEX idx_search_chunks_embedding_hnsw 
+   ON search_chunks USING hnsw (embedding vector_cosine_ops) 
+   WITH (m = 16, ef_construction = 64);
+
+   -- Full-Text Search GIN Index on Generated Unaccent TSVECTOR
+   CREATE INDEX idx_search_chunks_tsv 
+   ON search_chunks USING gin (tsv);
+
+   -- Fuzzy Trigram GIN Index on Chunk Text
+   CREATE INDEX idx_search_chunks_text_trgm 
+   ON search_chunks USING gin (text gin_trgm_ops);
+
+   -- Relational Foreign Key and Filter B-Tree Indexes
+   CREATE INDEX idx_search_chunks_source ON search_chunks (source_type, source_id);
+   CREATE INDEX idx_search_chunks_site_id ON search_chunks (site_id);
+   CREATE INDEX idx_search_chunks_doc_id ON search_chunks (document_id);
+   CREATE INDEX idx_search_chunks_lang ON search_chunks (lang);
+   CREATE INDEX idx_search_chunks_deleted_at ON search_chunks (deleted_at);
+
+   -- Search Queries Analytics Log Index
+   CREATE INDEX idx_search_queries_created_at ON search_queries (created_at DESC);
+   CREATE INDEX idx_search_queries_lang ON search_queries (lang);
    ```
 

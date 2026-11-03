@@ -193,6 +193,19 @@ class DocumentService:
 
         await self.db.commit()
         await self.db.refresh(line)
+
+        # Trigger incremental re-index of affected document chunks (M4)
+        try:
+            from app.services.search.indexer import SearchIndexer
+            page_stmt = select(DocumentPage).where(DocumentPage.id == line.page_id)
+            page_row = (await self.db.execute(page_stmt)).scalars().first()
+            if page_row:
+                indexer = SearchIndexer(self.db)
+                await indexer.index_document(page_row.document_id)
+                await self.db.commit()
+        except Exception:
+            pass
+
         return line
 
     async def update_translation_text(
@@ -218,12 +231,34 @@ class DocumentService:
             text=trans.text,
             edited_by=update_data.edited_by or "curator",
             edited_at=datetime.utcnow(),
-            reason=update_data.reason or "Human verification translation revision"
+            reason=update_data.reason or "Human verification translation edit"
         )
         self.db.add(tv)
 
         trans.text = update_data.text
         trans.version = next_ver
+
+        await self.db.commit()
+        await self.db.refresh(trans)
+
+        # Trigger incremental re-index of affected document chunks (M4)
+        try:
+            from app.services.search.indexer import SearchIndexer
+            page_id = trans.page_id
+            if not page_id and trans.line_id:
+                line_stmt = select(OCRLine).where(OCRLine.id == trans.line_id)
+                line_row = (await self.db.execute(line_stmt)).scalars().first()
+                if line_row:
+                    page_id = line_row.page_id
+            if page_id:
+                page_stmt = select(DocumentPage).where(DocumentPage.id == page_id)
+                page_row = (await self.db.execute(page_stmt)).scalars().first()
+                if page_row:
+                    indexer = SearchIndexer(self.db)
+                    await indexer.index_document(page_row.document_id)
+                    await self.db.commit()
+        except Exception:
+            pass
 
         # Also update matching OCRLine.translated_text if present
         if trans.line_id:
@@ -232,9 +267,8 @@ class DocumentService:
             l = line_res.scalars().first()
             if l:
                 l.translated_text = update_data.text
+                await self.db.commit()
 
-        await self.db.commit()
-        await self.db.refresh(trans)
         return trans
 
     async def revert_version(self, req: RevertRequest) -> bool:

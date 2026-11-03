@@ -1,0 +1,107 @@
+[
+  {
+    "id": "ask_01",
+    "question": "Who commissioned Rani ki Vav and in what year was it built?",
+    "lang": "en",
+    "answerable": true,
+    "key_entities": ["Udayamati", "Bhimadeva", "1063"]
+  },
+  {
+    "id": "ask_02",
+    "question": "रानी की वाव का निर्माण किसने करवाया था?",
+    "lang": "hi",
+    "answerable": true,
+    "key_entities": ["उदयमती", "भीमदेव", "सोलंकी"]
+  },
+  {
+    "id": "ask_03",
+    "question": "અડાલજ ની વાવ કોણે અને ક્યારે બંધાવી હતી?",
+    "lang": "gu",
+    "answerable": true,
+    "key_entities": ["રૂડાબાઈ", "૧૫૫૫", "૧૪૯૮"]
+  },
+  {
+    "id": "ask_04",
+    "question": "What is the historical significance of the Adalaj Stepwell inscription?",
+    "lang": "en",
+    "answerable": true,
+    "key_entities": ["Rudabai", "Mahmud Begada", "1498"]
+  },
+  {
+    "id": "ask_05",
+    "question": "मोढेरा के सूर्य मंदिर की क्या विशेषता है?",
+    "lang": "hi",
+    "answerable": true,
+    "key_entities": ["सूर्य", "कुण्ड", "सोलंकी"]
+  },
+  {
+    "id": "ask_06",
+    "question": "Describe the dockyard water engineering at Lothal.",
+    "lang": "en",
+    "answerable": true,
+    "key_entities": ["dockyard", "port", "Harappan"]
+  },
+  {
+    "id": "ask_07",
+    "question": "ધોળાવીરામાં પાણી વ્યવસ્થાપન પ્રણાલી કેવી હતી?",
+    "lang": "gu",
+    "answerable": true,
+    "key_entities": ["જળ", "કચ્છ", "હડપ્પીય"]
+  },
+  {
+    "id": "ask_08",
+    "question": "What is unique about Kumbhalgarh Fort's perimeter wall?",
+    "lang": "en",
+    "answerable": true,
+    "key_entities": ["36", "wall", "Kumbha"]
+  },
+  {
+    "id": "ask_09",
+    "question": "Who was the ruler of Mewar when Kumbhalgarh Fort was built?",
+    "lang": "en",
+    "answerable": true,
+    "key_entities": ["Rana Kumbha", "Mewar"]
+  },
+  {
+    "id": "ask_10",
+    "question": "मेहरानगढ़ दुर्ग की नींव किस पहाड़ी पर रखी गई थी?",
+    "lang": "hi",
+    "answerable": true,
+    "key_entities": ["जोधपुर", "किला", "पहाड़ी"]
+  },
+  {
+    "id": "ask_11",
+    "question": "What is the secret recipe for baking pizza on Mars?",
+    "lang": "en",
+    "answerable": false,
+    "key_entities": []
+  },
+  {
+    "id": "ask_12",
+    "question": "How to configure a Kubernetes cluster using Terraform?",
+    "lang": "en",
+    "answerable": false,
+    "key_entities": []
+  },
+  {
+    "id": "ask_13",
+    "question": "चन्द्रमा पर सबसे पहले कदम रखने वाले अंतरिक्ष यात्री का नाम क्या है?",
+    "lang": "hi",
+    "answerable": false,
+    "key_entities": []
+  },
+  {
+    "id": "ask_14",
+    "question": "ગુજરાતના આજના હવામાનની વિગતો આપો.",
+    "lang": "gu",
+    "answerable": false,
+    "key_entities": []
+  },
+  {
+    "id": "ask_15",
+    "question": "What is the stock market price of Apple Inc today?",
+    "lang": "en",
+    "answerable": false,
+    "key_entities": []
+  }
+]

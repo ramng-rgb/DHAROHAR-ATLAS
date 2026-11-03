@@ -11,7 +11,7 @@ from app.services.pipeline.orchestrator import (
     register_job_listener,
     unregister_job_listener,
 )
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -21,7 +21,10 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 
 @router.get("/{job_id}", response_model=JobResponse)
-async def get_job_status(job_id: str, db: AsyncSession = Depends(get_db)):
+async def get_job_status(
+    job_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    db: AsyncSession = Depends(get_db)
+):
     stmt = select(Job).where(Job.id == job_id)
     res = await db.execute(stmt)
     job = res.scalars().first()
@@ -30,7 +33,10 @@ async def get_job_status(job_id: str, db: AsyncSession = Depends(get_db)):
     return job
 
 @router.get("/{job_id}/events")
-async def stream_job_events(job_id: str, db: AsyncSession = Depends(get_db)):
+async def stream_job_events(
+    job_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    db: AsyncSession = Depends(get_db)
+):
     """
     Server-Sent Events (SSE) streaming pipeline stage and progress updates in real-time.
     """

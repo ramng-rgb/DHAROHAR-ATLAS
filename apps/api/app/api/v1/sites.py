@@ -12,28 +12,46 @@ from app.schemas.schemas import (
     SiteOGMetadata,
 )
 from app.services.site_service import SiteService
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, Depends, HTTPException, Path, Query, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/sites", tags=["Sites"])
 
+def _validate_bbox(bbox: str | None) -> None:
+    if not bbox:
+        return
+    parts = bbox.split(",")
+    if len(parts) != 4:
+        raise HTTPException(status_code=422, detail="Bounding box must contain exactly 4 comma-separated numbers: min_lng,min_lat,max_lng,max_lat")
+    try:
+        min_lng, min_lat, max_lng, max_lat = (float(p) for p in parts)
+    except ValueError:
+        raise HTTPException(status_code=422, detail="Bounding box values must be valid floats")
+    if not (-180.0 <= min_lng <= 180.0 and -180.0 <= max_lng <= 180.0):
+        raise HTTPException(status_code=422, detail="Longitude values must be between -180 and 180 degrees")
+    if not (-90.0 <= min_lat <= 90.0 and -90.0 <= max_lat <= 90.0):
+        raise HTTPException(status_code=422, detail="Latitude values must be between -90 and 90 degrees")
+    if min_lng > max_lng or min_lat > max_lat:
+        raise HTTPException(status_code=422, detail="Bounding box minimums must not exceed maximums")
+
 @router.get("", response_model=list[SiteBrief | SiteLight])
 async def list_sites(
-    q: str | None = Query(None, description="Search term in name, regional names or summary"),
+    q: str | None = Query(None, min_length=1, max_length=200, description="Search term in name, regional names or summary"),
     site_type: list[str] | None = Query(None, description="Filter by site type"),
     state: list[str] | None = Query(None, description="Filter by state"),
     dynasty: list[str] | None = Query(None, description="Filter by dynasty"),
     tag: list[str] | None = Query(None, description="Filter by tag slug"),
-    year_from: int | None = Query(None, description="Filter sites dating at or after year (negative = BCE)"),
-    year_to: int | None = Query(None, description="Filter sites dating at or before year (negative = BCE)"),
-    bbox: str | None = Query(None, description="Bounding box 'min_lng,min_lat,max_lng,max_lat'"),
+    year_from: int | None = Query(None, ge=-5000, le=2100, description="Filter sites dating at or after year (negative = BCE)"),
+    year_to: int | None = Query(None, ge=-5000, le=2100, description="Filter sites dating at or before year (negative = BCE)"),
+    bbox: str | None = Query(None, pattern=r"^-?\d+(\.\d+)?,-?\d+(\.\d+)?,-?\d+(\.\d+)?,-?\d+(\.\d+)?$", description="Bounding box 'min_lng,min_lat,max_lng,max_lat'"),
     data_confidence: list[str] | None = Query(None, description="Filter by data confidence ('verified', 'likely', 'unverified')"),
     has_3d_model: bool | None = Query(None, description="Filter by presence of 3D digital twin"),
-    fields: str | None = Query(None, description="Field selection, e.g. 'light' for map markers"),
+    fields: str | None = Query(None, pattern=r"^(light|brief)$", description="Field selection: 'light' or 'brief'"),
     limit: int = Query(100, ge=1, le=500),
-    offset: int = Query(0, ge=0),
+    offset: int = Query(0, ge=0, le=100000),
     db: AsyncSession = Depends(get_db)
 ):
+    _validate_bbox(bbox)
     service = SiteService(db)
     items, total, next_cursor = await service.list_sites(
         q=q,
@@ -56,19 +74,20 @@ async def list_sites(
 @router.get("/geojson", response_model=GeoJSONFeatureCollection)
 async def get_sites_geojson(
     response: Response,
-    bbox: str | None = Query(None, description="Viewport bounding box 'min_lng,min_lat,max_lng,max_lat'"),
-    zoom: float | None = Query(None, description="Map zoom level for server-side clustering"),
-    q: str | None = Query(None),
+    bbox: str | None = Query(None, pattern=r"^-?\d+(\.\d+)?,-?\d+(\.\d+)?,-?\d+(\.\d+)?,-?\d+(\.\d+)?$", description="Viewport bounding box 'min_lng,min_lat,max_lng,max_lat'"),
+    zoom: float | None = Query(None, ge=0.0, le=24.0, description="Map zoom level for server-side clustering"),
+    q: str | None = Query(None, min_length=1, max_length=200),
     site_type: list[str] | None = Query(None),
     state: list[str] | None = Query(None),
     dynasty: list[str] | None = Query(None),
     tag: list[str] | None = Query(None),
-    year_from: int | None = Query(None),
-    year_to: int | None = Query(None),
+    year_from: int | None = Query(None, ge=-5000, le=2100),
+    year_to: int | None = Query(None, ge=-5000, le=2100),
     data_confidence: list[str] | None = Query(None),
     has_3d_model: bool | None = Query(None, description="Filter by presence of 3D digital twin"),
     db: AsyncSession = Depends(get_db)
 ):
+    _validate_bbox(bbox)
     service = SiteService(db)
     geojson_data, etag = await service.get_geojson(
         bbox=bbox,
@@ -91,7 +110,11 @@ def geoJSON_result(data: dict) -> GeoJSONFeatureCollection:
     return GeoJSONFeatureCollection(**data)
 
 @router.get("/{slug}/full", response_model=SiteFullDetail)
-async def get_site_full(slug: str, response: Response, db: AsyncSession = Depends(get_db)):
+async def get_site_full(
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
+    response: Response = None,
+    db: AsyncSession = Depends(get_db)
+):
     service = SiteService(db)
     site_full = await service.get_site_full(slug)
     if not site_full:
@@ -102,7 +125,11 @@ async def get_site_full(slug: str, response: Response, db: AsyncSession = Depend
     return site_full
 
 @router.get("/{slug}/model", response_model=Model3DDetail)
-async def get_site_model(slug: str, response: Response, db: AsyncSession = Depends(get_db)):
+async def get_site_model(
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
+    response: Response = None,
+    db: AsyncSession = Depends(get_db)
+):
     service = SiteService(db)
     model = await service.get_site_model(slug)
     if not model:
@@ -113,7 +140,7 @@ async def get_site_model(slug: str, response: Response, db: AsyncSession = Depen
 
 @router.get("/{slug}/cite")
 async def get_site_citation(
-    slug: str,
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
     format: str = Query("bibtex", pattern="^(bibtex|apa|ris|csl-json)$", description="Citation format: bibtex, apa, ris, csl-json"),
     db: AsyncSession = Depends(get_db)
 ):
@@ -127,7 +154,10 @@ async def get_site_citation(
     return Response(content=content, media_type=media_type, headers={"Content-Disposition": f'inline; filename="{filename}"'})
 
 @router.get("/{slug}/og", response_model=SiteOGMetadata)
-async def get_site_og(slug: str, db: AsyncSession = Depends(get_db)):
+async def get_site_og(
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
+    db: AsyncSession = Depends(get_db)
+):
     service = SiteService(db)
     og_data = await service.get_site_og(slug)
     if not og_data:
@@ -135,7 +165,10 @@ async def get_site_og(slug: str, db: AsyncSession = Depends(get_db)):
     return og_data
 
 @router.get("/{slug}", response_model=SiteDetail)
-async def get_site(slug: str, db: AsyncSession = Depends(get_db)):
+async def get_site(
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
+    db: AsyncSession = Depends(get_db)
+):
     service = SiteService(db)
     site = await service.get_site_by_slug(slug)
     if not site:

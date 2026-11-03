@@ -21,6 +21,7 @@ from fastapi import (
     File,
     Form,
     HTTPException,
+    Path,
     Query,
     Response,
     UploadFile,
@@ -92,12 +93,12 @@ async def create_document(
 # -------------------------------------------------------------
 @router.get("", response_model=list[DocumentResponse])
 async def list_documents(
-    site_id: str | None = None,
-    language: str | None = None,
-    status: str | None = None,
-    doc_type: str | None = None,
+    site_id: str | None = Query(None, pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    language: str | None = Query(None, pattern=r"^(auto|en|hi|gu|sa|mr|Devanagari|Gujarati|Sanskrit|Marathi|Hindi|English)$"),
+    status: str | None = Query(None, pattern=r"^(queued|processing|ready|failed)$"),
+    doc_type: str | None = Query(None, pattern=r"^(printed|manuscript_folio|inscription|field_note|copper_plate|lithograph)$"),
     limit: int = Query(50, ge=1, le=100),
-    offset: int = Query(0, ge=0),
+    offset: int = Query(0, ge=0, le=100000),
     db: AsyncSession = Depends(get_db)
 ):
     service = DocumentService(db)
@@ -112,7 +113,10 @@ async def list_documents(
     return docs
 
 @router.get("/{doc_id}", response_model=DocumentResponse)
-async def get_document(doc_id: str, db: AsyncSession = Depends(get_db)):
+async def get_document(
+    doc_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    db: AsyncSession = Depends(get_db)
+):
     service = DocumentService(db)
     doc = await service.get_document(doc_id)
     if not doc:
@@ -133,7 +137,7 @@ async def get_document(doc_id: str, db: AsyncSession = Depends(get_db)):
 # -------------------------------------------------------------
 @router.get("/{doc_id}/export")
 async def export_document(
-    doc_id: str,
+    doc_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
     format: str = Query("json", pattern="^(json|txt|alto-xml)$"),
     db: AsyncSession = Depends(get_db)
 ):
@@ -156,15 +160,18 @@ async def export_document(
 # 4. Version History & Revert
 # -------------------------------------------------------------
 @router.get("/{doc_id}/versions", response_model=list[TextVersionResponse])
-async def get_document_versions(doc_id: str, db: AsyncSession = Depends(get_db)):
+async def get_document_versions(
+    doc_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    db: AsyncSession = Depends(get_db)
+):
     service = DocumentService(db)
     versions = await service.get_document_version_history(doc_id)
     return versions
 
 @router.post("/{doc_id}/revert")
 async def revert_document_version(
-    doc_id: str,
-    req: RevertRequest,
+    doc_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    req: RevertRequest = ...,
     db: AsyncSession = Depends(get_db)
 ):
     service = DocumentService(db)
@@ -175,8 +182,8 @@ async def revert_document_version(
 
 @router.post("/entities/{entity_id}/link")
 async def link_entity_to_site(
-    entity_id: str,
-    site_id: str = Form(...),
+    entity_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    site_id: str = Form(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
     db: AsyncSession = Depends(get_db)
 ):
     service = DocumentService(db)

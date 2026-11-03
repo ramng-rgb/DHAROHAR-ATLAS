@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.core.redis_cache import get_cache, set_cache
 from app.schemas.schemas import JourneyResponse, RouteResponse
 from app.services.route_service import RouteService
-from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, HTTPException, Path, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/routes", tags=["Routes"])
@@ -16,7 +16,10 @@ async def list_routes(db: AsyncSession = Depends(get_db)):
     return await service.list_routes()
 
 @router.get("/{slug}", response_model=RouteResponse)
-async def get_route(slug: str, db: AsyncSession = Depends(get_db)):
+async def get_route(
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
+    db: AsyncSession = Depends(get_db)
+):
     service = RouteService(db)
     route = await service.get_route_by_slug(slug)
     if not route:
@@ -24,7 +27,12 @@ async def get_route(slug: str, db: AsyncSession = Depends(get_db)):
     return route
 
 @router.get("/{slug}/journey", response_model=JourneyResponse)
-async def get_journey(slug: str, request: Request, response: Response, db: AsyncSession = Depends(get_db)):
+async def get_journey(
+    slug: str = Path(..., min_length=1, max_length=100, pattern=r"^[a-z0-9-]+$"),
+    request: Request = None,
+    response: Response = None,
+    db: AsyncSession = Depends(get_db)
+):
     cache_key = f"journey:{slug}"
     cached = await get_cache(cache_key)
     

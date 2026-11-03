@@ -11,6 +11,7 @@ from fastapi import (
     File,
     Form,
     HTTPException,
+    Path,
     UploadFile,
 )
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -81,7 +82,7 @@ async def run_photo_to_3d_pipeline(job_id: str, site_id: str, is_demo_mode: bool
 @router.post("/photo-to-3d", response_model=JobResponse)
 async def submit_photos_for_3d(
     background_tasks: BackgroundTasks,
-    site_id: str = Form(...),
+    site_id: str = Form(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
     files: list[UploadFile] = File(...),
     db: AsyncSession = Depends(get_db)
 ):
@@ -106,7 +107,10 @@ async def submit_photos_for_3d(
     return job
 
 @router.get("/jobs/{job_id}", response_model=JobResponse)
-async def get_job_status(job_id: str, db: AsyncSession = Depends(get_db)):
+async def get_job_status(
+    job_id: str = Path(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"),
+    db: AsyncSession = Depends(get_db)
+):
     stmt = select(Job).where(Job.id == job_id)
     res = await db.execute(stmt)
     job = res.scalars().first()

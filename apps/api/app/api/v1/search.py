@@ -16,13 +16,13 @@ router = APIRouter(prefix="", tags=["Search & Ask"])
 
 @router.get("/search", response_model=SearchResponse)
 async def search_archive(
-    q: str = Query(..., min_length=1, description="Multilingual search query"),
+    q: str = Query(..., min_length=1, max_length=500, description="Multilingual search query"),
     types: list[str] | None = Query(None, description="Filter by source types (site, document_line_group, folklore, observation)"),
     lang: list[str] | None = Query(None, description="Filter by languages"),
-    site_id: str | None = Query(None, description="Filter by monument site ID"),
+    site_id: str | None = Query(None, pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$", max_length=36, description="Filter by monument site ID"),
     state: list[str] | None = Query(None, description="Filter by Indian states"),
-    year_from: int | None = Query(None, description="Chronological start year"),
-    year_to: int | None = Query(None, description="Chronological end year"),
+    year_from: int | None = Query(None, ge=-5000, le=2100, description="Chronological start year"),
+    year_to: int | None = Query(None, ge=-5000, le=2100, description="Chronological end year"),
     limit: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db)
 ):
@@ -47,7 +47,7 @@ async def search_archive(
 
 @router.get("/search/suggest", response_model=list[SearchSuggestion])
 async def search_suggestions(
-    q: str = Query(..., min_length=2, description="Prefix or query substring"),
+    q: str = Query(..., min_length=2, max_length=100, description="Prefix or query substring"),
     limit: int = Query(8, ge=1, le=20),
     db: AsyncSession = Depends(get_db)
 ):
@@ -77,8 +77,8 @@ async def ask_the_archive(
 
 @router.get("/ask/stream")
 async def ask_the_archive_stream(
-    question: str = Query(..., min_length=2, description="Natural language heritage question"),
-    lang: str | None = Query(None, description="Preferred language: en, hi, gu"),
+    question: str = Query(..., min_length=2, max_length=1000, description="Natural language heritage question"),
+    lang: str | None = Query(None, pattern=r"^(en|hi|gu|sa|mr)$", max_length=10, description="Preferred language: en, hi, gu"),
     db: AsyncSession = Depends(get_db)
 ):
     """

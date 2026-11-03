@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
 
 
 # Hotspot & 3D Model
@@ -414,22 +414,34 @@ class OCRLineResponse(BaseModel):
         from_attributes = True
 
 class OCRLineUpdate(BaseModel):
-    original_text: str | None = None
-    translated_text: str | None = None
-    text: str | None = None
-    reason: str | None = None
-    edited_by: str | None = "curator"
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    original_text: str | None = Field(None, min_length=1, max_length=5000, description="Corrected original language text")
+    translated_text: str | None = Field(None, min_length=1, max_length=5000, description="Corrected translated text")
+    text: str | None = Field(None, min_length=1, max_length=5000, description="Alternative text field")
+    reason: str | None = Field(None, min_length=1, max_length=500, description="Audit reason for edit")
+    edited_by: str | None = Field("curator", min_length=1, max_length=100, description="Identifier of editor")
+
+    @model_validator(mode="after")
+    def validate_content(self) -> "OCRLineUpdate":
+        if not any([self.original_text, self.translated_text, self.text]):
+            raise ValueError("At least one text field (original_text, translated_text, or text) must be provided.")
+        return self
 
 class TranslationUpdate(BaseModel):
-    text: str
-    reason: str | None = None
-    edited_by: str | None = "curator"
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    text: str = Field(..., min_length=1, max_length=5000, description="Updated translation text")
+    reason: str | None = Field(None, min_length=1, max_length=500, description="Audit reason for edit")
+    edited_by: str | None = Field("curator", min_length=1, max_length=100, description="Identifier of editor")
 
 class RevertRequest(BaseModel):
-    entity_type: str = Field(..., description="'line' or 'translation'")
-    entity_id: str
-    version_no: int
-    reason: str | None = "Reverted via human-in-the-loop interface"
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    entity_type: str = Field(..., pattern=r"^(line|translation)$", description="'line' or 'translation'")
+    entity_id: str = Field(..., pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$", max_length=36, description="UUID of entity to revert")
+    version_no: int = Field(..., ge=1, le=100000, description="Target version number to restore")
+    reason: str | None = Field("Reverted via human-in-the-loop interface", min_length=1, max_length=500, description="Audit reason for reversion")
 
 class DocumentEntityResponse(BaseModel):
     id: str
@@ -488,19 +500,21 @@ class DocumentResponse(BaseModel):
         from_attributes = True
 
 class DocumentCreate(BaseModel):
-    title: str
-    language_hint: str = "auto"
-    doc_type: str = "printed"
-    site_id: str | None = None
-    source: str | None = "Archival Field Scan"
-    licence: str = "CC-BY-4.0"
-    attribution: str | None = None
-    uploaded_by: str | None = "anonymous"
-    storage_key: str | None = None
-    mime: str | None = "image/jpeg"
-    original_filename: str | None = None
-    ocr_engine: str | None = None
-    translation_engine: str | None = None
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    title: str = Field(..., min_length=1, max_length=255, description="Document archival title")
+    language_hint: str = Field("auto", pattern=r"^(auto|en|hi|gu|sa|mr|Devanagari|Gujarati|Sanskrit|Marathi|Hindi|English)$", max_length=32)
+    doc_type: str = Field("printed", pattern=r"^(printed|manuscript_folio|inscription|field_note|copper_plate|lithograph)$", max_length=32)
+    site_id: str | None = Field(None, pattern=r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$", max_length=36)
+    source: str | None = Field("Archival Field Scan", min_length=1, max_length=255)
+    licence: str = Field("CC-BY-4.0", min_length=1, max_length=64)
+    attribution: str | None = Field(None, min_length=1, max_length=255)
+    uploaded_by: str | None = Field("anonymous", min_length=1, max_length=100)
+    storage_key: str | None = Field(None, min_length=1, max_length=512, pattern=r"^/?[a-zA-Z0-9_\-\./]+$")
+    mime: str | None = Field("image/jpeg", pattern=r"^(image/(jpeg|png|webp)|application/pdf)$", max_length=64)
+    original_filename: str | None = Field(None, min_length=1, max_length=255)
+    ocr_engine: str | None = Field(None, pattern=r"^(gemini|tesseract|mock|fake|gemini_fallback)$", max_length=32)
+    translation_engine: str | None = Field(None, pattern=r"^(neural|mock|fake)$", max_length=32)
 
 class JobResponse(BaseModel):
     id: str
@@ -668,11 +682,20 @@ class SearchSuggestion(BaseModel):
     slug: str | None = None
 
 class AskArchiveRequest(BaseModel):
-    question: str | None = None
-    query: str | None = None  # backward compatibility with M0
-    filters: dict[str, Any] | None = None
-    lang: str | None = None
-    stream: bool = False
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    question: str | None = Field(None, min_length=2, max_length=1000, description="Natural language question")
+    query: str | None = Field(None, min_length=2, max_length=1000, description="Alternative query alias")
+    filters: dict[str, Any] | None = Field(None, description="Structured query filters")
+    lang: str | None = Field(None, pattern=r"^(en|hi|gu|sa|mr)$", max_length=10, description="Preferred language code")
+    stream: bool = Field(False, description="Whether to request SSE stream")
+
+    @model_validator(mode="after")
+    def validate_question_or_query(self) -> "AskArchiveRequest":
+        q = self.question or self.query
+        if not q or len(q.strip()) < 2:
+            raise ValueError("A question or query of at least 2 characters must be provided.")
+        return self
 
 class SourceCitation(BaseModel):
     citation_index: int
@@ -718,16 +741,22 @@ class JobResponse(BaseModel):
 
 # Authentication Schemas
 class LoginRequest(BaseModel):
-    email: str
-    password: str
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    email: EmailStr = Field(..., max_length=254, description="Contributor/Curator registered email address")
+    password: str = Field(..., min_length=8, max_length=128, description="Account password (8-128 characters)")
 
 class SignupRequest(BaseModel):
-    email: str
-    username: str
-    password: str
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    email: EmailStr = Field(..., max_length=254, description="Contributor email address")
+    username: str = Field(..., min_length=3, max_length=50, pattern=r"^[a-zA-Z0-9_\-]+$", description="Username (3-50 alphanumeric characters)")
+    password: str = Field(..., min_length=8, max_length=128, description="Account password (8-128 characters)")
 
 class PasswordResetRequest(BaseModel):
-    email: str
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    email: EmailStr = Field(..., max_length=254, description="Registered email address for reset link")
 
 class AuthTokenResponse(BaseModel):
     access_token: str

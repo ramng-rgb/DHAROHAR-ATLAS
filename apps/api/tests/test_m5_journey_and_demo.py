@@ -5,11 +5,10 @@ from app.core.database import AsyncSessionLocal
 from sqlalchemy import select
 from app.models.models import Site, Document, Route
 
-BASE_URL = "http://127.0.0.1:8000"
-
 @pytest.mark.asyncio
 async def test_journey_endpoint_ordering_and_geometry():
-    async with AsyncClient(base_url=BASE_URL) as client:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
         # Test flagship Gujarat Stepwell Trail
         resp = await client.get("/api/v1/routes/gujarat-stepwell-trail/journey")
     assert resp.status_code == 200
@@ -52,7 +51,8 @@ async def test_journey_endpoint_ordering_and_geometry():
 
 @pytest.mark.asyncio
 async def test_journey_cache_and_etag():
-    async with AsyncClient(base_url=BASE_URL) as client:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
         # First request
         resp1 = await client.get("/api/v1/routes/gujarat-stepwell-trail/journey")
         assert resp1.status_code == 200
@@ -69,7 +69,8 @@ async def test_journey_cache_and_etag():
 
 @pytest.mark.asyncio
 async def test_second_route_rajasthan_forts():
-    async with AsyncClient(base_url=BASE_URL) as client:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
         resp = await client.get("/api/v1/routes/rajasthan-forts-trail/journey")
         assert resp.status_code == 200
         data = resp.json()
@@ -81,7 +82,8 @@ async def test_second_route_rajasthan_forts():
 
 @pytest.mark.asyncio
 async def test_demo_script_integrity():
-    async with AsyncClient(base_url=BASE_URL) as client:
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
         resp = await client.get("/api/v1/demo/script")
         assert resp.status_code == 200
         script = resp.json()

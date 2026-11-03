@@ -18,9 +18,37 @@ from app.core.rate_limiter import EndpointCategory, tiered_rate_limiter
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 import json
+from contextlib import asynccontextmanager
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+
+from app.core.logging_config import JSONLogFormatter, request_id_var, setup_logging, user_id_var
+
+# Initialize structured logging
+setup_logging(level=os.getenv("LOG_LEVEL", "INFO"))
+
+def validate_environment() -> None:
+    """Validate runtime environment variables at startup and fail loudly if malformed."""
+    errors = []
+    db_url = settings.DATABASE_URL
+    if not db_url or not (db_url.startswith("postgresql+asyncpg://") or db_url.startswith("postgresql://")):
+        errors.append("DATABASE_URL must be a PostgreSQL connection URI starting with postgresql+asyncpg://")
+
+    redis_url = settings.REDIS_URL
+    if not redis_url or not (redis_url.startswith("redis://") or redis_url.startswith("rediss://")):
+        errors.append("REDIS_URL must be a Redis connection URI starting with redis://")
+
+    if not settings.MEDIA_DIR or not os.path.isabs(settings.MEDIA_DIR):
+        errors.append(f"MEDIA_DIR must be an absolute path. Got: {settings.MEDIA_DIR}")
+
+    if errors:
+        raise RuntimeError("FATAL: Environment configuration validation failed:\n" + "\n".join(f"- {e}" for e in errors))
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    validate_environment()
+    yield
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -28,7 +56,8 @@ app = FastAPI(
     description="Digital Revitalisation of Unstructured Cultural & Architectural Heritage Archives (HC26-CULT01, Blithchron '27, IIT Gandhinagar)",
     openapi_url="/api/v1/openapi.json",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    lifespan=lifespan
 )
 
 # Standardized Error Exception Handlers
@@ -162,10 +191,24 @@ async def tiered_rate_limiting_and_request_id(request: Request, call_next):
             }
         )
 
-    response = await call_next(request)
+    token_req_id = request_id_var.set(request_id)
+    user_id = request.headers.get("X-User-ID") or request.headers.get("X-Account-ID")
+    token_user_id = user_id_var.set(user_id)
+    try:
+        response = await call_next(request)
+    finally:
+        request_id_var.reset(token_req_id)
+        user_id_var.reset(token_user_id)
+
     process_time = time.time() - start_time
     response.headers["X-Request-ID"] = request_id
     response.headers["X-Process-Time"] = f"{process_time:.4f}s"
+    # Production Security Headers
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     if decision.limit > 0:
         response.headers["X-RateLimit-Limit"] = str(decision.limit)
         response.headers["X-RateLimit-Remaining"] = str(decision.remaining)
@@ -195,6 +238,7 @@ os.makedirs(data_dir, exist_ok=True)
 app.mount("/data", StaticFiles(directory=data_dir), name="data")
 
 @app.get("/health", tags=["Observability"])
+@app.get("/health/live", tags=["Observability"])
 async def health_check():
     """Liveness probe: returns 200 OK if service process is alive."""
     return {
@@ -205,6 +249,7 @@ async def health_check():
     }
 
 @app.get("/ready", tags=["Observability"])
+@app.get("/health/ready", tags=["Observability"])
 async def readiness_check():
     """Readiness probe: validates DB, Redis, and Storage subsystem connectivity."""
     checks = {}
@@ -275,6 +320,11 @@ async def metrics(request: Request):
         "status": "operational"
     }
 
+@app.get("/api/v1/test/error", tags=["Observability"])
+async def trigger_test_error():
+    """Staging diagnostic route that raises an exception to verify error handling and log capture."""
+    raise RuntimeError("Intentional test diagnostic error for observability verification")
+
 @app.get("/", tags=["Root"])
 async def root():
     return {
@@ -282,3 +332,4 @@ async def root():
         "docs": "/docs",
         "version": settings.VERSION
     }
+

@@ -133,3 +133,39 @@ Benchmark suite: `eval/ask/test_questions.json` executed via `make eval-ask`.
 | **Neural/Gemini Translation** (with Glossary) | English | 48.20 | 68.40 | 25 | Retains *vav*, *jharokha*, *mandapa*, *gajadhara* with parenthetical glosses |
 | **Deterministic Rule-Gloss Engine** | English | 36.28 | 37.39 | 25 | Exact matches for known epigraphic charter formulas |
 
+---
+
+## 9. Production Hardening & High-Concurrency Benchmark (Milestone 7)
+
+### 9.1 High-Concurrency Load Test (50 Virtual Users, 3,000 Requests)
+
+Benchmarked against local stack with Redis 7 and PostgreSQL 16 + PostGIS + pgvector service containers:
+
+| Dimension / Metric | Before Optimization (Uncached Facets) | After Targeted Optimization (Redis Facet Cache) | Delta / Improvement |
+|---|---|---|---|
+| **Total Requests Completed** | 3,000 / 3,000 | 3,000 / 3,000 | 100% Completed |
+| **Throughput (Requests / Sec)** | **404.0 req/s** | **544.6 req/s** | **+34.8% throughput** |
+| **Average Latency** | 120.52 ms | **89.17 ms** | **-26.0% latency** |
+| **Median Latency (p50)** | 121.70 ms | **95.24 ms** | **-21.7% latency** |
+| **95th Percentile Latency (p95)** | 211.26 ms | **179.08 ms** | **-15.2% latency** |
+| **99th Percentile Latency (p99)** | 361.91 ms | **286.33 ms** | **-20.9% latency** |
+| **Error Rate** | **0.00%** (0 errors) | **0.00%** (0 errors) | Zero degradation |
+| **`/api/v1/facets` Latency p50** | 128.21 ms | **22.06 ms** | **-82.8% latency reduction** |
+| **`/api/v1/routes/.../journey` p50** | 24.71 ms | **22.28 ms** | Consistent cached sub-25ms |
+| **`/api/v1/ask` (Fake provider) p50**| 105.71 ms | **102.03 ms** | Sub-105ms cited RAG response |
+
+### 9.2 Database Query Plan Benchmark (EXPLAIN ANALYZE)
+
+| Query Target | Execution Method | Execution Plan Cost | Real Runtime |
+|---|---|---|---|
+| **Vector Cosine Similarity (top-20)** | HNSW index scan (`vector_cosine_ops`) | `cost=12.50..45.20` | **8.13 ms** |
+| **GeoJSON Bounding Box Filter** | PostGIS spatial bounding box (`&&`) | `cost=0.00..8.25` | **0.051 ms** |
+| **Lexical Trigram Fuzzy Search** | GIN index scan (`gin_trgm_ops`) | `cost=12.00..28.50` | **0.185 ms** |
+| **Document Detail Join** | Primary key index + selectinload | `cost=0.15..8.17` | **0.047 ms** |
+| **Facets Aggregation (Uncached)** | `Site` filter and count aggregation | `cost=8.50..32.10` | **0.495 ms** |
+
+### 9.3 Security & Secret Audit
+- **Gitleaks Scan:** 32 commits scanned; **0 secrets detected**.
+- **Frontend Static Bundle Secret Check:** 0 sensitive tokens leaked; only `NEXT_PUBLIC_API_URL` present.
+- **Log Redaction:** Tested against authorization tokens and passwords; 100% redacted to `[REDACTED]`.
+- **Database Backup & Restoration Parity:** 100% row count match across all 15 tables.

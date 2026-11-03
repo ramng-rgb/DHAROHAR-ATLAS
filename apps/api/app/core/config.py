@@ -55,6 +55,15 @@ class Settings(BaseSettings):
     
     # 3. Authenticated User Actions (Loosest limits for logged-in researchers/curators, e.g. 600 req/min)
     RATE_LIMIT_AUTHENTICATED_PER_MINUTE: int = int(os.getenv("RATE_LIMIT_AUTHENTICATED_PER_MINUTE", "600"))
+
+    # 4. Expensive Endpoints (/search/ask, /search hybrid, OCR ingest, jobs)
+    RATE_LIMIT_EXPENSIVE_PER_MINUTE: int = int(os.getenv("RATE_LIMIT_EXPENSIVE_PER_MINUTE", "30"))
+
+    # Cost Protection & Quota Thresholds
+    DAILY_ASK_QUOTA_PER_IP: int = int(os.getenv("DAILY_ASK_QUOTA_PER_IP", "50"))
+    DAILY_OCR_QUOTA_PER_IP: int = int(os.getenv("DAILY_OCR_QUOTA_PER_IP", "20"))
+    GLOBAL_DAILY_AI_CALL_CAP: int = int(os.getenv("GLOBAL_DAILY_AI_CALL_CAP", "500"))
+    PUBLIC_UPLOADS_ENABLED: bool = os.getenv("PUBLIC_UPLOADS_ENABLED", "true").lower() in ("true", "1", "yes")
     
     # Providers (Adapter Pattern)
     OCR_PROVIDER: str = os.getenv("OCR_PROVIDER", "gemini_fallback")  # "gemini", "tesseract", "mock", "gemini_fallback"

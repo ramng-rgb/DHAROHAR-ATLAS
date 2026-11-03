@@ -1,100 +1,30 @@
-# Data Privacy, Hosted AI Boundary, and Air-Gapped Local Opt-Out
+# Data Protection, Privacy & Archive Sovereignty
 
-## 1. Overview and Core Philosophy
-**Dharohar Atlas** handles culturally sensitive epigraphs, royal chronicles, community oral histories, and archival manuscripts from Indian heritage monuments. 
+## 1. Heritage Privacy Principles
 
-Our privacy architecture strictly separates **public cultural commons data** from **epigraphical ingest pipelines** and provides deterministic control over when data leaves self-hosted infrastructure.
-
----
-
-## 2. Hosted AI Boundary: What Leaves Our Infrastructure?
-
-When running in **Cloud / Hosted Mode** (configured via `OCR_PROVIDER=gemini`, `TRANSLATION_PROVIDER=gemini`, `EMBEDDING_PROVIDER=gemini`, and `LLM_PROVIDER=gemini`):
-
-### What is sent to Google Cloud / Gemini APIs:
-1. **Document Page Images (Temporary Ingest):**
-   - High-resolution scan or crop of document pages sent as base64 / JPEG payload to the Gemini Vision API for bounding box extraction and transcription.
-   - Images are processed in-flight according to Google Cloud Enterprise / Gemini API Data Governance policies (no training on customer data, no persistent storage in model weights).
-2. **Text Segments for Translation & Entity Extraction:**
-   - Raw transcription text and architectural glossary terminology sent for English translation and named entity tagging (places, dynasties, rulers, dates).
-3. **Chunk Text for Multilingual Embeddings:**
-   - Archival chunk paragraphs (monograph summaries, OCR line groupings, folklore entries) sent to `text-embedding-004` to generate 768-dimensional unit vector representations.
-4. **Search Queries & Grounded RAG Context ("Ask the Archive"):**
-   - The user's search question and retrieved archive context chunks are passed to the Gemini LLM strictly to synthesize a cited answer.
-   - **Adversarial Sanitization:** Prompt delimiters and system control commands are stripped prior to transmission.
-
-### What NEVER leaves our infrastructure:
-- **User Authentication & Personal Identifiable Information (PII):** User accounts, IP addresses, session cookies, and internal user IDs are never sent to external AI providers.
-- **Geospatial & Coordinate Databases:** Site coordinates, GIS boundary polygons, and database primary keys remain strictly in local PostGIS.
-- **Audit Logs and Version History:** Epigraphical edits, human-in-the-loop reviewer identities, and revert timestamps in `text_versions` remain in local Postgres.
-- **Raw Master Archives:** Master archival TIFFs and original uploaded binaries are stored directly in local storage buckets and served locally.
+Dharohar Atlas operates as a public cultural heritage repository. Unlike enterprise SaaS with private user records, the archive consists predominantly of public historical records, stone epigraphs, architectural monographs, and scholarly citations.
 
 ---
 
-## 3. Telemetry & Query Logging Policy
+## 2. PII Minimization & Data Protection
 
-To continuously evaluate retrieval quality without compromising user privacy, Dharohar Atlas maintains an analytics log table (`search_queries`):
-
-### What is Logged:
-- Normalized search query text (e.g., `"रानी की वाव"`, `"stepwell Solanki"`)
-- Detected query script/language (`en`, `hi`, `gu`)
-- Search filter parameters applied (e.g. `state: Gujarat`, `types: site,document`)
-- Total retrieved hit count
-- Total execution latency in milliseconds (`latency_ms`)
-- Timestamp of query execution (`created_at`)
-
-### What is NEVER Logged:
-- IP addresses or geolocation headers
-- User account IDs, emails, or authentication tokens
-- Browser User-Agents or fingerprinting telemetry
-- Unredacted personal names in non-heritage queries
+- **Contributor Identities:** When registered contributors annotate or transcribe manuscripts, their identity is stored solely as a pseudonymous username and user ID.
+- **Log Anonymization & Redaction:** All bearer tokens, passwords, and sensitive authorization headers are automatically masked via regex patterns in [logging_config.py](file:///Users/ramnarayangupta/Desktop/hac/apps/api/app/core/logging_config.py) before writing to stream.
+- **No Third-Party Analytics Trackers:** The frontend does not bundle Google Analytics, Meta Pixel, or commercial tracking beacons.
 
 ---
 
-## 4. Local Air-Gapped Mode: Zero External Network Calls
+## 3. Data Export & Archival Portability
 
-For archaeological surveys, museum conservation labs, government archives, or air-gapped field deployments where **zero external data egress** is permitted, Dharohar Atlas supports **100% On-Premise Execution**:
-
-```bash
-# Set in apps/api/.env or Docker environment:
-OCR_PROVIDER=tesseract
-TRANSLATION_PROVIDER=offline
-EMBEDDING_PROVIDER=local       # multilingual-e5 or BGE-M3 (or 'fake' for deterministic CI)
-LLM_PROVIDER=offline            # local Ollama / vLLM / llama.cpp or deterministic offline RAG
-```
-
-### Local Engine Guarantees:
-1. **OCR via Tesseract 5:**
-   - Runs locally on CPU/container using `pytesseract` and pre-downloaded language models (`tesseract-ocr-hin`, `tesseract-ocr-guj`, `tesseract-ocr-san`, `tesseract-ocr-eng`).
-   - No internet access required; zero network packets transmitted.
-2. **Translation via Local Rule & Glossary Engine:**
-   - Architectural terms translated using local dictionary mapping and deterministic sentence templates.
-3. **Local Vector Embeddings (`sentence-transformers`):**
-   - Employs local open-source models (e.g., `BAAI/bge-m3` or `intfloat/multilingual-e5-base`) running in-process or in a local sidecar container.
-4. **Local Question-Answering (RAG):**
-   - Connects to an on-premise Ollama / vLLM instance or utilizes local extractive ranking.
-5. **Deterministic Test / CI Mode (`fake`):**
-   - Uses `FakeEmbeddingProvider` (deterministic 768-d unit vector generation) and `FakeLLMProvider`, requiring zero GPUs, zero network egress, and producing 100% reproducible test suites.
+Dharohar Atlas guarantees full scholarly and institutional portability:
+1. **Plain Text Export:** `GET /api/v1/documents/{id}/export/txt` exports complete transcripts.
+2. **Standard ALTO-XML / JSON Export:** `GET /api/v1/documents/{id}/export/alto` and `GET /api/v1/documents/{id}/export/json` export full spatial layout coordinates, bounding boxes, confidence scores, and architectural glosses.
+3. **Scholarly Citation Formats:** `GET /api/v1/sites/{slug}/citation?format=bibtex|apa|ris|csl` provides standardized bibliographic citations.
 
 ---
 
-## 5. Privacy Audit Matrix
+## 4. Deletion & Right to Forget (Roadmap vs Present)
 
-| Provider Mode | Data Sent Outside System | External Destination | Retention by External Party | Air-Gapped Compatible? |
-|---------------|--------------------------|----------------------|------------------------------|------------------------|
-| `OCR_PROVIDER=gemini` | Page Scan Images | Google Cloud Gemini API | Ephemeral (Session only; no training) | No |
-| `OCR_PROVIDER=tesseract` | None | None (Runs in local container) | None | **Yes (100%)** |
-| `TRANSLATION_PROVIDER=gemini` | Transcribed Text Lines | Google Cloud Gemini API | Ephemeral | No |
-| `TRANSLATION_PROVIDER=offline` | None | None (Local glossary) | None | **Yes (100%)** |
-| `EMBEDDING_PROVIDER=gemini` | Chunk Text Paragraphs | Google Cloud Gemini API | Ephemeral | No |
-| `EMBEDDING_PROVIDER=local` / `fake` | None | None (Local CPU/Model) | None | **Yes (100%)** |
-| `LLM_PROVIDER=gemini` | Grounded Prompt & Context | Google Cloud Gemini API | Ephemeral | No |
-| `LLM_PROVIDER=offline` / `fake` | None | None (Local container) | None | **Yes (100%)** |
-
----
-
-## 6. Security & Antivirus Hook
-Uploaded documents pass through a file header magic-byte verification stage before rasterization or processing:
-- Confirms actual file type matches declared MIME (`image/png`, `image/jpeg`, `image/webp`, `image/tiff`, `application/pdf`).
-- Disallows executable formats, scripts, or polyglot files.
-- Provides an extensible antivirus hook interface (`AntivirusValidator`) for integration with ClamAV in production deployments.
+- **Soft Deletion (`deleted_at`):** All models (`Site`, `Document`, `OCRLine`, `DocumentPage`) enforce soft-deletion patterns. Soft-deleted entities are completely excluded from search indices, public routes, and GeoJSON viewports.
+- **Hard Deletion / GDPR Eradication (ROADMAP):**
+  - Institutional heritage guidelines require audit retention of epigraphic corrections. True hard-deletion of user accounts and associated edit history is scheduled for Roadmap post-v1.0 release.

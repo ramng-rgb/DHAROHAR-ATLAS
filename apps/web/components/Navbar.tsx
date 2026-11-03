@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   Compass, MapPin, BookOpen, MessageSquare, Play, Sparkles, 
-  HelpCircle, Layers, ChevronRight, X, Search
+  HelpCircle, Layers, ChevronRight, X, Search, AlertTriangle
 } from "lucide-react";
 import { CommandPalette } from "@/components/search/CommandPalette";
 import { triggerDemoTour } from "@/components/demo/DemoTourOverlay";
@@ -140,13 +140,106 @@ export function Navbar() {
 
           {/* Quick Actions & Language */}
           <div className="flex items-center gap-2">
+            {/* Language Switcher Pill (EN / HI / GU) */}
+            <div className="hidden sm:inline-flex items-center p-0.5 bg-black/60 border border-[#D4AF37]/40 rounded-full text-[11px] font-semibold">
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    localStorage.setItem("dharohar_locale", "en");
+                    window.dispatchEvent(new Event("storage"));
+                  }
+                }}
+                className="px-2 py-0.5 rounded-full transition-all bg-[#D4AF37] text-indigoInk font-bold shadow-sm"
+                title="Switch to English"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    localStorage.setItem("dharohar_locale", "hi");
+                    window.dispatchEvent(new Event("storage"));
+                  }
+                }}
+                className="px-2 py-0.5 rounded-full transition-all text-[#D8C3A5] hover:text-[#D4AF37]"
+                title="हिन्दी में देखें"
+              >
+                हिन्दी
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    localStorage.setItem("dharohar_locale", "gu");
+                    window.dispatchEvent(new Event("storage"));
+                  }
+                }}
+                className="px-2 py-0.5 rounded-full transition-all text-[#D8C3A5] hover:text-[#D4AF37]"
+                title="ગુજરાતીમાં જુઓ"
+              >
+                ગુજરાતી
+              </button>
+            </div>
+
+            {/* Edge States Simulator Dropdown */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-md bg-black/40 transition-all"
+                title="Simulate UX Edge Cases"
+              >
+                <Layers className="w-3.5 h-3.5 text-[#C85A32]" />
+                <span>States</span>
+              </button>
+              <div className="absolute right-0 mt-2 w-56 glass-panel-gold rounded-xl border border-[#D4AF37]/60 p-2 shadow-2xl hidden group-hover:block z-50">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider">
+                  UX Edge State Previews
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById("offline-banner-alert");
+                    if (el) el.classList.toggle("hidden");
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#EFE6D8] hover:bg-white/10 rounded-lg flex items-center justify-between"
+                >
+                  <span>Offline Mode Warning</span>
+                  <span className="text-[10px] text-[#C85A32] bg-[#C85A32]/20 px-1.5 py-0.5 rounded font-mono">Mode</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById("skeleton-preview-modal");
+                    if (el) el.classList.toggle("hidden");
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#EFE6D8] hover:bg-white/10 rounded-lg flex items-center justify-between"
+                >
+                  <span>Skeleton Point Cloud</span>
+                  <span className="text-[10px] text-[#D4AF37] bg-[#D4AF37]/20 px-1.5 py-0.5 rounded font-mono">View</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById("ocr-error-preview-modal");
+                    if (el) el.classList.toggle("hidden");
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#EFE6D8] hover:bg-white/10 rounded-lg flex items-center justify-between"
+                >
+                  <span>OCR Read Error Modal</span>
+                  <span className="text-[10px] text-amber-400 bg-amber-950/60 px-1.5 py-0.5 rounded font-mono">Alert</span>
+                </button>
+              </div>
+            </div>
+
             <button
               onClick={() => setCommandPaletteOpen(true)}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 text-xs text-[#D8C3A5] hover:text-[#D4AF37] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 rounded-md bg-black/40 hover:bg-[#D4AF37]/10 transition-all shadow-inner"
               title="Global Archive Search (Cmd+K)"
             >
               <Search className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span className="hidden lg:inline">Search Archive</span>
+              <span className="hidden xl:inline">Search</span>
               <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/10 text-[#D4AF37] border border-white/10">
                 ⌘K
               </kbd>
@@ -174,7 +267,105 @@ export function Navbar() {
             </button>
           </div>
         </div>
+
+        {/* Offline Cache Mode Banner (Toggleable) */}
+        <div
+          id="offline-banner-alert"
+          className="hidden bg-[#141C2E] text-[#F6F1E9] px-4 py-2 border-b border-[#C9A24B]/40 text-xs font-medium flex items-center justify-between"
+          role="alert"
+        >
+          <div className="max-w-7xl mx-auto w-full flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 flex-shrink-0" />
+            <span>
+              Network offline: Dharohar Atlas is operating in <strong>Cached Heritage Mode</strong> (Rani ki Vav 3D Model & Patan Folios available offline).
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("offline-banner-alert");
+                if (el) el.classList.add("hidden");
+              }}
+              className="ml-auto text-xs text-[#D4AF37] hover:underline cursor-pointer"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
       </header>
+
+      {/* Global Skeleton Preview Overlay */}
+      <div
+        id="skeleton-preview-modal"
+        className="hidden fixed inset-0 z-50 bg-[#090D16]/90 backdrop-blur-md p-6 sm:p-12 overflow-y-auto"
+      >
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full bg-[#C85A32]" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#C85A32]">
+                State Preview: Dynamic Photogrammetry Skeleton Loader
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("skeleton-preview-modal");
+                if (el) el.classList.add("hidden");
+              }}
+              className="px-3 py-1.5 rounded-xl bg-white/10 border border-[#D4AF37]/30 text-xs font-bold text-[#F6F1E9]"
+            >
+              Close Preview
+            </button>
+          </div>
+
+          <div className="h-12 w-2/3 bg-white/10 rounded-2xl animate-pulse" />
+          <div className="h-6 w-1/3 bg-white/5 rounded-xl animate-pulse" />
+
+          <div className="h-80 w-full bg-white/5 border border-white/10 rounded-3xl animate-pulse flex items-center justify-center">
+            <span className="text-xs font-medium text-[#D8C3A5]/60">
+              Synthesizing Subterranean Point Cloud Mesh & Solar Shadow Map...
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-32 bg-white/5 border border-white/10 rounded-2xl animate-pulse" />
+            <div className="h-32 bg-white/5 border border-white/10 rounded-2xl animate-pulse" />
+          </div>
+        </div>
+      </div>
+
+      {/* OCR Inscription Read Error Modal */}
+      <div
+        id="ocr-error-preview-modal"
+        className="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      >
+        <div className="bg-[#141C2E] rounded-3xl max-w-md w-full p-6 sm:p-8 border border-[#D4AF37]/40 shadow-2xl text-center">
+          <div className="w-14 h-14 rounded-full bg-amber-950/60 border border-amber-500/50 text-amber-400 mx-auto flex items-center justify-center mb-4">
+            <AlertTriangle className="w-7 h-7" />
+          </div>
+          <h3 className="font-serif text-xl font-bold text-[#F6F1E9] mb-2">
+            Epigraph Read Anomaly Detected
+          </h3>
+          <p className="text-xs text-[#D8C3A5] leading-relaxed mb-6">
+            The OCR neural pipeline detected surface flaking, deep hand shadows, or insufficient oblique contrast on the inscription face.
+          </p>
+          <div className="p-3 bg-black/40 rounded-xl text-left text-xs text-[#D8C3A5]/80 mb-6 space-y-1 border border-white/5">
+            <span className="font-bold text-[#D4AF37] block">Field Recording Guidance:</span>
+            <div>• Position indirect natural lighting at a 45° angle to the stone relief.</div>
+            <div>• Avoid specular lens flare across eroded Brahmi or Devanagari characters.</div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              const el = document.getElementById("ocr-error-preview-modal");
+              if (el) el.classList.add("hidden");
+            }}
+            className="w-full py-2.5 rounded-xl bg-[#9E3D1D] hover:bg-[#B5532F] text-white font-semibold text-xs transition-all"
+          >
+            Acknowledge & Dismiss
+          </button>
+        </div>
+      </div>
 
       {/* Global Command Palette */}
       <CommandPalette

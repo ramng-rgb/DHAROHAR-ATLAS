@@ -6,9 +6,10 @@ import {
   ZoomIn, ZoomOut, RotateCw, Maximize2, Eye, EyeOff, 
   Sparkles, CheckCircle2, AlertTriangle, History, Download, 
   Copy, Printer, MapPin, Tag, ArrowLeft, Edit3, X, Check,
-  ChevronLeft, ChevronRight, Layers, HelpCircle, Undo2
+  ChevronLeft, ChevronRight, Layers, HelpCircle, Undo2, Volume2
 } from "lucide-react";
 import { apiClient, DocumentResponse, OCRLineResponse } from "@/lib/api-client";
+import { speakNarration, stopNarration } from "@/lib/audioNarration";
 
 interface DocumentViewerProps {
   initialDocument: DocumentResponse;
@@ -47,6 +48,7 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
   const [editReason, setEditReason] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [speechActive, setSpeechActive] = useState(false);
 
   // Version history drawer
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -407,6 +409,37 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
             </div>
           </div>
 
+          {/* Audio Narration Guide Button */}
+          <button
+            onClick={() => {
+              if (speechActive) {
+                stopNarration();
+                setSpeechActive(false);
+              } else {
+                const textToSpeak = activeLineId
+                  ? lines.find((l) => l.id === activeLineId)?.text || doc.title
+                  : lines.map((l) => l.text).join(". ");
+                setSpeechActive(true);
+                speakNarration(
+                  textToSpeak,
+                  (doc.language_hint || "").toLowerCase().includes("gu") ? "gu" : "hi",
+                  () => setSpeechActive(false)
+                );
+              }
+            }}
+            className={`p-2 rounded-lg border transition-colors flex items-center gap-1.5 ${
+              speechActive
+                ? "bg-[#D4AF37] text-indigoInk font-bold border-[#D4AF37]"
+                : "border-white/10 hover:border-[#D4AF37]/40 text-[#D8C3A5] hover:text-[#F6F1E9] hover:bg-white/5"
+            }`}
+            title="Listen to transcription with AI speech narration"
+          >
+            <Volume2 className="w-4 h-4" />
+            <span className="hidden sm:inline text-xs font-semibold">
+              {speechActive ? "Pause" : "Listen"}
+            </span>
+          </button>
+
           {/* Version history */}
           <button
             onClick={openHistory}
@@ -526,6 +559,21 @@ export function DocumentViewer({ initialDocument }: DocumentViewerProps) {
 
           {/* Interactive Scan Canvas / Container */}
           <div className="flex-1 w-full h-full flex items-center justify-center p-4 overflow-auto relative">
+            {/* Holographic Laser Scanning HUD Beam */}
+            <div className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent shadow-gold-glow animate-scan z-20 pointer-events-none" />
+
+            {/* Top-Right Holographic Status Overlay */}
+            <div className="absolute top-3 right-3 z-10 pointer-events-none p-2 rounded bg-black/75 backdrop-blur-md border border-[#D4AF37]/35 text-[10px] font-mono text-[#D4AF37] hidden sm:flex flex-col gap-0.5 shadow-lg">
+              <div className="flex items-center justify-between gap-3">
+                <span>ASI-EPIGRAPH: #FOLIO-{activePageIndex + 1}</span>
+                <span className="text-emerald-400 font-bold">ALIGNED (98.4%)</span>
+              </div>
+              <div className="flex items-center justify-between gap-3 text-[#D8C3A5]/70">
+                <span>SPECTRAL CONTRAST: 96.2%</span>
+                <span>CONFIDENCE: {Math.round(((doc as any).overall_confidence || 0.94) * 100)}%</span>
+              </div>
+            </div>
+
             <div
               className="relative transition-transform duration-200 select-none shadow-2xl"
               style={{

@@ -47,10 +47,27 @@ export default async function HomePage() {
 
   return (
     <div className="w-full flex flex-col items-center bg-[#090D16] text-[#F6F1E9] overflow-x-hidden">
-      {/* 1. Cinematic Hero Section with Parallax Stepwell Geometry */}
-      <section className="relative w-full min-h-[88vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 py-16 overflow-hidden">
+      {/* 1. Cinematic Hero Section with Jali Pattern and Parallax Geometry */}
+      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 py-20 overflow-hidden">
+        {/* Subtle Mughal Arch Jali Motif Backdrop */}
+        <div className="absolute inset-0 opacity-15 pointer-events-none jali-pattern z-0" />
+
+        {/* Decorative Vector Silhouette of Historic Minarets */}
+        <div className="absolute bottom-0 right-4 sm:right-12 lg:right-24 w-44 sm:w-64 lg:w-80 opacity-20 pointer-events-none select-none text-[#C85A32] z-0">
+          <svg viewBox="0 0 200 400" fill="currentColor" className="w-full h-auto">
+            <path d="M90 20 L110 20 L113 70 L87 70 Z" />
+            <rect x="80" y="70" width="40" height="8" rx="2" fill="#C9A24B" />
+            <path d="M85 78 L115 78 L120 160 L80 160 Z" />
+            <rect x="75" y="160" width="50" height="10" rx="3" fill="#C9A24B" />
+            <path d="M78 170 L122 170 L130 270 L70 270 Z" />
+            <rect x="65" y="270" width="70" height="12" rx="4" fill="#C9A24B" />
+            <path d="M68 282 L132 282 L144 390 L56 390 Z" />
+            <rect x="40" y="390" width="120" height="10" rx="2" />
+          </svg>
+        </div>
+
         {/* Animated Subterranean Stepwell Vector Illustration */}
-        <div className="absolute inset-0 z-0 pointer-events-none opacity-40 overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-30 overflow-hidden">
           <svg
             className="w-full h-full object-cover text-goldLeaf/15 motion-safe:animate-[pulse_10s_ease-in-out_infinite]"
             viewBox="0 0 1440 900"
@@ -100,11 +117,21 @@ export default async function HomePage() {
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-4xl mx-auto space-y-6">
+          {/* Era Tag Pill */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-semibold tracking-wide uppercase shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-[#C85A32]" />
+            <span>UNESCO World Heritage & Archaeological Survey of India Digital Twin</span>
+          </div>
+
           <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#F6F1E9] leading-tight drop-shadow-md">
             DHAROHAR ATLAS
           </h1>
 
-          <p className="text-lg sm:text-2xl text-[#D4AF37] font-serif max-w-2xl mx-auto leading-relaxed text-pretty">
+          <p className="text-xl sm:text-3xl text-[#E07A5F] font-serif font-normal max-w-2xl mx-auto leading-snug text-balance">
+            Walk through history. Read what was written.
+          </p>
+
+          <p className="text-base sm:text-xl text-[#D4AF37] font-serif max-w-2xl mx-auto leading-relaxed text-pretty">
             The Living Knowledge Layer for Unstructured Cultural & Architectural Heritage Archives
           </p>
 
@@ -120,8 +147,16 @@ export default async function HomePage() {
               className="px-6 py-3.5 rounded-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-sm shadow-xl shadow-black/60 flex items-center gap-2 transition-transform hover:scale-105"
             >
               <Compass className="w-4 h-4 text-indigoInk" />
-              <span>Explore Geospatial Atlas</span>
+              <span>Start Exploring</span>
               <ArrowRight className="w-4 h-4 text-indigoInk" />
+            </Link>
+
+            <Link
+              href="/archive"
+              className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-[#F6F1E9] font-bold text-sm border border-white/20 hover:border-[#D4AF37] shadow-xl flex items-center gap-2 transition-all"
+            >
+              <BookOpen className="w-4 h-4 text-[#D4AF37]" />
+              <span>Try Inscription Reader</span>
             </Link>
 
             <LandingDemoCta />
@@ -415,6 +450,36 @@ export default async function HomePage() {
             <p className="text-xs text-[#D8C3A5] leading-relaxed text-pretty">
               Live MapLibre journeys, 3D digital twins, bounding-box folio viewer, and cited Ask the Archive responses.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Heritage Spot Callout */}
+      <section className="w-full bg-[#141C2E] text-[#F6F1E9] py-12 px-4 sm:px-6 lg:px-8 border-y border-[#D4AF37]/30 my-8">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-xl space-y-2">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#F6F1E9]">
+              Featured Subterranean Wonder: Rani ki Vav
+            </h2>
+            <p className="text-sm text-[#D8C3A5] leading-relaxed text-pretty">
+              Commissioned in 1063 CE by Queen Udayamati. Its seven subterranean inverted tiers preserve over 500 principal sculptures, Sanskrit foundation inscriptions in Northern Brahmi derivatives, and sacred water architecture.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3.5">
+            <Link
+              href="/sites/rani-ki-vav#digital-twin"
+              className="px-6 py-3 rounded-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk font-bold text-xs shadow-md transition-all flex items-center gap-2"
+            >
+              <Box className="w-4 h-4 text-indigoInk" />
+              <span>Inspect 3D Digital Twin</span>
+            </Link>
+            <Link
+              href="/sites/rani-ki-vav"
+              className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/20 transition-all flex items-center gap-2"
+            >
+              <FileText className="w-4 h-4 text-[#D4AF37]" />
+              <span>Read Monument Dossier</span>
+            </Link>
           </div>
         </div>
       </section>

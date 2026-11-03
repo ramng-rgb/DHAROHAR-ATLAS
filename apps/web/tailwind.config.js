@@ -41,13 +41,29 @@ module.exports = {
           DEFAULT: "#D4AF37",
           glow: "#F3C649",
           dark: "#AA820A"
+        },
+        indigoHeritage: {
+          DEFAULT: "#1F2A44",
+          dark: "#141C2E",
+          light: "#2D3D60"
+        },
+        mutedGold: {
+          DEFAULT: "#C9A24B",
+          light: "#DEBA6B",
+          dark: "#A68233"
         }
       },
       fontFamily: {
-        serif: ["'Cinzel'", "Georgia", "serif"],
-        sans: ["'DM Sans'", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["'Cinzel'", "'Playfair Display'", "Georgia", "serif"],
+        sans: ["'DM Sans'", "'Inter'", "system-ui", "-apple-system", "sans-serif"],
         devanagari: ["'Noto Sans Devanagari'", "serif"],
         gujarati: ["'Noto Sans Gujarati'", "sans-serif"]
+      },
+      boxShadow: {
+        'warm-sm': '0 2px 8px -2px rgba(15, 23, 42, 0.4)',
+        'warm-md': '0 8px 24px -6px rgba(15, 23, 42, 0.6)',
+        'warm-lg': '0 16px 36px -8px rgba(15, 23, 42, 0.8)',
+        'gold-glow': '0 0 25px rgba(201, 162, 75, 0.5)',
       },
       backgroundImage: {
         'jaali-pattern': "radial-gradient(#d4af37 0.75px, transparent 0.75px), radial-gradient(#d4af37 0.75px, #0f172a 0.75px)",

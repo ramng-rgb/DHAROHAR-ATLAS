@@ -1036,6 +1036,24 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                   {t.previewDrawer.openSitePage}
                 </Button>
               </div>
+
+              {/* Google Maps GPS Turn-by-Turn Direct Link */}
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${selectedSite.latitude},${selectedSite.longitude}&travelmode=walking`}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full inline-block"
+                title="Open Turn-by-Turn GPS Directions on Google Maps"
+              >
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="w-full"
+                  icon={<MapPin className="w-3.5 h-3.5 text-[#C85A32]" />}
+                >
+                  Google Maps GPS Navigation
+                </Button>
+              </a>
             </div>
           </div>
         )}

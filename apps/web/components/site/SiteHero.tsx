@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { 
   MapPin, Share2, Copy, Check, Quote, ExternalLink, 
-  ShieldCheck, Box, ArrowLeft, Compass 
+  ShieldCheck, Box, ArrowLeft, Compass, Volume2
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { speakNarration, stopNarration } from "@/lib/audioNarration";
 import type { SiteFullDetail } from "@/lib/api-client";
 
 interface SiteHeroProps {
@@ -17,6 +18,19 @@ interface SiteHeroProps {
 export function SiteHero({ site, onOpenCite }: SiteHeroProps) {
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [shared, setShared] = useState<boolean>(false);
+  const [speaking, setSpeaking] = useState<boolean>(false);
+
+  const handleAudioNarration = () => {
+    if (speaking) {
+      stopNarration();
+      setSpeaking(false);
+    } else {
+      const eraText = site.era_label || site.era ? `Constructed in ${site.era_label || site.era}` : "";
+      const text = `${site.name}. Located in ${site.state}. ${eraText}. ${site.summary || ""}`;
+      setSpeaking(true);
+      speakNarration(text, "en", () => setSpeaking(false));
+    }
+  };
 
   const handleCopyLink = () => {
     if (typeof window !== "undefined") {
@@ -151,6 +165,31 @@ export function SiteHero({ site, onOpenCite }: SiteHeroProps) {
           >
             Cite Record
           </Button>
+
+          <Button
+            variant={speaking ? "primary" : "secondary"}
+            size="sm"
+            onClick={handleAudioNarration}
+            icon={<Volume2 className="w-3.5 h-3.5 text-[#D4AF37]" />}
+          >
+            {speaking ? "Pause Audio" : "Listen Guide"}
+          </Button>
+
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${site.latitude},${site.longitude}&travelmode=walking`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block"
+            title="Open Turn-by-Turn GPS Directions in Google Maps"
+          >
+            <Button
+              variant="secondary"
+              size="sm"
+              icon={<ExternalLink className="w-3.5 h-3.5 text-[#C85A32]" />}
+            >
+              Google Maps
+            </Button>
+          </a>
 
           <Button
             variant="secondary"

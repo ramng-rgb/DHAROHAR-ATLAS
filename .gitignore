@@ -55,5 +55,6 @@ imported_manifest.json
 *.p12
 credentials.json
 service_account*.json
-client_secrets*.json
-
+# Uploads and temporary data
+data/uploads/
+data/documents/

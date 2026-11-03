@@ -15,9 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
-        <meta name="theme-color" content="#090D16" />
+        <meta name="theme-color" content="#F3E9DC" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,9 +27,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#090D16] text-[#F6F1E9] flex flex-col font-sans selection:bg-[#D4AF37]/30 selection:text-[#D4AF37]">
+      <body className="min-h-screen bg-[#090D16] text-indigoHeritage flex flex-col font-sans selection:bg-terracotta/20 selection:text-terracotta">
         <Navbar />
-        <main className="flex-1 flex flex-col">{children}</main>
+        <main className="flex-1 flex flex-col bg-sandstone-100 jali-pattern">{children}</main>
         <DemoTourOverlay />
       </body>
     </html>

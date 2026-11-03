@@ -38,8 +38,8 @@ module.exports = {
           dark: "#090D16"
         },
         terracotta: {
-          DEFAULT: "#B5532F",
-          dark: "#933F20",
+          DEFAULT: "#A64522",
+          dark: "#8D3819",
           light: "#CD6B46",
           50: "#FBF2EF"
         },
@@ -56,7 +56,7 @@ module.exports = {
         mutedGold: {
           DEFAULT: "#C9A24B",
           light: "#DEBA6B",
-          dark: "#7A5C1E"
+          dark: "#684B12"
         }
       },
       fontFamily: {

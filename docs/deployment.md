@@ -186,3 +186,47 @@ Run this verification against any staging or production deployment:
 
 6. **End-to-End Tour Execution:**
    Navigate to the live URL -> click **"Demo mode"** on the navbar -> verify all 9 steps advance smoothly to the final Ask the Archive cited stream.
+
+---
+
+## 7. Tiered Rate Limiting & Auth Protection
+
+Dharohar Atlas enforces tiered, defense-in-depth rate limiting to protect public discovery, researcher workloads, and sensitive authentication routes.
+
+### 7.1 Tier Architecture
+
+| Tier Category | Target Routes | Identification | Default Limit | Policy on Excess |
+| :--- | :--- | :--- | :--- | :--- |
+| **Authentication** | `/api/v1/auth/login`<br>`/api/v1/auth/signup`<br>`/api/v1/auth/password-reset` | Combination of **Client IP** + **Account Identifier** (email/username in body/headers) | **15 req/300s** per IP<br>**5 req/300s** per Account | **Exponential Backoff** (2s, 4s, 8s, 16s... up to 300s) — never a hard lockout |
+| **Public Endpoints** | `/api/v1/sites`<br>`/api/v1/search`<br>`/api/v1/routes`<br>`/api/v1/documents` | Client IP (`X-Forwarded-For` or remote addr) | **180 req/min** | HTTP 429 with `Retry-After` header |
+| **Authenticated Users** | All routes carrying `Authorization: Bearer <token>` or user identification | User ID / Token Hash | **600 req/min** | Looser limits for active archival exploration |
+| **Exempt System Routes** | `/health`, `/ready`, `/metrics`, `/favicon.ico` | Internal Probes & Infrastructure | **Unlimited** | Never throttled to preserve monitoring & uptime |
+
+### 7.2 Exponential Backoff Formula
+For authentication endpoints, excess requests trigger non-blocking exponential backoff instead of a permanent lockout:
+$$\text{Backoff (seconds)} = \min\left(\text{RATE\_LIMIT\_AUTH\_MAX\_BACKOFF}, \text{RATE\_LIMIT\_AUTH\_BASE\_BACKOFF} \times 2^{\text{excess} - 1}\right)$$
+- Example with defaults ($\text{base}=2.0\text{s}$, limit = 5):
+  - 1st excess attempt (6th total): 2.0s backoff
+  - 2nd excess attempt (7th total): 4.0s backoff
+  - 3rd excess attempt (8th total): 8.0s backoff
+  - 4th excess attempt (9th total): 16.0s backoff
+
+### 7.3 Configuration Settings
+All rate limits and backoff factors are completely configurable via environment variables:
+
+```env
+# Master Rate Limiting Switch
+RATE_LIMIT_ENABLED=true
+
+# Auth Routes Configuration
+RATE_LIMIT_AUTH_PER_IP=15
+RATE_LIMIT_AUTH_PER_ACCOUNT=5
+RATE_LIMIT_AUTH_BASE_BACKOFF=2.0
+RATE_LIMIT_AUTH_MAX_BACKOFF=300.0
+RATE_LIMIT_AUTH_WINDOW_SECONDS=300
+
+# Public & Authenticated Throughput
+RATE_LIMIT_PUBLIC_PER_MINUTE=180
+RATE_LIMIT_AUTHENTICATED_PER_MINUTE=600
+```
+

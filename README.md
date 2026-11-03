@@ -370,6 +370,8 @@ We believe in complete scholarly honesty. No historical claims are fabricated:
 - **Scalability & Capacity Plan:** [`docs/scalability.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/scalability.md) — Measured indexing/query path numbers and honest extrapolation to 1,000,000 chunks.
 - **Data Privacy & AI Boundary:** [`docs/privacy.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/privacy.md) — What is sent to hosted embedding/LLM providers, telemetry logging policy, and local air-gapped opt-out.
 - **Production Deployment & Infrastructure:** [`docs/deployment.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/deployment.md) — Multi-stage Dockerfiles, database indexing, object storage, and smoke testing verification.
+- **Tiered Rate Limiting & Auth Security:** [`docs/deployment.md#7-tiered-rate-limiting--auth-protection`](file:///Users/ramnarayangupta/Desktop/hac/docs/deployment.md) — Configurable per-IP and per-account limits with non-blocking exponential backoff on auth routes, moderate quotas on public search/sites, and loose allowances for authenticated curators.
 - **10-Slide Pitch Deck:** [`docs/pitch-deck.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/pitch-deck.md) — 10-slide outline for hackathon judges with key takeaways and speaker notes.
 - **Demo Video Script:** [`docs/demo-script.md`](file:///Users/ramnarayangupta/Desktop/hac/docs/demo-script.md) — Timed 2:30 video walkthrough guide.
+
 

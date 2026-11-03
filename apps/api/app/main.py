@@ -2,6 +2,7 @@ import os
 import time
 import uuid
 
+from app.api.v1.auth import router as auth_router
 from app.api.v1.demo import router as demo_router
 from app.api.v1.documents import router as documents_router
 from app.api.v1.facets import router as facets_router
@@ -13,6 +14,7 @@ from app.api.v1.search import router as search_router
 from app.api.v1.sites import router as sites_router
 from app.api.v1.translations import router as translations_router
 from app.core.config import settings
+from app.core.rate_limiter import EndpointCategory, tiered_rate_limiter
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -35,44 +37,61 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# In-Memory Rate Limiting State (Sliding Window per IP)
-_request_counts: dict[str, list[float]] = {}
-
+# Tiered Rate Limiting & Request ID Middleware
 @app.middleware("http")
-async def rate_limiting_and_request_id(request: Request, call_next):
+async def tiered_rate_limiting_and_request_id(request: Request, call_next):
     # 1. Generate / Preserve Request ID
     request_id = request.headers.get("X-Request-ID", str(uuid.uuid4()))
     start_time = time.time()
-    
-    # 2. Rate Limiting Check (bypass for static assets and health checks)
-    client_ip = request.client.host if request.client else "127.0.0.1"
+
+    # 2. Extract body for Auth Routes (allows per-account extraction without stream exhaustion)
+    body_bytes = None
     path = request.url.path
-    if not (path.startswith("/models") or path.startswith("/data") or path in ("/health", "/ready")):
-        now = time.time()
-        window_start = now - 60.0
-        client_history = _request_counts.get(client_ip, [])
-        # prune requests older than 1 minute
-        client_history = [t for t in client_history if t > window_start]
-        if len(client_history) >= settings.RATE_LIMIT_PER_MINUTE:
-            from fastapi.responses import JSONResponse
-            return JSONResponse(
-                status_code=429,
-                content={"detail": "Too many requests. Please slow down."},
-                headers={
-                    "X-Request-ID": request_id,
-                    "Retry-After": "60",
-                }
-            )
-        client_history.append(now)
-        _request_counts[client_ip] = client_history
+    if "/auth" in path and request.method in ("POST", "PUT"):
+        body_bytes = await request.body()
+        async def receive():
+            return {"type": "http.request", "body": body_bytes}
+        request = Request(request.scope, receive=receive)
+
+    # 3. Evaluate Tiered Rate Limiting Decision
+    decision = await tiered_rate_limiter.evaluate_request(request, body_bytes=body_bytes)
+
+    if not decision.allowed:
+        from fastapi.responses import JSONResponse
+        content = {
+            "detail": decision.reason or "Rate limit exceeded. Please slow down.",
+            "retry_after": decision.retry_after,
+            "category": decision.category.value,
+        }
+        if decision.backoff_seconds > 0:
+            content["backoff_seconds"] = round(decision.backoff_seconds, 2)
+
+        return JSONResponse(
+            status_code=429,
+            content=content,
+            headers={
+                "X-Request-ID": request_id,
+                "Retry-After": str(decision.retry_after),
+                "X-RateLimit-Limit": str(decision.limit),
+                "X-RateLimit-Remaining": str(decision.remaining),
+                "X-RateLimit-Reset": str(decision.reset_seconds),
+                "X-RateLimit-Category": decision.category.value,
+                "X-RateLimit-Backoff": f"{decision.backoff_seconds:.2f}",
+            }
+        )
 
     response = await call_next(request)
     process_time = time.time() - start_time
     response.headers["X-Request-ID"] = request_id
     response.headers["X-Process-Time"] = f"{process_time:.4f}s"
+    if decision.limit > 0:
+        response.headers["X-RateLimit-Limit"] = str(decision.limit)
+        response.headers["X-RateLimit-Remaining"] = str(decision.remaining)
+        response.headers["X-RateLimit-Category"] = decision.category.value
     return response
 
 # Include Routers
+app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(sites_router, prefix=settings.API_V1_STR)
 app.include_router(documents_router, prefix=settings.API_V1_STR)
 app.include_router(lines_router, prefix=settings.API_V1_STR)

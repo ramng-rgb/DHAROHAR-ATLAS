@@ -715,3 +715,23 @@ class JobResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+# Authentication Schemas
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class SignupRequest(BaseModel):
+    email: str
+    username: str
+    password: str
+
+class PasswordResetRequest(BaseModel):
+    email: str
+
+class AuthTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user_id: str
+    email: str
+    message: str | None = None

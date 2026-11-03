@@ -52,19 +52,6 @@ export default async function HomePage() {
         {/* Subtle Mughal Arch Jali Motif Backdrop */}
         <div className="absolute inset-0 opacity-15 pointer-events-none jali-pattern z-0" />
 
-        {/* Decorative Vector Silhouette of Historic Minarets */}
-        <div className="absolute bottom-0 right-4 sm:right-12 lg:right-24 w-44 sm:w-64 lg:w-80 opacity-20 pointer-events-none select-none text-[#C85A32] z-0">
-          <svg viewBox="0 0 200 400" fill="currentColor" className="w-full h-auto">
-            <path d="M90 20 L110 20 L113 70 L87 70 Z" />
-            <rect x="80" y="70" width="40" height="8" rx="2" fill="#C9A24B" />
-            <path d="M85 78 L115 78 L120 160 L80 160 Z" />
-            <rect x="75" y="160" width="50" height="10" rx="3" fill="#C9A24B" />
-            <path d="M78 170 L122 170 L130 270 L70 270 Z" />
-            <rect x="65" y="270" width="70" height="12" rx="4" fill="#C9A24B" />
-            <path d="M68 282 L132 282 L144 390 L56 390 Z" />
-            <rect x="40" y="390" width="120" height="10" rx="2" />
-          </svg>
-        </div>
 
         {/* Animated Subterranean Stepwell Vector Illustration */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-30 overflow-hidden">

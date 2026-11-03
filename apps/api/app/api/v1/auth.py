@@ -1,5 +1,6 @@
 import uuid
 from fastapi import APIRouter, Header, HTTPException, status
+from app.core.config import settings
 from app.schemas.schemas import (
     AuthTokenResponse,
     LoginRequest,
@@ -9,20 +10,20 @@ from app.schemas.schemas import (
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-# In-memory mock accounts for testing authentication flows
+# In-memory mock accounts for testing authentication flows, configured via environment variables
 _REGISTERED_USERS: dict[str, dict[str, str]] = {
     "archivist@dharohar.org": {
         "id": "usr_archivist_01",
         "username": "archivist",
         "email": "archivist@dharohar.org",
-        "password": "heritage_secure_pass_2026",
+        "password": settings.DEMO_ARCHIVIST_PASSWORD,
         "role": "curator"
     },
     "epigraphist@asi.nic.in": {
         "id": "usr_epigraphist_02",
         "username": "epigraphist",
         "email": "epigraphist@asi.nic.in",
-        "password": "sanskrit_charter_pass",
+        "password": settings.DEMO_EPIGRAPHIST_PASSWORD,
         "role": "researcher"
     }
 }

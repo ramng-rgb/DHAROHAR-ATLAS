@@ -65,6 +65,10 @@ class Settings(BaseSettings):
     
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
 
+    # Configurable Mock/Demo Credentials (overridable via environment)
+    DEMO_ARCHIVIST_PASSWORD: str = os.getenv("DEMO_ARCHIVIST_PASSWORD", "heritage_secure_pass_2026")
+    DEMO_EPIGRAPHIST_PASSWORD: str = os.getenv("DEMO_EPIGRAPHIST_PASSWORD", "sanskrit_charter_pass")
+
     class Config:
         env_file = ".env"
         case_sensitive = True

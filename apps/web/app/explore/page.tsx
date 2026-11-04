@@ -13,8 +13,8 @@ export default async function ExplorePage() {
   }
 
   return (
-    <div className="w-full flex-1 flex flex-col h-[calc(100vh-4rem)]">
-      <Suspense fallback={<div className="p-8 text-sandstone text-center">Loading Geospatial Explorer...</div>}>
+    <div className="w-full flex-1 flex flex-col h-[calc(100dvh-73px)] max-h-[calc(100dvh-73px)] overflow-hidden">
+      <Suspense fallback={<div className="p-8 text-indigoHeritage text-center">Loading Geospatial Explorer...</div>}>
         <MapExplorer initialSites={initialSites} />
       </Suspense>
     </div>

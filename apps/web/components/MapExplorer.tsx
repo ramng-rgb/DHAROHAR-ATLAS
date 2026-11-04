@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import * as maplibregl from "maplibre-gl";
+import { setWorkerUrl, config as maplibreConfig } from "maplibre-gl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { 
@@ -26,14 +27,24 @@ import { AskTheArchivePanel } from "@/components/search/AskTheArchivePanel";
 import { JourneyPlayer } from "@/components/journey/JourneyPlayer";
 import { fetchJourneyBySlug, JourneyDetail } from "@/lib/api";
 
+// Ensure MapLibre Web Worker loads reliably from local static asset
+if (typeof window !== "undefined") {
+  if (typeof setWorkerUrl === "function") {
+    setWorkerUrl("/maplibre-gl-worker.mjs");
+  }
+  if (maplibreConfig) {
+    maplibreConfig.WORKER_URL = "/maplibre-gl-worker.mjs";
+  }
+}
+
 interface MapExplorerProps {
   initialSites: SiteBrief[];
 }
 
 // Marker icon generator per site_type
 function getMarkerSvg(siteType: string, isSelected: boolean = false): string {
-  const color = isSelected ? "#F3C649" : "#D4AF37";
-  const bgColor = isSelected ? "#C85A32" : "#1A1510";
+  const color = isSelected ? "#F3C649" : "#C9A24B";
+  const bgColor = isSelected ? "#A64522" : "#1F2A44";
 
   let iconPath = "";
   if (siteType === "stepwell") {
@@ -107,6 +118,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   const [selectedSite, setSelectedSite] = useState<SiteDetail | SiteBrief | null>(null);
   const [previewDrawerOpen, setPreviewDrawerOpen] = useState<boolean>(false);
   const [copyFeedback, setCopyFeedback] = useState<boolean>(false);
+  const [mapLoaded, setMapLoaded] = useState<boolean>(false);
 
   // Live GeoJSON & Facet Data from API
   const [geoJsonData, setGeoJsonData] = useState<GeoJSONFeatureCollection | null>(null);
@@ -258,7 +270,12 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     }
   }, [urlSelectedSlug]);
 
-  // Initialize MapLibre GL Map
+  const fetchViewportGeoJsonRef = useRef(fetchViewportGeoJson);
+  fetchViewportGeoJsonRef.current = fetchViewportGeoJson;
+  const syncParamsToUrlRef = useRef(syncParamsToUrl);
+  syncParamsToUrlRef.current = syncParamsToUrl;
+
+  // Initialize MapLibre GL Map (run once on mount)
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
@@ -266,27 +283,32 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     const initialLng = searchParams.get("lng") ? parseFloat(searchParams.get("lng")!) : 72.8;
     const initialZoom = searchParams.get("zoom") ? parseFloat(searchParams.get("zoom")!) : 6.8;
 
+    if (typeof setWorkerUrl === "function") {
+      setWorkerUrl("/maplibre-gl-worker.mjs");
+    }
+    if (maplibreConfig) {
+      maplibreConfig.WORKER_URL = "/maplibre-gl-worker.mjs";
+    }
+
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: {
         version: 8,
         sources: {
-          carto_dark: {
+          osm_tiles: {
             type: "raster",
             tiles: [
-              "https://a.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-              "https://b.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-              "https://c.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
+              "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             ],
             tileSize: 256,
-            attribution: "© OpenStreetMap contributors, © CARTO",
+            attribution: "© OpenStreetMap contributors",
           },
         },
         layers: [
           {
-            id: "carto-dark-tiles",
+            id: "osm-raster-layer",
             type: "raster",
-            source: "carto_dark",
+            source: "osm_tiles",
             minzoom: 0,
             maxzoom: 19,
           },
@@ -303,14 +325,43 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "top-right");
     map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
 
+    const handleMapReady = () => {
+      setMapLoaded(true);
+      map.resize();
+      fetchViewportGeoJsonRef.current();
+    };
+
+    if (map.loaded() || map.isStyleLoaded()) {
+      handleMapReady();
+    } else {
+      map.once("load", handleMapReady);
+      map.once("style.load", handleMapReady);
+    }
+
+    // Fallback timer to ensure markers mount even if load event is deferred
+    const fallbackTimer = setTimeout(() => {
+      setMapLoaded(true);
+      map.resize();
+    }, 400);
+
+    // Resize observer to handle dynamic layout sizing
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapInstance.current) {
+        mapInstance.current.resize();
+      }
+    });
+    if (mapContainer.current) {
+      resizeObserver.observe(mapContainer.current);
+    }
+
     // Debounced move listener
     let debounceTimer: NodeJS.Timeout;
     map.on("moveend", () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
-        fetchViewportGeoJson();
+        fetchViewportGeoJsonRef.current();
         const center = map.getCenter();
-        syncParamsToUrl({
+        syncParamsToUrlRef.current({
           lat: center.lat.toFixed(4),
           lng: center.lng.toFixed(4),
           zoom: map.getZoom().toFixed(1),
@@ -321,15 +372,18 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
     mapInstance.current = map;
 
     return () => {
+      setMapLoaded(false);
+      clearTimeout(fallbackTimer);
+      resizeObserver.disconnect();
       clearTimeout(debounceTimer);
       map.remove();
       mapInstance.current = null;
     };
-  }, [fetchViewportGeoJson, searchParams, syncParamsToUrl]);
+  }, []);
 
-  // Update Map Markers on GeoJSON data changes
+  // Update Map Markers on GeoJSON data changes or initialSites
   useEffect(() => {
-    if (!mapInstance.current || !geoJsonData) return;
+    if (!mapInstance.current) return;
 
     // Clear previous markers
     Object.values(markersRef.current).forEach((marker) => marker.remove());
@@ -337,7 +391,26 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
     const map = mapInstance.current;
 
-    geoJsonData.features.forEach((feature) => {
+    const features = (geoJsonData?.features && geoJsonData.features.length > 0)
+      ? geoJsonData.features
+      : (initialSites || []).map((site) => ({
+          type: "Feature" as const,
+          geometry: {
+            type: "Point" as const,
+            coordinates: [site.longitude, site.latitude] as [number, number],
+          },
+          properties: {
+            id: site.id,
+            name: site.name,
+            site_type: site.site_type,
+            state: site.state,
+            era_label: site.era_label,
+            slug: site.slug,
+            cluster: false,
+          },
+        }));
+
+    features.forEach((feature) => {
       const coords = feature.geometry.coordinates as [number, number];
       const props = feature.properties as Record<string, any>;
       const isCluster = props.cluster === true;
@@ -389,7 +462,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
         el.addEventListener("click", () => {
           const siteSlug = String(props.slug);
-          syncParamsToUrl({ site: siteSlug });
+          syncParamsToUrlRef.current({ site: siteSlug });
           api.getSite(siteSlug).then((detail) => {
             setSelectedSite(detail || (props as any));
             setPreviewDrawerOpen(true);
@@ -404,7 +477,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
       const markerId = String(isCluster ? `cluster-${coords.join(",")}` : props.id);
       markersRef.current[markerId] = marker;
     });
-  }, [geoJsonData, selectedSite, syncParamsToUrl]);
+  }, [geoJsonData, initialSites, selectedSite, mapLoaded]);
 
   // Timeline Scrubbing handler
   const handleTimelineChange = (from: number, to: number) => {
@@ -485,7 +558,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
   }, [initialSites, selectedTypes, selectedStates, selectedConfidences, yearFrom, yearTo, searchQuery, matchedSiteIds]);
 
   return (
-    <div className="relative w-full h-full flex flex-col overflow-hidden bg-[#090D16]">
+    <div className="relative w-full h-full flex-1 flex flex-col overflow-hidden bg-sandstone-100">
       {/* Top Floating Control Bar */}
       <div className="absolute top-3 left-3 right-3 z-30 pointer-events-none flex items-center justify-between gap-3">
         {/* Left: Filter Toggle Button */}
@@ -493,13 +566,13 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
           <button
             type="button"
             onClick={() => setFilterPanelOpen(!filterPanelOpen)}
-            className={`px-3.5 py-2 rounded-xl glass-panel-gold flex items-center gap-2 text-xs font-serif font-bold transition-all shadow-xl ${
-              filterPanelOpen ? "border-goldLeaf text-goldLeaf" : "border-sandstone/30 text-sandstone hover:text-goldLeaf"
+            className={`px-3.5 py-2 rounded-xl glass-panel-gold flex items-center gap-2 text-xs font-serif font-bold transition-all shadow-warm-sm border ${
+              filterPanelOpen ? "border-terracotta text-terracotta bg-[#FCF9F5]" : "border-sandstone-300 text-indigoHeritage hover:text-terracotta hover:border-terracotta"
             }`}
             aria-expanded={filterPanelOpen}
             aria-label="Toggle archive filters panel"
           >
-            <Filter className="w-3.5 h-3.5 text-goldLeaf" />
+            <Filter className="w-3.5 h-3.5 text-terracotta" />
             <span>{t.filterTitle}</span>
             {hasActiveFilters && (
               <span className="w-2 h-2 rounded-full bg-terracotta" />
@@ -508,15 +581,15 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
           </button>
 
           {/* Map vs List View Switcher */}
-          <div className="glass-panel-gold rounded-xl p-1 flex items-center gap-1 shadow-xl">
+          <div className="glass-panel-gold rounded-xl p-1 flex items-center gap-1 shadow-warm-sm border border-sandstone-300">
             <button
               type="button"
               onClick={() => setViewMode("map")}
               aria-label={t.mapView}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
                 viewMode === "map"
-                  ? "bg-goldLeaf text-parchment-950 font-bold shadow-sm"
-                  : "text-sandstone hover:text-goldLeaf"
+                  ? "bg-mutedGold text-indigoHeritage-dark font-bold shadow-sm"
+                  : "text-indigoHeritage/75 hover:text-terracotta"
               }`}
             >
               <MapIcon className="w-3.5 h-3.5" />
@@ -528,8 +601,8 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
               aria-label={t.listView}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all ${
                 viewMode === "list"
-                  ? "bg-goldLeaf text-parchment-950 font-bold shadow-sm"
-                  : "text-sandstone hover:text-goldLeaf"
+                  ? "bg-mutedGold text-indigoHeritage-dark font-bold shadow-sm"
+                  : "text-indigoHeritage/75 hover:text-terracotta"
               }`}
             >
               <List className="w-3.5 h-3.5" />
@@ -541,7 +614,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
         {/* Right: Language Selector & Status */}
         <div className="pointer-events-auto flex items-center gap-2">
           {/* Language Switcher */}
-          <div className="glass-panel-gold rounded-xl p-1 flex items-center text-xs">
+          <div className="glass-panel-gold rounded-xl p-1 flex items-center text-xs shadow-warm-sm border border-sandstone-300">
             {(["en", "hi", "gu"] as SupportedLocale[]).map((loc) => (
               <button
                 key={loc}
@@ -549,8 +622,8 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                 onClick={() => setLocale(loc)}
                 className={`px-2 py-1 rounded text-xs font-bold transition-colors ${
                   locale === loc
-                    ? "bg-goldLeaf text-parchment-950"
-                    : "text-sandstone hover:text-goldLeaf"
+                    ? "bg-mutedGold text-indigoHeritage-dark"
+                    : "text-indigoHeritage/75 hover:text-terracotta"
                 }`}
               >
                 {loc.toUpperCase()}
@@ -564,7 +637,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
             id="explore-play-journey-button"
             data-testid="play-journey-btn"
             onClick={() => handlePlayJourney("gujarat-stepwell-trail")}
-            className="px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-xl bg-[#D4AF37] hover:bg-[#F3C649] text-indigoInk border border-[#D4AF37]/50"
+            className="px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-warm-sm bg-terracotta hover:bg-terracotta-dark text-white border border-terracotta-dark"
             aria-label="Play Gujarat Stepwell Trail Journey"
           >
             <Compass className="w-3.5 h-3.5" />
@@ -575,19 +648,19 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
           <button
             type="button"
             onClick={() => setAskArchiveOpen(!askArchiveOpen)}
-            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-xl ${
+            className={`px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs font-serif font-bold transition-all shadow-warm-sm border ${
               askArchiveOpen
-                ? "bg-goldLeaf text-parchment-950 border border-goldLeaf"
-                : "glass-panel-gold text-goldLeaf border border-goldLeaf/40 hover:border-goldLeaf"
+                ? "bg-mutedGold text-indigoHeritage-dark border-mutedGold"
+                : "glass-panel-gold text-terracotta border-terracotta/40 hover:border-terracotta"
             }`}
             aria-label="Ask the Archive Grounded RAG"
           >
-            <Sparkles className="w-3.5 h-3.5 fill-goldLeaf text-goldLeaf" />
+            <Sparkles className="w-3.5 h-3.5 fill-terracotta text-terracotta" />
             <span className="hidden sm:inline">Ask Archive</span>
           </button>
 
           {loading && (
-            <div className="glass-panel rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-goldLeaf">
+            <div className="glass-panel rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-terracotta border border-sandstone-300 shadow-warm-sm">
               <RefreshCw className="w-3 h-3 animate-spin" />
               <span className="hidden sm:inline">Syncing...</span>
             </div>
@@ -596,10 +669,10 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
       </div>
 
       {/* Main Content Area */}
-      <div className="relative w-full flex-1 flex overflow-hidden">
+      <div className="relative w-full flex-1 flex h-full min-h-0 overflow-hidden">
         {/* Embedded Fullscreen Journey Mode Overlay */}
         {activeJourney && (
-          <div className="absolute inset-0 z-40 bg-[#090D16]">
+          <div className="absolute inset-0 z-40 bg-sandstone-100">
             <JourneyPlayer
               journey={activeJourney}
               embedded={true}
@@ -613,19 +686,19 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
         {filterPanelOpen && (
           <aside
             aria-label="Filter Options"
-            className="absolute md:relative z-20 w-full md:w-[320px] lg:w-[350px] max-h-[60vh] md:max-h-full h-auto md:h-full bottom-0 md:bottom-auto bg-[#120E0A]/95 md:bg-[#120E0A]/90 backdrop-blur-md border-t md:border-t-0 md:border-r border-goldLeaf/30 shadow-2xl flex flex-col p-4 md:pt-16 overflow-y-auto scrollbar-thin transition-all"
+            className="absolute md:relative z-20 w-full md:w-[320px] lg:w-[350px] max-h-[60vh] md:max-h-full h-full md:h-full self-stretch bottom-0 md:bottom-auto bg-[#FCF9F5]/95 md:bg-[#FCF9F5]/95 backdrop-blur-md border-t md:border-t-0 md:border-r border-sandstone-300 shadow-warm-md flex flex-col p-4 md:pt-16 overflow-y-auto scrollbar-thin transition-all text-indigoHeritage"
           >
             {/* Filter Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-sandstone/15 mb-3">
+            <div className="flex items-center justify-between pb-3 border-b border-sandstone-300 mb-3">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-goldLeaf" />
-                <h3 className="font-serif text-base font-bold text-parchment-100">{t.filterTitle}</h3>
+                <SlidersHorizontal className="w-4 h-4 text-terracotta" />
+                <h3 className="font-serif text-base font-bold text-indigoHeritage">{t.filterTitle}</h3>
               </div>
               {hasActiveFilters && (
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="text-xs text-terracotta-light hover:underline font-semibold"
+                  className="text-xs text-terracotta hover:underline font-semibold"
                 >
                   {t.clearFilters}
                 </button>
@@ -634,7 +707,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
             {/* Live Search */}
             <div className="relative mb-4">
-              <Search className="w-3.5 h-3.5 text-sandstone absolute left-3 top-3 pointer-events-none" />
+              <Search className="w-3.5 h-3.5 text-indigoHeritage/50 absolute left-3 top-3 pointer-events-none" />
               <input
                 type="text"
                 placeholder={t.searchPlaceholder}
@@ -643,7 +716,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                   setSearchQuery(e.target.value);
                   syncParamsToUrl({ q: e.target.value });
                 }}
-                className="w-full pl-9 pr-3 py-2 bg-parchment-950/80 border border-sandstone/25 rounded-lg text-xs text-parchment-100 placeholder-[#A89F91] focus:outline-none focus:border-goldLeaf"
+                className="w-full pl-9 pr-3 py-2 bg-white border border-sandstone-300 rounded-lg text-xs text-indigoHeritage placeholder-indigoHeritage/50 focus:outline-none focus:border-terracotta shadow-sm"
               />
               {searchQuery && (
                 <button
@@ -652,7 +725,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                     setSearchQuery("");
                     syncParamsToUrl({ q: undefined });
                   }}
-                  className="absolute right-2.5 top-2.5 text-sandstone hover:text-goldLeaf"
+                  className="absolute right-2.5 top-2.5 text-indigoHeritage/60 hover:text-indigoHeritage"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -661,7 +734,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
             {/* Monument Type Facets */}
             <div className="mb-4">
-              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-indigoHeritage/80 mb-2">
                 {t.siteType}
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -680,7 +753,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
             {/* State / Region Facets */}
             <div className="mb-4">
-              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-indigoHeritage/80 mb-2">
                 {t.state}
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -699,7 +772,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
             {/* Academic Confidence Facets */}
             <div className="mb-4">
-              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2">
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-indigoHeritage/80 mb-2">
                 {t.dataConfidence}
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -727,8 +800,8 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
 
             {/* 3D Digital Twin Facet */}
             <div className="mb-4">
-              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-sandstone mb-2 flex items-center gap-1.5">
-                <Box className="w-3.5 h-3.5 text-goldLeaf" />
+              <h4 className="text-[11px] uppercase tracking-wider font-semibold text-indigoHeritage/80 mb-2 flex items-center gap-1.5">
+                <Box className="w-3.5 h-3.5 text-terracotta" />
                 <span>Spatial Preservation</span>
               </h4>
               <Chip
@@ -744,20 +817,20 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
             </div>
 
             {/* Monument count summary */}
-            <div className="mt-auto pt-3 border-t border-sandstone/15 text-xs text-sandstone text-center">
-              <span className="font-bold text-goldLeaf">{geoJsonData?.total || 0}</span> {t.sitesFound}
+            <div className="mt-auto pt-3 border-t border-sandstone-300 text-xs text-indigoHeritage/80 text-center">
+              <span className="font-bold text-terracotta">{geoJsonData?.total !== undefined ? geoJsonData.total : (initialSites?.length || 10)}</span> {t.sitesFound}
             </div>
           </aside>
         )}
 
         {/* View Container: Map View or Screen-reader Accessible List View */}
         {viewMode === "map" ? (
-          <div className="relative flex-1 w-full h-full">
-            <div ref={mapContainer} className="w-full h-full" />
+          <div className="relative flex-1 self-stretch min-h-0">
+            <div ref={mapContainer} className="absolute inset-0 bg-[#E8E1D5]" />
 
             {/* Floating Bottom Timeline Scrubber */}
             <div className="absolute bottom-4 left-4 right-4 md:left-[360px] md:right-8 z-20 pointer-events-none">
-              <div className="glass-panel-gold rounded-2xl p-4 shadow-2xl pointer-events-auto border border-goldLeaf/30 max-w-3xl mx-auto backdrop-blur-md">
+              <div className="glass-panel-gold rounded-2xl p-4 shadow-warm-md pointer-events-auto border border-sandstone-300 max-w-3xl mx-auto backdrop-blur-md bg-[#FCF9F5]/95">
                 <TimelineSlider
                   yearFrom={yearFrom}
                   yearTo={yearTo}
@@ -768,12 +841,12 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
             </div>
           </div>
         ) : (
-          <div className="flex-1 w-full h-full overflow-y-auto p-6 md:p-8">
+          <div className="flex-1 w-full h-full overflow-y-auto p-6 md:p-8 bg-sandstone-50">
             <div className="max-w-5xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="font-serif text-2xl font-bold text-parchment-100">{t.listView}</h2>
-                  <p className="text-xs text-sandstone mt-1">
+                  <h2 className="font-serif text-2xl font-bold text-indigoHeritage">{t.listView}</h2>
+                  <p className="text-xs text-indigoHeritage/75 mt-1">
                     {siteListItems.length} {t.sitesFound}
                   </p>
                 </div>
@@ -802,7 +875,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                           setPreviewDrawerOpen(true);
                         });
                       }}
-                      className="p-4 rounded-xl bg-parchment-950/80 border border-sandstone/20 hover:border-goldLeaf/50 transition-all flex flex-col justify-between cursor-pointer"
+                      className="p-4 rounded-xl bg-white border border-sandstone-300 hover:border-terracotta hover:shadow-warm-md transition-all flex flex-col justify-between cursor-pointer shadow-warm-sm"
                     >
                       <div>
                         <div className="flex items-start justify-between gap-2 mb-2">
@@ -811,7 +884,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                               {t.types[site.site_type as keyof typeof t.types] || site.site_type}
                             </Badge>
                             {site.has_3d_model && (
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-goldLeaf text-parchment-950 font-serif font-bold uppercase flex items-center gap-1 shadow-sm">
+                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-mutedGold text-indigoHeritage-dark font-serif font-bold uppercase flex items-center gap-1 shadow-sm">
                                 <Box className="w-3 h-3" />
                                 3D Model
                               </span>
@@ -822,24 +895,24 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                           </Badge>
                         </div>
 
-                        <h3 className="font-serif text-base font-bold text-parchment-100 mb-1">
+                        <h3 className="font-serif text-base font-bold text-indigoHeritage mb-1">
                           {site.name}
                         </h3>
 
                         {/* Multilingual sub-titles */}
                         {(site.name_hi || site.name_gu) && (
-                          <div className="text-xs text-goldLeaf/80 mb-2 font-serif">
+                          <div className="text-xs text-terracotta mb-2 font-serif font-medium">
                             {site.name_hi} {site.name_gu && `• ${site.name_gu}`}
                           </div>
                         )}
 
-                        <p className="text-xs text-sandstone line-clamp-3 mb-3">
+                        <p className="text-xs text-indigoHeritage/80 line-clamp-3 mb-3 leading-relaxed">
                           {site.summary || "Subterranean architectural monument in western India."}
                         </p>
                       </div>
 
-                      <div className="pt-3 border-t border-sandstone/15 flex items-center justify-between text-xs">
-                        <span className="text-sandstone-warm font-mono">
+                      <div className="pt-3 border-t border-sandstone-300 flex items-center justify-between text-xs">
+                        <span className="text-indigoHeritage/70 font-mono font-medium">
                           {formatYearLabel(site.period_start_year || 1000)}
                         </span>
                         <button
@@ -851,7 +924,7 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                               setPreviewDrawerOpen(true);
                             });
                           }}
-                          className="text-goldLeaf hover:underline font-semibold flex items-center gap-1"
+                          className="text-terracotta hover:underline font-semibold flex items-center gap-1"
                         >
                           <span>Preview</span>
                           <ChevronRight className="w-3.5 h-3.5" />

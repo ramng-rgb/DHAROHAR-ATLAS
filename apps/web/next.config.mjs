@@ -34,6 +34,18 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/_next/static/chunks/maplibre-gl-worker.mjs",
+        destination: "/maplibre-gl-worker.mjs",
+      },
+      {
+        source: "/_next/static/chunks/maplibre-gl-worker-dev.mjs",
+        destination: "/maplibre-gl-worker.mjs",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

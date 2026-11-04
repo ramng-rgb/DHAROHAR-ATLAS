@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "build": "next build && cp -f node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs public/ && cp -f node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs .next/static/chunks/ 2>/dev/null || true",
     "start": "next start -p 3000",
     "lint": "next lint",
     "type-check": "tsc --noEmit",

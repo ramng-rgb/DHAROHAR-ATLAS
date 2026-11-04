@@ -24,15 +24,15 @@ export const Chip: React.FC<ChipProps> = ({
       onClick={onToggle}
       className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all duration-150 ${
         selected
-          ? "bg-goldLeaf text-parchment-950 font-semibold shadow-sm"
-          : "bg-parchment-900/90 text-parchment-200 border border-sandstone/25 hover:border-goldLeaf/50 hover:text-goldLeaf"
+          ? "bg-terracotta text-white font-semibold shadow-sm"
+          : "bg-sandstone-100 text-indigoHeritage/85 border border-sandstone-300 hover:border-terracotta hover:text-terracotta"
       } ${className}`}
     >
       <span>{label}</span>
       {count !== undefined && (
         <span
           className={`px-1.5 py-0.5 rounded-full text-[11px] font-semibold ${
-            selected ? "bg-parchment-950 text-goldLeaf font-bold" : "bg-black/40 text-sandstone"
+            selected ? "bg-white/20 text-white font-bold" : "bg-sandstone-200 text-indigoHeritage/75"
           }`}
         >
           {count}

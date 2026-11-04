@@ -27,9 +27,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#090D16] text-indigoHeritage flex flex-col font-sans selection:bg-terracotta/20 selection:text-terracotta">
+      <body className="min-h-screen bg-sandstone-100 text-indigoHeritage flex flex-col font-sans selection:bg-terracotta/20 selection:text-terracotta">
         <Navbar />
-        <main className="flex-1 flex flex-col bg-sandstone-100 jali-pattern">{children}</main>
+        <main className="flex-1 flex flex-col bg-sandstone-100">{children}</main>
         <DemoTourOverlay />
       </body>
     </html>

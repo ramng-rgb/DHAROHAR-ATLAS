@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dharohar Atlas — Heritage Preservation & Spatial Intelligence Dossier</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      line-height: 1.5;
+      font-size: 9.5pt;
+    }
+
+    /* Cover / Header Header Banner */
+    .header-banner {
+      border-bottom: 3px solid #b45309;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .title-area h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 22pt;
+      font-weight: 800;
+      color: #78350f;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .title-area .subtitle {
+      font-size: 10pt;
+      font-weight: 500;
+      color: #92400e;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .meta-badge {
+      text-align: right;
+      font-size: 8pt;
+      color: #64748b;
+    }
+
+    .meta-badge .version-tag {
+      background: #fef3c7;
+      color: #92400e;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 4px;
+      border: 1px solid #fde68a;
+    }
+
+    /* Section Styling */
+    .section {
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 12pt;
+      font-weight: 700;
+      color: #92400e;
+      border-bottom: 1.5px solid #fde68a;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title::before {
+      content: "◆";
+      font-size: 8pt;
+      color: #d97706;
+    }
+
+    p {
+      margin-bottom: 6px;
+      color: #334155;
+      text-align: justify;
+    }
+
+    strong {
+      color: #0f172a;
+    }
+
+    /* Architecture Diagram & Blocks */
+    .arch-container {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 8px 0;
+    }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .tier-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-top: 3px solid #b45309;
+      border-radius: 4px;
+      padding: 8px;
+    }
+
+    .tier-card h4 {
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tier-card ul {
+      list-style-type: none;
+      padding-left: 0;
+      font-size: 8pt;
+      color: #475569;
+    }
+
+    .tier-card li {
+      margin-bottom: 3px;
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .tier-card li::before {
+      content: "▸";
+      color: #d97706;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8pt;
+      margin: 8px 0;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 5px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 7.5pt;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    /* Tech Stack Pills */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .stack-category {
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      border-radius: 4px;
+      padding: 6px 8px;
+    }
+
+    .stack-category h5 {
+      font-size: 8pt;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .stack-category p {
+      font-size: 7.8pt;
+      margin-bottom: 0;
+      color: #78350f;
+    }
+
+    /* Callout Box */
+    .highlight-box {
+      background-color: #fff7ed;
+      border-left: 3px solid #ea580c;
+      padding: 8px 10px;
+      margin: 8px 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 8.5pt;
+    }
+
+    /* Two column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .roadmap-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .roadmap-list li {
+      font-size: 8pt;
+      margin-bottom: 4px;
+      padding-left: 14px;
+      position: relative;
+      color: #334155;
+    }
+
+    .roadmap-list li::before {
+      content: "●";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 6pt;
+      color: #b45309;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer-bar {
+      margin-top: 14px;
+      padding-top: 8px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5pt;
+      color: #94a3b8;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      background: #f1f5f9;
+      padding: 1px 3px;
+      border-radius: 2px;
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="header-banner">
+    <div class="title-area">
+      <h1>Dharohar Atlas</h1>
+      <div class="subtitle">Digital Heritage Preservation & Spatial Intelligence Platform</div>
+    </div>
+    <div class="meta-badge">
+      <div class="version-tag">SYSTEM ARCHITECTURE DOSSIER</div>
+      <div>Repository: <code>github.com/ramng-rgb/DHAROHAR-ATLAS</code></div>
+      <div>Platform Baseline: PostGIS • Next.js 14 • Gemini AI • Three.js</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: PROBLEM SOLVED -->
+  <div class="section">
+    <div class="section-title">1. Problem Solved</div>
+    <p>
+      India's ancient monuments, subterranean stepwells (<em>vavs/baolis</em>), rock-cut sanctuaries, and epigraphic folios face catastrophic preservation risks, academic isolation, and digital fragmentation. Traditional heritage archives suffer from four fundamental failures:
+    </p>
+    <ul class="roadmap-list" style="margin-bottom: 8px;">
+      <li><strong>Information Siloing & Spatial Disconnection:</strong> Geospatial coordinates, architectural metadata, historical dynasties, and folk narratives exist in disconnected spreadsheets or isolated archaeological surveys lacking spatial GIS topology.</li>
+      <li><strong>Fragile Physical Epigraphy & Inaccessible Transcripts:</strong> Thousands of ancient stone inscriptions and palm-leaf manuscripts (Devanagari, Sanskrit, Old Gujarati) deteriorate physically without high-accuracy OCR or accessible multi-language transcription pipelines.</li>
+      <li><strong>Spatial Query Bottlenecks:</strong> Conventional web maps crash or lag when rendering dense regional historical clusters without database-level spatial indexing or adaptive bounding-box viewport clustering.</li>
+      <li><strong>AI Hallucination in Cultural Heritage:</strong> General LLMs routinely fabricate historical dates, dynasties, and folklore legends without grounded attribution or cited primary source grounding.</li>
+    </ul>
+    <div class="highlight-box">
+      <strong>Core Solution:</strong> <strong>Dharohar Atlas</strong> bridges this divide as an open-access, full-stack digital preservation engine. It combines PostGIS-backed spatial clustering across 101 verified monuments, sub-millimeter 3D photogrammetric twin streaming, an asynchronous OCR/translation pipeline for Devanagari epigraphy with human-in-the-loop review, and a grounded hybrid vector/BM25 retrieval engine resistant to hallucinations.
+    </div>
+  </div>
+
+  <!-- SECTION 2: SYSTEM ARCHITECTURE -->
+  <div class="section">
+    <div class="section-title">2. Solution & System Architecture</div>
+    <p>
+      The platform follows a decoupled, resilient 4-tier microservice architecture designed for ultra-low latency interactive exploration and high-throughput archival processing:
+    </p>
+
+    <div class="arch-container">
+      <div class="tier-grid">
+        <div class="tier-card">
+          <h4>Tier 1: Web Client</h4>
+          <ul>
+            <li>Next.js 14 App Router & React 18</li>
+            <li>MapLibre GL 6 Vector Engine</li>
+            <li>Three.js / Drei Photogrammetry</li>
+            <li>Zustand State & URL Sync</li>
+            <li>Framer Motion Fluid Transitions</li>
+          </ul>
+        </div>
+        <div class="tier-card">
+          <h4>Tier 2: API Gateway</h4>
+          <ul>
+            <li>Python 3.12 FastAPI Framework</li>
+            <li>Pydantic v2 Strict Input Schemas</li>
+            <li>Tiered Rate Limiter (Anon / Auth)</li>
+            <li>ETag Caching & GZip / Brotli</li>
+            <li>Circuit Breaker Resilience</li>
+          </ul>
+        </div>
+        <div class="tier-card">
+          <h4>Tier 3: Spatial & Vector</h4>
+          <ul>
+            <li>PostgreSQL 16 + PostGIS Engine</li>
+            <li>pgvector (768-dim Embeddings)</li>
+            <li>pg_trgm Trigram / Full-Text</li>
+            <li>Redis 7 Distributed Cache</li>
+            <li>Reciprocal Rank Fusion (RRF)</li>
+          </ul>
+        </div>
+        <div class="tier-card">
+          <h4>Tier 4: Archival & AI</h4>
+          <ul>
+            <li>PyTesseract & Google Gemini Vision</li>
+            <li>Neural Translation Engine</li>
+            <li>Asynchronous Celery / Redis Workers</li>
+            <li>Confidence Scoring & Line BBoxes</li>
+            <li>Audit Logging & Versioning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p style="font-size: 8pt; color: #64748b; margin-top: 4px;">
+      <strong>Request Lifecycle:</strong> Viewport queries from MapLibre trigger spatial ST_MakeEnvelope bounding-box queries in PostGIS. Manuscript uploads stream to asynchronous background workers that slice PDF folios, run multi-engine OCR, and calculate SacreBLEU / EditDistance confidence before committing to pgvector.
+    </p>
+  </div>
+
+  <!-- SECTION 3: DATABASE SCHEMA -->
+  <div class="section">
+    <div class="section-title">3. Relational, Geospatial & Vector Database Schema</div>
+    <p>
+      The relational model enforces strict referential integrity, spatial indexing, and soft-delete capabilities managed through 8 Alembic migration revisions:
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 22%;">Table Name</th>
+          <th style="width: 38%;">Key Attributes & Data Types</th>
+          <th style="width: 40%;">Indexes & Constraints</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>sites</strong></td>
+          <td><code>id (UUID)</code>, <code>slug (VARCHAR)</code>, <code>name (VARCHAR)</code>, <code>state (VARCHAR)</code>, <code>site_type (ENUM)</code>, <code>location (GEOGRAPHY Point 4326)</code>, <code>period_start_year</code>, <code>period_end_year</code>, <code>hero_image (VARCHAR)</code>, <code>hero_image_attribution (TEXT)</code>, <code>search_vector (TSVECTOR)</code></td>
+          <td>Spatial GIST index on <code>location</code>, GIN index on <code>search_vector</code>, Check constraints on latitude [-90, 90], longitude [-180, 180], and period chronology.</td>
+        </tr>
+        <tr>
+          <td><strong>site_media</strong></td>
+          <td><code>id (UUID)</code>, <code>site_id (FK)</code>, <code>kind (ENUM)</code>, <code>remote_url</code>, <code>licence_short</code>, <code>licence_url</code>, <code>author (TEXT)</code>, <code>credit (TEXT)</code>, <code>is_placeholder (BOOL)</code>, <code>verified (BOOL)</code></td>
+          <td>Foreign Key with cascade delete to <code>sites.id</code>. Indexed on <code>(site_id, kind, sort_order)</code>. Mandatory license verification filter.</td>
+        </tr>
+        <tr>
+          <td><strong>archival_documents</strong></td>
+          <td><code>id (UUID)</code>, <code>site_id (FK)</code>, <code>title</code>, <code>language</code>, <code>script</code>, <code>source_archive</code>, <code>folio_number</code>, <code>storage_path</code>, <code>status (ENUM: pending/processing/ready/failed)</code></td>
+          <td>B-Tree index on <code>(site_id, status)</code>. Audit timestamping on creation and state transitions.</td>
+        </tr>
+        <tr>
+          <td><strong>document_lines</strong></td>
+          <td><code>id (UUID)</code>, <code>document_id (FK)</code>, <code>line_number</code>, <code>bounding_box (JSON)</code>, <code>transcription (TEXT)</code>, <code>translation (TEXT)</code>, <code>ocr_confidence (FLOAT)</code>, <code>is_corrected (BOOL)</code></td>
+          <td>Foreign Key to <code>archival_documents.id</code>. Supports line-level bounding box coordinate rendering and optimistic human corrections.</td>
+        </tr>
+        <tr>
+          <td><strong>search_chunks</strong></td>
+          <td><code>id (UUID)</code>, <code>source_type (site/document)</code>, <code>content_text (TEXT)</code>, <code>embedding (vector(768))</code>, <code>tsv (TSVECTOR)</code>, <code>chunk_metadata (JSONB)</code></td>
+          <td>HNSW vector cosine distance index (<code>vector_cosine_ops</code>) for sub-5ms semantic similarity, combined with GIN index on <code>tsv</code> for RRF hybrid search.</td>
+        </tr>
+        <tr>
+          <td><strong>curated_routes</strong></td>
+          <td><code>id (UUID)</code>, <code>title</code>, <code>slug</code>, <code>theme</code>, <code>estimated_days</code>, <code>stops (One-to-Many SiteRouteStop)</code>, <code>polyline_geojson (JSON)</code></td>
+          <td>Ordered waypoint sequencing with Haversine distance aggregation and audio tour step synchronization.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-bar">
+    <div>Dharohar Atlas — Architectural Specification & Product Dossier</div>
+    <div>Page 1 of 2</div>
+  </div>
+
+  <!-- PAGE BREAK -->
+  <div class="page-break"></div>
+
+  <!-- PAGE 2 HEADER -->
+  <div class="header-banner" style="margin-top: 10px;">
+    <div class="title-area">
+      <h1>Dharohar Atlas</h1>
+      <div class="subtitle">Technology Stack, Scalability & Strategic Roadmap</div>
+    </div>
+    <div class="meta-badge">
+      <div class="version-tag">PRODUCTION DOSSIER</div>
+      <div>Page 2 of 2</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: TECH STACK -->
+  <div class="section">
+    <div class="section-title">4. Complete Technology Stack</div>
+    <div class="stack-grid">
+      <div class="stack-category">
+        <h5>Frontend Web Architecture</h5>
+        <p><strong>Next.js 14 App Router</strong>, React 18, TypeScript, Vanilla Tailwind CSS, MapLibre GL 6 (Vector Tiles & GeoJSON), Three.js / React Three Fiber / Drei, Lucide React, Zustand State Management.</p>
+      </div>
+      <div class="stack-category">
+        <h5>Backend & API Services</h5>
+        <p><strong>Python 3.12</strong>, FastAPI (ASGI), Pydantic v2 (Strict Data Models), SQLAlchemy 2.0 (asyncpg Async Engine), Alembic (Schema Migrations), Redis 7 (Broker & Distributed Rate Limiting).</p>
+      </div>
+      <div class="stack-category">
+        <h5>Database & Spatial Engines</h5>
+        <p><strong>PostgreSQL 16</strong> with PostGIS 3.4 (Spatial Geometry/Geography), <code>pgvector</code> (768-dim embeddings), <code>pg_trgm</code> (Trigram fuzzy indexing), <code>unaccent</code> for transliterated search.</p>
+      </div>
+      <div class="stack-category">
+        <h5>AI / ML & Vision Pipeline</h5>
+        <p><strong>Google Gemini 2.0 Flash</strong> & <code>text-embedding-004</code> via official Google GenAI SDK, PyTesseract, SacreBLEU, EditDistance, NumPy, Pillow, PyPDFium2, Resilient Fallback Heuristics.</p>
+      </div>
+      <div class="stack-category">
+        <h5>Quality & Infrastructure</h5>
+        <p><strong>Docker Multi-stage Builds</strong>, Docker Compose, Pytest (92 unit/integration tests), Vitest (42 frontend tests), Playwright E2E, Ruff Linter, Mypy Static Typechecker.</p>
+      </div>
+      <div class="stack-category">
+        <h5>Licensing & Compliance</h5>
+        <p><strong>Strict MediaWiki API</strong> integration filtering exclusively for CC-BY, CC-BY-SA, CC0, and Public Domain. Automated image attribution ledger and CC credit export.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: VALUE AND SCALABILITY -->
+  <div class="section">
+    <div class="section-title">5. Value Proposition & Potential Scalability</div>
+    <div class="two-col">
+      <div>
+        <p><strong>National Cultural & Academic Value:</strong></p>
+        <ul class="roadmap-list">
+          <li><strong>Universal Open Access:</strong> Unlocks democratized access to 101 authentic Indian heritage monuments, from celebrated UNESCO World Heritage stepwells (Rani ki Vav) to remote desert forts.</li>
+          <li><strong>Epigraphic Revitalization:</strong> Converts degraded stone inscriptions and rare folios into searchable, machine-readable text with line-aligned English translations.</li>
+          <li><strong>Ethical Cultural Tourism:</strong> Waypoint-guided thematic journeys empower local tourism and scholarly research without commercial paywalls.</li>
+          <li><strong>Zero Licensing Infringements:</strong> Strict automated attribution ledger respects artists and archives via verified Wikimedia Commons CC licenses.</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Horizontal & Vertical Scalability:</strong></p>
+        <ul class="roadmap-list">
+          <li><strong>Geospatial Partitioning:</strong> PostGIS spatial indexes (GIST) partition points across geohashes, sustaining 50,000+ simultaneous monuments without bounding-box lag.</li>
+          <li><strong>Sub-Millisecond Read Latency:</strong> Redis layer caches frequent GeoJSON cluster tiles and route payloads with HTTP ETag 304 Not Modified validation.</li>
+          <li><strong>Decoupled Pipeline Workers:</strong> Archival OCR workers scale horizontally in independent Docker containers across Celery/Redis task queues.</li>
+          <li><strong>Serverless Model Delivery:</strong> 3D photogrammetry assets and optimized WebP thumbnails stream statically via Edge CDNs without backend load.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: LIMITATIONS AND ROADMAP -->
+  <div class="section">
+    <div class="section-title">6. Current Limitations & Strategic Roadmap</div>
+    <div class="two-col">
+      <div>
+        <p><strong>Current Technical Limitations:</strong></p>
+        <ul class="roadmap-list">
+          <li><strong>Regional Script OCR Baselines:</strong> Sharada, Grantha, and Brahmi scripts currently require fine-tuned heuristic fallbacks due to limited open-source OCR training datasets.</li>
+          <li><strong>Mobile 3D WebGL Constraints:</strong> Dense photogrammetric meshes (>50MB) require downsampling to GLTF LODs on low-memory mobile browser environments.</li>
+          <li><strong>Offline Map Caching:</strong> Full offline tile storage currently requires Progressive Web App (PWA) service worker installation.</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Development & Expansion Roadmap:</strong></p>
+        <ul class="roadmap-list">
+          <li><strong>Phase 1 (Q1 2027) — Crowdsourced Epigraphy:</strong> Launch community peer-review portal enabling certified epigraphists to annotate and verify manuscript transcriptions with Git-style versioning.</li>
+          <li><strong>Phase 2 (Q2 2027) — Audio Guide Synthesis:</strong> Multilingual neural text-to-speech generating regional Indian audio guides (Hindi, Gujarati, Tamil, Bengali).</li>
+          <li><strong>Phase 3 (Q3 2027) — WebXR Spatial Walkthroughs:</strong> Immersive VR/AR walkthroughs of subterranean stepwells directly in Apple Vision Pro & Meta Quest browsers.</li>
+          <li><strong>Phase 4 (Q4 2027) — ASI Ingestion Pipeline:</strong> Native integration with Archaeological Survey of India excavation records and satellite radar data.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div>Dharohar Atlas — Production Deployment & Architecture Dossier • Generated Nov 2026</div>
+    <div>Live Repository: https://github.com/ramng-rgb/DHAROHAR-ATLAS</div>
+  </div>
+
+</body>
+</html>

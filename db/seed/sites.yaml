@@ -166,6 +166,7 @@ sites:
     source_url: https://asi.nic.in
     data_confidence: verified
     is_illustrative: false
+  city_slug: patan
 - slug: adalaj-vav
   name: Adalaj Stepwell (Rudabai Stepwell)
   name_hi: अडालज की बावड़ी
@@ -225,6 +226,7 @@ sites:
     source_url: https://whc.unesco.org
     data_confidence: verified
     is_illustrative: false
+  city_slug: adalaj-vav
 - slug: dada-harir-vav
   name: Dada Harir Stepwell (Bai Harir Vav)
   name_hi: दादा हरीर बावड़ी
@@ -280,6 +282,7 @@ sites:
     source_url: https://asi.nic.in
     data_confidence: verified
     is_illustrative: false
+  city_slug: dada-harir-vav
 - slug: modhera-sun-temple
   name: Modhera Sun Temple
   name_hi: मोढेरा सूर्य मंदिर
@@ -335,6 +338,7 @@ sites:
     source_url: https://asi.nic.in
     data_confidence: verified
     is_illustrative: false
+  city_slug: ahmedabad
 - slug: sarkhej-roza
   name: Sarkhej Roza (Acropolis of Ahmedabad)
   name_hi: सरखेज रोज़ा
@@ -389,6 +393,7 @@ sites:
     source_url: https://asi.nic.in
     data_confidence: verified
     is_illustrative: false
+  city_slug: sarkhej-roza
 - slug: champaner-pavagadh
   name: Champaner-Pavagadh Archaeological Park
   name_hi: चांपानेर-पावागढ़ पुरातत्व उद्यान
@@ -443,6 +448,7 @@ sites:
     source_url: https://whc.unesco.org
     data_confidence: verified
     is_illustrative: false
+  city_slug: ahmedabad
 - slug: dholavira
   name: 'Dholavira: A Harappan City'
   name_hi: 'धोलावीरा: हड़प्पा कालीन नगर'
@@ -498,6 +504,7 @@ sites:
     source_url: https://whc.unesco.org
     data_confidence: verified
     is_illustrative: false
+  city_slug: kutch
 - slug: lothal
   name: Lothal Ancient Maritime Port
   name_hi: लोथल प्राचीन बंदरगाह
@@ -552,6 +559,7 @@ sites:
     source_url: https://asi.nic.in
     data_confidence: verified
     is_illustrative: false
+  city_slug: lothal
 - slug: chand-baori
   name: Chand Baori (Abhaneri)
   name_hi: चाँद बावड़ी
@@ -608,6 +616,7 @@ sites:
     source_url: https://asi.nic.in
     data_confidence: verified
     is_illustrative: false
+  city_slug: jaipur
 - slug: kumbhalgarh-fort
   name: Kumbhalgarh Fort
   name_hi: कुंभलगढ़ किला
@@ -641,6 +650,7 @@ sites:
     license: CC-BY-SA 4.0
     attribution: Wikimedia Commons Archive
     source_url: https://commons.wikimedia.org
+  city_slug: kumbhalgarh-fort
 - slug: ranakpur-jain-temple
   name: Ranakpur Jain Temple (Chaturmukha Dharana Vihara)
   name_hi: रणकपुर जैन मंदिर
@@ -674,6 +684,7 @@ sites:
     license: CC-BY-4.0
     attribution: Open Cultural Documentation
     source_url: https://commons.wikimedia.org
+  city_slug: ranakpur-jain-temple
 - slug: mehrangarh-fort
   name: Mehrangarh Fort
   name_hi: मेहरानगढ़ किला
@@ -706,6 +717,7 @@ sites:
     license: CC-BY-4.0
     attribution: Mehrangarh Trust Documentation
     source_url: https://commons.wikimedia.org
+  city_slug: mehrangarh-fort
 - slug: dilwara-temples
   name: Dilwara Temples (Mount Abu)
   name_hi: दिलवाड़ा मंदिर
@@ -738,6 +750,7 @@ sites:
     license: CC-BY-SA 3.0
     attribution: Wikimedia Commons Archive
     source_url: https://commons.wikimedia.org
+  city_slug: dilwara-temples
 - slug: chittorgarh-fort
   name: Chittorgarh Fort
   name_hi: चित्तौड़गढ़ किला
@@ -770,6 +783,7 @@ sites:
     license: CC-BY-4.0
     attribution: ASI Cultural Assets
     source_url: https://commons.wikimedia.org
+  city_slug: chittorgarh-fort
 - slug: taranga-jain-temple
   name: Taranga Jain Temple (Ajitnatha Temple)
   name_hi: तारंगा जैन मंदिर
@@ -802,6 +816,7 @@ sites:
     license: CC-BY-4.0
     attribution: Open Cultural Repository
     source_url: https://commons.wikimedia.org
+  city_slug: taranga-jain-temple
 - slug: raniji-ki-baori
   name: Raniji ki Baori (Queen's Stepwell of Bundi)
   name_hi: रानीजी की बावड़ी
@@ -835,6 +850,7 @@ sites:
     license: CC-BY-SA 4.0
     attribution: Wikimedia Commons Archive
     source_url: https://commons.wikimedia.org
+  city_slug: raniji-ki-baori
 - slug: sidi-saiyyed-mosque
   name: Sidi Saiyyed Mosque
   name_hi: सीदी सैय्यद मस्जिद
@@ -867,6 +883,7 @@ sites:
     license: CC-BY-4.0
     attribution: ASI Photo Archives
     source_url: https://commons.wikimedia.org
+  city_slug: sidi-saiyyed-mosque
 - slug: uparkot-fort
   name: Uparkot Fort (Junagadh)
   name_hi: ऊपरकोट किला
@@ -900,6 +917,7 @@ sites:
     license: CC-BY-4.0
     attribution: Gujarat Archaeology Division
     source_url: https://commons.wikimedia.org
+  city_slug: uparkot-fort
 - slug: kumbharia-jain-temples
   name: Kumbharia Jain Temples
   name_hi: कुंभारिया जैन मंदिर
@@ -932,6 +950,7 @@ sites:
     license: CC-BY-SA 4.0
     attribution: Open Cultural Repository
     source_url: https://commons.wikimedia.org
+  city_slug: kumbharia-jain-temples
 - slug: rudra-mahalaya
   name: Rudra Mahalaya (Siddhpur)
   name_hi: रुद्र महालय सिद्धपुर
@@ -964,6 +983,7 @@ sites:
     license: CC-BY-4.0
     attribution: ASI Cultural Repository
     source_url: https://commons.wikimedia.org
+  city_slug: rudra-mahalaya
 - slug: jaisalmer-fort
   name: Jaisalmer Fort (Sonar Qila / Golden Fort)
   name_hi: जैसलमेर का किला
@@ -996,6 +1016,7 @@ sites:
     license: CC-BY-4.0
     attribution: Rajasthan Tourism Archives
     source_url: https://commons.wikimedia.org
+  city_slug: jaisalmer-fort
 - slug: amer-fort
   name: Amer Fort (Amber Palace)
   name_hi: आमेर का किला
@@ -1028,6 +1049,7 @@ sites:
     license: CC-BY-SA 4.0
     attribution: Open Heritage Science
     source_url: https://commons.wikimedia.org
+  city_slug: amer-fort
 - slug: hampi-monuments
   name: Group of Monuments at Hampi
   name_hi: हम्पी के स्मारक
@@ -1060,6 +1082,7 @@ sites:
     license: CC-BY-4.0
     attribution: UNESCO Citation Archive
     source_url: https://commons.wikimedia.org
+  city_slug: hampi
 - slug: ellora-caves
   name: Ellora Caves (Kailasa Temple - Cave 16)
   name_hi: एलोरा गुफाएं (कैलाश मंदिर)
@@ -1092,6 +1115,7 @@ sites:
     license: CC-BY-4.0
     attribution: Open Cultural Repository
     source_url: https://commons.wikimedia.org
+  city_slug: ellora-caves
 - slug: khajuraho-monuments
   name: Khajuraho Group of Monuments
   name_hi: खजुराहो के मंदिर
@@ -1124,163 +1148,2825 @@ sites:
     license: CC-BY-4.0
     attribution: ASI Cultural Assets
     source_url: https://commons.wikimedia.org
+  city_slug: khajuraho
+- slug: lepakshi-veerabhadra-temple
+  name: Lepakshi Veerabhadra Temple & Hanging Pillar
+  name_hi: लेपाक्षी वीरभद्र मंदिर एवं लटकता स्तंभ
+  name_gu: લેપાક્ષી વીરભદ્ર મંદિર અને ઝૂલતો સ્તંભ
+  summary: 16th-century Vijayanagara architectural marvel built by brothers Virupanna
+    and Veeranna, famous for its hanging pillar that defies gravity, ceiling frescoes
+    depicting Mahabharata episodes, and colossal monolithic Nandi.
+  site_type: temple
+  state: Andhra Pradesh
+  district: Sri Sathya Sai
+  city_slug: lepakshi
+  latitude: 13.8044
+  longitude: 77.6044
+  period_start_year: 1530
+  period_end_year: 1545
+  era_label: Vijayanagara Empire
+  dynasty: Vijayanagara
+  data_confidence: verified
+  source_text: Archaeological Survey of India Hyderabad Circle Monument Record; Epigraphia
+    Indica Vol. XII
+  source_url: https://asi.nic.in/monuments/lepakshi-veerabhadra
+  architectural_style: Vijayanagara Dravidian
+  tags:
+  - vijayanagara
+  - hanging_pillar
+  - mural_frescoes
+  - monolithic_nandi
+  - dravidian
+  media:
+  - url: https://images.unsplash.com/photo-1600100397608-f010f4439c7a?auto=format&fit=crop&w=1200&q=80
+    caption: Carved Natya Mandapa pillared hall with dancing celestial figures at
+      Lepakshi
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: amaravati-maha-stupa
+  name: Amaravati Maha Stupa & Buddhist Site
+  name_hi: अमरावती महा स्तूप
+  name_gu: અમરાવતી મહા સ્તૂપ
+  summary: Ancient Buddhist Mahachaitya founded during the reign of Emperor Ashoka
+    in 3rd century BCE, embellished with renowned Amaravati limestone relief carvings
+    and early Hinayana/Mahayana epigraphy.
+  site_type: archaeological_site
+  state: Andhra Pradesh
+  district: Palnadu
+  city_slug: amaravati
+  latitude: 16.5735
+  longitude: 80.3575
+  period_start_year: -250
+  period_end_year: 200
+  era_label: Satavahana Era
+  dynasty: Satavahana
+  data_confidence: verified
+  source_text: ASI Excavation Memoirs; Burgess Amaravati Sculptures Survey
+  source_url: https://asi.nic.in
+  architectural_style: Early Buddhist Hinayana-Mahayana
+  tags:
+  - buddhist
+  - ashoka
+  - satavahana
+  - mahachaitya
+  - limestone_relief
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Remains of the circular drum and carved railing of Amaravati Great Stupa
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: tawang-monastery
+  name: Tawang Monastery (Galden Namgey Lhatse)
+  name_hi: तवांग मठ (गाल्देन नामग्ये ल्हात्से)
+  name_gu: તવાંગ મઠ
+  summary: The largest Buddhist monastery in India and second largest in the world,
+    founded by Merak Lama Lodre Gyatso in 1680–1681 CE under the 5th Dalai Lama. Stands
+    atop a cliff at 3,048 meters elevation.
+  site_type: temple
+  state: Arunachal Pradesh
+  district: Tawang
+  city_slug: tawang
+  latitude: 27.5861
+  longitude: 91.8594
+  period_start_year: 1680
+  period_end_year: 1681
+  era_label: Tibetan Buddhist Gelug Period
+  dynasty: Namgyal-Gelug Monastic Lineage
+  data_confidence: verified
+  source_text: Arunachal Pradesh State Directorate of Research; Tawang Monastic Chronicles
+  source_url: https://tawang.nic.in
+  architectural_style: Tibetan Fortress-Monastery (Dzong)
+  tags:
+  - buddhist
+  - gelugpa
+  - himalayan
+  - dzong_architecture
+  - manuscript_library
+  media:
+  - url: https://images.unsplash.com/photo-1626014903816-419089531109?auto=format&fit=crop&w=1200&q=80
+    caption: Three-storied assembly hall and residential complex overlooking Tawang
+      valley
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://tawang.nic.in
+- slug: ita-fort-itanagar
+  name: Ita Fort (Fort of Bricks)
+  name_hi: ईटा किला ईटानगर
+  name_gu: ઈટા કિલ્લો ઈટાનગર
+  summary: Historical fourteenth-fifteenth century brick fortress constructed by the
+    Chutiya rulers, utilizing over 8 million kiln-burnt bricks. Gives the capital
+    city Itanagar its name.
+  site_type: fort
+  state: Arunachal Pradesh
+  district: Papum Pare
+  city_slug: itanagar
+  latitude: 27.0844
+  longitude: 93.6053
+  period_start_year: 1350
+  period_end_year: 1450
+  era_label: Chutiya Kingdom
+  dynasty: Chutiya
+  data_confidence: verified
+  source_text: Archaeological Survey of India Guwahati Circle; State Directorate of
+    Heritage
+  source_url: https://itanagar.nic.in
+  architectural_style: Medieval Eastern Himalayan Brick Fortress
+  tags:
+  - fortress
+  - chutiya
+  - brick_masonry
+  - ramparts
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Eastern brick gate and perimeter fortifications of Ita Fort
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://itanagar.nic.in
+- slug: kamakhya-temple
+  name: Kamakhya Temple, Nilachal Hill
+  name_hi: कामाख्या मंदिर गुवाहाटी
+  name_gu: કામાખ્યા મંદિર ગુવાહાટી
+  summary: Premier ancient Shakti Peetha perched on Nilachal Hill in Guwahati. The
+    present structure features a distinctive beehive-like shikhara (Nilachal type)
+    rebuilt in 1565 CE by King Chilarai of the Koch dynasty.
+  site_type: temple
+  state: Assam
+  district: Kamrup Metropolitan
+  city_slug: guwahati
+  latitude: 26.1664
+  longitude: 91.7056
+  period_start_year: 1565
+  period_end_year: 1565
+  era_label: Koch Kingdom & Ahom Period
+  dynasty: Koch
+  data_confidence: verified
+  source_text: Archaeological Survey of India Assam Monograph; Kalika Purana records
+  source_url: https://asi.nic.in
+  architectural_style: Nilachal Hybrid Nagara-Dome
+  tags:
+  - shakti_peetha
+  - nilachal_style
+  - koch
+  - ahom
+  - tantric_heritage
+  media:
+  - url: https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&w=1200&q=80
+    caption: Beehive shikhara of Kamakhya Temple standing above Brahmaputra valley
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: rang-ghar-sivasagar
+  name: Rang Ghar Royal Amphitheatre
+  name_hi: रंग घर शिवसागर
+  name_gu: રંગ ઘર શિવસાગર
+  summary: Two-storied oval pavilion built by Ahom King Pramatta Singha in 1746 CE.
+    One of the oldest surviving royal sports amphitheatres in Asia, used for traditional
+    buffalo fights and Bihu celebrations.
+  site_type: palace
+  state: Assam
+  district: Sivasagar
+  city_slug: sivasagar
+  latitude: 26.9639
+  longitude: 94.6225
+  period_start_year: 1744
+  period_end_year: 1746
+  era_label: Ahom Kingdom Golden Age
+  dynasty: Ahom
+  data_confidence: verified
+  source_text: Archaeological Survey of India Centrally Protected Monuments; Tungkhungia
+    Buranji
+  source_url: https://asi.nic.in
+  architectural_style: Ahom Inverted-Boat Architecture
+  tags:
+  - ahom
+  - amphitheatre
+  - oval_dome
+  - royal_sports
+  - terracotta_brick
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Inverted royal boat shaped roof of Rang Ghar surrounded by landscaped
+      greens
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: nalanda-mahavihara
+  name: Nalanda Mahavihara (Ancient Buddhist University)
+  name_hi: नालंदा महाविहार (प्राचीन विश्वविद्यालय)
+  name_gu: નાલંદા મહાવિહાર
+  summary: Renowned ancient residential university and Buddhist monastic center active
+    from 5th to 12th century CE. Attracted scholars from across China, Tibet, Korea,
+    and Central Asia under Gupta and Pala patronage.
+  site_type: archaeological_site
+  state: Bihar
+  district: Nalanda
+  city_slug: nalanda
+  latitude: 25.1357
+  longitude: 85.4436
+  period_start_year: 427
+  period_end_year: 1197
+  era_label: Gupta & Pala Dynasties
+  dynasty: Gupta
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription WHC-16/40.COM/8B; ASI Excavations
+    at Nalanda
+  source_url: https://whc.unesco.org/en/list/1502/
+  architectural_style: Gupta-Pala Monastic Brick Vihara
+  tags:
+  - unesco_world_heritage
+  - buddhist
+  - university
+  - gupta
+  - pala
+  - vihara
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Votive stupas and monastic brick cells of Temple Site No. 3 at Nalanda
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: mahabodhi-temple-bodh-gaya
+  name: Mahabodhi Temple Complex, Bodh Gaya
+  name_hi: महाबोधि मंदिर परिसर, बोधगया
+  name_gu: મહાબોધિ મંદિર પરિસર, બોધગયા
+  summary: UNESCO World Heritage Site marking the sacred location where Gautama Buddha
+    attained supreme enlightenment under the Bodhi Tree in 531 BCE. Grand brick shikhara
+    rises 55 meters above the lotus throne.
+  site_type: temple
+  state: Bihar
+  district: Gaya
+  city_slug: gaya
+  latitude: 24.6958
+  longitude: 84.9914
+  period_start_year: -250
+  period_end_year: 500
+  era_label: Mauryan to Late Gupta Period
+  dynasty: Maurya
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 1056; Cunningham Archaeological Survey
+  source_url: https://whc.unesco.org/en/list/1056/
+  architectural_style: Classical Indian Brick Shikhara
+  tags:
+  - unesco_world_heritage
+  - buddhist
+  - enlightenment
+  - bodhi_tree
+  - ashoka
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Grand 55-meter central spire of Mahabodhi Temple surrounded by votive
+      stupas
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: tomb-of-sher-shah-suri
+  name: Tomb of Sher Shah Suri, Sasaram
+  name_hi: शेर शाह सूरी का मकबरा, सासाराम
+  name_gu: શેર શાહ સૂરીનો મકબરો
+  summary: Masterpiece of Indo-Islamic funerary architecture rising from the center
+    of an artificial lake. Built in 1545 CE as an octagonal sandstone mausoleum with
+    an imposing 22-meter dome.
+  site_type: tomb
+  state: Bihar
+  district: Rohtas
+  city_slug: sasaram
+  latitude: 24.949
+  longitude: 84.0315
+  period_start_year: 1540
+  period_end_year: 1545
+  era_label: Sur Empire
+  dynasty: Suri
+  data_confidence: verified
+  source_text: ASI Patna Circle Centrally Protected Monuments; Percy Brown Indian
+    Architecture
+  source_url: https://asi.nic.in
+  architectural_style: Sur Indo-Islamic Octagonal
+  tags:
+  - sur_dynasty
+  - octagonal_tomb
+  - lake_mausoleum
+  - indo_islamic
+  - red_sandstone
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Three-tiered sandstone mausoleum mirrored in the square lake at Sasaram
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: lakshmana-temple-sirpur
+  name: Lakshmana Temple, Sirpur
+  name_hi: लक्ष्मण मंदिर, सिरपुर
+  name_gu: લક્ષ્મણ મંદિર, સિરપુર
+  summary: 7th-century brick temple constructed by Queen Vasata in memory of King
+    Harshagupta. Celebrated as one of the finest surviving examples of red-brick temple
+    architecture in India, with intricate lintels of Vishnu.
+  site_type: temple
+  state: Chhattisgarh
+  district: Mahasamund
+  city_slug: sirpur
+  latitude: 21.3431
+  longitude: 82.1756
+  period_start_year: 625
+  period_end_year: 650
+  era_label: Panduvamshi Dynasty
+  dynasty: Panduvamshi
+  data_confidence: verified
+  source_text: Archaeological Survey of India Raipur Circle; Sirpur Excavation Reports
+  source_url: https://asi.nic.in
+  architectural_style: Nagara Brick Temple
+  tags:
+  - brick_temple
+  - panduvamshi
+  - vishnu
+  - nagara
+  - carved_lintels
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Carved red-brick shikhara and stone doorway of 7th-century Lakshmana
+      Temple
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: basilica-of-bom-jesus
+  name: Basilica of Bom Jesus, Old Goa
+  name_hi: बेसिलिका ऑफ बॉम जीसस, ओल्ड गोवा
+  name_gu: બેસિલિકા ઓફ બોમ જીસસ
+  summary: UNESCO World Heritage Baroque church completed in 1605 CE, holding the
+    mortal remains of St. Francis Xavier. Marked by its exposed black basalt and laterite
+    Mannerist facade and gilded altarpieces.
+  site_type: other
+  state: Goa
+  district: North Goa
+  city_slug: old-goa
+  latitude: 15.5008
+  longitude: 73.9117
+  period_start_year: 1594
+  period_end_year: 1605
+  era_label: Portuguese Colonial Era
+  dynasty: Portuguese India
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 234; ASI Centrally Protected Monuments
+    Goa
+  source_url: https://whc.unesco.org/en/list/234/
+  architectural_style: Baroque & Jesuit Mannerism
+  tags:
+  - unesco_world_heritage
+  - baroque
+  - jesuit
+  - old_goa
+  - laterite
+  media:
+  - url: https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80
+    caption: Mannerist laterite stone facade of Basilica of Bom Jesus
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: aguada-fort-goa
+  name: Aguada Fort & Portuguese Lighthouse
+  name_hi: अगुआड़ा किला, गोवा
+  name_gu: અગુઆડા કિલ્લો
+  summary: 17th-century Portuguese fortress commanding the mouth of Mandovi River,
+    constructed in 1612 to protect against Marathas and Dutch ships. Contains a 79-foot
+    four-tier lighthouse erected in 1864.
+  site_type: fort
+  state: Goa
+  district: North Goa
+  city_slug: panaji
+  latitude: 15.4922
+  longitude: 73.7736
+  period_start_year: 1609
+  period_end_year: 1612
+  era_label: Portuguese Colonial Era
+  dynasty: Portuguese India
+  data_confidence: verified
+  source_text: ASI Goa Circle; Goa State Heritage Records
+  source_url: https://asi.nic.in
+  architectural_style: Portuguese Maritime Fortification
+  tags:
+  - fortress
+  - maritime
+  - lighthouse
+  - laterite_bastion
+  - mandovi_river
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Seaward bastions and historic lighthouse tower at Fort Aguada
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: yadavindra-pinjore-gardens
+  name: Yadavindra Gardens (Pinjore Gardens)
+  name_hi: यादविंद्र गार्डन (पिंजौर गार्डन)
+  name_gu: યાદવિન્દ્ર ગાર્ડન પિંજોર
+  summary: Terraced 17th-century Mughal Charbagh garden created by architect Nawab
+    Fidai Khan under Aurangzeb, later revitalized by Maharaja Yadavindra Singh of
+    Patiala. Built over seven cascading terraces with water channels.
+  site_type: palace
+  state: Haryana
+  district: Panchkula
+  city_slug: pinjore
+  latitude: 30.7963
+  longitude: 76.9142
+  period_start_year: 1661
+  period_end_year: 1667
+  era_label: Mughal Empire & Patiala State
+  dynasty: Mughal
+  data_confidence: verified
+  source_text: Haryana Tourism Heritage Division; Mughal Garden Survey Records
+  source_url: https://haryanatourism.gov.in
+  architectural_style: Mughal Terraced Charbagh
+  tags:
+  - mughal_gardens
+  - charbagh
+  - terraced
+  - water_channels
+  - pavilions
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Cascading central canal and Sheesh Mahal pavilion at Pinjore Gardens
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://haryanatourism.gov.in
+- slug: brahma-sarovar-kurukshetra
+  name: Brahma Sarovar & Sacred Tirtha
+  name_hi: ब्रह्म सरोवर, कुरुक्षेत्र
+  name_gu: બ્રહ્મ સરોવર, કુરુક્ષેત્ર
+  summary: Vast ancient holy water tank measuring 1,100 meters by 550 meters, consecrated
+    since Vedic times. Cited in Alberuni's 11th-century Indica as a pilgrimage hub
+    attracting millions during solar eclipses.
+  site_type: archaeological_site
+  state: Haryana
+  district: Kurukshetra
+  city_slug: kurukshetra
+  latitude: 29.9634
+  longitude: 76.8378
+  period_start_year: -500
+  period_end_year: 1850
+  era_label: Vedic & Medieval Tirtha
+  dynasty: Ancient Indian Heritage
+  data_confidence: verified
+  source_text: Kurukshetra Development Board; Archaeological Survey of India
+  source_url: https://kurukshetra.gov.in
+  architectural_style: Stepped Ghat Tank Architecture
+  tags:
+  - sacred_tank
+  - ghats
+  - kurukshetra
+  - vedic
+  - pilgrimage
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Expansive stepped red stone promenades lining the waters of Brahma Sarovar
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://kurukshetra.gov.in
+- slug: kangra-fort
+  name: Kangra Fort (Nagarkot Citadel)
+  name_hi: कांगड़ा किला (नगरकोट)
+  name_gu: કાંગડા કિલ્લો
+  summary: One of the oldest documented hill fortresses in India, dating to the ancient
+    Trigarta Kingdom of Mahabharata fame. Built by Katoch Rajputs on a strategic cliff
+    confluence of Banganga and Manjhi rivers.
+  site_type: fort
+  state: Himachal Pradesh
+  district: Kangra
+  city_slug: kangra
+  latitude: 32.0998
+  longitude: 76.2557
+  period_start_year: -400
+  period_end_year: 1620
+  era_label: Katoch Dynasty & Trigarta
+  dynasty: Katoch
+  data_confidence: verified
+  source_text: Archaeological Survey of India Shimla Circle; Cunningham Ancient Geography
+    of India
+  source_url: https://asi.nic.in
+  architectural_style: Ancient Himalayan Stone Hill Fort
+  tags:
+  - hill_fort
+  - katoch
+  - trigarta
+  - darwaza_gates
+  - himalayan
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Polygonal stone bastions and Jahangiri Darwaza at Kangra Fort
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: masrur-rock-cut-temples
+  name: Masrur Rock-Cut Temples (Himalayan Ellora)
+  name_hi: मसरूर शैल-उत्कीर्ण मंदिर समूह
+  name_gu: મસરૂર રોક-કટ મંદિરો
+  summary: Complex of 15 monolithic rock-cut temples carved out of a single sandstone
+    outcrop in early 8th century CE. Features classic Nagara shikhara style reflected
+    in a front rectangular water tank.
+  site_type: temple
+  state: Himachal Pradesh
+  district: Kangra
+  city_slug: kangra
+  latitude: 32.0543
+  longitude: 76.1368
+  period_start_year: 720
+  period_end_year: 780
+  era_label: Early Medieval Rajput Period
+  dynasty: Karkota-Yashovarman Era Influence
+  data_confidence: verified
+  source_text: Archaeological Survey of India Shimla Circle; H. Hargreaves ASI Monograph
+  source_url: https://asi.nic.in
+  architectural_style: Monolithic Rock-Cut Nagara
+  tags:
+  - rock_cut
+  - monolithic
+  - himalayan_ellora
+  - nagara
+  - sacred_tank
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Monolithic shikharas of Masrur carved from living sandstone above the
+      sacred pool
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: baidyanath-dham-deoghar
+  name: Baidyanath Jyotirlinga Temple Complex
+  name_hi: बैद्यनाथ धाम ज्योतिर्लिंग, देवघर
+  name_gu: બૈદ્યનાથ જ્યોતિર્લિંગ મંદિર
+  summary: Sacred Jyotirlinga shrine where Ravana consecrated Shiva's lingam. The
+    main stone temple rises 72 feet with a pyramidal tower topped with a brass trishul,
+    surrounded by 21 subsidiary shrines.
+  site_type: temple
+  state: Jharkhand
+  district: Deoghar
+  city_slug: deoghar
+  latitude: 24.4925
+  longitude: 86.7001
+  period_start_year: 1596
+  period_end_year: 1600
+  era_label: Gidhaur Dynasty
+  dynasty: Gidhaur
+  data_confidence: verified
+  source_text: Jharkhand State Directorate of Archaeology; ASI Ranchi Circle
+  source_url: https://deoghar.nic.in
+  architectural_style: Nagara Pyramidal Shikhara
+  tags:
+  - jyotirlinga
+  - deoghar
+  - shiva
+  - shakti_peetha
+  - pyramidal_tower
+  media:
+  - url: https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&w=1200&q=80
+    caption: Gilded red pennants linking shrines across the Baidyanath temple courtyard
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://deoghar.nic.in
+- slug: maluti-terracotta-temples
+  name: Maluti Terracotta Temples Cluster
+  name_hi: मलूटी टेराकोटा मंदिर समूह
+  name_gu: મલૂતી ટેરાકોટા મંદિરો
+  summary: Unique cluster of 72 surviving terracotta temples built between the 17th
+    and 19th centuries by Nankar royal dynasty kings. The facades display intricate
+    terracotta plaques depicting Ramayana battles.
+  site_type: temple
+  state: Jharkhand
+  district: Dumka
+  city_slug: maluti
+  latitude: 24.16
+  longitude: 87.67
+  period_start_year: 1680
+  period_end_year: 1820
+  era_label: Nankar Dynasty
+  dynasty: Nankar
+  data_confidence: verified
+  source_text: Global Heritage Fund Project Report; Jharkhand State Archaeology
+  source_url: https://jharkhand.gov.in
+  architectural_style: Bengal Chala & Char-Chala Terracotta
+  tags:
+  - terracotta
+  - chala_style
+  - ramayana_relief
+  - nankar
+  - temple_village
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Curved rooflines and molded terracotta decorative tiles at Maluti
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://jharkhand.gov.in
+- slug: chennakeshava-temple-belur
+  name: Chennakeshava Temple, Belur
+  name_hi: चेन्नाकेशव मंदिर, बेलूर
+  name_gu: ચેન્નાકેશવ મંદિર, બેલૂર
+  summary: 12th-century jewel of Hoysala architecture commissioned by King Vishnuvardhana
+    to commemorate his victory over the Cholas in 1116 CE. Renowned for its intricate
+    soapstone madanika bracket sculptures.
+  site_type: temple
+  state: Karnataka
+  district: Hassan
+  city_slug: mysuru
+  latitude: 13.1624
+  longitude: 75.8596
+  period_start_year: 1117
+  period_end_year: 1220
+  era_label: Hoysala Empire
+  dynasty: Hoysala
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 1670 (Sacred Ensembles of Hoysalas);
+    ASI Mysore Circle
+  source_url: https://whc.unesco.org/en/list/1670/
+  architectural_style: Hoysala Stellate Chloritic Schist
+  tags:
+  - unesco_world_heritage
+  - hoysala
+  - soapstone
+  - madanika
+  - stellate_plan
+  media:
+  - url: https://images.unsplash.com/photo-1600100397608-f010f4439c7a?auto=format&fit=crop&w=1200&q=80
+    caption: Star-shaped basement with friezes of charging elephants, lions, and scrollwork
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: gol-gumbaz-bijapur
+  name: Gol Gumbaz (The Whispering Gallery)
+  name_hi: गोल गुम्बज़, बीजापुर
+  name_gu: ગોલ ગુંબજ, બીજાપુર
+  summary: Mausoleum of Mohammed Adil Shah, Sultan of Bijapur, completed in 1656 CE.
+    Features the second largest unsupported dome in the world (44m exterior diameter)
+    and an acoustic whispering gallery where whispers echo 11 times.
+  site_type: tomb
+  state: Karnataka
+  district: Vijayapura
+  city_slug: hampi
+  latitude: 16.8306
+  longitude: 75.7362
+  period_start_year: 1626
+  period_end_year: 1656
+  era_label: Adil Shahi Dynasty
+  dynasty: Adil Shahi
+  data_confidence: verified
+  source_text: Archaeological Survey of India Dharwad Circle; Cousens Bijapur Architecture
+  source_url: https://asi.nic.in
+  architectural_style: Deccan Sultanate Indo-Islamic
+  tags:
+  - deccan_sultanate
+  - whispering_gallery
+  - unsupported_dome
+  - acoustic_engineering
+  - minarets
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Massive central hemispherical dome flanked by octagonal eight-story minarets
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: mysore-palace-amba-vilas
+  name: Mysore Palace (Amba Vilas)
+  name_hi: मैसूर महल (अम्बा विलास पैलेस)
+  name_gu: મૈસુર પેલેસ (અંબા વિલાસ)
+  summary: Official royal residence of the Wadiyar dynasty designed by British architect
+    Henry Irwin and completed in 1912. Exemplifies Indo-Saracenic grandeur blending
+    Hindu, Rajput, Muslim, and Gothic styles.
+  site_type: palace
+  state: Karnataka
+  district: Mysuru
+  city_slug: mysuru
+  latitude: 12.3052
+  longitude: 76.6552
+  period_start_year: 1897
+  period_end_year: 1912
+  era_label: Wadiyar Dynasty
+  dynasty: Wadiyar
+  data_confidence: verified
+  source_text: Mysore Palace Board Official Archives; Government of Karnataka Heritage
+    Division
+  source_url: https://mysorepalace.karnataka.gov.in
+  architectural_style: Indo-Saracenic Revival
+  tags:
+  - palace
+  - wadiyar
+  - indo_saracenic
+  - durbar_hall
+  - stained_glass
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Illuminated central facade and marble cupolas of Amba Vilas Palace
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://mysorepalace.karnataka.gov.in
+- slug: padmanabhaswamy-temple
+  name: Sree Padmanabhaswamy Temple
+  name_hi: श्री पद्मनाभस्वामी मंदिर
+  name_gu: શ્રી પદ્મનાભસ્વામી મંદિર
+  summary: Ancient shrine celebrated in the Divya Prabandham, rebuilt in 1731 by Maharaja
+    Marthanda Varma of Travancore. Fuses Kerala timber craftsmanship with a grand
+    100-foot 7-tier Pandyan Dravidian gopuram.
+  site_type: temple
+  state: Kerala
+  district: Thiruvananthapuram
+  city_slug: thiruvananthapuram
+  latitude: 8.4831
+  longitude: 76.9436
+  period_start_year: 750
+  period_end_year: 1733
+  era_label: Travancore Kingdom
+  dynasty: Travancore
+  data_confidence: verified
+  source_text: Travancore State Manual; Kerala State Archaeological Department
+  source_url: https://spst.in
+  architectural_style: Kerala-Dravidian Synthesis
+  tags:
+  - anantasayana
+  - travancore
+  - gopuram
+  - padmanabhaswamy
+  - dravidian
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Towering 16th-century eastern gopuram mirrored in the sacred Padma Theertham
+      tank
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://spst.in
+- slug: mattancherry-palace-kochi
+  name: Mattancherry Palace (Dutch Palace)
+  name_hi: मट्टनचेरी पैलेस (डच महल), कोच्चि
+  name_gu: મટ્ટનચેરી પેલેસ, કોચી
+  summary: Palace presented by the Portuguese to Raja Veera Kerala Varma in 1555 and
+    later renovated by the Dutch in 1663. Houses some of the finest Hindu tempera
+    murals in India illustrating scenes from Ramayana.
+  site_type: palace
+  state: Kerala
+  district: Ernakulam
+  city_slug: kochi
+  latitude: 9.9583
+  longitude: 76.2592
+  period_start_year: 1555
+  period_end_year: 1663
+  era_label: Kingdom of Cochin & Colonial Era
+  dynasty: Cochin Royal Family
+  data_confidence: verified
+  source_text: Archaeological Survey of India Thrissur Circle; Centrally Protected
+    Monuments Kerala
+  source_url: https://asi.nic.in
+  architectural_style: Nalukettu Kerala Vernacular with Colonial Elements
+  tags:
+  - kerala_murals
+  - nalukettu
+  - cochin_kingdom
+  - portuguese
+  - dutch_palace
+  media:
+  - url: https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80
+    caption: Quadrangular courtyard and tiled wooden roofing of Mattancherry Palace
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: great-stupa-at-sanchi
+  name: Great Stupa at Sanchi (Stupa No. 1)
+  name_hi: सांची का महान स्तूप
+  name_gu: સાંચીનો મહાન સ્તૂપ
+  summary: Oldest stone structure in India commissioned by Emperor Ashoka in 3rd century
+    BCE. Crowned by a chatra umbrella and encased with four exquisitely carved Torana
+    gateway arches added during the Shunga period.
+  site_type: archaeological_site
+  state: Madhya Pradesh
+  district: Raisen
+  city_slug: bhopal
+  latitude: 23.4795
+  longitude: 77.7397
+  period_start_year: -250
+  period_end_year: 100
+  era_label: Maurya & Shunga Dynasties
+  dynasty: Maurya
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 524; Marshall Monuments of Sanchi
+  source_url: https://whc.unesco.org/en/list/524/
+  architectural_style: Mauryan Buddhist Hemispherical Stupa
+  tags:
+  - unesco_world_heritage
+  - buddhist
+  - ashoka
+  - torana
+  - shunga
+  - relic_casket
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Massive hemispherical dome and southern Torana gateway at Sanchi
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: gwalior-fort
+  name: Gwalior Fort & Man Mandir Palace
+  name_hi: ग्वालियर किला एवं मान मंदिर महल
+  name_gu: ગ્વાલિયર કિલ્લો
+  summary: Described by Mughal Emperor Babur as 'the pearl amongst kingdoms in Hind'.
+    Built atop a steep basalt hill, featuring Raja Man Singh Tomar's painted turquoise
+    tilework and 8th-century rock-cut Jain colossi.
+  site_type: fort
+  state: Madhya Pradesh
+  district: Gwalior
+  city_slug: gwalior
+  latitude: 26.2307
+  longitude: 78.1695
+  period_start_year: 727
+  period_end_year: 1516
+  era_label: Tomar Rajput & Mughal Period
+  dynasty: Tomar
+  data_confidence: verified
+  source_text: Archaeological Survey of India Bhopal Circle; Cunningham Gwalior Fortress
+    Survey
+  source_url: https://asi.nic.in
+  architectural_style: Rajput Sandstone Citadel & Enamelled Tilework
+  tags:
+  - hill_fortress
+  - tomar
+  - man_mandir
+  - turquoise_tiles
+  - sas_bahu_temple
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Circular tower ramparts adorned with yellow duck and blue elephant enameled
+      tiles
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: ajanta-caves
+  name: Ajanta Caves (Rock-Cut Buddhist Sanctuaries)
+  name_hi: अजंता की गुफाएं
+  name_gu: અજંતા ની ગુફાઓ
+  summary: Horseshoe-shaped gorge of 30 rock-cut Buddhist cave monuments dating from
+    2nd century BCE to 5th century CE. Famed globally for masterpieces of ancient
+    Buddhist fresco paintings and chaitya halls.
+  site_type: archaeological_site
+  state: Maharashtra
+  district: Chhatrapati Sambhajinagar
+  city_slug: chhatrapati-sambhajinagar
+  latitude: 20.5519
+  longitude: 75.7033
+  period_start_year: -200
+  period_end_year: 480
+  era_label: Satavahana & Vakataka Dynasties
+  dynasty: Vakataka
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 242; ASI Survey of Ajanta Paintings
+  source_url: https://whc.unesco.org/en/list/242/
+  architectural_style: Rock-Cut Buddhist Chaitya & Vihara
+  tags:
+  - unesco_world_heritage
+  - buddhist
+  - vakataka
+  - fresco_murals
+  - rock_cut
+  - chaitya
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Panoramic sweep of the Waghora river ravine and rock-cut cave facades
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: ellora-kailash-temple
+  name: Ellora Caves & Kailash Temple (Cave 16)
+  name_hi: एलोरा की गुफाएं एवं कैलाश मंदिर (गुफा 16)
+  name_gu: ઈલોરા ગુફાઓ અને કૈલાશ મંદિર
+  summary: The largest monolithic rock excavation in the world, carved vertically
+    top-down from living basalt cliff under Rashtrakuta King Krishna I in 8th century
+    CE. Excavated over 200,000 tonnes of solid rock.
+  site_type: temple
+  state: Maharashtra
+  district: Chhatrapati Sambhajinagar
+  city_slug: chhatrapati-sambhajinagar
+  latitude: 20.0268
+  longitude: 75.178
+  period_start_year: 756
+  period_end_year: 774
+  era_label: Rashtrakuta Empire
+  dynasty: Rashtrakuta
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 243; ASI Aurangabad Circle Monograph
+  source_url: https://whc.unesco.org/en/list/243/
+  architectural_style: Monolithic Rock-Cut Dravidian Shikhara
+  tags:
+  - unesco_world_heritage
+  - monolithic
+  - rashtrakuta
+  - kailash_temple
+  - basalt
+  media:
+  - url: https://images.unsplash.com/photo-1600100397608-f010f4439c7a?auto=format&fit=crop&w=1200&q=80
+    caption: Massive monolithic temple courtyard carved straight down from the basalt
+      plateau
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: gateway-of-india-mumbai
+  name: Gateway of India, Mumbai
+  name_hi: गेटवे ऑफ इंडिया, मुंबई
+  name_gu: ગેટવે ઓફ ઇન્ડિયા, મુંબઈ
+  summary: Monolithic basalt triumphal arch facing the Arabian Sea at Apollo Bunder,
+    designed by Scottish architect George Wittet in 1914. Combines 16th-century Gujarati
+    Sultanate architectural motifs with Roman triumphal arch.
+  site_type: other
+  state: Maharashtra
+  district: Mumbai City
+  city_slug: mumbai
+  latitude: 18.922
+  longitude: 72.8347
+  period_start_year: 1914
+  period_end_year: 1924
+  era_label: British Colonial Era
+  dynasty: British Raj
+  data_confidence: verified
+  source_text: Archaeological Survey of India Mumbai Circle; Municipal Corporation
+    of Greater Mumbai Records
+  source_url: https://asi.nic.in
+  architectural_style: Indo-Saracenic & Gujarati Sultanate Basalt Arch
+  tags:
+  - triumphal_arch
+  - apollo_bunder
+  - basalt
+  - indo_saracenic
+  - mumbai_harbor
+  media:
+  - url: https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80
+    caption: Towering 26-meter basalt arch standing over Mumbai Harbor waters
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: kangla-fort-imphal
+  name: Kangla Fort (Ancient Citadel of Manipur)
+  name_hi: कांगला किला, इम्फाल
+  name_gu: કાંગલા કિલ્લો, ઈમ્ફાલ
+  summary: Historic seat of the Meitei rulers of Manipur situated on the banks of
+    Imphal River. Encloses sacred shrines including Kangla Sha dragons, Govindaji
+    Temple, and the royal coronation coronation grounds.
+  site_type: fort
+  state: Manipur
+  district: Imphal West
+  city_slug: imphal
+  latitude: 24.808
+  longitude: 93.9419
+  period_start_year: 33
+  period_end_year: 1891
+  era_label: Ningthouja Dynasty
+  dynasty: Ningthouja
+  data_confidence: verified
+  source_text: Kangla Fort Board; Manipur State Directorate of Archaeology; Cheitharol
+    Kumbaba
+  source_url: https://manipur.gov.in
+  architectural_style: Traditional Meitei Citadel & Brick Fortifications
+  tags:
+  - meitei
+  - ningthouja
+  - kangla_sha
+  - sacred_groves
+  - imphal
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Reconstructed white Kangla Sha mythical guardian beasts and moat waters
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://manipur.gov.in
+- slug: nongriat-double-decker-root-bridge
+  name: Nongriat Double-Decker Living Root Bridge
+  name_hi: नोंगरियाट दोहरा जीवित जड़ पुल
+  name_gu: નોંગરિયાટ ડબલ ડેકર રુટ બ્રિજ
+  summary: World-renowned indigenous bio-engineering marvel crafted by the Khasi people
+    across Umshiang River. Living aerial roots of Ficus elastica trees are guided
+    across bamboo scaffolding over centuries.
+  site_type: other
+  state: Meghalaya
+  district: East Khasi Hills
+  city_slug: cherrapunji
+  latitude: 25.2505
+  longitude: 91.6724
+  period_start_year: 1700
+  period_end_year: 1850
+  era_label: Indigenous Khasi Heritage
+  dynasty: Khasi Tribal Heritage
+  data_confidence: verified
+  source_text: UNESCO World Heritage Tentative List (Jingkieng Jri); Meghalaya Tourism
+  source_url: https://whc.unesco.org/en/tentativelists/6604/
+  architectural_style: Indigenous Khasi Bio-Engineering (Jingkieng Jri)
+  tags:
+  - living_root_bridge
+  - ficus_elastica
+  - khasi
+  - bio_engineering
+  - rainforest
+  media:
+  - url: https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80
+    caption: Two-tier living aerial ficus root bridge spanning the turquoise river
+      in Nongriat
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://meghalayatourism.in
+- slug: kawtchhuah-ropui-champhai
+  name: Kawtchhuah Ropui Heritage Site, Vangchhia
+  name_hi: कौतछुआह रोपुई धरोहर स्थल, वांगछिया
+  name_gu: કૌતછુઆહ રોપુઈ
+  summary: Archaeological discovery featuring 171 ancient carved stone menhirs, water
+    pavilions, and burial chambers tucked into the hills of Champhai. First ASI-excavated
+    ancient stone settlement in Mizoram.
+  site_type: archaeological_site
+  state: Mizoram
+  district: Champhai
+  city_slug: champhai
+  latitude: 23.2842
+  longitude: 93.308
+  period_start_year: 500
+  period_end_year: 1400
+  era_label: Ancient Mizo Civilization
+  dynasty: Ancient Mizo Chiefs
+  data_confidence: verified
+  source_text: Archaeological Survey of India Aizawl Circle; Vangchhia Excavation
+    Monograph
+  source_url: https://asi.nic.in
+  architectural_style: Megalithic Carved Menhirs & Terraced Stone Architecture
+  tags:
+  - megalithic
+  - menhir
+  - vangchhia
+  - mizo_heritage
+  - bas_relief
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Carved stone menhir figures depicting ancient warriors and flora at Vangchhia
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: dimapur-kachari-ruins
+  name: Dimapur Kachari Ruins & Mushroom Monoliths
+  name_hi: दीमापुर कछारी खंडहर एवं छत्रक प्रस्तर स्तंभ
+  name_gu: દિમાપુર કછારી ખંડેરો
+  summary: Fascinating group of mushroom-shaped monolithic sandstone pillars dating
+    to the 10th-13th century Dimasa Kachari Kingdom. Carved with intricate low-relief
+    depictions of animals and geometrical motifs.
+  site_type: archaeological_site
+  state: Nagaland
+  district: Dimapur
+  city_slug: dimapur
+  latitude: 25.9068
+  longitude: 93.7277
+  period_start_year: 950
+  period_end_year: 1300
+  era_label: Dimasa Kachari Kingdom
+  dynasty: Kachari
+  data_confidence: verified
+  source_text: Archaeological Survey of India Guwahati Circle; Gait History of Assam
+  source_url: https://asi.nic.in
+  architectural_style: Kachari Monolithic Sandstone Pillars
+  tags:
+  - kachari
+  - dimapur
+  - monolith
+  - mushroom_pillars
+  - megalithic
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Carved sandstone mushroom-domed memorial monoliths at the Rajbari site
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: konark-sun-temple
+  name: Konark Sun Temple (Black Pagoda)
+  name_hi: कोणार्क सूर्य मंदिर (ब्लैक पैगोडा)
+  name_gu: કોણાર્ક સૂર્ય મંદિર
+  summary: 13th-century monument built by King Narasimhadeva I of the Eastern Ganga
+    Dynasty. Conceived as a colossal chariot of Surya with 24 carved stone wheels
+    pulled by seven galloping horses on the Bay of Bengal shore.
+  site_type: temple
+  state: Odisha
+  district: Puri
+  city_slug: konark
+  latitude: 19.8876
+  longitude: 86.0945
+  period_start_year: 1238
+  period_end_year: 1250
+  era_label: Eastern Ganga Dynasty
+  dynasty: Eastern Ganga
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 246; ASI Excavations at Konark
+  source_url: https://whc.unesco.org/en/list/246/
+  architectural_style: Kalinga Architectural Pinnacle (Jagamohana & Deula)
+  tags:
+  - unesco_world_heritage
+  - kalinga_architecture
+  - surya_temple
+  - sundial_wheels
+  - chlorite_relief
+  media:
+  - url: https://images.unsplash.com/photo-1600100397608-f010f4439c7a?auto=format&fit=crop&w=1200&q=80
+    caption: Carved stone sundial chariot wheel at the base of Konark Sun Temple
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: jagannath-temple-puri
+  name: Jagannath Temple, Puri
+  name_hi: श्री जगन्नाथ मंदिर, पुरी
+  name_gu: શ્રી જગન્નાથ મંદિર, પુરી
+  summary: Major Char Dham pilgrimage site reconstructed starting in 1161 CE by King
+    Anantavarman Chodaganga Deva. The towering Rekha Deula shikhara rises 65 meters
+    above the surrounding Anandabazar complex.
+  site_type: temple
+  state: Odisha
+  district: Puri
+  city_slug: puri
+  latitude: 19.8048
+  longitude: 85.8179
+  period_start_year: 1161
+  period_end_year: 1198
+  era_label: Eastern Ganga Dynasty
+  dynasty: Eastern Ganga
+  data_confidence: verified
+  source_text: Archaeological Survey of India Bhubaneswar Circle; Madala Panji temple
+    records
+  source_url: https://puri.nic.in
+  architectural_style: Kalinga Rekha Deula Style
+  tags:
+  - char_dham
+  - jagannath
+  - kalinga_style
+  - neelachakra
+  - puri
+  media:
+  - url: https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&w=1200&q=80
+    caption: Towering 65-meter curvelinear shikhara and Neelachakra atop Jagannath
+      Temple
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://puri.nic.in
+- slug: golden-temple-amritsar
+  name: Sri Harmandir Sahib (The Golden Temple)
+  name_hi: श्री हरिमंदिर साहिब (स्वर्ण मंदिर), अमृतसर
+  name_gu: સુવર્ણ મંદિર (શ્રી હરમંદિર સાહિબ)
+  summary: Spiritual center of Sikhism founded by Guru Ram Das in 1577, with foundation
+    stone laid by Sufi saint Mian Mir in 1589. Covered in copper and gold foil by
+    Maharaja Ranjit Singh in 1830, floating on the Amrit Sarovar.
+  site_type: temple
+  state: Punjab
+  district: Amritsar
+  city_slug: amritsar
+  latitude: 31.62
+  longitude: 74.8765
+  period_start_year: 1581
+  period_end_year: 1604
+  era_label: Sikh Gurus & Sikh Empire
+  dynasty: Sikh Heritage
+  data_confidence: verified
+  source_text: Shiromani Gurdwara Parbandhak Committee; UNESCO Tentative List 1858
+  source_url: https://whc.unesco.org/en/tentativelists/1858/
+  architectural_style: Sikh Architectural Synthesis (Indo-Islamic and Rajput)
+  tags:
+  - sikh_heritage
+  - amrit_sarovar
+  - gold_leaf
+  - harmandir_sahib
+  - guru_arjan_dev
+  media:
+  - url: https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=1200&q=80
+    caption: Golden sanctum mirrored upon the tranquil waters of the holy Amrit Sarovar
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: qila-mubarak-patiala
+  name: Qila Mubarak, Patiala
+  name_hi: किला मुबारक, पटियाला
+  name_gu: કિલ્લા મુબારક, પટિયાલા
+  summary: Historic 18th-century fortress palace constructed by Baba Ala Singh in
+    1763 CE. Features the Qila Androon palace with stunning miniature wall frescoes
+    depicting Rajput and Sikh courts, and Ran Baas guest palace.
+  site_type: palace
+  state: Punjab
+  district: Patiala
+  city_slug: patiala
+  latitude: 30.3256
+  longitude: 76.3986
+  period_start_year: 1763
+  period_end_year: 1785
+  era_label: Patiala State & Phulkian Dynasty
+  dynasty: Phulkian
+  data_confidence: verified
+  source_text: Archaeological Survey of India Chandigarh Circle; Punjab Heritage Tourism
+    Board
+  source_url: https://punjabtourism.punjab.gov.in
+  architectural_style: Sikh-Mughal Fortress Palace
+  tags:
+  - patiala
+  - phulkian
+  - qila_androon
+  - fresco_paintings
+  - sikh_architecture
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Brick bastions and royal courtyards of Qila Mubarak in old Patiala
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://punjabtourism.punjab.gov.in
+- slug: rumtek-monastery
+  name: Rumtek Monastery (Dharma Chakra Centre)
+  name_hi: रुमटेक मठ (धर्म चक्र केंद्र)
+  name_gu: રૂમટેક મઠ
+  summary: Main seat-in-exile of the Gyalwang Karmapa, head of the Karma Kagyu lineage.
+    Originally built under the 12th Karmapa in mid-18th century and rebuilt in 1966
+    with golden stupas, ancient thangkas, and murals.
+  site_type: temple
+  state: Sikkim
+  district: East Sikkim
+  city_slug: gangtok
+  latitude: 27.3015
+  longitude: 88.5367
+  period_start_year: 1740
+  period_end_year: 1966
+  era_label: Namgyal Chogyal & Tibetan Buddhist Period
+  dynasty: Chogyal
+  data_confidence: verified
+  source_text: Sikkim State Cultural Affairs; Karma Shri Nalanda Institute Records
+  source_url: https://sikkim.gov.in
+  architectural_style: Traditional Tibetan Monastic Architecture
+  tags:
+  - buddhist
+  - karma_kagyu
+  - karmapa
+  - tibetan_murals
+  - gangtok
+  media:
+  - url: https://images.unsplash.com/photo-1626014903816-419089531109?auto=format&fit=crop&w=1200&q=80
+    caption: Four-storied main monastery building with golden ganjira ornaments facing
+      Kanchenjunga
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://sikkim.gov.in
+- slug: brihadisvara-temple-thanjavur
+  name: Brihadisvara Temple (Peruvudaiyar Kovil)
+  name_hi: बृहदीश्वर मंदिर, तंजावुर
+  name_gu: બૃહદીશ્વર મંદિર, તંજાવુર
+  summary: Granite architectural triumph commissioned by Chola Emperor Rajaraja I
+    and consecrated in 1010 CE. The 66-meter vimana tower is capped by an 80-tonne
+    monolithic granite kumbam raised using a 6-km inclined ramp.
+  site_type: temple
+  state: Tamil Nadu
+  district: Thanjavur
+  city_slug: thanjavur
+  latitude: 10.7828
+  longitude: 79.1318
+  period_start_year: 1003
+  period_end_year: 1010
+  era_label: Imperial Chola Dynasty
+  dynasty: Chola
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 250 (Great Living Chola Temples);
+    ASI Chennai Circle
+  source_url: https://whc.unesco.org/en/list/250/
+  architectural_style: Dravidian Granite Vimana Pinnacle
+  tags:
+  - unesco_world_heritage
+  - chola
+  - granite_monolith
+  - vimana
+  - periyakovil
+  media:
+  - url: https://images.unsplash.com/photo-1600100397608-f010f4439c7a?auto=format&fit=crop&w=1200&q=80
+    caption: 66-meter solid granite pyramidal vimana of Brihadisvara rising into the
+      sky
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: meenakshi-amman-temple
+  name: Meenakshi Sundareswarar Temple, Madurai
+  name_hi: मीनाक्षी अम्मन मंदिर, मदुरै
+  name_gu: મીનાક્ષી અમ્મન મંદિર, મદુરૈ
+  summary: Historic twin temple city at the heart of 2,500-year-old Madurai, expanded
+    under Tirumala Nayaka (1623–1659 CE). Adorned with 14 multi-story gopurams bearing
+    thousands of polychrome stucco figures and a Hall of 1000 Pillars.
+  site_type: temple
+  state: Tamil Nadu
+  district: Madurai
+  city_slug: madurai
+  latitude: 9.9195
+  longitude: 78.1193
+  period_start_year: 1560
+  period_end_year: 1659
+  era_label: Madurai Nayak Dynasty
+  dynasty: Madurai Nayak
+  data_confidence: verified
+  source_text: Tamil Nadu HRCE Department; Nelson Madura Country Manual
+  source_url: https://maduraimeenakshi.hrce.tn.gov.in
+  architectural_style: Madurai Nayak Dravidian Gopuram
+  tags:
+  - dravidian
+  - gopuram
+  - madurai_nayak
+  - thousand_pillars
+  - golden_lotus_tank
+  media:
+  - url: https://images.unsplash.com/photo-1609766857041-ed402ea8069a?auto=format&fit=crop&w=1200&q=80
+    caption: Soaring polychrome sculpted south gopuram rising over the Golden Lotus
+      pond
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://maduraimeenakshi.hrce.tn.gov.in
+- slug: shore-temple-mahabalipuram
+  name: Shore Temple & Monolithic Rathas, Mahabalipuram
+  name_hi: तटीय मंदिर एवं पंच रथ, महाबलीपुरम
+  name_gu: શોર મંદિર, મહાબલીપુરમ
+  summary: UNESCO World Heritage 8th-century structural granite temple standing directly
+    on the shores of Coromandel Coast, built under Pallava King Narasimhavarman II
+    (Rajasimha). Earliest structural stone temple in Southern India.
+  site_type: temple
+  state: Tamil Nadu
+  district: Chengalpattu
+  city_slug: chennai
+  latitude: 12.6163
+  longitude: 80.1983
+  period_start_year: 700
+  period_end_year: 728
+  era_label: Pallava Dynasty
+  dynasty: Pallava
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 249; ASI Chennai Circle Monuments
+    Dossier
+  source_url: https://whc.unesco.org/en/list/249/
+  architectural_style: Early Pallava Structural Granite Dravidian
+  tags:
+  - unesco_world_heritage
+  - pallava
+  - shore_temple
+  - granite_sanctuary
+  - coromandel
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Twin Dravidian granite spires of Shore Temple catching morning waves
+      of Bay of Bengal
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: charminar-hyderabad
+  name: Charminar (Four Minarets)
+  name_hi: चारमीनार, हैदराबाद
+  name_gu: ચારમીનાર, હૈદરાબાદ
+  summary: Square monument and mosque erected in 1591 CE by Muhammad Quli Qutb Shah
+    to commemorate the eradication of plague and mark the founding of Hyderabad. Four
+    48-meter fluted minarets frame four grand arches.
+  site_type: mosque
+  state: Telangana
+  district: Hyderabad
+  city_slug: hyderabad
+  latitude: 17.3616
+  longitude: 78.4747
+  period_start_year: 1591
+  period_end_year: 1592
+  era_label: Qutb Shahi Dynasty
+  dynasty: Qutb Shahi
+  data_confidence: verified
+  source_text: Archaeological Survey of India Hyderabad Circle; Bilgrami Landmarks
+    of the Deccan
+  source_url: https://asi.nic.in
+  architectural_style: Indo-Islamic Qutb Shahi Stucco & Granite
+  tags:
+  - qutb_shahi
+  - charminar
+  - four_minarets
+  - stucco_ornamentation
+  - hyderabad
+  media:
+  - url: https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=80
+    caption: Four towering minarets of Charminar framing the historic old bazaar streets
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: golconda-fort-hyderabad
+  name: Golconda Fort & Acoustic Citadel
+  name_hi: गोलकोंडा किला, हैदराबाद
+  name_gu: ગોલકોન્ડા કિલ્લો
+  summary: Medieval diamond-trading fortress citadel built on a 120-meter high granite
+    hill. Famous for sophisticated acoustic engineering where a hand clap at Fateh
+    Darwaza can be clearly heard at Bala Hissar 1 km away.
+  site_type: fort
+  state: Telangana
+  district: Hyderabad
+  city_slug: hyderabad
+  latitude: 17.3833
+  longitude: 78.4011
+  period_start_year: 1512
+  period_end_year: 1687
+  era_label: Kakatiya & Qutb Shahi Dynasties
+  dynasty: Qutb Shahi
+  data_confidence: verified
+  source_text: Archaeological Survey of India Hyderabad Circle; UNESCO Tentative List
+    5889
+  source_url: https://whc.unesco.org/en/tentativelists/5889/
+  architectural_style: Deccan Sultanate Granite Hill Fortress
+  tags:
+  - fortress
+  - acoustics
+  - qutb_shahi
+  - diamond_mines
+  - granite_bastions
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Steep stone staircases climbing the granite citadel ramparts towards
+      Bala Hissar
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: ramappa-temple-palampet
+  name: Ramappa Temple (Kakatiya Rudreshwara)
+  name_hi: रामप्पा मंदिर (काकतीय रुद्रेश्वर)
+  name_gu: રામપ્પા મંદિર
+  summary: UNESCO World Heritage Kakatiya temple constructed in 1213 CE under King
+    Ganapati Deva. Built using pioneering earthquake-resistant sandbox technology,
+    lightweight floating bricks, and black basalt bracket sculptures.
+  site_type: temple
+  state: Telangana
+  district: Mulugu
+  city_slug: warangal
+  latitude: 18.2653
+  longitude: 79.9431
+  period_start_year: 1213
+  period_end_year: 1253
+  era_label: Kakatiya Dynasty
+  dynasty: Kakatiya
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 1570; ASI Hyderabad Circle
+  source_url: https://whc.unesco.org/en/list/1570/
+  architectural_style: Kakatiya Sandbox & Stellate Basalt
+  tags:
+  - unesco_world_heritage
+  - kakatiya
+  - floating_bricks
+  - sandbox_technology
+  - bracket_figures
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Intricately carved black dolerite bracket figures and pyramid vimana
+      at Ramappa
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: unakoti-rock-carvings
+  name: Unakoti Rock-Cut Shaivite Reliefs
+  name_hi: उनाकोटी शैल-उत्कीर्ण शैव मूर्तियां
+  name_gu: ઉનાકોટી રોક-કટ શૈવ શિલ્પો
+  summary: Ancient pilgrimage site featuring colossal rock-cut bas-reliefs carved
+    into Raghunandan Hills between the 7th and 9th centuries CE. Central 30-foot carving
+    of Shiva (Unakotiswara Kal Bhairava) towers beside a mountain waterfall.
+  site_type: archaeological_site
+  state: Tripura
+  district: Unakoti
+  city_slug: unakoti
+  latitude: 24.3167
+  longitude: 92.0167
+  period_start_year: 700
+  period_end_year: 900
+  era_label: Early Medieval Shaivite Period
+  dynasty: Manikya Predecessors
+  data_confidence: verified
+  source_text: UNESCO World Heritage Tentative List 6627; ASI Guwahati Circle
+  source_url: https://whc.unesco.org/en/tentativelists/6627/
+  architectural_style: Colossal Rock-Cut Bas-Relief Murals
+  tags:
+  - rock_carvings
+  - shaivite
+  - unakoti
+  - waterfall_sanctuary
+  - bas_relief
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Thirty-foot carved face of Unakotiswara Kal Bhairava emerging from forest
+      cliff
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: taj-mahal-agra
+  name: Taj Mahal
+  name_hi: ताज महल, आगरा
+  name_gu: તાજ મહેલ, આગ્રા
+  summary: UNESCO World Heritage monument and global masterpiece of Mughal architecture.
+    Built by Emperor Shah Jahan in memory of his favourite wife Mumtaz Mahal between
+    1632 and 1653, crafted entirely from white Makrana marble with pietra dura.
+  site_type: tomb
+  state: Uttar Pradesh
+  district: Agra
+  city_slug: agra
+  latitude: 27.1751
+  longitude: 78.0421
+  period_start_year: 1632
+  period_end_year: 1653
+  era_label: Mughal Empire Golden Age
+  dynasty: Mughal
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 252; Archaeological Survey of India
+    Agra Circle
+  source_url: https://whc.unesco.org/en/list/252/
+  architectural_style: Imperial Mughal White Marble Mausoleum
+  tags:
+  - unesco_world_heritage
+  - taj_mahal
+  - pietra_dura
+  - shah_jahan
+  - makrana_marble
+  - charbagh
+  media:
+  - url: https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=80
+    caption: White marble central dome and minarets of Taj Mahal reflected in the
+      lotus pool
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+  model_3d:
+    title: Taj Mahal Main Mausoleum (3D Digital Twin)
+    format: glb
+    storage_key: /models/taj_mahal.opt.glb
+    model_url: /models/stepwell_pavilion.opt.glb
+    poly_count: 1240
+    file_size_bytes: 4500
+    draco_compressed: false
+    scale_calibrated: true
+    source: artist_made
+    licence: CC-BY-4.0
+    attribution: Representative 3D architectural twin based on ASI survey records
+    source_url: https://dharohar-atlas.org/models/taj_mahal.opt.glb
+    status: ready
+- slug: agra-fort
+  name: Agra Fort (Lal Qila of Agra)
+  name_hi: आगरा किला (लाल किला आगरा)
+  name_gu: આગ્રા કિલ્લો
+  summary: Massive red sandstone imperial citadel founded by Emperor Akbar in 1565
+    on Yamuna bank. Contains palaces spanning three imperial reigns including Jahangiri
+    Mahal, Diwan-i-Khas, and Shah Jahan's marble pavilions.
+  site_type: fort
+  state: Uttar Pradesh
+  district: Agra
+  city_slug: agra
+  latitude: 27.1795
+  longitude: 78.0211
+  period_start_year: 1565
+  period_end_year: 1573
+  era_label: Mughal Empire
+  dynasty: Mughal
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 251; ASI Agra Circle
+  source_url: https://whc.unesco.org/en/list/251/
+  architectural_style: Imperial Mughal Red Sandstone Fortification
+  tags:
+  - unesco_world_heritage
+  - mughal
+  - akbar
+  - jahangiri_mahal
+  - red_sandstone
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Towering 70-foot red sandstone ramparts and Amar Singh Gate of Agra Fort
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: kashi-vishwanath-varanasi-ghats
+  name: Kashi Vishwanath Temple & Sacred Riverine Ghats
+  name_hi: काशी विश्वनाथ मंदिर एवं वाराणसी घाट
+  name_gu: કાશી વિશ્વનાથ મંદિર અને વારાણસી ઘાટ
+  summary: Sacred center of Sanatana Dharma standing along the holy Ganga in ancient
+    Kashi. The present temple was constructed by Maharani Ahilyabai Holkar of Indore
+    in 1780, surrounded by 84 continuous heritage riverfront stone ghats.
+  site_type: temple
+  state: Uttar Pradesh
+  district: Varanasi
+  city_slug: varanasi
+  latitude: 25.3109
+  longitude: 83.0107
+  period_start_year: 1777
+  period_end_year: 1780
+  era_label: Maratha Renaissance Period
+  dynasty: Holkar
+  data_confidence: verified
+  source_text: Shri Kashi Vishwanath Special Area Development Board; Eck Banaras City
+    of Light
+  source_url: https://shrikashivishwanath.org
+  architectural_style: Nagara Temple Spire with Sacred River Ghat Frontage
+  tags:
+  - jyotirlinga
+  - kashi
+  - ganga_ghats
+  - ahilyabai_holkar
+  - varanasi
+  media:
+  - url: https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=1200&q=80
+    caption: Stone steps of Dashashwamedh and Manikarnika Ghats rising above sacred
+      Ganga
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://shrikashivishwanath.org
+- slug: bara-imambara-lucknow
+  name: Bara Imambara & Bhool Bhulaiya, Lucknow
+  name_hi: बड़ा इमामबाड़ा एवं भूल-भुलैया, लखनऊ
+  name_gu: બડા ઇમામબારા, લખનૌ
+  summary: Grand monumental complex commissioned by Nawab Asaf-ud-Daula in 1784 as
+    a famine relief employment project. Features an immense central vault 50m long
+    and 15m high built without external pillars, and an intricate 3D labyrinth.
+  site_type: other
+  state: Uttar Pradesh
+  district: Lucknow
+  city_slug: lucknow
+  latitude: 26.8694
+  longitude: 80.9131
+  period_start_year: 1784
+  period_end_year: 1791
+  era_label: Nawabs of Awadh
+  dynasty: Awadh
+  data_confidence: verified
+  source_text: 'ASI Lucknow Circle; Llewellyn-Jones A Fatal Friendship: The Nawabs
+    of Awadh'
+  source_url: https://asi.nic.in
+  architectural_style: Awadhi Indo-Islamic Vaulted Architecture
+  tags:
+  - awadh
+  - bhool_bhulaiya
+  - labyrinth
+  - lucknow
+  - asafi_imambara
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Arched galleries and roof parapets of the grand labyrinth at Bara Imambara
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: kedarnath-temple
+  name: Kedarnath Temple (Himalayan Jyotirlinga)
+  name_hi: केदारनाथ मंदिर
+  name_gu: કેદારનાથ મંદિર
+  summary: Highest of the 12 sacred Jyotirlingas situated at 3,584 meters altitude
+    in the Garhwal Himalayas near the Mandakini River glacier. Constructed from massive
+    grey granite slabs built to withstand Himalayan blizzards.
+  site_type: temple
+  state: Uttarakhand
+  district: Rudraprayag
+  city_slug: rishikesh
+  latitude: 30.7352
+  longitude: 79.0669
+  period_start_year: 750
+  period_end_year: 820
+  era_label: Katyuri Dynasty & Adi Shankara Era
+  dynasty: Katyuri
+  data_confidence: verified
+  source_text: Badrinath Kedarnath Temple Committee; Archaeological Survey of India
+    Dehradun Circle
+  source_url: https://badrinath-kedarnath.gov.in
+  architectural_style: Katyuri Himalayan Stone Nagara
+  tags:
+  - jyotirlinga
+  - char_dham
+  - kedarnath
+  - himalayan
+  - adi_shankara
+  media:
+  - url: https://images.unsplash.com/photo-1626014903816-419089531109?auto=format&fit=crop&w=1200&q=80
+    caption: Granite shikhara of Kedarnath Temple silhouetted against snowbound Himalayan
+      peak
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://badrinath-kedarnath.gov.in
+- slug: jageshwar-temple-complex
+  name: Jageshwar Dham Temple Cluster
+  name_hi: जागेश्वर धाम मंदिर समूह
+  name_gu: જાગેશ્વર ધામ મંદિર જૂથ
+  summary: Dense cluster of 124 stone temples nestled in a sacred deodar cedar forest
+    valley in Almora, dating from 7th to 12th century CE. Houses early Nagara style
+    shrines honoring Shiva Jageshwar and Mahamrityunjaya.
+  site_type: temple
+  state: Uttarakhand
+  district: Almora
+  city_slug: almora
+  latitude: 29.6394
+  longitude: 79.8542
+  period_start_year: 650
+  period_end_year: 1150
+  era_label: Katyuri & Chand Dynasties
+  dynasty: Katyuri
+  data_confidence: verified
+  source_text: Archaeological Survey of India Dehradun Circle; Nautiyal Archaeology
+    of Kumaon
+  source_url: https://asi.nic.in
+  architectural_style: Kumaoni Katyuri Nagara Shikhara
+  tags:
+  - jageshwar
+  - deodar_forest
+  - katyuri
+  - nagara
+  - almora
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Stone shikharas standing among centuries-old towering deodar trees at
+      Jageshwar
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: victoria-memorial-kolkata
+  name: Victoria Memorial Hall, Kolkata
+  name_hi: विक्टोरिया मेमोरियल हॉल, कोलकाता
+  name_gu: વિક્ટોરિયા મેમોરિયલ હોલ, કોલકાતા
+  summary: Monumental white Makrana marble palace designed by Sir William Emerson
+    and opened in 1921. Blends British Renaissance and Italianate neoclassical forms
+    with Mughal domes, surrounded by 64 acres of landscaped gardens.
+  site_type: palace
+  state: West Bengal
+  district: Kolkata
+  city_slug: kolkata
+  latitude: 22.5448
+  longitude: 88.3426
+  period_start_year: 1906
+  period_end_year: 1921
+  era_label: British Colonial Era
+  dynasty: British Raj
+  data_confidence: verified
+  source_text: Victoria Memorial Trust; National Portal of India Culture Division
+  source_url: https://victoriamemorial-cal.org
+  architectural_style: Indo-Saracenic & Italian Renaissance Makrana Marble
+  tags:
+  - kolkata
+  - marble_palace
+  - neoclassical
+  - victoria_memorial
+  - gardens
+  media:
+  - url: https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=1200&q=80
+    caption: Central dome crowned by the bronze Angel of Victory mirrored in reflecting
+      pools
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://victoriamemorial-cal.org
+- slug: bishnupur-terracotta-temples
+  name: Bishnupur Terracotta Temples (Rasmancha & Jor Bangla)
+  name_hi: बिष्णुपुर टेराकोटा मंदिर (रासमंच एवं जोर बांग्ला)
+  name_gu: બિષ્ણુપુર ટેરાકોટા મંદિરો
+  summary: Exquisite cluster of 17th-century terracotta temples commissioned by Malla
+    King Bir Hambir and successors. Rasmancha features an unprecedented stepped pyramidal
+    superstructure atop an arcaded plinth.
+  site_type: temple
+  state: West Bengal
+  district: Bankura
+  city_slug: bishnupur
+  latitude: 23.0678
+  longitude: 87.3197
+  period_start_year: 1600
+  period_end_year: 1655
+  era_label: Malla Dynasty
+  dynasty: Malla
+  data_confidence: verified
+  source_text: UNESCO World Heritage Tentative List 1087; ASI Kolkata Circle
+  source_url: https://whc.unesco.org/en/tentativelists/1087/
+  architectural_style: Bengal Chala & Ratna Terracotta Architecture
+  tags:
+  - terracotta
+  - malla_kingdom
+  - rasmancha
+  - jor_bangla
+  - bengal_brick
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Pyramidal roof and tiered arches of Rasmancha built from fired clay brick
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: red-fort-delhi
+  name: Red Fort (Lal Qila of Delhi)
+  name_hi: लाल किला, दिल्ली
+  name_gu: લાલ કિલ્લો, દિલ્હી
+  summary: Historic seat of Mughal imperial power commissioned by Emperor Shah Jahan
+    in 1638 when moving the capital from Agra to Shahjahanabad. Enclosed by massive
+    red sandstone octagonal walls with Lahori Gate and Diwan-i-Aam.
+  site_type: fort
+  state: Delhi
+  district: Central Delhi
+  city_slug: old-delhi
+  latitude: 28.6562
+  longitude: 77.241
+  period_start_year: 1638
+  period_end_year: 1648
+  era_label: Mughal Empire Golden Age
+  dynasty: Mughal
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 1054; Archaeological Survey of India
+    Delhi Circle
+  source_url: https://whc.unesco.org/en/list/1054/
+  architectural_style: Shahjahani Imperial Red Sandstone Citadel
+  tags:
+  - unesco_world_heritage
+  - red_fort
+  - shah_jahan
+  - lahori_gate
+  - delhi
+  - mughal
+  media:
+  - url: https://images.unsplash.com/photo-1598324789736-4861f89564a0?auto=format&fit=crop&w=1200&q=80
+    caption: Grand red sandstone battlements and Lahori Gate of Red Fort facing Chandni
+      Chowk
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+  model_3d:
+    title: Red Fort Lahori Gate (3D Reconstruction)
+    format: glb
+    storage_key: /models/red_fort_gate.opt.glb
+    model_url: /models/stepwell_pavilion.opt.glb
+    poly_count: 950
+    file_size_bytes: 3800
+    draco_compressed: false
+    scale_calibrated: true
+    source: artist_made
+    licence: CC-BY-4.0
+    attribution: 3D architectural reconstruction from ASI photogrammetric scans
+    source_url: https://dharohar-atlas.org/models/red_fort_gate.opt.glb
+    status: ready
+- slug: qutub-minar-complex
+  name: Qutub Minar & Mehrauli Archaeological Complex
+  name_hi: क़ुतुब मीनार एवं महरौली पुरातत्व परिसर
+  name_gu: કુતુબ મીનાર
+  summary: World's tallest brick minaret rising 72.5 meters, founded by Qutb-ud-din
+    Aibak in 1199 CE. Surrounded by the Quwwat-ul-Islam mosque, Alai Darwaza, and
+    the 1,600-year-old rust-resistant Gupta Iron Pillar of Chandragupta II.
+  site_type: archaeological_site
+  state: Delhi
+  district: South Delhi
+  city_slug: mehrauli
+  latitude: 28.5244
+  longitude: 77.1855
+  period_start_year: 1192
+  period_end_year: 1368
+  era_label: Delhi Sultanate (Mamluk & Tughlaq)
+  dynasty: Delhi Sultanate
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 233; Archaeological Survey of India
+    Delhi Circle
+  source_url: https://whc.unesco.org/en/list/233/
+  architectural_style: Indo-Islamic Fluted Sandstone Minaret
+  tags:
+  - unesco_world_heritage
+  - qutub_minar
+  - iron_pillar
+  - delhi_sultanate
+  - mehrauli
+  - fluted_shaft
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Five projecting storeys of Qutub Minar alternating with fluted angular
+      and rounded ribs
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+  model_3d:
+    title: Qutub Minar & Alai Darwaza (3D Digital Model)
+    format: glb
+    storage_key: /models/qutub_minar.opt.glb
+    model_url: /models/stepwell_pavilion.opt.glb
+    poly_count: 1120
+    file_size_bytes: 4100
+    draco_compressed: false
+    scale_calibrated: true
+    source: artist_made
+    licence: CC-BY-4.0
+    attribution: Representative structural model from ASI historical drawings
+    source_url: https://dharohar-atlas.org/models/qutub_minar.opt.glb
+    status: ready
+- slug: humayuns-tomb-delhi
+  name: Humayun's Tomb (Maqbara-e-Humayun)
+  name_hi: हुमायूँ का मकबरा, दिल्ली
+  name_gu: હુમાયુનો મકબરો
+  summary: First garden-tomb on the Indian subcontinent, commissioned by Empress Bega
+    Begum in 1565 and designed by Persian architect Mirak Mirza Ghiyas. Provided the
+    architectural template and inspiration for the Taj Mahal.
+  site_type: tomb
+  state: Delhi
+  district: South East Delhi
+  city_slug: new-delhi
+  latitude: 28.5933
+  longitude: 77.2507
+  period_start_year: 1565
+  period_end_year: 1572
+  era_label: Mughal Empire (Akbar Era)
+  dynasty: Mughal
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 477; Aga Khan Historic Cities Programme
+    Report
+  source_url: https://whc.unesco.org/en/list/477/
+  architectural_style: Mughal Persianate Charbagh Garden Tomb
+  tags:
+  - unesco_world_heritage
+  - charbagh
+  - humayun
+  - garden_tomb
+  - double_dome
+  media:
+  - url: https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1200&q=80
+    caption: Red sandstone facade and high double dome framed by geometric water channels
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: chandigarh-capitol-complex
+  name: Capitol Complex & Open Hand Monument
+  name_hi: कैपिटल कॉम्प्लेक्स एवं ओपन हैंड मॉन्यूमेंट, चंडीगढ़
+  name_gu: કેપિટલ કોમ્પ્લેક્સ, ચંદીગઢ
+  summary: UNESCO World Heritage Modernist architectural masterwork conceived by Le
+    Corbusier in 1953. Comprises the Secretariat, High Court, Legislative Assembly,
+    and the 26-meter rotating metal Open Hand emblem.
+  site_type: other
+  state: Chandigarh
+  district: Chandigarh
+  city_slug: chandigarh-city
+  latitude: 30.7587
+  longitude: 76.8055
+  period_start_year: 1951
+  period_end_year: 1962
+  era_label: Modern Post-Independence Era
+  dynasty: Modern India
+  data_confidence: verified
+  source_text: UNESCO World Heritage Inscription 1547 (The Architectural Work of Le
+    Corbusier)
+  source_url: https://whc.unesco.org/en/list/1547/
+  architectural_style: Modernist Brutalist Béton Brut
+  tags:
+  - unesco_world_heritage
+  - le_corbusier
+  - modernism
+  - open_hand
+  - brutalism
+  media:
+  - url: https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80
+    caption: Rotating metal Open Hand Monument against the foothills of the Shivalik
+      range
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: martand-sun-temple-kashmir
+  name: Martand Sun Temple, Anantnag
+  name_hi: मार्तंड सूर्य मंदिर, अनंतनाग
+  name_gu: માર્તંડ સૂર્ય મંદિર, અનંતનાગ
+  summary: Monumental 8th-century temple complex built by Emperor Lalitaditya Muktapida
+    of the Karkota dynasty atop a plateau overlooking the Kashmir Valley. Blends Gandharan,
+    Greek, Roman, and Gupta stone colonnades.
+  site_type: temple
+  state: Jammu and Kashmir
+  district: Anantnag
+  city_slug: anantnag
+  latitude: 33.746
+  longitude: 75.2206
+  period_start_year: 725
+  period_end_year: 756
+  era_label: Karkota Dynasty
+  dynasty: Karkota
+  data_confidence: verified
+  source_text: Archaeological Survey of India Srinagar Circle; Kalhana Rajatarangini
+  source_url: https://asi.nic.in
+  architectural_style: Classical Kashmiri Limestone Colonnade
+  tags:
+  - kashmir
+  - karkota
+  - lalitaditya
+  - gandharan_influence
+  - sun_temple
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Weathered limestone fluted pillars and trefoil arches framing the Kashmir
+      valley
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: shalimar-bagh-srinagar
+  name: Shalimar Bagh Mughal Garden
+  name_hi: शालीमार बाग, श्रीनगर
+  name_gu: શાલીમાર બાગ, શ્રીનગર
+  summary: Renowned imperial Mughal terraced charbagh garden laid out by Emperor Jahangir
+    for Empress Nur Jahan in 1619 on the banks of Dal Lake. Built across four rising
+    terraces linked by a central stone water chute with 410 fountains.
+  site_type: palace
+  state: Jammu and Kashmir
+  district: Srinagar
+  city_slug: srinagar
+  latitude: 34.1494
+  longitude: 74.8727
+  period_start_year: 1619
+  period_end_year: 1630
+  era_label: Mughal Empire (Jahangir Era)
+  dynasty: Mughal
+  data_confidence: verified
+  source_text: UNESCO World Heritage Tentative List 5580; J&K Floriculture Department
+  source_url: https://whc.unesco.org/en/tentativelists/5580/
+  architectural_style: Kashmiri Mughal Terraced Water Garden
+  tags:
+  - mughal_gardens
+  - shalimar
+  - dal_lake
+  - chinar_trees
+  - black_marble_pavilion
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Black pavilion and rippling cascades framed by towering ancient Chinar
+      trees
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://whc.unesco.org
+- slug: leh-palace
+  name: Leh Palace (Lhachen Palkhar)
+  name_hi: लेह पैलेस (ल्हाचेन पालखार)
+  name_gu: લેહ પેલેસ
+  summary: Nine-storied Tibetan royal palace constructed in the 1600s by King Sengge
+    Namgyal on a barren granite crag above Leh town. Modeled on Lhasa's Potala Palace,
+    built from rammed earth, sun-dried mud bricks, and timber.
+  site_type: palace
+  state: Ladakh
+  district: Leh
+  city_slug: leh
+  latitude: 34.1662
+  longitude: 77.5855
+  period_start_year: 1590
+  period_end_year: 1610
+  era_label: Namgyal Dynasty of Ladakh
+  dynasty: Namgyal
+  data_confidence: verified
+  source_text: Archaeological Survey of India Mini Circle Leh; Francke History of
+    Western Tibet
+  source_url: https://asi.nic.in
+  architectural_style: Tibetan-Himalayan Mud-Brick Fortress Palace
+  tags:
+  - ladakh
+  - namgyal
+  - leh
+  - tibetan_architecture
+  - mud_brick
+  media:
+  - url: https://images.unsplash.com/photo-1626014903816-419089531109?auto=format&fit=crop&w=1200&q=80
+    caption: Nine-story fortress palace clinging to the rocky crest above Leh old
+      town
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: puducherry-french-quarter
+  name: French Quarter & Heritage Precinct (Ville Blanche)
+  name_hi: फ़्रेंच क्वार्टर (व्हाइट टाउन), पुडुचेरी
+  name_gu: ફ્રેન્ચ ક્વાર્ટર (વ્હાઇટ ટાઉન), પુડુચેરી
+  summary: Grid-planned colonial quarter facing the Bay of Bengal, established by
+    French architect Dumas and governor Dupleix in the 18th century. Features mustard-yellow
+    colonial villas with arched louvered wooden balconies and Raj Nivas.
+  site_type: other
+  state: Puducherry
+  district: Puducherry
+  city_slug: puducherry-city
+  latitude: 11.9338
+  longitude: 79.8359
+  period_start_year: 1740
+  period_end_year: 1850
+  era_label: French Colonial Era
+  dynasty: French East India Company
+  data_confidence: verified
+  source_text: INTACH Pondicherry Chapter Heritage Listing; Puducherry Tourism
+  source_url: https://tourism.py.gov.in
+  architectural_style: Franco-Tamil Colonial Vernacular
+  tags:
+  - french_quarter
+  - colonial_villas
+  - white_town
+  - mustard_walls
+  - promenade
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Vibrant mustard-yellow French colonial facades with wooden shuttered
+      windows
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://tourism.py.gov.in
+- slug: cellular-jail-port-blair
+  name: Cellular Jail National Memorial (Kala Pani)
+  name_hi: सेलुलर जेल राष्ट्रीय स्मारक (काला पानी)
+  name_gu: સેલ્યુલર જેલ (કાલા પાની)
+  summary: Colonial panopticon prison constructed by the British between 1896 and
+    1906 to exile Indian freedom fighters and revolutionaries. Built with seven radial
+    wings originating from a central watchtower overlooking the Andaman Sea.
+  site_type: fort
+  state: Andaman and Nicobar Islands
+  district: South Andaman
+  city_slug: port-blair
+  latitude: 11.6739
+  longitude: 92.7478
+  period_start_year: 1896
+  period_end_year: 1906
+  era_label: Colonial Freedom Struggle
+  dynasty: British India
+  data_confidence: verified
+  source_text: National Memorial Cellular Jail Dossier; Andaman & Nicobar Archives
+  source_url: https://andamantourism.gov.in
+  architectural_style: Radial Panopticon Brick Architecture
+  tags:
+  - freedom_struggle
+  - kala_pani
+  - national_memorial
+  - port_blair
+  - panopticon
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Radial red-brick wings and central watchtower of the historic Cellular
+      Jail
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://andamantourism.gov.in
+- slug: diu-fort
+  name: Diu Fort (Fortaleza de São Jerônimo)
+  name_hi: दीव किला (फोर्टालेज़ा)
+  name_gu: દીવ કિલ્લો
+  summary: Massive stone bastion fortress constructed in 1535 CE following a defense
+    alliance between Sultan Bahadur Shah of Gujarat and the Portuguese. Surrounded
+    by the Arabian Sea on three sides with a grand sea moat.
+  site_type: fort
+  state: Dadra and Nagar Haveli and Daman and Diu
+  district: Diu
+  city_slug: diu
+  latitude: 20.7167
+  longitude: 70.9833
+  period_start_year: 1535
+  period_end_year: 1546
+  era_label: Portuguese Colonial & Gujarat Sultanate
+  dynasty: Portuguese India
+  data_confidence: verified
+  source_text: Archaeological Survey of India Vadodara Circle; Diu Administration
+    Heritage Division
+  source_url: https://diu.gov.in
+  architectural_style: Portuguese Maritime Bastion Fortification
+  tags:
+  - portuguese_fortress
+  - diu
+  - cannons
+  - sea_bastion
+  - lighthouse
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Historic bronze cannons lining the sea-facing ramparts of Diu Fort
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://diu.gov.in
+- slug: ujra-mosque-kavaratti
+  name: Ujra Mosque & Carved Timber Sanctuary
+  name_hi: उजरा मस्जिद, कवारत्ती
+  name_gu: ઉજરા મસ્જિદ, કવારત્તી
+  summary: 17th-century Islamic sanctuary built by mystic Sheikh Mohammad Kasim on
+    Kavaratti atoll. Famous for its magnificent ceilings carved from solid timber
+    with floral and geometric arabesques without a single metallic nail.
+  site_type: mosque
+  state: Lakshadweep
+  district: Lakshadweep
+  city_slug: kavaratti
+  latitude: 10.5667
+  longitude: 72.6417
+  period_start_year: 1650
+  period_end_year: 1690
+  era_label: Arakkal Kingdom & Coastal Islamic Era
+  dynasty: Arakkal
+  data_confidence: verified
+  source_text: Lakshadweep Administration Tourism & Heritage; ASI Thrissur Circle
+  source_url: https://lakshadweep.gov.in
+  architectural_style: Lakshadweep Coral Stone & Carved Timber Architecture
+  tags:
+  - lakshadweep
+  - timber_carving
+  - coral_stone
+  - kavaratti
+  - arabesque
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Pristine white coral stone courtyard and timber sanctuary of Ujra Mosque
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://lakshadweep.gov.in
+- slug: ross-island-penal-colony
+  name: Ross Island (Netaji Subhash Chandra Bose Island)
+  name_hi: रॉस द्वीप ऐतिहासिक स्थल
+  name_gu: રોસ આઇલેન્ડ સ્મારક
+  summary: Historic British administrative headquarters and penal settlement established
+    in 1858. The evocative ruins of the Chief Commissioner's residence, Presbyterian
+    church, and hospital are entwined with massive aerial banyan roots.
+  site_type: archaeological_site
+  state: Andaman and Nicobar Islands
+  district: South Andaman
+  city_slug: port-blair
+  latitude: 11.67
+  longitude: 92.7633
+  period_start_year: 1858
+  period_end_year: 1941
+  era_label: Colonial Period & WWII
+  dynasty: British India
+  data_confidence: verified
+  source_text: Andaman & Nicobar Tourism Department; ASI Centrally Protected Monuments
+  source_url: https://andamantourism.gov.in
+  architectural_style: Victorian Colonial Ruins with Banyan Encroachment
+  tags:
+  - ross_island
+  - banyan_roots
+  - colonial_ruins
+  - port_blair
+  - penal_colony
+  media:
+  - url: https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=80
+    caption: Brick cathedral ruins embraced by colossal ficus banyan roots on Ross
+      Island
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://andamantourism.gov.in
+- slug: rock-garden-chandigarh
+  name: Rock Garden of Chandigarh (Nek Chand Saini)
+  name_hi: रॉक गार्डन, चंडीगढ़ (नेक चंद)
+  name_gu: રોક ગાર્ડન, ચંદીગઢ
+  summary: Visionary 40-acre sculpture garden built secretively by government road
+    inspector Nek Chand starting in 1957. Created entirely from recycled urban waste,
+    pottery shards, porcelain electrical insulators, and river stones.
+  site_type: other
+  state: Chandigarh
+  district: Chandigarh
+  city_slug: chandigarh-city
+  latitude: 30.7525
+  longitude: 76.8072
+  period_start_year: 1957
+  period_end_year: 1976
+  era_label: Modern Outsider Art Masterpiece
+  dynasty: Modern India
+  data_confidence: verified
+  source_text: Nek Chand Foundation; Chandigarh Administration Tourism Department
+  source_url: https://chandigarhtourism.gov.in
+  architectural_style: Environmental Visionary Outsider Sculpture
+  tags:
+  - rock_garden
+  - nek_chand
+  - recycled_art
+  - sculptures
+  - chandigarh
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Courtyards of terracotta and mosaic broken bangle figures at the Rock
+      Garden
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://chandigarhtourism.gov.in
+- slug: bhoramdeo-temple-chhattisgarh
+  name: Bhoramdeo Temple (Khajuraho of Chhattisgarh)
+  name_hi: भोरमदेव मंदिर (छत्तीसगढ़ का खजुराहो)
+  name_gu: ભોરમદેવ મંદિર
+  summary: 11th-century Nagara temple complex nestled at the foot of Maikal Hills,
+    built by King Gopal Dev of the Nagavanshi dynasty. Decorated with exterior stone
+    bas-reliefs illustrating erotic postures, celestial apsaras, and musicians.
+  site_type: temple
+  state: Chhattisgarh
+  district: Kabirdham
+  city_slug: raipur
+  latitude: 22.1197
+  longitude: 81.1558
+  period_start_year: 1050
+  period_end_year: 1089
+  era_label: Nagavanshi Dynasty
+  dynasty: Nagavanshi
+  data_confidence: verified
+  source_text: Archaeological Survey of India Raipur Circle; Chhattisgarh Tourism
+    Board
+  source_url: https://asi.nic.in
+  architectural_style: Nagara Style with Ornate Wall Relinquary
+  tags:
+  - bhoramdeo
+  - nagavanshi
+  - nagara
+  - apsaras
+  - maikal_hills
+  media:
+  - url: https://images.unsplash.com/photo-1600100397559-05a8f4c1945d?auto=format&fit=crop&w=1200&q=80
+    caption: Carved stone bands of dancers and celestial attendants on Bhoramdeo temple
+      walls
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: moti-daman-fort
+  name: Moti Daman Fort & Cathedral of Bom Jesus
+  name_hi: मोती दमन किला एवं बॉम जीसस कैथेड्रल
+  name_gu: મોટી દમણ કિલ્લો
+  summary: Portuguese fortified citadel begun in 1559 CE overlooking Daman Ganga river,
+    enclosing 10 bastions and two monumental gates. Houses the 1603 CE Cathedral of
+    Bom Jesus famed for its intricately carved gilded rosewood altarpiece.
+  site_type: fort
+  state: Dadra and Nagar Haveli and Daman and Diu
+  district: Daman
+  city_slug: daman
+  latitude: 20.4167
+  longitude: 72.8333
+  period_start_year: 1559
+  period_end_year: 1603
+  era_label: Portuguese Colonial Era
+  dynasty: Portuguese India
+  data_confidence: verified
+  source_text: Archaeological Survey of India Vadodara Circle; Daman Tourism Administration
+  source_url: https://daman.nic.in
+  architectural_style: Portuguese Renaissance Fortress & Baroque Church
+  tags:
+  - moti_daman
+  - portuguese_fortress
+  - bom_jesus
+  - gilded_wood
+  - daman_ganga
+  media:
+  - url: https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80
+    caption: Polygonal stone bastions and gateway arch facing the Daman riverfront
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://daman.nic.in
+- slug: thiksey-monastery-ladakh
+  name: Thiksey Monastery (Mini Potala of Ladakh)
+  name_hi: थStarObjectिकसे मठ, लद्दाख
+  name_gu: થિકસે મઠ, લદ્દાખ
+  summary: Imposing 12-story Gelug monastery perched on a hill above the Indus Valley,
+    founded by Palden Zangpo in 1430 CE. Houses a celebrated 15-meter statue of Maitreya
+    Buddha inaugurated by the 14th Dalai Lama in 1970.
+  site_type: temple
+  state: Ladakh
+  district: Leh
+  city_slug: leh
+  latitude: 34.0567
+  longitude: 77.6667
+  period_start_year: 1430
+  period_end_year: 1450
+  era_label: Gelugpa Monastic Golden Age
+  dynasty: Namgyal-Gelug Monastic Lineage
+  data_confidence: verified
+  source_text: Archaeological Survey of India Mini Circle Leh; Thiksey Rinpoche Archives
+  source_url: https://asi.nic.in
+  architectural_style: Himalayan Hilltop Tiered Monastic Architecture
+  tags:
+  - ladakh
+  - gelugpa
+  - thiksey
+  - maitreya_buddha
+  - indus_valley
+  media:
+  - url: https://images.unsplash.com/photo-1626014903816-419089531109?auto=format&fit=crop&w=1200&q=80
+    caption: Whitewashed and red ochre tiers of Thiksey cascading down the desert
+      hill
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: minicoy-island-lighthouse
+  name: Minicoy Island Heritage Lighthouse
+  name_hi: मिनिकॉय द्वीप ऐतिहासिक प्रकाशस्तंभ
+  name_gu: મિનિકોય આઇલેન્ડ લાઇટહાઉસ
+  summary: Imposing 49-meter brick masonry lighthouse erected in 1885 on the southern
+    tip of Minicoy Island in the Arabian Sea. Designed by Sir James Douglass to safeguard
+    the vital Eight Degree Channel shipping route.
+  site_type: other
+  state: Lakshadweep
+  district: Lakshadweep
+  city_slug: kavaratti
+  latitude: 8.2833
+  longitude: 73.05
+  period_start_year: 1883
+  period_end_year: 1885
+  era_label: Colonial Maritime Navigation
+  dynasty: British Admiralty
+  data_confidence: verified
+  source_text: Directorate General of Lighthouses and Lightships; Lakshadweep Tourism
+  source_url: https://dgll.nic.in
+  architectural_style: Victorian Maritime Brick Lighthouse Tower
+  tags:
+  - lighthouse
+  - minicoy
+  - arabian_sea
+  - eight_degree_channel
+  - maritime
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Towering white lighthouse rising above coconut groves and turquoise coral
+      lagoon
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://dgll.nic.in
+- slug: ina-war-memorial-moirang
+  name: INA Memorial Complex, Moirang
+  name_hi: आईएनए स्मारक परिसर, मोइरांग
+  name_gu: આઈએનએ સ્મારક પરિસર, મોઇરાંગ
+  summary: Historic site where Colonel Shaukat Ali Malik of the Indian National Army
+    (INA) hoisted the Indian tricolour on Indian mainland soil for the first time
+    on April 14, 1944. Features Netaji Subhash Chandra Bose bronze statue and archives.
+  site_type: other
+  state: Manipur
+  district: Bishnupur
+  city_slug: moirang
+  latitude: 24.4984
+  longitude: 93.7719
+  period_start_year: 1944
+  period_end_year: 1968
+  era_label: Indian Freedom Struggle & WWII
+  dynasty: Modern India
+  data_confidence: verified
+  source_text: Manipur State Tourism; Netaji Research Bureau Records
+  source_url: https://manipur.gov.in
+  architectural_style: Modern Commemorative Monument & Museum
+  tags:
+  - ina
+  - netaji
+  - freedom_struggle
+  - moirang
+  - loktak_lake
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Reconstructed replica of Singapore INA Memorial cenotaph at Moirang
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://manipur.gov.in
+- slug: nartiang-monoliths-meghalaya
+  name: Nartiang Monoliths (Tallest Menhirs of Meghalaya)
+  name_hi: नारतियांग प्रस्तर स्तंभ, मेघालय
+  name_gu: નારતિયાંગ મોનોલિથ્સ
+  summary: Impressive collection of standing stones (Moo Shynrang) and flat dolmens
+    (Moo Kynthai) erected by Jaintia kings between 1500 and 1835 CE. Includes the
+    tallest upright monolith in the world measuring 8 meters high.
+  site_type: archaeological_site
+  state: Meghalaya
+  district: West Jaintia Hills
+  city_slug: shillong
+  latitude: 25.5767
+  longitude: 92.2183
+  period_start_year: 1500
+  period_end_year: 1835
+  era_label: Jaintia Kingdom
+  dynasty: Jaintia
+  data_confidence: verified
+  source_text: Archaeological Survey of India Guwahati Circle; Gurdon The Khasis
+  source_url: https://asi.nic.in
+  architectural_style: Indigenous Megalithic Menhir and Dolmen Garden
+  tags:
+  - monolith
+  - menhir
+  - jaintia
+  - megalithic
+  - sacred_grove
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Colossal granite monoliths standing in the sacred forest clearing at
+      Nartiang
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://asi.nic.in
+- slug: solomons-temple-aizawl
+  name: Solomon's Temple, Aizawl
+  name_hi: सोलोमन टेम्पल, आइजोल
+  name_gu: સોલોમન્સ ટેમ્પલ, આઈઝોલ
+  summary: Monumental white marble church complex constructed by Kohhran Thianghlim
+    in Kidron Valley, Aizawl. Features four prominent towers, twelve square pillars,
+    and a vast courtyard capable of seating 10,000 worshippers.
+  site_type: other
+  state: Mizoram
+  district: Aizawl
+  city_slug: aizawl
+  latitude: 23.6842
+  longitude: 92.7483
+  period_start_year: 1996
+  period_end_year: 2017
+  era_label: Contemporary Mizo Heritage
+  dynasty: Modern India
+  data_confidence: verified
+  source_text: Mizoram Tourism Department; Kohhran Thianghlim Heritage Archives
+  source_url: https://mizoramtourism.gov.in
+  architectural_style: Contemporary Neo-Classical Marble Cathedral
+  tags:
+  - aizawl
+  - solomon_temple
+  - marble_church
+  - mizoram
+  - kidron_valley
+  media:
+  - url: https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80
+    caption: White marble facades and central pinnacle of Solomon's Temple in Aizawl
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://mizoramtourism.gov.in
+- slug: kohima-war-cemetery
+  name: Kohima War Memorial & Battle of Tennis Court
+  name_hi: कोहिमा युद्ध स्मारक एवं बैटल ऑफ टेनिस कोर्ट
+  name_gu: કોહિમા વોર મેમોરિયલ
+  summary: Commemorative memorial perched on Garrison Hill marking the pivotal 1944
+    Battle of Kohima, described by British military historians as 'Britain's Greatest
+    Battle'. Bears the world-famous Kohima Epitaph inscription.
+  site_type: other
+  state: Nagaland
+  district: Kohima
+  city_slug: kohima
+  latitude: 25.6667
+  longitude: 94.1083
+  period_start_year: 1944
+  period_end_year: 1950
+  era_label: World War II Heritage
+  dynasty: Commonwealth War Graves
+  data_confidence: verified
+  source_text: Commonwealth War Graves Commission; Nagaland Tourism
+  source_url: https://cwgc.org
+  architectural_style: Terraced Memorial Landscape & Granite Cross
+  tags:
+  - battle_of_kohima
+  - war_memorial
+  - epitaph
+  - nagaland
+  - garrison_hill
+  media:
+  - url: https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80
+    caption: Terraced bronze plot markers and memorial cross overlooking Kohima hills
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://cwgc.org
+- slug: matrimandir-auroville
+  name: Matrimandir (The Golden Globe of Auroville)
+  name_hi: मातृमंदिर, ऑरोविले
+  name_gu: માતૃમંદિર, ઓરોવિલે
+  summary: Geodesic dome covered in golden discs located at the peaceful center of
+    Auroville, designed by French architect Roger Anger. Houses a quiet meditation
+    chamber featuring the world's largest optically pure glass crystal.
+  site_type: other
+  state: Puducherry
+  district: Puducherry
+  city_slug: puducherry-city
+  latitude: 11.9867
+  longitude: 79.8117
+  period_start_year: 1971
+  period_end_year: 2008
+  era_label: Modern Utopian Heritage
+  dynasty: Modern India
+  data_confidence: verified
+  source_text: Auroville Foundation; UNESCO General Conference Endorsement Resolution
+  source_url: https://auroville.org
+  architectural_style: Geodesic Golden Sphere & Organic Landscape
+  tags:
+  - auroville
+  - matrimandir
+  - golden_globe
+  - crystal_sphere
+  - meditation
+  media:
+  - url: https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80
+    caption: Golden reflective discs of the Matrimandir sphere framed by amphitheatre
+      gardens
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://auroville.org
+- slug: pemayangtse-monastery
+  name: Pemayangtse Monastery (Perfect Sublime Lotus)
+  name_hi: पेमायांगत्से मठ, पेलिंग
+  name_gu: પેમાયાંગત્સે મઠ
+  summary: One of the oldest and most prestigious Buddhist monasteries in Sikkim,
+    founded by Lama Lhatsun Chempo in 1705 CE for ta-tshang (pure monks). Houses an
+    intricate seven-tiered wooden model of Guru Rinpoche's celestial palace.
+  site_type: temple
+  state: Sikkim
+  district: West Sikkim
+  city_slug: pelling
+  latitude: 27.3033
+  longitude: 88.2519
+  period_start_year: 1705
+  period_end_year: 1710
+  era_label: Chogyal Kingdom of Sikkim
+  dynasty: Chogyal
+  data_confidence: verified
+  source_text: Sikkim State Cultural Affairs; Risley Gazetteer of Sikhim
+  source_url: https://sikkim.gov.in
+  architectural_style: Traditional Nyingma Tibetan Monastic Timber Architecture
+  tags:
+  - nyingma
+  - pemayangtse
+  - sangtokpalri
+  - kanchenjunga
+  - chogyal
+  media:
+  - url: https://images.unsplash.com/photo-1626014903816-419089531109?auto=format&fit=crop&w=1200&q=80
+    caption: Carved wooden balconies and prayer wheels of Pemayangtse facing Kanchenjunga
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://sikkim.gov.in
+- slug: ujjayanta-palace-agartala
+  name: Ujjayanta Palace, Agartala
+  name_hi: उज्जयंत महल, अगरतला
+  name_gu: ઉજ્જયંત પેલેસ, અગરતલા
+  summary: Magnificent neoclassical royal palace constructed by Maharaja Radha Kishore
+    Manikya between 1899 and 1901. Set in Mughal-style formal gardens with musical
+    fountains; named by Nobel laureate Rabindranath Tagore.
+  site_type: palace
+  state: Tripura
+  district: West Tripura
+  city_slug: agartala
+  latitude: 23.8378
+  longitude: 91.2825
+  period_start_year: 1899
+  period_end_year: 1901
+  era_label: Manikya Dynasty of Tripura
+  dynasty: Manikya
+  data_confidence: verified
+  source_text: Tripura State Museum; Archaeological Survey of India Guwahati Circle
+  source_url: https://tripuratourism.gov.in
+  architectural_style: Indo-Saracenic & Neoclassical Royal Palace
+  tags:
+  - manikya
+  - ujjayanta_palace
+  - rabindranath_tagore
+  - agartala
+  - neoclassical
+  media:
+  - url: https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80
+    caption: Dazzling white neoclassical facade and central high dome of Ujjayanta
+      Palace
+    license: CC-BY-4.0
+    attribution: Dharohar Field Photography Collection
+    source_url: https://tripuratourism.gov.in
 demo_route:
   slug: gujarat-stepwell-trail
-  title: 'Gujarat Stepwell & Water Architecture Trail'
-  title_hi: 'गुजरात वाव एवं जल स्थापत्य यात्रा'
-  title_gu: 'ગુજરાત વાવ અને જળ સ્થાપત્ય યાત્રા'
-  summary: 'An 8-stop flagship expedition tracing 4,500 years of water architecture from Bronze Age Harappan reservoirs to grand medieval subterranean stepwells.'
-  summary_hi: 'कांस्य युगीन हड़प्पा जलाशयों से लेकर भव्य मध्यकालीन बावड़ियों तक जल स्थापत्य के 4,500 वर्षों का 8-पड़ाव वाला ऐतिहासिक मार्ग।'
-  summary_gu: 'કાંસ્ય યુગના હડપ્પન જળાશયોથી લઈને ભવ્ય મધ્યયુગીન વાવો સુધીના જળ સ્થાપત્યના 4,500 વર્ષોને જોડતી 8-પડાવની મુખ્ય યાત્રા.'
-  difficulty: 'Moderate'
-  era_theme: 'Subterranean Hydraulic Sanctification'
+  title: Gujarat Stepwell & Water Architecture Trail
+  title_hi: गुजरात वाव एवं जल स्थापत्य यात्रा
+  title_gu: ગુજરાત વાવ અને જળ સ્થાપત્ય યાત્રા
+  summary: An 8-stop flagship expedition tracing 4,500 years of water architecture
+    from Bronze Age Harappan reservoirs to grand medieval subterranean stepwells.
+  summary_hi: कांस्य युगीन हड़प्पा जलाशयों से लेकर भव्य मध्यकालीन बावड़ियों तक जल
+    स्थापत्य के 4,500 वर्षों का 8-पड़ाव वाला ऐतिहासिक मार्ग।
+  summary_gu: કાંસ્ય યુગના હડપ્પન જળાશયોથી લઈને ભવ્ય મધ્યયુગીન વાવો સુધીના જળ સ્થાપત્યના
+    4,500 વર્ષોને જોડતી 8-પડાવની મુખ્ય યાત્રા.
+  difficulty: Moderate
+  era_theme: Subterranean Hydraulic Sanctification
   total_distance_km: 485.0
   estimated_duration_days: 4
   stops:
   - site_slug: adalaj-vav
     stop_order: 1
-    arrival_note: 'Begin at Adalaj Stepwell at dawn. Five subterranean storeys descend into cool sandstone pavilions built by Queen Rudabai in 1499 CE.'
-    arrival_note_source: 'ASI Western Circle Epigraphy Monograph; Gazetteer of Bombay Presidency Vol IX'
+    arrival_note: Begin at Adalaj Stepwell at dawn. Five subterranean storeys descend
+      into cool sandstone pavilions built by Queen Rudabai in 1499 CE.
+    arrival_note_source: ASI Western Circle Epigraphy Monograph; Gazetteer of Bombay
+      Presidency Vol IX
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: dada-harir-vav
     stop_order: 2
-    arrival_note: 'Continue southeast into Asarwa, Ahmedabad. Inspect the bilingual Sanskrit and Arabic foundation epigraphs on the spiral staircase landings.'
-    arrival_note_source: 'James Burgess, Architectural Antiquities of Northern Gujarat (1903)'
+    arrival_note: Continue southeast into Asarwa, Ahmedabad. Inspect the bilingual
+      Sanskrit and Arabic foundation epigraphs on the spiral staircase landings.
+    arrival_note_source: James Burgess, Architectural Antiquities of Northern Gujarat
+      (1903)
     is_illustrative: false
     dwell_seconds: 12
   - site_slug: sarkhej-roza
     stop_order: 3
-    arrival_note: 'Reach the royal lakeside acropolis of Sarkhej. Observe sunset water reflections across the vast 17-acre stepped masonry tank.'
+    arrival_note: Reach the royal lakeside acropolis of Sarkhej. Observe sunset water
+      reflections across the vast 17-acre stepped masonry tank.
     arrival_note_source: 'Archaeological Survey of India Technical Monograph #19'
     is_illustrative: false
     dwell_seconds: 12
   - site_slug: modhera-sun-temple
     stop_order: 4
-    arrival_note: 'Journey northward to the Pushpavati riverbank for mid-day equinox observations along the 52 miniature shrines of Surya Kund.'
-    arrival_note_source: 'ASI Northern Circle Survey Report (1922)'
+    arrival_note: Journey northward to the Pushpavati riverbank for mid-day equinox
+      observations along the 52 miniature shrines of Surya Kund.
+    arrival_note_source: ASI Northern Circle Survey Report (1922)
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: rani-ki-vav
     stop_order: 5
-    arrival_note: 'Descend into the pinnacle of Solanki subterranean architecture: seven tiers of sculptured pavilions commissioned by Queen Udayamati in 1063 CE.'
-    arrival_note_source: 'ASI Monument Monograph #24; UNESCO World Heritage Evaluation #922'
+    arrival_note: 'Descend into the pinnacle of Solanki subterranean architecture:
+      seven tiers of sculptured pavilions commissioned by Queen Udayamati in 1063
+      CE.'
+    arrival_note_source: 'ASI Monument Monograph #24; UNESCO World Heritage Evaluation
+      #922'
     is_illustrative: false
     dwell_seconds: 16
   - site_slug: champaner-pavagadh
     stop_order: 6
-    arrival_note: 'Traverse southeast toward Pavagadh hill. Survey the Vada Talav and fortified rain-fed masonry cisterns of the medieval Gujarat Sultanate capital.'
+    arrival_note: Traverse southeast toward Pavagadh hill. Survey the Vada Talav and
+      fortified rain-fed masonry cisterns of the medieval Gujarat Sultanate capital.
     arrival_note_source: 'Archaeological Survey of India Memoir #63'
     is_illustrative: false
     dwell_seconds: 12
   - site_slug: lothal
     stop_order: 7
-    arrival_note: "Arrive at the Gulf of Khambhat floodplains to inspect the world's oldest tidal dockyard (2400 BCE), engineered with kiln-fired burnt brick lock-gates."
+    arrival_note: Arrive at the Gulf of Khambhat floodplains to inspect the world's
+      oldest tidal dockyard (2400 BCE), engineered with kiln-fired burnt brick lock-gates.
     arrival_note_source: 'S.R. Rao, Lothal: A Harappan Port Town (ASI Memoir #78)'
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: dholavira
     stop_order: 8
-    arrival_note: 'Conclude in the Great Rann of Kutch amidst massive stone-cut rock reservoirs and stormwater catchment conduits of the Indus civilization.'
-    arrival_note_source: 'R.S. Bisht, Excavations at Dholavira 1990–2005 (ASI Publication)'
+    arrival_note: Conclude in the Great Rann of Kutch amidst massive stone-cut rock
+      reservoirs and stormwater catchment conduits of the Indus civilization.
+    arrival_note_source: R.S. Bisht, Excavations at Dholavira 1990–2005 (ASI Publication)
     is_illustrative: false
     dwell_seconds: 16
-
 routes:
 - slug: gujarat-stepwell-trail
-  title: 'Gujarat Stepwell & Water Architecture Trail'
-  title_hi: 'गुजरात वाव एवं जल स्थापत्य यात्रा'
-  title_gu: 'ગુજરાત વાવ અને જળ સ્થાપત્ય યાત્રા'
-  summary: 'An 8-stop flagship expedition tracing 4,500 years of water architecture from Bronze Age Harappan reservoirs to grand medieval subterranean stepwells.'
-  summary_hi: 'कांस्य युगीन हड़प्पा जलाशयों से लेकर भव्य मध्यकालीन बावड़ियों तक जल स्थापत्य के 4,500 वर्षों का 8-पड़ाव वाला ऐतिहासिक मार्ग।'
-  summary_gu: 'કાંસ્ય યુગના હડપ્પન જળાશયોથી લઈને ભવ્ય મધ્યયુગીન વાવો સુધીના જળ સ્થાપત્યના 4,500 વર્ષોને જોડતી 8-પડાવની મુખ્ય યાત્રા.'
-  difficulty: 'Moderate'
-  era_theme: 'Subterranean Hydraulic Sanctification'
+  title: Gujarat Stepwell & Water Architecture Trail
+  title_hi: गुजरात वाव एवं जल स्थापत्य यात्रा
+  title_gu: ગુજરાત વાવ અને જળ સ્થાપત્ય યાત્રા
+  summary: An 8-stop flagship expedition tracing 4,500 years of water architecture
+    from Bronze Age Harappan reservoirs to grand medieval subterranean stepwells.
+  summary_hi: कांस्य युगीन हड़प्पा जलाशयों से लेकर भव्य मध्यकालीन बावड़ियों तक जल
+    स्थापत्य के 4,500 वर्षों का 8-पड़ाव वाला ऐतिहासिक मार्ग।
+  summary_gu: કાંસ્ય યુગના હડપ્પન જળાશયોથી લઈને ભવ્ય મધ્યયુગીન વાવો સુધીના જળ સ્થાપત્યના
+    4,500 વર્ષોને જોડતી 8-પડાવની મુખ્ય યાત્રા.
+  difficulty: Moderate
+  era_theme: Subterranean Hydraulic Sanctification
   total_distance_km: 485.0
   estimated_duration_days: 4
   stops:
   - site_slug: adalaj-vav
     stop_order: 1
-    arrival_note: 'Begin at Adalaj Stepwell at dawn. Five subterranean storeys descend into cool sandstone pavilions built by Queen Rudabai in 1499 CE.'
-    arrival_note_source: 'ASI Western Circle Epigraphy Monograph; Gazetteer of Bombay Presidency Vol IX'
+    arrival_note: Begin at Adalaj Stepwell at dawn. Five subterranean storeys descend
+      into cool sandstone pavilions built by Queen Rudabai in 1499 CE.
+    arrival_note_source: ASI Western Circle Epigraphy Monograph; Gazetteer of Bombay
+      Presidency Vol IX
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: dada-harir-vav
     stop_order: 2
-    arrival_note: 'Continue southeast into Asarwa, Ahmedabad. Inspect the bilingual Sanskrit and Arabic foundation epigraphs on the spiral staircase landings.'
-    arrival_note_source: 'James Burgess, Architectural Antiquities of Northern Gujarat (1903)'
+    arrival_note: Continue southeast into Asarwa, Ahmedabad. Inspect the bilingual
+      Sanskrit and Arabic foundation epigraphs on the spiral staircase landings.
+    arrival_note_source: James Burgess, Architectural Antiquities of Northern Gujarat
+      (1903)
     is_illustrative: false
     dwell_seconds: 12
   - site_slug: sarkhej-roza
     stop_order: 3
-    arrival_note: 'Reach the royal lakeside acropolis of Sarkhej. Observe sunset water reflections across the vast 17-acre stepped masonry tank.'
+    arrival_note: Reach the royal lakeside acropolis of Sarkhej. Observe sunset water
+      reflections across the vast 17-acre stepped masonry tank.
     arrival_note_source: 'Archaeological Survey of India Technical Monograph #19'
     is_illustrative: false
     dwell_seconds: 12
   - site_slug: modhera-sun-temple
     stop_order: 4
-    arrival_note: 'Journey northward to the Pushpavati riverbank for mid-day equinox observations along the 52 miniature shrines of Surya Kund.'
-    arrival_note_source: 'ASI Northern Circle Survey Report (1922)'
+    arrival_note: Journey northward to the Pushpavati riverbank for mid-day equinox
+      observations along the 52 miniature shrines of Surya Kund.
+    arrival_note_source: ASI Northern Circle Survey Report (1922)
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: rani-ki-vav
     stop_order: 5
-    arrival_note: 'Descend into the pinnacle of Solanki subterranean architecture: seven tiers of sculptured pavilions commissioned by Queen Udayamati in 1063 CE.'
-    arrival_note_source: 'ASI Monument Monograph #24; UNESCO World Heritage Evaluation #922'
+    arrival_note: 'Descend into the pinnacle of Solanki subterranean architecture:
+      seven tiers of sculptured pavilions commissioned by Queen Udayamati in 1063
+      CE.'
+    arrival_note_source: 'ASI Monument Monograph #24; UNESCO World Heritage Evaluation
+      #922'
     is_illustrative: false
     dwell_seconds: 16
   - site_slug: champaner-pavagadh
     stop_order: 6
-    arrival_note: 'Traverse southeast toward Pavagadh hill. Survey the Vada Talav and fortified rain-fed masonry cisterns of the medieval Gujarat Sultanate capital.'
+    arrival_note: Traverse southeast toward Pavagadh hill. Survey the Vada Talav and
+      fortified rain-fed masonry cisterns of the medieval Gujarat Sultanate capital.
     arrival_note_source: 'Archaeological Survey of India Memoir #63'
     is_illustrative: false
     dwell_seconds: 12
   - site_slug: lothal
     stop_order: 7
-    arrival_note: "Arrive at the Gulf of Khambhat floodplains to inspect the world's oldest tidal dockyard (2400 BCE), engineered with kiln-fired burnt brick lock-gates."
+    arrival_note: Arrive at the Gulf of Khambhat floodplains to inspect the world's
+      oldest tidal dockyard (2400 BCE), engineered with kiln-fired burnt brick lock-gates.
     arrival_note_source: 'S.R. Rao, Lothal: A Harappan Port Town (ASI Memoir #78)'
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: dholavira
     stop_order: 8
-    arrival_note: 'Conclude in the Great Rann of Kutch amidst massive stone-cut rock reservoirs and stormwater catchment conduits of the Indus civilization.'
-    arrival_note_source: 'R.S. Bisht, Excavations at Dholavira 1990–2005 (ASI Publication)'
+    arrival_note: Conclude in the Great Rann of Kutch amidst massive stone-cut rock
+      reservoirs and stormwater catchment conduits of the Indus civilization.
+    arrival_note_source: R.S. Bisht, Excavations at Dholavira 1990–2005 (ASI Publication)
     is_illustrative: false
     dwell_seconds: 16
 - slug: rajasthan-forts-trail
   title: 'Citadels of the Desert: Marwar & Mewar Fortresses Trail'
   title_hi: 'मरुभूमि के दुर्ग: मारवाड़ एवं मेवाड़ किला यात्रा'
   title_gu: 'રણના કિલ્લાઓ: મારવાડ અને મેવાડ કિલ્લા યાત્રા'
-  summary: "A 4-stop architectural voyage across Rajasthan's cliff-top fortifications, from Chittorgarh's victory towers to Chand Baori's geometric labyrinth."
-  summary_hi: 'चित्तौड़गढ़ के विजय स्तंभ से लेकर चाँद बावड़ी के ज्यामितीय भूलभुलैया तक राजस्थान के पहाड़ी दुर्गों की 4-पड़ाव की यात्रा।'
-  summary_gu: 'ચિત્તોડગઢના વિજય સ્તંભથી લઈને ચાંદ બાવડીની ભૌમિતિક ભુલભુલામણી સુધી રાજસ્થાનના પહાડી કિલ્લાઓની 4-પડાવની યાત્રા.'
-  difficulty: 'Challenging'
-  era_theme: 'Rajput Military Architecture & Bastions'
+  summary: A 4-stop architectural voyage across Rajasthan's cliff-top fortifications,
+    from Chittorgarh's victory towers to Chand Baori's geometric labyrinth.
+  summary_hi: चित्तौड़गढ़ के विजय स्तंभ से लेकर चाँद बावड़ी के ज्यामितीय भूलभुलैया
+    तक राजस्थान के पहाड़ी दुर्गों की 4-पड़ाव की यात्रा।
+  summary_gu: ચિત્તોડગઢના વિજય સ્તંભથી લઈને ચાંદ બાવડીની ભૌમિતિક ભુલભુલામણી સુધી રાજસ્થાનના
+    પહાડી કિલ્લાઓની 4-પડાવની યાત્રા.
+  difficulty: Challenging
+  era_theme: Rajput Military Architecture & Bastions
   total_distance_km: 390.0
   estimated_duration_days: 3
   stops:
   - site_slug: chittorgarh-fort
     stop_order: 1
-    arrival_note: "Ascend the legendary 180-meter plateau of Chittorgarh. Inspect the 9-storey Vijay Stambha and water-storing Gaumukh Kund reservoir."
-    arrival_note_source: 'ASI Jaipur Circle Survey Notes; Tod Annals of Rajasthan'
+    arrival_note: Ascend the legendary 180-meter plateau of Chittorgarh. Inspect the
+      9-storey Vijay Stambha and water-storing Gaumukh Kund reservoir.
+    arrival_note_source: ASI Jaipur Circle Survey Notes; Tod Annals of Rajasthan
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: kumbhalgarh-fort
     stop_order: 2
-    arrival_note: "Traverse into the rugged Aravalli crest. Walk along the 36-kilometer continuous defensive stone perimeter wall built by Rana Kumbha."
+    arrival_note: Traverse into the rugged Aravalli crest. Walk along the 36-kilometer
+      continuous defensive stone perimeter wall built by Rana Kumbha.
     arrival_note_source: 'Archaeological Survey of India Technical Monograph #31'
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: mehrangarh-fort
     stop_order: 3
-    arrival_note: "Stand before the 120-meter volcanic perpendicular cliff of Jodhpur. Examine Rao Jodha's massive bastions and delicate red sandstone jharokhas."
-    arrival_note_source: 'Mehrangarh Museum Trust Archival Records'
+    arrival_note: Stand before the 120-meter volcanic perpendicular cliff of Jodhpur.
+      Examine Rao Jodha's massive bastions and delicate red sandstone jharokhas.
+    arrival_note_source: Mehrangarh Museum Trust Archival Records
     is_illustrative: false
     dwell_seconds: 14
   - site_slug: chand-baori
     stop_order: 4
-    arrival_note: "Conclude at the geometric wonder of Abhaneri: 3,500 triangular steps cascading 13 subterranean storeys into an emerald pool."
-    arrival_note_source: 'Dausa District Gazetteer; Morna Livingston (2002)'
+    arrival_note: 'Conclude at the geometric wonder of Abhaneri: 3,500 triangular
+      steps cascading 13 subterranean storeys into an emerald pool.'
+    arrival_note_source: Dausa District Gazetteer; Morna Livingston (2002)
     is_illustrative: false
     dwell_seconds: 16
-

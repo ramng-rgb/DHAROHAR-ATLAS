@@ -1,0 +1,12 @@
+# Dharohar Atlas Photo Overrides
+# Format:
+# overrides:
+#   <site-slug>:
+#     hero_file: "File:Specific_Image.jpg"
+#     force_include:
+#       - "File:Gallery_Image_1.jpg"
+#     force_exclude:
+#       - "File:Unrelated_Image.jpg"
+#     verified: true
+
+overrides: {}

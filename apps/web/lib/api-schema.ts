@@ -4,6 +4,86 @@
  */
 
 export interface paths {
+    "/api/v1/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Login
+         * @description Authenticate user with email and password.
+         */
+        post: operations["login_api_v1_auth_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/signup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Signup
+         * @description Register a new research contributor or cultural archivist.
+         */
+        post: operations["signup_api_v1_auth_signup_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/password-reset": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Password Reset
+         * @description Initiate a password reset flow for an account.
+         */
+        post: operations["password_reset_api_v1_auth_password_reset_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Current User
+         * @description Retrieve details of the currently authenticated contributor/curator.
+         */
+        get: operations["get_current_user_api_v1_auth_me_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/sites": {
         parameters: {
             query?: never;
@@ -134,7 +214,7 @@ export interface paths {
         put?: never;
         /**
          * Upload Document File
-         * @description Direct-to-storage upload endpoint with size check (<=25MB) and mime verification.
+         * @description Direct-to-storage upload endpoint with size check (<=25MB) and mime/magic-byte verification.
          */
         post: operations["upload_document_file_api_v1_documents_uploads_post"];
         delete?: never;
@@ -566,6 +646,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/health/live": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Health Check
+         * @description Liveness probe: returns 200 OK if service process is alive.
+         */
+        get: operations["health_check_health_live_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -573,8 +673,51 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Health Check */
+        /**
+         * Health Check
+         * @description Liveness probe: returns 200 OK if service process is alive.
+         */
         get: operations["health_check_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Readiness Check
+         * @description Readiness probe: validates DB, Redis, and Storage subsystem connectivity.
+         */
+        get: operations["readiness_check_health_ready_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Readiness Check
+         * @description Readiness probe: validates DB, Redis, and Storage subsystem connectivity.
+         */
+        get: operations["readiness_check_ready_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -590,8 +733,31 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Metrics */
+        /**
+         * Metrics
+         * @description Protected internal metrics endpoint.
+         */
         get: operations["metrics_metrics_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/test/error": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Trigger Test Error
+         * @description Staging diagnostic route that raises an exception to verify error handling and log capture.
+         */
+        get: operations["trigger_test_error_api_v1_test_error_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -623,18 +789,31 @@ export interface components {
     schemas: {
         /** AskArchiveRequest */
         AskArchiveRequest: {
-            /** Question */
+            /**
+             * Question
+             * @description Natural language question
+             */
             question?: string | null;
-            /** Query */
+            /**
+             * Query
+             * @description Alternative query alias
+             */
             query?: string | null;
-            /** Filters */
+            /**
+             * Filters
+             * @description Structured query filters
+             */
             filters?: {
                 [key: string]: unknown;
             } | null;
-            /** Lang */
+            /**
+             * Lang
+             * @description Preferred language code
+             */
             lang?: string | null;
             /**
              * Stream
+             * @description Whether to request SSE stream
              * @default false
              */
             stream: boolean;
@@ -683,6 +862,22 @@ export interface components {
             }[];
             /** Latency Ms */
             latency_ms?: number | null;
+        };
+        /** AuthTokenResponse */
+        AuthTokenResponse: {
+            /** Access Token */
+            access_token: string;
+            /**
+             * Token Type
+             * @default bearer
+             */
+            token_type: string;
+            /** User Id */
+            user_id: string;
+            /** Email */
+            email: string;
+            /** Message */
+            message?: string | null;
         };
         /** Body_link_entity_to_site_api_v1_documents_entities__entity_id__link_post */
         Body_link_entity_to_site_api_v1_documents_entities__entity_id__link_post: {
@@ -756,7 +951,10 @@ export interface components {
         };
         /** DocumentCreate */
         DocumentCreate: {
-            /** Title */
+            /**
+             * Title
+             * @description Document archival title
+             */
             title: string;
             /**
              * Language Hint
@@ -1363,6 +1561,20 @@ export interface components {
             /** Bearing Deg */
             bearing_deg?: number | null;
         };
+        /** LoginRequest */
+        LoginRequest: {
+            /**
+             * Email
+             * Format: email
+             * @description Contributor/Curator registered email address
+             */
+            email: string;
+            /**
+             * Password
+             * @description Account password (8-128 characters)
+             */
+            password: string;
+        };
         /** Model3DDetail */
         Model3DDetail: {
             /** Id */
@@ -1610,16 +1822,29 @@ export interface components {
         };
         /** OCRLineUpdate */
         OCRLineUpdate: {
-            /** Original Text */
+            /**
+             * Original Text
+             * @description Corrected original language text
+             */
             original_text?: string | null;
-            /** Translated Text */
+            /**
+             * Translated Text
+             * @description Corrected translated text
+             */
             translated_text?: string | null;
-            /** Text */
+            /**
+             * Text
+             * @description Alternative text field
+             */
             text?: string | null;
-            /** Reason */
+            /**
+             * Reason
+             * @description Audit reason for edit
+             */
             reason?: string | null;
             /**
              * Edited By
+             * @description Identifier of editor
              * @default curator
              */
             edited_by: string | null;
@@ -1678,6 +1903,15 @@ export interface components {
             /** Recorded By */
             recorded_by: string;
         };
+        /** PasswordResetRequest */
+        PasswordResetRequest: {
+            /**
+             * Email
+             * Format: email
+             * @description Registered email address for reset link
+             */
+            email: string;
+        };
         /** RelatedRouteItem */
         RelatedRouteItem: {
             /** Id */
@@ -1710,12 +1944,19 @@ export interface components {
              * @description 'line' or 'translation'
              */
             entity_type: string;
-            /** Entity Id */
+            /**
+             * Entity Id
+             * @description UUID of entity to revert
+             */
             entity_id: string;
-            /** Version No */
+            /**
+             * Version No
+             * @description Target version number to restore
+             */
             version_no: number;
             /**
              * Reason
+             * @description Audit reason for reversion
              * @default Reverted via human-in-the-loop interface
              */
             reason: string | null;
@@ -1907,6 +2148,25 @@ export interface components {
             kind: string;
             /** Slug */
             slug?: string | null;
+        };
+        /** SignupRequest */
+        SignupRequest: {
+            /**
+             * Email
+             * Format: email
+             * @description Contributor email address
+             */
+            email: string;
+            /**
+             * Username
+             * @description Username (3-50 alphanumeric characters)
+             */
+            username: string;
+            /**
+             * Password
+             * @description Account password (8-128 characters)
+             */
+            password: string;
         };
         /** SiteBrief */
         SiteBrief: {
@@ -2253,21 +2513,66 @@ export interface components {
              * @default image
              */
             media_type: string;
+            /**
+             * Kind
+             * @default gallery
+             */
+            kind: string;
             /** Url */
             url: string;
             /** Thumbnail Url */
             thumbnail_url?: string | null;
+            /** Storage Key */
+            storage_key?: string | null;
+            /** Remote Url */
+            remote_url?: string | null;
+            /** Width */
+            width?: number | null;
+            /** Height */
+            height?: number | null;
+            /** Dominant Colour */
+            dominant_colour?: string | null;
+            /** Blurhash */
+            blurhash?: string | null;
             /** Caption */
             caption?: string | null;
             /**
              * License
-             * @default CC-BY-4.0
+             * @default CC-BY-SA-4.0
              */
             license: string;
+            /**
+             * Licence Short
+             * @default CC-BY-SA-4.0
+             */
+            licence_short: string;
+            /** Licence Url */
+            licence_url?: string | null;
+            /** Author */
+            author?: string | null;
+            /** Credit */
+            credit?: string | null;
             /** Attribution */
             attribution?: string | null;
             /** Source Url */
             source_url?: string | null;
+            /** Original Filename */
+            original_filename?: string | null;
+            /**
+             * Is Placeholder
+             * @default false
+             */
+            is_placeholder: boolean;
+            /**
+             * Verified
+             * @default true
+             */
+            verified: boolean;
+            /**
+             * Sort Order
+             * @default 0
+             */
+            sort_order: number;
             /** Provenance */
             provenance?: string | null;
         };
@@ -2406,12 +2711,19 @@ export interface components {
         };
         /** TranslationUpdate */
         TranslationUpdate: {
-            /** Text */
+            /**
+             * Text
+             * @description Updated translation text
+             */
             text: string;
-            /** Reason */
+            /**
+             * Reason
+             * @description Audit reason for edit
+             */
             reason?: string | null;
             /**
              * Edited By
+             * @description Identifier of editor
              * @default curator
              */
             edited_by: string | null;
@@ -2438,6 +2750,136 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    login_api_v1_auth_login_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthTokenResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    signup_api_v1_auth_signup_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignupRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthTokenResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    password_reset_api_v1_auth_password_reset_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PasswordResetRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_current_user_api_v1_auth_me_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_sites_api_v1_sites_get: {
         parameters: {
             query?: {
@@ -2461,7 +2903,7 @@ export interface operations {
                 data_confidence?: string[] | null;
                 /** @description Filter by presence of 3D digital twin */
                 has_3d_model?: boolean | null;
-                /** @description Field selection, e.g. 'light' for map markers */
+                /** @description Field selection: 'light' or 'brief' */
                 fields?: string | null;
                 limit?: number;
                 offset?: number;
@@ -3509,6 +3951,26 @@ export interface operations {
             };
         };
     };
+    health_check_health_live_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     health_check_health_get: {
         parameters: {
             query?: never;
@@ -3529,7 +3991,67 @@ export interface operations {
             };
         };
     };
+    readiness_check_health_ready_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    readiness_check_ready_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     metrics_metrics_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    trigger_test_error_api_v1_test_error_get: {
         parameters: {
             query?: never;
             header?: never;

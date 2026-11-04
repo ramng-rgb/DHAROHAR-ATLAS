@@ -6,6 +6,178 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login",
+        "description": "Authenticate user with email and password.",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/signup": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Signup",
+        "description": "Register a new research contributor or cultural archivist.",
+        "operationId": "signup_api_v1_auth_signup_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/password-reset": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Password Reset",
+        "description": "Initiate a password reset flow for an account.",
+        "operationId": "password_reset_api_v1_auth_password_reset_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get Current User",
+        "description": "Retrieve details of the currently authenticated contributor/curator.",
+        "operationId": "get_current_user_api_v1_auth_me_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/sites": {
       "get": {
         "tags": [
@@ -21,7 +193,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
                 },
                 {
                   "type": "null"
@@ -123,7 +297,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": -5000
                 },
                 {
                   "type": "null"
@@ -141,7 +317,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": -5000
                 },
                 {
                   "type": "null"
@@ -159,7 +337,8 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
                 },
                 {
                   "type": "null"
@@ -216,16 +395,17 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(light|brief)$"
                 },
                 {
                   "type": "null"
                 }
               ],
-              "description": "Field selection, e.g. 'light' for map markers",
+              "description": "Field selection: 'light' or 'brief'",
               "title": "Fields"
             },
-            "description": "Field selection, e.g. 'light' for map markers"
+            "description": "Field selection: 'light' or 'brief'"
           },
           {
             "name": "limit",
@@ -245,6 +425,7 @@
             "required": false,
             "schema": {
               "type": "integer",
+              "maximum": 100000,
               "minimum": 0,
               "default": 0,
               "title": "Offset"
@@ -301,7 +482,8 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
                 },
                 {
                   "type": "null"
@@ -319,7 +501,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "number"
+                  "type": "number",
+                  "maximum": 24.0,
+                  "minimum": 0.0
                 },
                 {
                   "type": "null"
@@ -337,7 +521,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
                 },
                 {
                   "type": "null"
@@ -429,7 +615,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": -5000
                 },
                 {
                   "type": "null"
@@ -445,7 +633,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": -5000
                 },
                 {
                   "type": "null"
@@ -530,6 +720,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           }
@@ -572,6 +765,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           }
@@ -614,6 +810,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           },
@@ -667,6 +866,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           }
@@ -709,6 +911,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           }
@@ -743,7 +948,7 @@
           "Documents"
         ],
         "summary": "Upload Document File",
-        "description": "Direct-to-storage upload endpoint with size check (<=25MB) and mime verification.",
+        "description": "Direct-to-storage upload endpoint with size check (<=25MB) and mime/magic-byte verification.",
         "operationId": "upload_document_file_api_v1_documents_uploads_post",
         "requestBody": {
           "content": {
@@ -834,7 +1039,8 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
                 },
                 {
                   "type": "null"
@@ -850,7 +1056,8 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(auto|en|hi|gu|sa|mr|Devanagari|Gujarati|Sanskrit|Marathi|Hindi|English)$"
                 },
                 {
                   "type": "null"
@@ -866,7 +1073,8 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(queued|processing|ready|failed)$"
                 },
                 {
                   "type": "null"
@@ -882,7 +1090,8 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "^(printed|manuscript_folio|inscription|field_note|copper_plate|lithograph)$"
                 },
                 {
                   "type": "null"
@@ -909,6 +1118,7 @@
             "required": false,
             "schema": {
               "type": "integer",
+              "maximum": 100000,
               "minimum": 0,
               "default": 0,
               "title": "Offset"
@@ -957,6 +1167,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Doc Id"
             }
           }
@@ -999,6 +1210,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Doc Id"
             }
           },
@@ -1050,6 +1262,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Doc Id"
             }
           }
@@ -1096,6 +1309,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Doc Id"
             }
           }
@@ -1146,6 +1360,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Entity Id"
             }
           }
@@ -1196,6 +1411,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Line Id"
             }
           }
@@ -1248,6 +1464,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Translation Id"
             }
           }
@@ -1300,6 +1517,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Job Id"
             }
           }
@@ -1343,6 +1561,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Job Id"
             }
           }
@@ -1428,6 +1647,7 @@
             "schema": {
               "type": "string",
               "minLength": 1,
+              "maxLength": 500,
               "description": "Multilingual search query",
               "title": "Q"
             },
@@ -1482,7 +1702,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "maxLength": 36,
+                  "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
                 },
                 {
                   "type": "null"
@@ -1521,7 +1743,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": -5000
                 },
                 {
                   "type": "null"
@@ -1539,7 +1763,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": -5000
                 },
                 {
                   "type": "null"
@@ -1603,6 +1829,7 @@
             "schema": {
               "type": "string",
               "minLength": 2,
+              "maxLength": 100,
               "description": "Prefix or query substring",
               "title": "Q"
             },
@@ -1707,6 +1934,7 @@
             "schema": {
               "type": "string",
               "minLength": 2,
+              "maxLength": 1000,
               "description": "Natural language heritage question",
               "title": "Question"
             },
@@ -1719,7 +1947,9 @@
             "schema": {
               "anyOf": [
                 {
-                  "type": "string"
+                  "type": "string",
+                  "maxLength": 10,
+                  "pattern": "^(en|hi|gu|sa|mr)$"
                 },
                 {
                   "type": "null"
@@ -1836,6 +2066,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           }
@@ -1878,6 +2111,9 @@
             "required": true,
             "schema": {
               "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[a-z0-9-]+$",
               "title": "Slug"
             }
           }
@@ -1961,6 +2197,7 @@
             "required": true,
             "schema": {
               "type": "string",
+              "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
               "title": "Job Id"
             }
           }
@@ -2220,13 +2457,74 @@
         }
       }
     },
+    "/health/live": {
+      "get": {
+        "tags": [
+          "Observability"
+        ],
+        "summary": "Health Check",
+        "description": "Liveness probe: returns 200 OK if service process is alive.",
+        "operationId": "health_check_health_live_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "tags": [
           "Observability"
         ],
         "summary": "Health Check",
+        "description": "Liveness probe: returns 200 OK if service process is alive.",
         "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "Observability"
+        ],
+        "summary": "Readiness Check",
+        "description": "Readiness probe: validates DB, Redis, and Storage subsystem connectivity.",
+        "operationId": "readiness_check_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "tags": [
+          "Observability"
+        ],
+        "summary": "Readiness Check",
+        "description": "Readiness probe: validates DB, Redis, and Storage subsystem connectivity.",
+        "operationId": "readiness_check_ready_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -2245,7 +2543,28 @@
           "Observability"
         ],
         "summary": "Metrics",
+        "description": "Protected internal metrics endpoint.",
         "operationId": "metrics_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/test/error": {
+      "get": {
+        "tags": [
+          "Observability"
+        ],
+        "summary": "Trigger Test Error",
+        "description": "Staging diagnostic route that raises an exception to verify error handling and log capture.",
+        "operationId": "trigger_test_error_api_v1_test_error_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -2285,24 +2604,30 @@
           "question": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 1000,
+                "minLength": 2
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Question"
+            "title": "Question",
+            "description": "Natural language question"
           },
           "query": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 1000,
+                "minLength": 2
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Query"
+            "title": "Query",
+            "description": "Alternative query alias"
           },
           "filters": {
             "anyOf": [
@@ -2314,25 +2639,31 @@
                 "type": "null"
               }
             ],
-            "title": "Filters"
+            "title": "Filters",
+            "description": "Structured query filters"
           },
           "lang": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 10,
+                "pattern": "^(en|hi|gu|sa|mr)$"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Lang"
+            "title": "Lang",
+            "description": "Preferred language code"
           },
           "stream": {
             "type": "boolean",
             "title": "Stream",
+            "description": "Whether to request SSE stream",
             "default": false
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "AskArchiveRequest"
       },
@@ -2433,10 +2764,50 @@
         ],
         "title": "AskArchiveResponse"
       },
+      "AuthTokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "user_id",
+          "email"
+        ],
+        "title": "AuthTokenResponse"
+      },
       "Body_link_entity_to_site_api_v1_documents_entities__entity_id__link_post": {
         "properties": {
           "site_id": {
             "type": "string",
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
             "title": "Site Id"
           }
         },
@@ -2450,6 +2821,7 @@
         "properties": {
           "site_id": {
             "type": "string",
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
             "title": "Site Id"
           },
           "files": {
@@ -2648,22 +3020,31 @@
         "properties": {
           "title": {
             "type": "string",
-            "title": "Title"
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Title",
+            "description": "Document archival title"
           },
           "language_hint": {
             "type": "string",
+            "maxLength": 32,
+            "pattern": "^(auto|en|hi|gu|sa|mr|Devanagari|Gujarati|Sanskrit|Marathi|Hindi|English)$",
             "title": "Language Hint",
             "default": "auto"
           },
           "doc_type": {
             "type": "string",
+            "maxLength": 32,
+            "pattern": "^(printed|manuscript_folio|inscription|field_note|copper_plate|lithograph)$",
             "title": "Doc Type",
             "default": "printed"
           },
           "site_id": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 36,
+                "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
               },
               {
                 "type": "null"
@@ -2674,7 +3055,9 @@
           "source": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
@@ -2685,13 +3068,17 @@
           },
           "licence": {
             "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
             "title": "Licence",
             "default": "CC-BY-4.0"
           },
           "attribution": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
@@ -2702,7 +3089,9 @@
           "uploaded_by": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
               },
               {
                 "type": "null"
@@ -2714,7 +3103,10 @@
           "storage_key": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 512,
+                "minLength": 1,
+                "pattern": "^/?[a-zA-Z0-9_\\-\\./]+$"
               },
               {
                 "type": "null"
@@ -2725,7 +3117,9 @@
           "mime": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 64,
+                "pattern": "^(image/(jpeg|png|webp)|application/pdf)$"
               },
               {
                 "type": "null"
@@ -2737,7 +3131,9 @@
           "original_filename": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 255,
+                "minLength": 1
               },
               {
                 "type": "null"
@@ -2748,7 +3144,9 @@
           "ocr_engine": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(gemini|tesseract|mock|fake|gemini_fallback)$"
               },
               {
                 "type": "null"
@@ -2759,7 +3157,9 @@
           "translation_engine": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(neural|mock|fake)$"
               },
               {
                 "type": "null"
@@ -2768,6 +3168,7 @@
             "title": "Translation Engine"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "title"
@@ -4137,6 +4538,31 @@
         ],
         "title": "JourneyStopResponse"
       },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email",
+            "title": "Email",
+            "description": "Contributor/Curator registered email address"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password",
+            "description": "Account password (8-128 characters)"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
       "Model3DDetail": {
         "properties": {
           "id": {
@@ -4653,60 +5079,76 @@
           "original_text": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 5000,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Original Text"
+            "title": "Original Text",
+            "description": "Corrected original language text"
           },
           "translated_text": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 5000,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Translated Text"
+            "title": "Translated Text",
+            "description": "Corrected translated text"
           },
           "text": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 5000,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Text"
+            "title": "Text",
+            "description": "Alternative text field"
           },
           "reason": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 500,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Reason"
+            "title": "Reason",
+            "description": "Audit reason for edit"
           },
           "edited_by": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
             "title": "Edited By",
+            "description": "Identifier of editor",
             "default": "curator"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "title": "OCRLineUpdate"
       },
@@ -4853,6 +5295,23 @@
         ],
         "title": "ObservationResponse"
       },
+      "PasswordResetRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email",
+            "title": "Email",
+            "description": "Registered email address for reset link"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "PasswordResetRequest"
+      },
       "RelatedRouteItem": {
         "properties": {
           "id": {
@@ -4917,30 +5376,41 @@
         "properties": {
           "entity_type": {
             "type": "string",
+            "pattern": "^(line|translation)$",
             "title": "Entity Type",
             "description": "'line' or 'translation'"
           },
           "entity_id": {
             "type": "string",
-            "title": "Entity Id"
+            "maxLength": 36,
+            "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+            "title": "Entity Id",
+            "description": "UUID of entity to revert"
           },
           "version_no": {
             "type": "integer",
-            "title": "Version No"
+            "maximum": 100000.0,
+            "minimum": 1.0,
+            "title": "Version No",
+            "description": "Target version number to restore"
           },
           "reason": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 500,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
             "title": "Reason",
+            "description": "Audit reason for reversion",
             "default": "Reverted via human-in-the-loop interface"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "entity_type",
@@ -5386,6 +5856,40 @@
           "title"
         ],
         "title": "SearchSuggestion"
+      },
+      "SignupRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email",
+            "title": "Email",
+            "description": "Contributor email address"
+          },
+          "username": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_\\-]+$",
+            "title": "Username",
+            "description": "Username (3-50 alphanumeric characters)"
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Password",
+            "description": "Account password (8-128 characters)"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "email",
+          "username",
+          "password"
+        ],
+        "title": "SignupRequest"
       },
       "SiteBrief": {
         "properties": {
@@ -6498,6 +7002,11 @@
             "title": "Media Type",
             "default": "image"
           },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "default": "gallery"
+          },
           "url": {
             "type": "string",
             "title": "Url"
@@ -6513,6 +7022,72 @@
             ],
             "title": "Thumbnail Url"
           },
+          "storage_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Key"
+          },
+          "remote_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remote Url"
+          },
+          "width": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Width"
+          },
+          "height": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Height"
+          },
+          "dominant_colour": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dominant Colour"
+          },
+          "blurhash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Blurhash"
+          },
           "caption": {
             "anyOf": [
               {
@@ -6527,7 +7102,45 @@
           "license": {
             "type": "string",
             "title": "License",
-            "default": "CC-BY-4.0"
+            "default": "CC-BY-SA-4.0"
+          },
+          "licence_short": {
+            "type": "string",
+            "title": "Licence Short",
+            "default": "CC-BY-SA-4.0"
+          },
+          "licence_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Licence Url"
+          },
+          "author": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Author"
+          },
+          "credit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Credit"
           },
           "attribution": {
             "anyOf": [
@@ -6550,6 +7163,32 @@
               }
             ],
             "title": "Source Url"
+          },
+          "original_filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Filename"
+          },
+          "is_placeholder": {
+            "type": "boolean",
+            "title": "Is Placeholder",
+            "default": false
+          },
+          "verified": {
+            "type": "boolean",
+            "title": "Verified",
+            "default": true
+          },
+          "sort_order": {
+            "type": "integer",
+            "title": "Sort Order",
+            "default": 0
           },
           "provenance": {
             "anyOf": [
@@ -6892,32 +7531,42 @@
         "properties": {
           "text": {
             "type": "string",
-            "title": "Text"
+            "maxLength": 5000,
+            "minLength": 1,
+            "title": "Text",
+            "description": "Updated translation text"
           },
           "reason": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 500,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Reason"
+            "title": "Reason",
+            "description": "Audit reason for edit"
           },
           "edited_by": {
             "anyOf": [
               {
-                "type": "string"
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1
               },
               {
                 "type": "null"
               }
             ],
             "title": "Edited By",
+            "description": "Identifier of editor",
             "default": "curator"
           }
         },
+        "additionalProperties": false,
         "type": "object",
         "required": [
           "text"

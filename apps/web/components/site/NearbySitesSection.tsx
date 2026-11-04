@@ -60,17 +60,27 @@ export function NearbySitesSection({
               <div>
                 <div className="relative aspect-[16/10] w-full bg-muted overflow-hidden">
                   {site.hero_image ? (
-                    <Image
-                      src={site.hero_image}
-                      alt={site.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
+                    <>
+                      <Image
+                        src={site.hero_image}
+                        alt={site.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      {(!site.hero_image || site.hero_image.includes("placeholder") || site.hero_image.startsWith("http://placehold")) && (
+                        <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded bg-black/70 text-amber-200 border border-amber-500/30 text-[9px] font-mono z-10">
+                          Placeholder
+                        </div>
+                      )}
+                      <div className="absolute bottom-0 inset-x-0 bg-black/70 backdrop-blur-xs px-2.5 py-1 text-[10px] text-white/80 font-mono truncate z-10">
+                        {String((site as any).hero_image_attribution || "Wikimedia Commons")} • {String((site as any).hero_image_license || "CC-BY-SA 4.0")}
+                      </div>
+                    </>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-muted/40 font-mono text-xs">
-                      No photo
+                      <span className="px-2 py-0.5 rounded bg-black/40 text-amber-200/80 text-[10px]">Placeholder</span>
                     </div>
                   )}
 

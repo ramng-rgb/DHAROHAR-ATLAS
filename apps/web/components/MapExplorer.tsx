@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from "react"
 import * as maplibregl from "maplibre-gl";
 import { setWorkerUrl, config as maplibreConfig } from "maplibre-gl";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { 
   Filter, Calendar, MapPin, Eye, Box, SlidersHorizontal, 
@@ -878,6 +879,27 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
                       className="p-4 rounded-xl bg-white border border-sandstone-300 hover:border-terracotta hover:shadow-warm-md transition-all flex flex-col justify-between cursor-pointer shadow-warm-sm"
                     >
                       <div>
+                        {site.hero_image ? (
+                          <div className="relative w-full h-36 rounded-lg overflow-hidden mb-3 bg-muted">
+                            <Image
+                              src={site.hero_image}
+                              alt={site.name}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 300px"
+                              className="object-cover"
+                              loading="lazy"
+                            />
+                            {(!site.hero_image || site.hero_image.includes("placeholder") || site.hero_image.startsWith("http://placehold")) && (
+                              <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/70 text-amber-200 border border-amber-500/30 text-[9px] font-mono">
+                                Placeholder
+                              </div>
+                            )}
+                            <div className="absolute bottom-0 inset-x-0 bg-black/60 backdrop-blur-xs px-2 py-0.5 text-[9px] text-white/80 font-mono truncate">
+                              {site.hero_image_attribution || "Wikimedia Commons"} • {site.hero_image_license || "CC-BY-SA 4.0"}
+                            </div>
+                          </div>
+                        ) : null}
+
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <div className="flex items-center gap-1.5 flex-wrap">
                             <Badge variant="type">
@@ -970,23 +992,43 @@ export function MapExplorer({ initialSites }: MapExplorerProps) {
             {/* Hero Image with Attribution */}
             {selectedSite.hero_image && (
               <div className="relative rounded-xl overflow-hidden border border-goldLeaf/30 bg-black/40">
-                <img
-                  src={selectedSite.hero_image}
-                  alt={selectedSite.name}
-                  className="w-full h-52 object-cover object-center"
-                />
+                <div className="relative w-full h-52">
+                  <Image
+                    src={selectedSite.hero_image}
+                    alt={`${selectedSite.name}, ${selectedSite.state}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 420px"
+                    className="object-cover object-center"
+                  />
+                  {(!selectedSite.hero_image || selectedSite.hero_image.includes("placeholder") || selectedSite.hero_image.startsWith("http://placehold")) && (
+                    <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-amber-950/80 text-amber-200 border border-amber-500/40 text-[10px] font-mono">
+                      Placeholder
+                    </div>
+                  )}
+                </div>
                 <div className="p-2.5 bg-parchment-950/90 border-t border-sandstone/20 text-[11px] text-sandstone flex flex-col gap-0.5">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-parchment-200">
                       {t.previewDrawer.imageAttribution}:
                     </span>
                     <span className="text-[10px] px-1.5 py-0.5 rounded bg-black/40 text-goldLeaf border border-goldLeaf/30">
-                      {selectedSite.hero_image_license || "CC-BY-4.0"}
+                      {selectedSite.hero_image_license || "CC-BY-SA 4.0"}
                     </span>
                   </div>
-                  <span className="text-[10px] text-sandstone-deep italic">
-                    {selectedSite.hero_image_attribution || "Archaeological Survey of India Digital Archives"}
-                  </span>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] text-sandstone-deep italic truncate max-w-[80%]">
+                      {selectedSite.hero_image_attribution || "Wikimedia Commons"}
+                    </span>
+                    <a
+                      href={`https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(selectedSite.name)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-goldLeaf hover:underline text-[10px] font-mono flex items-center gap-0.5"
+                    >
+                      <span>Commons</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  </div>
                 </div>
               </div>
             )}

@@ -9,6 +9,9 @@ down:
 seed:
 	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/seed_from_yaml.py
 
+fetch-photos:
+	PYTHONPATH=apps/api apps/api/.venv/bin/python scripts/fetch_photos.py
+
 client:
 	PYTHONPATH=apps/api apps/api/.venv/bin/python apps/api/scripts/export_openapi.py
 	npm run generate-client --prefix apps/web

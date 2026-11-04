@@ -56,12 +56,27 @@ class DynastyBrief(BaseModel):
 class SiteMediaResponse(BaseModel):
     id: str
     media_type: str = "image"
+    kind: str = "gallery" # hero | gallery | panorama
     url: str
     thumbnail_url: str | None = None
+    storage_key: str | None = None
+    remote_url: str | None = None
+    width: int | None = None
+    height: int | None = None
+    dominant_colour: str | None = None
+    blurhash: str | None = None
     caption: str | None = None
-    license: str = "CC-BY-4.0"
+    license: str = "CC-BY-SA-4.0"
+    licence_short: str = "CC-BY-SA-4.0"
+    licence_url: str | None = None
+    author: str | None = None
+    credit: str | None = None
     attribution: str | None = None
     source_url: str | None = None
+    original_filename: str | None = None
+    is_placeholder: bool = False
+    verified: bool = True
+    sort_order: int = 0
     provenance: str | None = None
 
     class Config:

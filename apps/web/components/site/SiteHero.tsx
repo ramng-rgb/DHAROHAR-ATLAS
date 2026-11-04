@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   MapPin, Share2, Copy, Check, Quote, ExternalLink, 
   ShieldCheck, Box, ArrowLeft, Compass, Volume2
@@ -60,14 +61,26 @@ export function SiteHero({ site, onOpenCite }: SiteHeroProps) {
 
   return (
     <div className="relative w-full rounded-3xl overflow-hidden border border-[#D4AF37]/50 shadow-2xl bg-[#0E0C09] text-white">
-      {/* Full-bleed Hero Image Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${site.hero_image || "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1600&q=80"})`,
-        }}
-        aria-hidden="true"
-      />
+      {/* Full-bleed Hero Image Background via next/image */}
+      {site.hero_image ? (
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src={site.hero_image}
+            alt={`${site.name}, ${site.district || ""}, ${site.state}`}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
+      ) : (
+        <div
+          className="absolute inset-0 bg-[#16120D] flex items-center justify-center text-amber-100/30 font-mono text-sm"
+          aria-hidden="true"
+        >
+          Archival Monument Plate
+        </div>
+      )}
 
       {/* Atmospheric Multi-layer Gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#0E0C09] via-[#0E0C09]/80 to-[#0E0C09]/50" />
@@ -86,8 +99,29 @@ export function SiteHero({ site, onOpenCite }: SiteHeroProps) {
           </Link>
 
           {/* Image Attribution Strip */}
-          <div className="text-xs text-[#D8C3A5] bg-black/50 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md">
-            Photo: <span className="text-white">{site.hero_image_attribution || "Dharohar Field Archives"}</span> • Licence: <span className="text-white">{site.hero_image_license || "CC-BY-4.0"}</span>
+          <div className="flex items-center gap-2">
+            {(!site.hero_image || site.hero_image.startsWith("http://placehold") || site.hero_image.includes("placeholder")) && (
+              <span className="px-2 py-0.5 rounded-full bg-amber-900/60 text-amber-200 border border-amber-500/40 text-[11px] font-mono">
+                Placeholder
+              </span>
+            )}
+            {site.hero_image && (
+              <div className="text-xs text-[#D8C3A5] bg-black/60 px-3 py-1 rounded-full border border-white/10 backdrop-blur-md flex items-center gap-1.5">
+                <span>Photo: <span className="text-white font-medium">{site.hero_image_attribution || "Wikimedia Commons Contributor"}</span></span>
+                <span>•</span>
+                <span className="text-white">{site.hero_image_license || "CC-BY-SA 4.0"}</span>
+                <a
+                  href={`https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(site.name)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-goldLeaf hover:underline inline-flex items-center ml-1"
+                  aria-label="View original image on Wikimedia Commons"
+                >
+                  <span>Commons</span>
+                  <ExternalLink className="w-2.5 h-2.5 ml-0.5" />
+                </a>
+              </div>
+            )}
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 import uuid
 
@@ -26,6 +27,7 @@ from sqlalchemy import delete
 from sqlalchemy.future import select
 
 SEED_YAML_PATH = os.path.join(os.path.dirname(__file__), "../../../db/seed/sites.yaml")
+LICENSED_PHOTOS_PATH = os.path.join(os.path.dirname(__file__), "../../../db/seed/licensed_photos.json")
 
 def slugify(text: str) -> str:
     return text.lower().replace(" ", "-").replace("/", "-").replace("(", "").replace(")", "").strip("-")
@@ -35,11 +37,17 @@ async def seed():
     if not os.path.exists(SEED_YAML_PATH):
         raise FileNotFoundError(f"Seed file not found: {SEED_YAML_PATH}")
 
-    with open(SEED_YAML_PATH, "r", encoding="utf-8") as f:
+    with open(SEED_YAML_PATH, "r", encoding="utf-8") as f:  # noqa: ASYNC230
         data = yaml.safe_load(f)
 
     sites_data = data.get("sites", [])
     demo_route_data = data.get("demo_route")
+
+    licensed_photos_data = {}
+    if os.path.exists(LICENSED_PHOTOS_PATH):
+        with open(LICENSED_PHOTOS_PATH, "r", encoding="utf-8") as f:  # noqa: ASYNC230
+            licensed_photos_data = json.load(f)
+        print(f"Loaded licensed photos metadata for {len(licensed_photos_data)} sites.")
 
     async with AsyncSessionLocal() as session:
         # Cache for tags and dynasties to prevent duplicate creates
@@ -68,6 +76,19 @@ async def seed():
 
             first_media = sdata.get("media", [{}])[0] if sdata.get("media") else {}
 
+            # Check for licensed photos from fetch_photos pipeline
+            licensed_items = licensed_photos_data.get(slug, [])
+            hero_item = next((item for item in licensed_items if item.get("kind") == "hero"), None)
+            
+            if hero_item:
+                hero_img_url = hero_item.get("url")
+                hero_attr = hero_item.get("attribution") or f"Photo: {hero_item.get('author')}, {hero_item.get('licence_short')} via Wikimedia Commons"
+                hero_lic = hero_item.get("licence_short") or "CC BY-SA 4.0"
+            else:
+                hero_img_url = first_media.get("url")
+                hero_attr = first_media.get("attribution", "Open Cultural Archives")
+                hero_lic = first_media.get("license", "CC-BY-4.0")
+
             site_fields = {
                 "slug": slug,
                 "name": sdata["name"],
@@ -93,9 +114,9 @@ async def seed():
                 "source_url": sdata.get("source_url"),
                 "source": sdata.get("source_text", "") + " " + sdata.get("source_url", ""),
                 "architectural_style": sdata.get("architectural_style"),
-                "hero_image": first_media.get("url"),
-                "hero_image_attribution": first_media.get("attribution", "Open Cultural Archives"),
-                "hero_image_license": first_media.get("license", "CC-BY-4.0"),
+                "hero_image": hero_img_url,
+                "hero_image_attribution": hero_attr,
+                "hero_image_license": hero_lic,
             }
 
             if existing_site:
@@ -109,22 +130,72 @@ async def seed():
             await session.flush()
             site_map[slug] = site_obj
 
-            # Populate media
-            for mdata in sdata.get("media", []):
-                existing_media = (await session.execute(
-                    select(SiteMedia).where(SiteMedia.site_id == site_obj.id, SiteMedia.url == mdata["url"])
-                )).scalar_one_or_none()
-                if not existing_media:
-                    session.add(SiteMedia(
-                        id=str(uuid.uuid4()),
-                        site_id=site_obj.id,
-                        media_type="image",
-                        url=mdata["url"],
-                        caption=mdata.get("caption"),
-                        license=mdata.get("license", "CC-BY-4.0"),
-                        attribution=mdata.get("attribution"),
-                        source_url=mdata.get("source_url")
-                    ))
+            # Populate media - give priority to licensed items if present
+            if licensed_items:
+                for l_item in licensed_items:
+                    existing_media = (await session.execute(
+                        select(SiteMedia).where(SiteMedia.site_id == site_obj.id, SiteMedia.url == l_item["url"])
+                    )).scalar_one_or_none()
+                    if existing_media:
+                        existing_media.kind = l_item.get("kind", "gallery")
+                        existing_media.storage_key = l_item.get("storage_key")
+                        existing_media.remote_url = l_item.get("remote_url")
+                        existing_media.width = l_item.get("width")
+                        existing_media.height = l_item.get("height")
+                        existing_media.dominant_colour = l_item.get("dominant_colour")
+                        existing_media.licence_short = l_item.get("licence_short")
+                        existing_media.licence_url = l_item.get("licence_url")
+                        existing_media.author = l_item.get("author")
+                        existing_media.credit = l_item.get("credit")
+                        existing_media.original_filename = l_item.get("original_filename")
+                        existing_media.is_placeholder = l_item.get("is_placeholder", False)
+                        existing_media.verified = l_item.get("verified", True)
+                        existing_media.sort_order = l_item.get("sort_order", 0)
+                        existing_media.caption = l_item.get("caption")
+                        existing_media.license = l_item.get("licence_short")
+                        existing_media.attribution = l_item.get("attribution")
+                        existing_media.source_url = l_item.get("source_url")
+                    else:
+                        session.add(SiteMedia(
+                            id=str(uuid.uuid4()),
+                            site_id=site_obj.id,
+                            media_type="image",
+                            kind=l_item.get("kind", "gallery"),
+                            url=l_item["url"],
+                            storage_key=l_item.get("storage_key"),
+                            remote_url=l_item.get("remote_url"),
+                            width=l_item.get("width"),
+                            height=l_item.get("height"),
+                            dominant_colour=l_item.get("dominant_colour"),
+                            licence_short=l_item.get("licence_short"),
+                            licence_url=l_item.get("licence_url"),
+                            author=l_item.get("author"),
+                            credit=l_item.get("credit"),
+                            original_filename=l_item.get("original_filename"),
+                            is_placeholder=l_item.get("is_placeholder", False),
+                            verified=l_item.get("verified", True),
+                            sort_order=l_item.get("sort_order", 0),
+                            caption=l_item.get("caption"),
+                            license=l_item.get("licence_short", "CC-BY-4.0"),
+                            attribution=l_item.get("attribution"),
+                            source_url=l_item.get("source_url")
+                        ))
+            else:
+                for mdata in sdata.get("media", []):
+                    existing_media = (await session.execute(
+                        select(SiteMedia).where(SiteMedia.site_id == site_obj.id, SiteMedia.url == mdata["url"])
+                    )).scalar_one_or_none()
+                    if not existing_media:
+                        session.add(SiteMedia(
+                            id=str(uuid.uuid4()),
+                            site_id=site_obj.id,
+                            media_type="image",
+                            url=mdata["url"],
+                            caption=mdata.get("caption"),
+                            license=mdata.get("license", "CC-BY-4.0"),
+                            attribution=mdata.get("attribution"),
+                            source_url=mdata.get("source_url")
+                        ))
 
             # Populate tags & relations
             for tag_name in sdata.get("tags", []):
@@ -318,7 +389,7 @@ async def seed():
                 img_path = os.path.join(os.path.dirname(__file__), "../../../", s_spec["image_rel"])
                 file_bytes = b""
                 if os.path.exists(img_path):
-                    with open(img_path, "rb") as f:
+                    with open(img_path, "rb") as f:  # noqa: ASYNC230
                         file_bytes = f.read()
 
                 doc_in = DocumentCreate(

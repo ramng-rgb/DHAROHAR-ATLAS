@@ -473,6 +473,7 @@ export default async function HomePage() {
             <Link href="/archive" className="hover:text-terracotta transition">Archive Folios</Link>
             <Link href="/search" className="hover:text-terracotta transition">Search</Link>
             <Link href="/ask" className="hover:text-terracotta transition">Ask RAG</Link>
+            <Link href="/credits" className="hover:text-terracotta transition text-terracotta font-semibold">Image Credits</Link>
             <a
               href="https://github.com"
               target="_blank"

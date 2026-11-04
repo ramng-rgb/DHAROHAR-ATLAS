@@ -14,8 +14,11 @@ interface SiteGalleryProps {
 export function SiteGallery({ media, siteName }: SiteGalleryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  // Legal requirement: Missing attribution = the image must not display.
   const images = media.filter(
-    (m) => !m.media_type || m.media_type === "image" || m.media_type === "photo"
+    (m) =>
+      (!m.media_type || m.media_type === "image" || m.media_type === "photo") &&
+      Boolean(m.attribution && m.attribution.trim().length > 0)
   );
 
   const openLightbox = (index: number) => {
@@ -64,7 +67,7 @@ export function SiteGallery({ media, siteName }: SiteGalleryProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-serif font-bold text-foreground mb-4">Photographic Archive</h2>
           <div className="p-8 rounded-xl bg-card/40 border border-border/60 text-center text-muted-foreground">
-            No high-resolution archive photographs currently catalogued for this monument.
+            No verified licensed archive photographs catalogued for this monument.
           </div>
         </div>
       </section>
@@ -120,13 +123,27 @@ export function SiteGallery({ media, siteName }: SiteGalleryProps) {
                   </div>
                 </div>
 
-                <figcaption className="p-3 bg-card text-xs space-y-1">
+                <figcaption className="p-3 bg-card text-xs space-y-1.5">
                   <p className="font-medium text-foreground line-clamp-1">{item.caption || `${siteName} detail`}</p>
                   <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
-                    <span className="truncate max-w-[65%]">{item.attribution || "Dharohar Archives"}</span>
-                    <span className="px-1.5 py-0.5 rounded bg-muted text-[11px] uppercase font-semibold">
-                      {item.license || "CC-BY-4.0"}
+                    <span className="truncate max-w-[65%]" title={item.attribution || undefined}>
+                      {item.attribution || "Wikimedia Commons"}
                     </span>
+                    {(item.licence_url || (item as any).license_url) ? (
+                      <a
+                        href={item.licence_url || (item as any).license_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-1.5 py-0.5 rounded bg-muted hover:bg-muted/80 text-[11px] uppercase font-semibold text-foreground underline"
+                      >
+                        {item.license || "CC-BY-4.0"}
+                      </a>
+                    ) : (
+                      <span className="px-1.5 py-0.5 rounded bg-muted text-[11px] uppercase font-semibold">
+                        {item.license || "CC-BY-4.0"}
+                      </span>
+                    )}
                   </div>
                 </figcaption>
               </figure>
@@ -215,10 +232,33 @@ export function SiteGallery({ media, siteName }: SiteGalleryProps) {
                 {activeImage.caption || `${siteName} — Archival Photograph`}
               </p>
               <div className="flex flex-wrap items-center justify-between text-xs text-white/70 font-mono gap-2 pt-1 border-t border-white/10">
-                <span>Attribution: {activeImage.attribution || "Archaeological Survey / Heritage Archives"}</span>
-                <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[11px] uppercase font-semibold">
-                  {activeImage.license || "CC-BY-4.0"}
-                </span>
+                <span>Attribution: {activeImage.attribution || "Wikimedia Commons"}</span>
+                <div className="flex items-center gap-2">
+                  {activeImage.source_url && (
+                    <a
+                      href={activeImage.source_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-goldLeaf hover:underline text-[11px]"
+                    >
+                      Original Source
+                    </a>
+                  )}
+                  {(activeImage.licence_url || (activeImage as any).license_url) ? (
+                    <a
+                      href={activeImage.licence_url || (activeImage as any).license_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-2 py-0.5 rounded bg-white/20 hover:bg-white/30 text-white text-[11px] uppercase font-semibold underline"
+                    >
+                      {activeImage.license || "CC-BY-4.0"}
+                    </a>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded bg-white/20 text-white text-[11px] uppercase font-semibold">
+                      {activeImage.license || "CC-BY-4.0"}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>

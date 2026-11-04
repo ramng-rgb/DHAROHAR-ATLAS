@@ -128,6 +128,17 @@ export function Navbar() {
             >
               Monument Dossier
             </Link>
+
+            <Link
+              href="/credits"
+              className={`px-3 py-2 text-sm font-medium rounded-full transition-all ${
+                pathname === "/credits"
+                  ? "bg-sandstone-100 text-terracotta shadow-warm-sm font-semibold"
+                  : "text-indigoHeritage hover:text-terracotta"
+              }`}
+            >
+              Credits
+            </Link>
           </nav>
 
           {/* Actions: Language Toggle & Demo Controls */}

@@ -12,7 +12,7 @@
     "generate-client": "npx openapi-typescript openapi.json -o lib/api-schema.ts"
   },
   "dependencies": {
-    "@react-three/drei": "^9.117.3",
+    "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^8.17.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
